@@ -6,4 +6,4 @@
 ![Main](/Documentacion/Main.png)
 
 ### Rutina de Medición
-![Medicion](/Documentacion/Medicion_sensores.png)
+![Medicion](/Documentacion/Medición_sensores.png)
