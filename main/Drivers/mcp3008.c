@@ -1,3 +1,20 @@
+/**
+ * @file mcp3008.c
+ * 
+ * @author Team SMR
+ * @authors Galassi, Fernando
+ * @authors Moran, Nicolas
+ * @authors	Pilato, Bruno
+ * @authors	Vargas, Nahuel
+ * 
+ * @brief This file contains functions and methods to use with MCP3008
+ * @version 0.1
+ * @date 2022-09-04
+ * 
+ * @copyright SMR Copyright (c) 2022
+ * 
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include "esp_log.h"

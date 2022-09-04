@@ -1,6 +1,12 @@
 /**
  * @file mpu6050.c
- * @author Fernando Galassi 
+ * 
+ * @author Team SMR
+ * @authors Galassi, Fernando
+ * @authors Moran, Nicolas
+ * @authors	Pilato, Bruno
+ * @authors	Vargas, Nahuel
+ * 
  * @brief This files contains functions and methods to work with MPU6050 accel/gyro module
  * @version 0.1
  * @date 2022-09-03
@@ -12,6 +18,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include "driver/i2c.h"
+#include "main.h"
 #include "mpu6050.h"
 
 /* Global variables */

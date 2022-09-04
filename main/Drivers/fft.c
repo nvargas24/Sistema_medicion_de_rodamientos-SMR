@@ -6,11 +6,11 @@
  * @authors	Pilato, Bruno
  * @authors	Vargas, Nahuel
  *
- * @brief 
+ * @brief This file contains functions and methods to perform FFT
  * @version 0.1
  * @date 2022-08-30
  * 
- * @copyright Copyright (c) 2022
+ * @copyright SMR Copyright (c) 2022
  * 
  */
  

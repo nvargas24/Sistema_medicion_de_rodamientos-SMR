@@ -1,6 +1,12 @@
 /**
  * @file mpu6050.h
- * @author Fernando Galassi
+ * 
+ * @author Team SMR
+ * @authors Galassi, Fernando
+ * @authors Moran, Nicolas
+ * @authors	Pilato, Bruno
+ * @authors	Vargas, Nahuel
+ * 
  * @brief Header file for mpu6050.c
  * @version 0.1
  * @date 2022-09-03

@@ -1,16 +1,17 @@
 /**
  * @file mcp3008.h
+ * 
  * @author Team SMR
  * @authors Galassi, Fernando
  * @authors Moran, Nicolas
  * @authors	Pilato, Bruno
  * @authors	Vargas, Nahuel
  *
- * @brief 
+ * @brief Header file for mcp3008.c
  * @version 0.1
  * @date 2022-08-30
  * 
- * @copyright Copyright (c) 2022
+ * @copyright SMR Copyright (c) 2022
  * 
  */
  

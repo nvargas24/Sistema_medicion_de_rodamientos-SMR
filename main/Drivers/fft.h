@@ -1,12 +1,13 @@
 /**
  * @file fft.h
+ * 
  * @author Team SMR
  * @authors Galassi, Fernando
  * @authors Moran, Nicolas
  * @authors	Pilato, Bruno
  * @authors	Vargas, Nahuel
  *
- * @brief 
+ * @brief Header file for fft.c
  * @version 0.1
  * @date 2022-08-30
  * 
