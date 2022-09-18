@@ -1,12 +1,6 @@
 /**
  * @file mpu6050.c
- * 
- * @author Team SMR
- * @authors Galassi, Fernando
- * @authors Moran, Nicolas
- * @authors	Pilato, Bruno
- * @authors	Vargas, Nahuel
- * 
+ * @author Fernando Galassi 
  * @brief This files contains functions and methods to work with MPU6050 accel/gyro module
  * @version 0.1
  * @date 2022-09-03
@@ -20,27 +14,46 @@
 #include "driver/i2c.h"
 #include "main.h"
 #include "mpu6050.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
+#include "esp_log.h"    
 
 /* Global variables */
-uint8_t **ptr_buffer;
+//uint8_t **ptr_buffer;
 uint8_t buffer[6];
 
-int16_t accel[3];
-int16_t gyro[3];
-int16_t temp;
+static int16_t RawAccel[3];
+static int16_t RawGyro[3];
+static int16_t RawTemp;
+
+float accel[3];
+float gyro[3];
+float temp;
 
 MPU6050_Accelerometer_t AccelerometerSensitivity;
 MPU6050_Gyroscope_t GyroscopeSensitivity;
 
-/**
- * @brief This funtion is used to share the placeholder for the I2C transactions.
- *        
- * @param buff  Communication buffer
- */
-void MPU6050_GetBuffer(uint8_t **buff)
-{
-    *buff = buffer;
-}
+
+static esp_err_t MPU6050_RegisterRead(uint8_t, uint8_t *, size_t);
+static esp_err_t MPU6050_RegisterWriteByte(uint8_t, uint8_t);
+static esp_err_t MPU6050_SetAccelerometer(uint8_t);
+static esp_err_t MPU6050_SetGyroscope(uint8_t);
+static esp_err_t MPU6050_EnableInts(bool);
+static esp_err_t MPU6050_SetIntPin(void);
+static esp_err_t MPU6050_SetDataRate(uint8_t);
+static esp_err_t MPU6050_SetMotionDetectParams(uint8_t duration, uint8_t threshold);
+static esp_err_t MPU6050_EnableTempSensor(bool en);
+static esp_err_t MPU6050_PwrMgmt1(uint8_t);
+static esp_err_t MPU6050_Config(uint8_t);
+static esp_err_t MPU6050_GyroConfig(uint8_t);
+static esp_err_t MPU6050_AccelConfig(uint8_t);
+static esp_err_t MPU6050_SignalPathReset(void);
+static void MPU6050_ParseAccel(void);
+static void MPU6050_ParseGyro(void);
+static void MPU6050_ParseTemp(void);
+static esp_err_t MPU6050_WhoAmI(void);
+
 
 /**
  * @brief This function performs a read sequence from MPU6050 device
@@ -91,7 +104,7 @@ static esp_err_t MPU6050_WhoAmI(void)
  * 
  * @return esp_err_t    0 -> No error
  */
-static esp_err_t MPU6050_SetAccelerometer(void)
+static esp_err_t MPU6050_SetAccelerometer(uint8_t param)
 {
     int ret;
     uint8_t data;
@@ -99,7 +112,7 @@ static esp_err_t MPU6050_SetAccelerometer(void)
     ret = MPU6050_RegisterRead(MPU6050_ACCEL_CONFIG, buffer, 1);
     if(!ret)
     {
-        data = (buffer[0] & 0xE7) | (uint8_t)AccelerometerSensitivity << 3;
+        data = (buffer[0] & 0xE7) | (uint8_t)param << 3;
         ret = MPU6050_RegisterWriteByte(MPU6050_ACCEL_CONFIG, data);
         return ret;
     }
@@ -114,7 +127,7 @@ static esp_err_t MPU6050_SetAccelerometer(void)
  * 
  * @return esp_err_t    0 -> No error
  */
-static esp_err_t MPU6050_SetGyroscope(void)
+static esp_err_t MPU6050_SetGyroscope(uint8_t param)
 {
     int ret;
     uint8_t data;
@@ -122,7 +135,7 @@ static esp_err_t MPU6050_SetGyroscope(void)
     ret = MPU6050_RegisterRead(MPU6050_GYRO_CONFIG, buffer, 1);
     if(!ret)
     {
-        data = (buffer[0] & 0xE7) | (uint8_t)GyroscopeSensitivity << 3;
+        data = (buffer[0] & 0xE7) | (uint8_t)param<< 3;
         ret = MPU6050_RegisterWriteByte(MPU6050_GYRO_CONFIG, data);
         return ret;
     }
@@ -175,7 +188,7 @@ static esp_err_t MPU6050_EnableInts(bool en)
 static esp_err_t MPU6050_SetIntPin(void)
 {
     int ret;
-    uint8_t data = 0x80; /* Low level . Push-Pull */
+    uint8_t data = 0x20; /* Low level . Push-Pull */
 
     ret = MPU6050_RegisterWriteByte(MPU6050_INT_PIN_CFG, data);
     
@@ -288,10 +301,17 @@ esp_err_t MPU6050_ReadAccelerometer(void)
     int i;
 
     ret = MPU6050_RegisterRead(MPU6050_ACCEL_XOUT_H, buffer, 6);
+
     if(!ret)
     {
         for(i = 0; i < 3; i++)
-            accel[i] = (int16_t)(buffer[i] << 8 | buffer[i+1]);
+        {
+            int j = 2 * i;
+            RawAccel[i] = (int16_t)(buffer[j]);
+            RawAccel[i] = RawAccel[i] << 8 ;
+            RawAccel[i] = RawAccel[i] | buffer[j+1];
+        }
+        MPU6050_ParseAccel();
 
         return ret;
     }
@@ -315,7 +335,14 @@ esp_err_t MPU6050_ReadGyroscope(void)
     if(!ret)
     {
         for(i = 0; i < 3; i++)
-            gyro[i] = (int16_t)(buffer[i] << 8 | buffer[i+1]);
+        {
+            int j = 2 * i;
+            RawGyro[i] = (int16_t)(buffer[j]);
+            RawGyro[i] = RawGyro[i] << 8;
+            RawGyro[i] = RawGyro[i] | buffer[j];
+        }
+
+        MPU6050_ParseGyro();
 
         return ret;
     }
@@ -330,14 +357,16 @@ esp_err_t MPU6050_ReadGyroscope(void)
  * 
  * @return esp_err_t    0 -> No error
  */
-esp_err_t MPU6050_ReadTemperature(void)
+esp_err_t MPU6050_ReadTemperature()
 {
     int ret;
 
     ret = MPU6050_RegisterRead(MPU6050_TEMP_OUT_H, buffer, 2);
     if(!ret)
     {
-        temp = (int16_t)(buffer[0] << 8 | buffer[1]);
+        RawTemp = (int16_t)(buffer[0] << 8 | buffer[1]);
+
+        MPU6050_ParseTemp();
 
         return ret;
     }
@@ -387,11 +416,60 @@ static esp_err_t MPU6050_DisableGyro(bool en)
  * 
  * @return esp_err_t    0 -> No error 
  */
-static esp_err_t MPU6050_WakeUp(void)
+static esp_err_t MPU6050_PwrMgmt1(uint8_t data)
 {
     int ret;
 
-    ret = MPU6050_RegisterWriteByte(MPU6050_PWR_MGMT_1, 0x00);
+    ret = MPU6050_RegisterWriteByte(MPU6050_PWR_MGMT_1, data);
+
+    return ret;
+}
+
+/**
+ * @brief This function is used to reset the signal path
+ * 
+ * @return esp_err_t 
+ */
+static esp_err_t MPU6050_SignalPathReset(void)
+{
+    int ret;
+
+    ret = MPU6050_RegisterWriteByte(MPU6050_SIG_PATH_RST, 0x07);
+
+    return ret;
+}
+
+/**
+ * @brief Todavía no se 
+ * 
+ * @return esp_err_t 
+ */
+static esp_err_t MPU6050_Config(uint8_t data)
+{
+    int ret = MPU6050_RegisterWriteByte(MPU6050_CONFIG, data);
+
+    return ret;
+}
+
+/**
+ * @brief This function is used to congif the gyro
+ * 
+ * @return esp_err_t 
+ */
+static esp_err_t MPU6050_GyroConfig(uint8_t data)
+{
+    int ret;
+
+    ret = MPU6050_RegisterWriteByte(MPU6050_GYRO_CONFIG, data);
+
+    return ret;
+}
+
+static esp_err_t MPU6050_AccelConfig(uint8_t data)
+{
+    int ret;
+
+    ret = MPU6050_RegisterWriteByte(MPU6050_ACCEL_CONFIG, data);
 
     return ret;
 }
@@ -410,43 +488,92 @@ esp_err_t MPU6050_Init(uint8_t dataRate, uint8_t accelRange, uint8_t gyroSens)
     AccelerometerSensitivity = accelRange;
     GyroscopeSensitivity = gyroSens;
 
-   ret = MPU6050_WhoAmI();
-   if(ret)
-   {
-        return ret;
-   }
-   else
-   {
-        /* Wake-up device */
-        ret = MPU6050_WakeUp();
-        if(ret)
-        {
-            return ret;
-        }
-        else
-        {
-            /* Set sample rate */
-            ret = MPU6050_SetDataRate(dataRate);
-            if(ret)
-            {
-                return ret;
-            }
-            else
-            {
-                /* Set Accelerometer sensitivity */
-                ret = MPU6050_SetAccelerometer();
-                if(ret)
-                {
-                    return ret;
-                }
-                else
-                {
-                    /* Set Gyro Sensitivity */
-                    ret = MPU6050_SetGyroscope();
+    ret = MPU6050_WhoAmI();
+    ret = MPU6050_EnableInts(false);
+    ret = MPU6050_PwrMgmt1(0x01);
+    ret = MPU6050_SetDataRate(0x00);
+    ret = MPU6050_Config(0x00);
+    ret = MPU6050_GyroConfig(0x08);
+    ret = MPU6050_AccelConfig(0x01);
+    ret = MPU6050_SetIntPin();
+    ret = MPU6050_SetMotionDetectParams(1, 47);
+    ret = MPU6050_RegisterWriteByte(MPU6050_MOT_DETECT_CTRL, 0x11);
+    ret = MPU6050_EnableInts(true);
+    return ret;   
+}
 
-                    return ret;
-                }
-            }
-        }
-   }
+/**
+ * @brief This function is used to get human readable accelerometer results
+ * 
+ */
+static void MPU6050_ParseAccel(void)
+{
+    int i;
+
+    switch(AccelerometerSensitivity)
+    {
+        case MPU6050_Accelerometer_2G:
+            for(i = 0; i < 3; i++)
+                accel[i] = (float)((float)RawAccel[i] / MPU6050_AccelSens_2);
+            break;
+        case MPU6050_Accelerometer_4G:
+            for(i = 0; i < 3; i++)
+                accel[i] = (float)((float)RawAccel[i] / MPU6050_AccelSens_4);
+            break;
+        case MPU6050_Accelerometer_8G:
+            for(i = 0; i < 3; i++)
+                accel[i] = (float)((float)RawAccel[i] / MPU6050_AccelSens_8);
+            break;
+        case MPU6050_Accelerometer_16G:
+            for(i = 0; i < 3; i++)
+                accel[i] = (float)((float)RawAccel[i] / MPU6050_AccelSens_16);
+            break;
+    }
+}
+
+/**
+ * @brief This funtion is used to get human readable gyroscope results
+ * 
+ */
+static void MPU6050_ParseGyro(void)
+{
+    int i;
+
+    switch(GyroscopeSensitivity)
+    {
+        case MPU6050_Gyroscope_250s:
+            for(i = 0; i < 3; i++)
+                gyro[i] = (float)((float)RawGyro[i] / MPU6050_GyroSens_250);
+            break;
+        case MPU6050_Gyroscope_500s:
+            for(i = 0; i < 3; i++)
+                gyro[i] = (float)((float)RawGyro[i] / MPU6050_GyroSens_500);
+            break;
+        case MPU6050_Gyroscope_1000s:
+            for(i = 0; i < 3; i++)
+                gyro[i] = (float)((float)RawGyro[i] / MPU6050_GyroSens_1000);
+            break;
+        case MPU6050_Gyroscope_2000s:
+            for(i = 0; i < 3; i++)
+                gyro[i] = (float)((float)RawGyro[i] / MPU6050_GyroSens_2000);
+            break;
+    }
+}
+
+/**
+ * @brief This function is used to get human readable temperature results
+ * 
+ */
+static void MPU6050_ParseTemp(void)
+{
+    temp = (float)((RawTemp / 340.0) +36.53);
+}
+
+esp_err_t MPU6050_ReadMotionStatus(void)
+{
+    int ret;
+
+    ret = MPU6050_RegisterRead(MPU6050_INT_STATUS, buffer, 1);
+
+    return ret;
 }

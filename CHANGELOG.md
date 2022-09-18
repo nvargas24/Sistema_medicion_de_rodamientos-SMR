@@ -1,5 +1,21 @@
 # **Control de cambios**
 
+## version: v 0.0.3
++ revision: 18/09/2022 20:50
++ author: fergalassi@gmail.com
+
++ Agregado / Modificado:
+    - CHANGELOG.md
+    - Drivers:
+    - main.c:
+        + Inclusión mqtt probado con node red en raspi
++ Por hacer:
+    - Web server
+    - ADC
+    - Verificar RTC
+    - Correcciones FFT
+---
+
 ## version: v 0.0.2
 + revision: 04/09/2022 15:05
 + author: fergalassi@gmail.com

@@ -1,12 +1,6 @@
 /**
  * @file mpu6050.h
- * 
- * @author Team SMR
- * @authors Galassi, Fernando
- * @authors Moran, Nicolas
- * @authors	Pilato, Bruno
- * @authors	Vargas, Nahuel
- * 
+ * @author Fernando Galassi
  * @brief Header file for mpu6050.c
  * @version 0.1
  * @date 2022-09-03
@@ -14,6 +8,9 @@
  * @copyright SMR Copyright (c) 2022
  * 
  */
+
+#ifndef _MPU6050_H_
+#define _MPU6050_H_
 
 /* Libraries include*/
 #include <stdio.h>
@@ -55,31 +52,6 @@
 #define MPU6050_MOT_DETECT_STATUS   0x61
 #define MPU6050_MOT_DETECT_CTRL     0x69
 
-#define MPU6050_I2C_MST_CTRL        0x24
-#define MPU6050_I2C_SLV0_ADDR       0x25
-#define MPU6050_I2C_SLV0_REG        0x26
-#define MPU6050_I2C_SLV0_CTRL       0x27
-#define MPU6050_I2C_SLV1_ADDR       0x28
-#define MPU6050_I2C_SLV1_REG        0x29
-#define MPU6050_I2C_SLV1_CTRL       0x2A
-#define MPU6050_I2C_SLV2_ADDR       0x2B
-#define MPU6050_I2C_SLV2_REG        0x2C
-#define MPU6050_I2C_SLV2_CTRL       0x2D
-#define MPU6050_I2C_SLV3_ADDR       0x2E
-#define MPU6050_I2C_SLV3_REG        0x2F
-#define MPU6050_I2C_SLV3_CTRL       0x30
-#define MPU6050_I2C_SLV4_ADDR       0x31
-#define MPU6050_I2C_SLV4_REG        0x32
-#define MPU6050_I2C_SLV4_DO         0x33
-#define MPU6050_I2C_SLV4_CTRL       0x34
-#define MPU6050_I2C_SLV4_DI         0x35
-#define MPU6050_I2C_MST_STATUS      0x36
-#define MPU6050_I2C_SLV0_DO         0x63
-#define MPU6050_I2C_SLV1_DO         0x64
-#define MPU6050_I2C_SLV2_DO         0x65
-#define MPU6050_I2C_SLV3_DO         0x66
-#define MPU6050_I2C_MST_DELAY_CTRL  0x67
-
 #define MPU6050_INT_PIN_CFG     0x37
 #define MPU6050_INT_ENABLE      0x38
 #define MPU6050_DMP_INT_STATUS  0x39
@@ -102,31 +74,7 @@
 #define MPU6050_GYRO_ZOUT_H     0x47
 #define MPU6050_GYRO_ZOUT_L     0x48
 
-#define MPU6050_EXT_SENS_DATA_00    0x49
-#define MPU6050_EXT_SENS_DATA_01    0x4A
-#define MPU6050_EXT_SENS_DATA_02    0x4B
-#define MPU6050_EXT_SENS_DATA_03    0x4C
-#define MPU6050_EXT_SENS_DATA_04    0x4D
-#define MPU6050_EXT_SENS_DATA_05    0x4E
-#define MPU6050_EXT_SENS_DATA_06    0x4F
-#define MPU6050_EXT_SENS_DATA_07    0x50
-#define MPU6050_EXT_SENS_DATA_08    0x51
-#define MPU6050_EXT_SENS_DATA_09    0x52
-#define MPU6050_EXT_SENS_DATA_10    0x53
-#define MPU6050_EXT_SENS_DATA_11    0x54
-#define MPU6050_EXT_SENS_DATA_12    0x55
-#define MPU6050_EXT_SENS_DATA_13    0x56
-#define MPU6050_EXT_SENS_DATA_14    0x57
-#define MPU6050_EXT_SENS_DATA_15    0x58
-#define MPU6050_EXT_SENS_DATA_16    0x59
-#define MPU6050_EXT_SENS_DATA_17    0x5A
-#define MPU6050_EXT_SENS_DATA_18    0x5B
-#define MPU6050_EXT_SENS_DATA_19    0x5C
-#define MPU6050_EXT_SENS_DATA_20    0x5D
-#define MPU6050_EXT_SENS_DATA_21    0x5E
-#define MPU6050_EXT_SENS_DATA_22    0x5F
-#define MPU6050_EXT_SENS_DATA_23    0x60
-
+#define MPU6050_SIG_PATH_RST	0x68
 #define MPU6050_USR_CTRL        0x6A
 #define MPU6050_PWR_MGMT_1      0x6B
 #define MPU6050_PWR_MGMT_2      0x6C
@@ -150,26 +98,25 @@
 #define MPU6050_DataRate_125Hz  63  /*!< Sample rate set to 125 Hz */
 #define MPU6050_DataRate_100Hz  79  /*!< Sample rate set to 100 Hz */
 
+/* Gyro sensitivities in degrees/s */
+#define MPU6050_GyroSens_250		((float) 131)
+#define MPU6050_GyroSens_500		((float) 65.5)
+#define MPU6050_GyroSens_1000		((float) 32.8)
+#define MPU6050_GyroSens_2000		((float) 16.4)
+
+/* Accel sensitivities in g/s */
+#define MPU6050_AccelSens_2			((float) 16384)
+#define MPU6050_AccelSens_4			((float) 8192)
+#define MPU6050_AccelSens_8			((float) 4096)
+#define MPU6050_AccelSens_16		((float) 2048)
+
 /* Public Function prototypes */
-void MPU6050_GetBuffer(uint8_t **);
 esp_err_t MPU6050_ReadInterrupts(void);
 esp_err_t MPU6050_ReadAccelerometer(void);
 esp_err_t MPU6050_ReadGyroscope(void);
 esp_err_t MPU6050_ReadTemperature(void);
 esp_err_t MPU6050_Init(uint8_t dataRate, uint8_t accelRange, uint8_t gyroSens);
-
-/* Private Function Prototypes */
-static esp_err_t MPU6050_RegisterRead(uint8_t, uint8_t *, size_t);
-static esp_err_t MPU6050_RegisterWriteByte(uint8_t, uint8_t);
-static esp_err_t MPU6050_SetAccelerometer(void);
-static esp_err_t MPU6050_SetGyroscope(void);
-static esp_err_t MPU6050_EnableInts(bool);
-static esp_err_t MPU6050_SetIntPin(void);
-static esp_err_t MPU6050_SetDataRate(uint8_t);
-static esp_err_t MPU6050_SetMotionDetectParams(uint8_t duration, uint8_t threshold);
-static esp_err_t MPU6050_EnableTempSensor(bool en);
-static esp_err_t MPU6050_WakeUp(void);
-static esp_err_t MPU6050_WhoAmI(void);
+esp_err_t MPU6050_ReadMotionStatus(void);
 
 /* Typedef */
 typedef enum MPU6050_Accelerometer_e
@@ -188,3 +135,4 @@ typedef enum MPU6050_Gyroscope_e
 	MPU6050_Gyroscope_2000s = 0x03 
 } MPU6050_Gyroscope_t;
 
+#endif
