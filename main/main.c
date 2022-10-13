@@ -1,11 +1,13 @@
-/* MQTT (over TCP) Example
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
+/**
+ * @file main.c
+ * @author Fernando Galassi
+ * @brief This file contains the main script for the SMR sensor
+ * @version 0.1
+ * @date 2022-10-13
+ * 
+ * @copyright  SMR Copyright (c) 2022
+ * 
+ */
 
 #include <stdio.h>
 #include <stdint.h>
@@ -41,20 +43,22 @@
 #include "Drivers/mpu6050.h"
 #include "Drivers/mcp3008.h"
 
-
-
+/* Global Variables */
 esp_mqtt_client_handle_t client;
 spi_device_handle_t spi2;
 
-extern float accel[3];
 float Ta;
 float To;
 float Td;
-
 float accel[3];
 
 static const char *TAG = "SMR Sensors";
 
+/**
+ * @brief This function is used to initialize the I2C driver
+ * 
+ * @return esp_err_t  0 -> No error
+ */
 esp_err_t i2c_master_init(void)
 {
     int i2c_master_port = I2C_MASTER_NUM;
@@ -94,11 +98,9 @@ static esp_err_t spi_init(void)
     .sclk_io_num = SPI_CLK_PIN,
     .quadwp_io_num = -1,
     .quadhd_io_num = -1,
-    //.max_transfer_sz = 32,
     };
 
     ret = spi_bus_initialize(SPI2_HOST, &buscfg, SPI_DMA_CH_AUTO);
-    //ESP_LOGD(tag, "spi_bus_initialize=%d",ret);
     assert(ret == ESP_OK);
 
     spi_device_interface_config_t devcfg = 
@@ -108,19 +110,21 @@ static esp_err_t spi_init(void)
         .spics_io_num = SPI_CS_PIN,
         .queue_size = 1,
         .flags = SPI_DEVICE_NO_DUMMY ,
-        //.flags = SPI_DEVICE_HALFDUPLEX,
-        //.pre_cb = NULL,
-        //.post_cb = NULL,
     };
 
     ESP_ERROR_CHECK(spi_bus_add_device(SPI2_HOST, &devcfg, &spi2));
 
     ret = spi_bus_add_device(SPI2_HOST, &devcfg, &spi2);
-	//ESP_LOGD(tag, "spi_bus_add_device=%d",ret);
-	return ret;
-
+	
+    return ret;
 }
 
+/**
+ * @brief This function is used to log all the errors
+ * 
+ * @param message  String that indicates the error
+ * @param error_code Error code number 
+ */
 static void log_error_if_nonzero(const char *message, int error_code)
 {
     if (error_code != 0) {
@@ -128,7 +132,7 @@ static void log_error_if_nonzero(const char *message, int error_code)
     }
 }
 
-/*
+/**
  * @brief Event handler registered to receive MQTT events
  *
  *  This function is called by the MQTT client event loop.
@@ -148,16 +152,16 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
         msg_id = esp_mqtt_client_publish(client, "/topic/qos1", "data_3", 0, 1, 0);
-        ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
+        ESP_LOGI(TAG, "Sent publish successful, msg_id=%d", msg_id);
 
         msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
-        ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
+        ESP_LOGI(TAG, "Sent subscribe successful, msg_id=%d", msg_id);
 
         msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
-        ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
+        ESP_LOGI(TAG, "Sent subscribe successful, msg_id=%d", msg_id);
 
         msg_id = esp_mqtt_client_unsubscribe(client, "/topic/qos1");
-        ESP_LOGI(TAG, "sent unsubscribe successful, msg_id=%d", msg_id);
+        ESP_LOGI(TAG, "Sent unsubscribe successful, msg_id=%d", msg_id);
         break;
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
@@ -166,7 +170,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     case MQTT_EVENT_SUBSCRIBED:
         ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
         msg_id = esp_mqtt_client_publish(client, "/topic/qos0", "data", 0, 0, 0);
-        ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
+        ESP_LOGI(TAG, "Sent publish successful, msg_id=%d", msg_id);
         break;
     case MQTT_EVENT_UNSUBSCRIBED:
         ESP_LOGI(TAG, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
@@ -195,6 +199,11 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     }
 }
 
+/**
+ * @brief This function is used to initializate the MQTT client
+ * 
+ * @return esp_err_t  0 -> No error
+ */
 static esp_err_t mqtt_init(void)
 {
     esp_err_t ret;
@@ -228,26 +237,34 @@ static esp_err_t mqtt_init(void)
 #endif /* CONFIG_BROKER_URL_FROM_STDIN */
 
     client = esp_mqtt_client_init(&mqtt_cfg);
-    /* The last argument may be used to pass data to the event handler, in this example mqtt_event_handler */
     esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
     ret = esp_mqtt_client_start(client);
     return ret;
 }
 
+/**
+ * @brief This function is used to perform sensor's measurement
+ * 
+ */
 void measure_sensors(void)
 {
-    ESP_ERROR_CHECK(MPU6050_ReadAccelerometer());
+    ESP_ERROR_CHECK(MPU6050_ReadAccelerometer(&accel));
     ESP_LOGI(TAG, "AccelX = %f", accel[0]);
     ESP_LOGI(TAG, "AccelY = %f", accel[1]);
     ESP_LOGI(TAG, "AccelZ = %f", accel[2]);
 
+    /*
     ESP_ERROR_CHECK(MLX90614_GetTa(&Ta));
     ESP_LOGI(TAG, "Temperatura Ambiente = %f", Ta);
     ESP_ERROR_CHECK(MLX90614_GetTo(&To));
     ESP_LOGI(TAG, "Temperatura Objetivo = %f", To);
-
+    */
 }
 
+/**
+ * @brief This function is used to publish MQTT messages
+ * 
+ */
 void publish_measures(void)
 {
     char payload[100];
@@ -264,43 +281,32 @@ void publish_measures(void)
     esp_mqtt_client_publish(client, "esp32/accelZ", payload, strlen(payload), 0, false);
 }
 
+/**
+ * @brief Main function
+ * 
+ */
 void app_main(void)
 {
-   
-    
-
     ESP_LOGI(TAG, "[APP] Startup..");
     ESP_LOGI(TAG, "[APP] Free memory: %d bytes", esp_get_free_heap_size());
     ESP_LOGI(TAG, "[APP] IDF version: %s", esp_get_idf_version());
-
-    esp_log_level_set("*", ESP_LOG_INFO);
-    esp_log_level_set("MQTT_CLIENT", ESP_LOG_VERBOSE);
-    esp_log_level_set("MQTT_EXAMPLE", ESP_LOG_VERBOSE);
-    esp_log_level_set("TRANSPORT_BASE", ESP_LOG_VERBOSE);
-    esp_log_level_set("esp-tls", ESP_LOG_VERBOSE);
-    esp_log_level_set("TRANSPORT", ESP_LOG_VERBOSE);
-    esp_log_level_set("OUTBOX", ESP_LOG_VERBOSE);
 
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
-    /* This helper function configures Wi-Fi or Ethernet, as selected in menuconfig.
-     * Read "Establishing Wi-Fi or Ethernet Connection" section in
-     * examples/protocols/README.md for more information about this function.
-     */
     ESP_ERROR_CHECK(example_connect());
     ESP_ERROR_CHECK(i2c_master_init());
     ESP_LOGI(TAG, "I2C initialized successfully");
     ESP_ERROR_CHECK(spi_init());
     ESP_LOGI(TAG, "SPI initialized successfully");
 
-    mqtt_init();
+    //mqtt_init();
 
     while(1)
     {
         measure_sensors();
-        publish_measures(); 
+        //publish_measures(); 
         vTaskDelay(pdMS_TO_TICKS(5000));
     }
     

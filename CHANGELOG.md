@@ -1,4 +1,18 @@
 # **Control de cambios**
+## version: v 0.0.4
++ revision: 13/10/2022 20:50
++ author: fergalassi@gmail.com
+
++ Agregado / Modificado:
+    - CHANGELOG.md
+    - Drivers:
+        + Eliminado de variables `extern`
+    - main.c:
+        + Eliminado de variables `extern`
++ Por hacer:
+    - Web server
+    - Correcciones FFT
+
 
 ## version: v 0.0.3
 + revision: 18/09/2022 20:50

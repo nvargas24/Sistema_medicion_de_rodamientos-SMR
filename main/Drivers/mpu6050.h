@@ -12,7 +12,7 @@
 #ifndef _MPU6050_H_
 #define _MPU6050_H_
 
-/* Libraries include*/
+/* Libraries include */
 #include <stdio.h>
 #include <stddef.h>
 
@@ -110,13 +110,13 @@
 #define MPU6050_AccelSens_8			((float) 4096)
 #define MPU6050_AccelSens_16		((float) 2048)
 
-/* Public Function prototypes */
-esp_err_t MPU6050_ReadInterrupts(void);
-esp_err_t MPU6050_ReadAccelerometer(void);
-esp_err_t MPU6050_ReadGyroscope(void);
-esp_err_t MPU6050_ReadTemperature(void);
-esp_err_t MPU6050_Init(uint8_t dataRate, uint8_t accelRange, uint8_t gyroSens);
-esp_err_t MPU6050_ReadMotionStatus(void);
+#define I2C_MASTER_SCL_IO           22      
+#define I2C_MASTER_SDA_IO           21      
+#define I2C_MASTER_NUM              0       
+#define I2C_MASTER_FREQ_HZ          100000  
+#define I2C_MASTER_TX_BUF_DISABLE   0       
+#define I2C_MASTER_RX_BUF_DISABLE   0       
+#define I2C_MASTER_TIMEOUT_MS       1000
 
 /* Typedef */
 typedef enum MPU6050_Accelerometer_e
@@ -134,5 +134,13 @@ typedef enum MPU6050_Gyroscope_e
 	MPU6050_Gyroscope_1000s = 0x02,
 	MPU6050_Gyroscope_2000s = 0x03 
 } MPU6050_Gyroscope_t;
+
+/* Public Functions prototypes */
+esp_err_t MPU6050_ReadInterrupts(void);
+esp_err_t MPU6050_ReadAccelerometer(float*);
+esp_err_t MPU6050_ReadGyroscope(float *);
+esp_err_t MPU6050_ReadTemperature(float *);
+esp_err_t MPU6050_Init(uint8_t dataRate, uint8_t accelRange, uint8_t gyroSens);
+esp_err_t MPU6050_ReadMotionStatus(void);
 
 #endif

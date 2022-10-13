@@ -1,20 +1,13 @@
 /**
  * @file fft.c
- * @author Team SMR
- * @authors Galassi, Fernando
- * @authors Moran, Nicolas
- * @authors	Pilato, Bruno
- * @authors	Vargas, Nahuel
- *
- * @brief This file contains functions and methods to perform FFT
+ * @author your name (you@domain.com)
+ * @brief 
  * @version 0.1
- * @date 2022-08-30
+ * @date 2022-10-13
  * 
- * @copyright SMR Copyright (c) 2022
+ * @copyright Copyright (c) 2022
  * 
  */
- 
-/********************************* Heaters *************************************/
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>

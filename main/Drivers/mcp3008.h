@@ -15,16 +15,9 @@
  * 
  */
  
-/********************************* Heaters *************************************/
-#include "driver/gpio.h"
-#include "driver/spi_master.h"
 
-/************************** Macros y definiciones ******************************/
-#define CS_PIN 5
-#define CLK_PIN 18
-#define MISO_PIN 19
-#define MOSI_PIN 23
 
-/******************** Definiciones de funciones externas **********************/
-void mcpInit(void);
+#define MAX_CHANNEL 8
+
+
 int16_t mcpRead(int16_t channel);
