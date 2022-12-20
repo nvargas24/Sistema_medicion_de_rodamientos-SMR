@@ -20,4 +20,4 @@
 #define MAX_CHANNEL 8
 
 
-int16_t mcpRead(int16_t channel);
+int16_t MCP3008_ReadChannel(int16_t channel);

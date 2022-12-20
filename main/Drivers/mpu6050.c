@@ -507,16 +507,11 @@ esp_err_t MPU6050_Init(uint8_t dataRate, uint8_t accelRange, uint8_t gyroSens)
     GyroscopeSensitivity = gyroSens;
 
     ret = MPU6050_WhoAmI();
-    ret = MPU6050_EnableInts(false);
     ret = MPU6050_PwrMgmt1(0x01);
     ret = MPU6050_SetDataRate(0x00);
     ret = MPU6050_Config(0x00);
     ret = MPU6050_GyroConfig(0x08);
     ret = MPU6050_AccelConfig(0x01);
-    ret = MPU6050_SetIntPin();
-    ret = MPU6050_SetMotionDetectParams(1, 47);
-    ret = MPU6050_RegisterWriteByte(MPU6050_MOT_DETECT_CTRL, 0x11);
-    ret = MPU6050_EnableInts(true);
     return ret;   
 }
 
@@ -584,7 +579,7 @@ static void MPU6050_ParseGyro(float *gyro)
  */
 static void MPU6050_ParseTemp(float *temp)
 {
-    *(temp) = (float)((RawTemp / 340.0) +36.53);
+    *(temp) = (float)((RawTemp / 340.0) + 36.53);
 }
 
 esp_err_t MPU6050_ReadMotionStatus(void)
@@ -595,3 +590,9 @@ esp_err_t MPU6050_ReadMotionStatus(void)
 
     return ret;
 }
+/*
+void MPU6050_CalculatePitchRoll(float *pitch, float *roll)
+{
+
+}
+*/

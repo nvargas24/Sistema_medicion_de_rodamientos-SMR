@@ -19,7 +19,7 @@
 #include "mcp3008.h"
 
 /* Global Variables */
-spi_device_handle_t spi2;
+spi_device_handle_t spi3;
 static const char *TAG = "SMR Sensors";
 
 
@@ -31,10 +31,11 @@ static const char *TAG = "SMR Sensors";
  */
 int16_t MCP3008_ReadChannel(int16_t channel)
 {
-    int ret;
+    esp_err_t ret;
     char rbuf[3];
     char wbuf[3];
     int16_t val = 0;
+    spi_transaction_t SPITransaction;    
 
     if (channel > MAX_CHANNEL) {
 		ESP_LOGE(TAG, "Illegal channel %d", channel);
@@ -43,27 +44,20 @@ int16_t MCP3008_ReadChannel(int16_t channel)
 
     memset(wbuf, 0, sizeof(rbuf));
     memset(rbuf, 0, sizeof(rbuf));
+    memset(&SPITransaction, 0, sizeof(spi_transaction_t));
 
     wbuf[0] = 0x60 | channel << 2;
 
-    ESP_LOGD(TAG, "wbuf=0x%02X 0x%02X", wbuf[0], wbuf[1]);
-    
-    spi_transaction_t SPITransaction;
-    
-    memset(&SPITransaction, 0, sizeof(spi_transaction_t));
     SPITransaction.length = 3*8;
     SPITransaction.tx_buffer = wbuf;
     SPITransaction.rx_buffer = rbuf;
 
-    ret = spi_device_transmit( spi2, &SPITransaction );
-
+    ret = spi_device_transmit( spi3, &SPITransaction );
 	assert(ret==ESP_OK); 
-	ESP_LOGD(TAG, "rbuf[0]=%02X rbuf[1]=%02X rbuf[2]=%02X", rbuf[0], rbuf[1], rbuf[2]);
-    
-    val = (rbuf[1]<<2) + (rbuf[2]>>6);
-    //val = (rbuf[1]&3 << 8)+ rbuf[2];
 
-    ESP_LOGD(TAG, "val= %02x", val);
+    val = (rbuf[1]<<2) + (rbuf[2]>>6);
+
     return val;
+
 }
 
