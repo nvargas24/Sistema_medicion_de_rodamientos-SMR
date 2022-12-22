@@ -52,10 +52,12 @@
 #define DEBUG
 #define ROD_ANT
 //#define ROD_POS
+
 #define HIGH 1
 #define LOW  0
 
 #define LOW_BATTERY 3000
+#define SLEEP       6000
 
 
 #define WIFI_STATE_LED  GPIO_NUM_2
@@ -87,21 +89,33 @@ float Ta;
 float To;
 float Td;
 float accel[3];
+float frecBPFI;
+float frecBPFO;
+float frecBSF;
+float frecFTF;
 int batteryLevel;
 float tempThreshold;
+float axialThreshold;
+float radialThreshold;
+bool axialAlarm = false;
+bool radialAlarm = false;
 bool alarmTemp = false;;
 bool presBPFO = false;
 bool presBPFI = false;
 bool presFTF = false;
 bool presBSF = false;
 bool run = false;
-float frecBPFI;
-float frecBPFO;
-float frecBSF;
-float frecFTF;
+
 char aux[200];
 
-static const char *TAG = "SMR Sensors";
+#ifdef ROD_ANT
+static const char *TAG = "SMR ROD ANTERIOR";
+#endif
+
+#ifdef ROD_POS
+static const char *TAG = "SMR ROD POSTERIOR";
+#endif
+
 
 
 
@@ -116,16 +130,12 @@ void app_main(void)
 
     while(1)
     {
-        //measure_sensors();
-        //publish_measures(); 
-        vTaskDelay(pdMS_TO_TICKS(500));
+        
         if(run)
         {
-            gpio_set_level(BATT_STATE_LED, HIGH);
-        }
-        else
-        {
-            gpio_set_level(BATT_STATE_LED, LOW);
+            //measure_sensors();
+            //publish_measures(); 
+            vTaskDelay(pdMS_TO_TICKS(SLEEP));
         }
     }
     
@@ -190,7 +200,7 @@ static esp_err_t spi_init(void)
     .quadhd_io_num = -1,
     };
 
-    ret = spi_bus_initialize(SPI2_HOST, &buscfg, SPI_DMA_CH_AUTO);
+    ret = spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO);
     assert(ret == ESP_OK);
 
     spi_device_interface_config_t devcfg = 
@@ -252,6 +262,8 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         msg_id = esp_mqtt_client_subscribe(client, "start", 0);
         msg_id = esp_mqtt_client_subscribe(client, "stop", 0);
         msg_id = esp_mqtt_client_subscribe(client, "tempThreshold", 0);
+        msg_id = esp_mqtt_client_subscribe(client, "axialThreshold", 0);
+        msg_id = esp_mqtt_client_subscribe(client, "radialThreshold", 0);
 
 #ifdef ROD_ANT
         msg_id = esp_mqtt_client_subscribe(client, "rodAnt/frecBPFI", 0);
@@ -306,10 +318,11 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 #endif
         break;
     case MQTT_EVENT_DATA:
-//#ifdef DEBUG
+#ifdef DEBUG
         ESP_LOGI(TAG, "MQTT_EVENT_DATA");
         printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
         printf("DATA=%.*s\r\n", event->data_len, event->data);
+#endif
         sprintf(aux, "%.*s", event->topic_len, event->topic);
         if(strcmp(aux, "start") == 0)
         {
@@ -323,6 +336,16 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             tempThreshold = strtof(aux, NULL);
+        }
+        else if(strcmp(aux, "axialThreshold") == 0)
+        {
+            sprintf(aux, "%.*s", event->data_len, event->data);
+            axialThreshold = strtof(aux, NULL);
+        }
+        else if(strcmp(aux, "radialThreshold") == 0)
+        {
+            sprintf(aux, "%.*s", event->data_len, event->data);
+            radialThreshold = strtof(aux, NULL);
         }
 
 #ifdef ROD_ANT
@@ -420,12 +443,35 @@ static esp_err_t mqtt_init(void)
 void measure_sensors(void)
 {
     /* Acceleration measures */
-    ESP_ERROR_CHECK(MPU6050_ReadAccelerometer(&accel));
+    /* Considero ahora que la aceleración en X es la axial y radial en Y */
+    ESP_ERROR_CHECK(MPU6050_ReadAccelerometer(accel, 3));
 #ifdef DEBUG
     ESP_LOGI(TAG, "AccelX = %f", accel[0]);
     ESP_LOGI(TAG, "AccelY = %f", accel[1]);
     ESP_LOGI(TAG, "AccelZ = %f", accel[2]);
 #endif
+    if(accel[0] >= axialThreshold)
+    {
+        axialAlarm = true;
+#ifdef DEBUG
+        ESP_LOGI(TAG, "AXIAL ALARM");
+#endif
+    }
+    else
+    {
+        axialAlarm = false;
+    }
+    if(accel[1] >= radialThreshold)
+    {
+        radialAlarm = true;
+#ifdef DEBUG
+        ESP_LOGI(TAG, "RADIAL ALARM");
+#endif
+    }
+    else
+    {
+        radialAlarm = false;
+    }
 
     /* Temperature measures */
     ESP_ERROR_CHECK(MLX90614_GetTa(&Ta));
@@ -487,45 +533,45 @@ void publish_measures(void)
     esp_mqtt_client_publish(client, "rodAnt/acelAxial", payload, strlen(payload), 0, false);
     sprintf(payload, "%f", accel[1]);
     esp_mqtt_client_publish(client, "rodAnt/acelRadial", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", presBPFO);
     esp_mqtt_client_publish(client, "rodAnt/presBPFO", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", presBPFI);
     esp_mqtt_client_publish(client, "rodAnt/presBPFI", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", presBSF);
     esp_mqtt_client_publish(client, "rodAnt/presBSF", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", presFTF);
     esp_mqtt_client_publish(client, "rodAnt/presFTF", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", alarmTemp);
     esp_mqtt_client_publish(client, "rodAnt/alarmTemp", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", axialAlarm);
     esp_mqtt_client_publish(client, "rodAnt/alarmAcelAxial", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", radialAlarm);
     esp_mqtt_client_publish(client, "rodAnt/alarmAcelRadial", payload, strlen(payload), 0, false);
 #endif
 #ifdef ROD_POS
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", batteryLevel);
     esp_mqtt_client_publish(client, "rodPos/bateria", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%f", Ta);
     esp_mqtt_client_publish(client, "rodPos/tempAmb", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%f", To);
     esp_mqtt_client_publish(client, "rodPos/tempObj", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%f", accel[0]);
     esp_mqtt_client_publish(client, "rodPos/acelAxial", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%f", accel[1]);
     esp_mqtt_client_publish(client, "rodPos/acelRadial", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", presBPFO);
     esp_mqtt_client_publish(client, "rodPos/presBPFO", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", presBPFI);
     esp_mqtt_client_publish(client, "rodPos/presBPFI", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", presBSF);
     esp_mqtt_client_publish(client, "rodPos/presBSF", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", presFTF);
     esp_mqtt_client_publish(client, "rodPos/presFTF", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", alarmTemp);
     esp_mqtt_client_publish(client, "rodPos/alarmTemp", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", axialAlarm);
     esp_mqtt_client_publish(client, "rodPos/alarmAcelAxial", payload, strlen(payload), 0, false);
-    sprintf(payload, "%d", rand());
+    sprintf(payload, "%d", radialAlarm);
     esp_mqtt_client_publish(client, "rodPos/alarmAcelRadial", payload, strlen(payload), 0, false);
 #endif
 #ifdef DEBUG 
@@ -574,7 +620,7 @@ void init_peripherals(void)
 #ifdef DEBUG
     ESP_LOGI(TAG, "I2C initialized successfully");
 #endif
-    //ESP_ERROR_CHECK(spi_init());
+    ESP_ERROR_CHECK(spi_init());
 #ifdef DEBUG
     ESP_LOGI(TAG, "SPI initialized successfully");
 #endif

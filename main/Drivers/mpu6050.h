@@ -137,8 +137,8 @@ typedef enum MPU6050_Gyroscope_e
 
 /* Public Functions prototypes */
 esp_err_t MPU6050_ReadInterrupts(void);
-esp_err_t MPU6050_ReadAccelerometer(float*);
-esp_err_t MPU6050_ReadGyroscope(float *);
+esp_err_t MPU6050_ReadAccelerometer(float a[], int aLen);
+esp_err_t MPU6050_ReadGyroscope(float gyro[], int gLen);
 esp_err_t MPU6050_ReadTemperature(float *);
 esp_err_t MPU6050_Init(uint8_t dataRate, uint8_t accelRange, uint8_t gyroSens);
 esp_err_t MPU6050_ReadMotionStatus(void);

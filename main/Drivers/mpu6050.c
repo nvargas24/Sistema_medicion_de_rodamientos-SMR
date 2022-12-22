@@ -46,7 +46,7 @@ static esp_err_t MPU6050_GyroConfig(uint8_t);
 static esp_err_t MPU6050_AccelConfig(uint8_t);
 static esp_err_t MPU6050_SignalPathReset(void);
 static void MPU6050_ParseAccel(void);
-static void MPU6050_ParseGyro(float *);
+static void MPU6050_ParseGyro(float [], int);
 static void MPU6050_ParseTemp(float *);
 static esp_err_t MPU6050_WhoAmI(void);
 
@@ -291,7 +291,7 @@ static esp_err_t MPU6050_EnableTempSensor(bool en)
  * 
  * @return esp_err_t    0 -> No error
  */
-esp_err_t MPU6050_ReadAccelerometer(float *a)
+esp_err_t MPU6050_ReadAccelerometer(float a[], int aLen)
 {
     int ret;
     int i;
@@ -300,7 +300,7 @@ esp_err_t MPU6050_ReadAccelerometer(float *a)
 
     if(!ret)
     {
-        for(i = 0; i < 3; i++)
+        for(i = 0; i < aLen; i++)
         {
             int j = 2 * i;
             RawAccel[i] = (int16_t)(buffer[j]);
@@ -326,7 +326,7 @@ esp_err_t MPU6050_ReadAccelerometer(float *a)
  * 
  * @return esp_err_t    0 -> No error
  */
-esp_err_t MPU6050_ReadGyroscope(float *gyro)
+esp_err_t MPU6050_ReadGyroscope(float gyro[], int gLen)
 {
     int ret;
     int i;
@@ -334,7 +334,7 @@ esp_err_t MPU6050_ReadGyroscope(float *gyro)
     ret = MPU6050_RegisterRead(MPU6050_GYRO_XOUT_H, buffer, 6);
     if(!ret)
     {
-        for(i = 0; i < 3; i++)
+        for(i = 0; i < gLen; i++)
         {
             int j = 2 * i;
             RawGyro[i] = (int16_t)(buffer[j]);
@@ -548,26 +548,26 @@ static void MPU6050_ParseAccel(void)
  * @brief This funtion is used to get human readable gyroscope results
  * 
  */
-static void MPU6050_ParseGyro(float *gyro)
+static void MPU6050_ParseGyro(float gyro[], int gLen)
 {
     int i;
 
     switch(GyroscopeSensitivity)
     {
         case MPU6050_Gyroscope_250s:
-            for(i = 0; i < 3; i++)
+            for(i = 0; i < gLen; i++)
                 (gyro[i]) = (float)((float)RawGyro[i] / MPU6050_GyroSens_250);
             break;
         case MPU6050_Gyroscope_500s:
-            for(i = 0; i < 3; i++)
+            for(i = 0; i < gLen; i++)
                 (gyro[i]) = (float)((float)RawGyro[i] / MPU6050_GyroSens_500);
             break;
         case MPU6050_Gyroscope_1000s:
-            for(i = 0; i < 3; i++)
+            for(i = 0; i < gLen; i++)
                 (gyro[i]) = (float)((float)RawGyro[i] / MPU6050_GyroSens_1000);
             break;
         case MPU6050_Gyroscope_2000s:
-            for(i = 0; i < 3; i++)
+            for(i = 0; i < gLen; i++)
                 (gyro[i]) = (float)((float)RawGyro[i] / MPU6050_GyroSens_2000);
             break;
     }
@@ -590,9 +590,3 @@ esp_err_t MPU6050_ReadMotionStatus(void)
 
     return ret;
 }
-/*
-void MPU6050_CalculatePitchRoll(float *pitch, float *roll)
-{
-
-}
-*/
