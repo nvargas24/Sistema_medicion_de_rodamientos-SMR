@@ -99,7 +99,7 @@ float axialThreshold;
 float radialThreshold;
 bool axialAlarm = false;
 bool radialAlarm = false;
-bool alarmTemp = false;;
+bool alarmTemp = false;
 bool presBPFO = false;
 bool presBPFI = false;
 bool presFTF = false;
@@ -130,11 +130,30 @@ void app_main(void)
 
     while(1)
     {
-        
+#ifdef DEBUG
+        ESP_LOGI(TAG, "run = %d", run);
+        vTaskDelay(pdMS_TO_TICKS(SLEEP*3));
+        gpio_set_level(WIFI_STATE_LED, 0);
+#endif
         if(run)
         {
             //measure_sensors();
             //publish_measures(); 
+            gpio_set_level(WIFI_STATE_LED, HIGH);
+            /*
+            vTaskDelay(pdMS_TO_TICKS(SLEEP));
+            ESP_LOGI(TAG, "BFPI: %f", frecBPFI);
+            vTaskDelay(pdMS_TO_TICKS(3));
+            */
+            ESP_LOGI(TAG, "BFP0: %f", frecBPFO);
+            
+            /*
+            vTaskDelay(pdMS_TO_TICKS(3));
+            ESP_LOGI(TAG, "BSF: %f", frecBSF);
+            vTaskDelay(pdMS_TO_TICKS(3));
+            ESP_LOGI(TAG, "FTF: %f", frecFTF);
+            */
+            gpio_set_level(WIFI_STATE_LED, LOW);
             vTaskDelay(pdMS_TO_TICKS(SLEEP));
         }
     }
@@ -259,24 +278,24 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 #endif
 
         msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "start", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "stop", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "tempThreshold", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "axialThreshold", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "radialThreshold", 0);
+        msg_id = esp_mqtt_client_subscribe(client, "smr/start", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "smr/stop", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "tempThreshold", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "axialThreshold", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "radialThreshold", 2);
 
 #ifdef ROD_ANT
-        msg_id = esp_mqtt_client_subscribe(client, "rodAnt/frecBPFI", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "rodAnt/frecBPFO", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "rodAnt/frecBSF", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "rodAnt/frecFTF", 0);
+        msg_id = esp_mqtt_client_subscribe(client, "rodAnt/frecBPFI", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "rodAnt/frecBPFO", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "rodAnt/frecBSF", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "rodAnt/frecFTF", 2);
 #endif
 
 #ifdef ROD_POS
-        msg_id = esp_mqtt_client_subscribe(client, "rodPos/frecBPFI", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "rodPos/frecBPFO", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "rodPos/frecBSF", 0);
-        msg_id = esp_mqtt_client_subscribe(client, "rodPos/frecFTF", 0);
+        msg_id = esp_mqtt_client_subscribe(client, "rodPos/frecBPFI", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "rodPos/frecBPFO", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "rodPos/frecBSF", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "rodPos/frecFTF", 2);
 #endif
 
 #ifdef DEBUG
@@ -324,11 +343,11 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         printf("DATA=%.*s\r\n", event->data_len, event->data);
 #endif
         sprintf(aux, "%.*s", event->topic_len, event->topic);
-        if(strcmp(aux, "start") == 0)
+        if(strcmp(aux, "smr/start") == 0)
         {
             run = true;
         }
-        else if(strcmp(aux, "stop") == 0)
+        else if(strcmp(aux, "smr/stop") == 0)
         {
             run = false;
         }
