@@ -126,7 +126,6 @@ float magBPFO=0.0;
 float magBPFI=0.0;
 float magFTF=0.0;
 float magBSF=0.0;
-float error_rel=0.0; // no used
 
 #ifdef ROD_ANT
 static const char *TAG = "SMR ROD ANTERIOR";
@@ -506,15 +505,14 @@ void rfft_calcule(void)
  * @brief This function is used to search for amplitudes at desired frequencies
  * @param freq_s  frequency in Hertz
  * @param tol tolerance in relative porcentage
- * @param error_rel error relativo aprox - no used
  * @return amplitude
  */
-float searchFreq(float freq_s, int tol, float *error_rel)
+float searchFreq(float freq_s, int tol)
 {
     /* variables para asignar rango */
     float freq_max=freq_s * (1.0+tol/100.0);
     float freq_min=freq_s * (1.0-tol/100.0);
-    float freq_found=-0.0;
+    float freq_found=0.0;
     /* mag max en el rango pedido */
     float mag_found=SNR; 
 
@@ -526,8 +524,6 @@ float searchFreq(float freq_s, int tol, float *error_rel)
             } 
         }
     }
-
-    *error_rel=fabs((freq_s-freq_found))/freq_s;
 
     return mag_found;
 }
@@ -623,11 +619,10 @@ void measure_sensors(void)
 #endif
     vTaskDelay(pdMS_TO_TICKS(100));
 
-    // OBS: Quitar error_rel
-    magBPFI=searchFreq(frecBPFI, 5, &error_rel);
-    magBPFO=searchFreq(frecBPFO, 5, &error_rel);
-    magFTF=searchFreq(frecFTF, 5, &error_rel);
-    magBSF=searchFreq(frecBSF, 5, &error_rel);
+    magBPFI=searchFreq(frecBPFI, 5);
+    magBPFO=searchFreq(frecBPFO, 5);
+    magFTF=searchFreq(frecFTF, 5);
+    magBSF=searchFreq(frecBSF, 5);
 
 
 }
