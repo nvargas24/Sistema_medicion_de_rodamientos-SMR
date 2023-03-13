@@ -2,8 +2,8 @@
  * @file mcp3008.c
  * @author 
  * @brief 
- * @version 0.1
- * @date 2022-10-13
+ * @version 0.2
+ * @date 2023-3-13
  * 
  * @copyright 
  * 
@@ -32,8 +32,8 @@ static const char *TAG = "SMR Sensors";
 int16_t MCP3008_ReadChannel(int16_t channel)
 {
     esp_err_t ret;
-    char rbuf[3];
-    char wbuf[3];
+    unsigned char rbuf[3];
+    unsigned char wbuf[3];
     int16_t val = 0;
     spi_transaction_t SPITransaction;    
 
@@ -55,8 +55,8 @@ int16_t MCP3008_ReadChannel(int16_t channel)
     ret = spi_device_transmit( spi3, &SPITransaction );
 	assert(ret==ESP_OK); 
 
-    val = (rbuf[1]<<2) + (rbuf[2]>>6);
-
+    //val = (rbuf[1]<<2) + (rbuf[2]>>6); 
+    val = (rbuf[1]<<3) + (rbuf[2]>>5); // Solo para frecuencia de CLK=20MHz.
     return val;
 
 }

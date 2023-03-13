@@ -166,9 +166,9 @@ void app_main(void)
  */
 esp_err_t adc_init(void)
 {
-    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_0db, ADC_WIDTH_12Bit, 0, &adc_chars);
-    ESP_ERROR_CHECK(adc1_config_width(ADC_WIDTH_12Bit));
-    ESP_ERROR_CHECK(adc1_config_channel_atten(vBatLvl, ADC_ATTEN_0db));
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, 0, &adc_chars);
+    ESP_ERROR_CHECK(adc1_config_width(ADC_WIDTH_BIT_12));
+    ESP_ERROR_CHECK(adc1_config_channel_atten(vBatLvl, ADC_ATTEN_DB_0));
     
     return ESP_OK;
 }
@@ -263,7 +263,7 @@ static void log_error_if_nonzero(const char *message, int error_code)
  */
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
-    ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
+    //ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
     esp_mqtt_event_handle_t event = event_data;
     esp_mqtt_client_handle_t client = event->client;
     int msg_id;
@@ -447,7 +447,7 @@ static esp_err_t mqtt_init(void)
     
     esp_mqtt_client_config_t mqtt_cfg = 
     {
-        .uri = CONFIG_BROKER_URL,
+        .broker.address.hostname = "192.168.1.109",
     };
     client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
@@ -623,7 +623,7 @@ void init_peripherals(void)
 {
 #ifdef DEBUG
     ESP_LOGI(TAG, "[APP] Startup..");
-    ESP_LOGI(TAG, "[APP] Free memory: %d bytes", esp_get_free_heap_size());
+    //ESP_LOGI(TAG, "[APP] Free memory: %d bytes", esp_get_free_heap_size());
     ESP_LOGI(TAG, "[APP] IDF version: %s", esp_get_idf_version());
 #endif
     ESP_ERROR_CHECK(nvs_flash_init());
