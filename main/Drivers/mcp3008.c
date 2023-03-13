@@ -17,10 +17,29 @@
 #include "driver/spi_master.h"
 
 #include "mcp3008.h"
+#include "main.h"
 
 /* Global Variables */
-spi_device_handle_t spi3;
 static const char *TAG = "SMR Sensors";
+spi_device_handle_t spi3;
+
+void mcpInit(void)
+{
+    esp_err_t ret;
+
+    spi_device_interface_config_t devcfg = 
+    {
+        .clock_speed_hz = SPI_MASTER_FREQ_20M , // config lectura de ADC si >20MHz
+        .mode = 0,
+        .spics_io_num = SPI_CS_PIN,
+        .queue_size = 1,
+        .flags = SPI_DEVICE_NO_DUMMY ,
+    };
+
+    ret = spi_bus_add_device(SPI3_HOST, &devcfg, &spi3);
+    assert(ret == ESP_OK);
+   
+}
 
 
 /**

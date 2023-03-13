@@ -15,6 +15,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 #include "esp_wifi.h"
 #include "esp_system.h"
@@ -64,6 +65,15 @@
 #define BATT_STATE_LED  GPIO_NUM_4
 #define RTC_RST_PIN     GPIO_NUM_12
 
+/* Macros para FFT */
+#define ADC_SAMPLES 1024
+#define FFT_SAMPLES 512
+#define RESOLUTION_F 37  // Hz
+#define SWEEP_FFT 5
+#define DB
+//#define ADC_TEST
+#define SNR -15
+
 
 /* Function prototypes */
 esp_err_t adc_init(void);
@@ -81,7 +91,6 @@ void publish_measures(void);
 
 /* Global Variables */
 esp_mqtt_client_handle_t client;
-spi_device_handle_t spi3;
 esp_adc_cal_characteristics_t *adc_chars;
 static const adc_channel_t  vBatLvl = ADC_CHANNEL_6;
 
@@ -89,10 +98,6 @@ float Ta;
 float To;
 float Td;
 float accel[3];
-float frecBPFI;
-float frecBPFO;
-float frecBSF;
-float frecFTF;
 int batteryLevel;
 float tempThreshold;
 float axialThreshold;
@@ -100,13 +105,28 @@ float radialThreshold;
 bool axialAlarm = false;
 bool radialAlarm = false;
 bool alarmTemp = false;
+bool run = false;
+
+char aux[200];
+
+/* Variables para FFT*/
+float mag[FFT_SAMPLES];
+float freq[FFT_SAMPLES];
+float fft_input[ADC_SAMPLES];
+float fft_output[ADC_SAMPLES];
+float frecBPFI;
+float frecBPFO;
+float frecBSF;
+float frecFTF;
 bool presBPFO = false;
 bool presBPFI = false;
 bool presFTF = false;
 bool presBSF = false;
-bool run = false;
-
-char aux[200];
+float magBPFO=0.0;
+float magBPFI=0.0;
+float magFTF=0.0;
+float magBSF=0.0;
+float error_rel=0.0; // no used
 
 #ifdef ROD_ANT
 static const char *TAG = "SMR ROD ANTERIOR";
@@ -115,8 +135,6 @@ static const char *TAG = "SMR ROD ANTERIOR";
 #ifdef ROD_POS
 static const char *TAG = "SMR ROD POSTERIOR";
 #endif
-
-
 
 
 /**
@@ -222,18 +240,7 @@ static esp_err_t spi_init(void)
     ret = spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO);
     assert(ret == ESP_OK);
 
-    spi_device_interface_config_t devcfg = 
-    {
-        .clock_speed_hz = SPI_MASTER_FREQ_11M ,
-        .mode = 0,
-        .spics_io_num = SPI_CS_PIN,
-        .queue_size = 1,
-        .flags = SPI_DEVICE_NO_DUMMY ,
-    };
-
-    ESP_ERROR_CHECK(spi_bus_add_device(SPI3_HOST, &devcfg, &spi3));
-
-    ret = spi_bus_add_device(SPI3_HOST, &devcfg, &spi3);
+    mcpInit();
 	
     return ret;
 }
@@ -456,6 +463,77 @@ static esp_err_t mqtt_init(void)
 }
 
 /**
+ * @brief This function is used to cacule FFT
+ * 
+ * @return none
+ */
+void rfft_calcule(void)
+{
+    float mag_aux, freq_aux;
+
+    fft_config_t *fft_analysis = fft_init(ADC_SAMPLES, FFT_REAL, FFT_FORWARD, fft_input, fft_output);
+
+    /* Lectura de ADC*/
+    for (int k=0 ; k<ADC_SAMPLES ; k++){  
+      fft_analysis->input[k] = (5.0/1024.0)*((float)MCP3008_ReadChannel(0));
+    }
+
+    /* Calculo de magnitud */
+    fft_execute(fft_analysis); 
+
+    for (int k=0; k<FFT_SAMPLES; k++){
+
+        freq_aux= k*1.0*RESOLUTION_F;
+        mag_aux= sqrt(pow(fft_analysis->output[2*k],2) + pow(fft_analysis->output[2*k+1],2));
+        //mag_aux= cal_amp(mag_aux*0.01, freq_aux); //no necesario
+
+        /* pasaje a DBV */
+        mag_aux=20*log10(mag_aux*(0.707)); 
+
+        mag[k]=mag[k]+mag_aux; // Solo la magnitud se promedia
+        freq[k]=freq_aux;
+    }
+
+    fft_destroy(fft_analysis);
+
+    for(int k=0; k<FFT_SAMPLES; k++){
+		mag[k]=mag[k]/SWEEP_FFT;
+	}
+
+}
+
+/**
+ * @brief This function is used to search for amplitudes at desired frequencies
+ * @param freq_s  frequency in Hertz
+ * @param tol tolerance in relative porcentage
+ * @param error_rel error relativo aprox - no used
+ * @return amplitude
+ */
+float searchFreq(float freq_s, int tol, float *error_rel)
+{
+    /* variables para asignar rango */
+    float freq_max=freq_s * (1.0+tol/100.0);
+    float freq_min=freq_s * (1.0-tol/100.0);
+    float freq_found=-0.0;
+    /* mag max en el rango pedido */
+    float mag_found=SNR; 
+
+    for(int i=0; i<FFT_SAMPLES; i++){
+        if(freq[i]<freq_max && freq[i]>freq_min){
+            if(mag_found < mag[i]){
+                mag_found=mag[i];
+                freq_found=freq[i];
+            } 
+        }
+    }
+
+    *error_rel=fabs((freq_s-freq_found))/freq_s;
+
+    return mag_found;
+}
+
+
+/**
  * @brief This function is used to perform sensor's measurement
  * 
  */
@@ -531,6 +609,27 @@ void measure_sensors(void)
      * Disparar alarmas segun lo recibido por mqtt
      * #ifdef para posibles prints de info
     */
+    bzero(mag, sizeof(mag));
+    bzero(freq, sizeof(freq));
+#ifdef DEBUG
+    printf("\n-----------------INICIA MUESTREO FFT-----------------------\n");
+    printf("\nMagnitud \t Frecuencia\n");
+#endif
+    rfft_calcule(); // solo un barrido, se puede agregar la opcion de promedio
+#ifdef DEBUG
+    for(int k=0; k<FFT_SAMPLES; k++){
+        printf("%.5f \t   %.2f\n", mag[k], freq[k]);
+    }
+#endif
+    vTaskDelay(pdMS_TO_TICKS(100));
+
+    // OBS: Quitar error_rel
+    magBPFI=searchFreq(frecBPFI, 5, &error_rel);
+    magBPFO=searchFreq(frecBPFO, 5, &error_rel);
+    magFTF=searchFreq(frecFTF, 5, &error_rel);
+    magBSF=searchFreq(frecBSF, 5, &error_rel);
+
+
 }
 
 /**

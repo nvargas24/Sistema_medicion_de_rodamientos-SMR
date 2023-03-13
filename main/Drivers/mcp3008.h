@@ -21,3 +21,4 @@
 
 
 int16_t MCP3008_ReadChannel(int16_t channel);
+void mcpInit(void);
