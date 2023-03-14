@@ -233,7 +233,7 @@ static esp_err_t spi_init(void)
         .quadhd_io_num = -1,
     };
 
-    ret = spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO);
+    ret = spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_DISABLED);
     assert(ret == ESP_OK);
 
 	
