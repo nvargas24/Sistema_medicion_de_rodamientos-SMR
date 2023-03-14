@@ -70,10 +70,7 @@
 #define FFT_SAMPLES 512
 #define RESOLUTION_F 37  // Hz
 #define SWEEP_FFT 5
-#define DB
-//#define ADC_TEST
 #define SNR -15
-
 
 /* Function prototypes */
 esp_err_t adc_init(void);
@@ -88,6 +85,10 @@ void init_peripherals(void);
 void adc_read(int *batteryLevel);
 void publish_measures(void);
 
+
+float searchFreq(float freq_s, int tol);
+void rfft_calcule(void);
+void rfft_prom_calcule(void);
 
 /* Global Variables */
 esp_mqtt_client_handle_t client;
@@ -156,22 +157,19 @@ void app_main(void)
         {
             //measure_sensors();
             //publish_measures(); 
-            gpio_set_level(WIFI_STATE_LED, HIGH);
-            /*
-            vTaskDelay(pdMS_TO_TICKS(SLEEP));
-            ESP_LOGI(TAG, "BFPI: %f", frecBPFI);
-            vTaskDelay(pdMS_TO_TICKS(3));
-            */
-            ESP_LOGI(TAG, "BFP0: %f", frecBPFO);
+            //gpio_set_level(WIFI_STATE_LED, HIGH);
+            //gpio_set_level(WIFI_STATE_LED, LOW);
+            //vTaskDelay(pdMS_TO_TICKS(SLEEP));
             
-            /*
-            vTaskDelay(pdMS_TO_TICKS(3));
-            ESP_LOGI(TAG, "BSF: %f", frecBSF);
-            vTaskDelay(pdMS_TO_TICKS(3));
-            ESP_LOGI(TAG, "FTF: %f", frecFTF);
-            */
-            gpio_set_level(WIFI_STATE_LED, LOW);
-            vTaskDelay(pdMS_TO_TICKS(SLEEP));
+            bzero(mag, sizeof(mag));
+            bzero(freq, sizeof(freq));
+#ifdef DEBUG
+            printf("\n-----------------INICIA MUESTREO FFT-----------------------\n");
+            printf("\nMagnitud \t Frecuencia\n");
+#endif
+            rfft_prom_calcule();
+            vTaskDelay(pdMS_TO_TICKS(100));
+
         }
     }
     
@@ -227,19 +225,17 @@ static esp_err_t spi_init(void)
     gpio_set_direction(SPI_CS_PIN, GPIO_MODE_OUTPUT);
     gpio_set_level(SPI_CS_PIN, 1);
 
-    spi_bus_config_t buscfg =
-    {
-    .miso_io_num = SPI_MISO_PIN,
-    .mosi_io_num = SPI_MOSI_PIN,
-    .sclk_io_num = SPI_CLK_PIN,
-    .quadwp_io_num = -1,
-    .quadhd_io_num = -1,
+    spi_bus_config_t buscfg ={
+        .miso_io_num = SPI_MISO_PIN,
+        .mosi_io_num = SPI_MOSI_PIN,
+        .sclk_io_num = SPI_CLK_PIN,
+        .quadwp_io_num = -1,
+        .quadhd_io_num = -1,
     };
 
     ret = spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO);
     assert(ret == ESP_OK);
 
-    mcpInit();
 	
     return ret;
 }
@@ -453,7 +449,9 @@ static esp_err_t mqtt_init(void)
     
     esp_mqtt_client_config_t mqtt_cfg = 
     {
-        .broker.address.hostname = "192.168.1.109",
+        .broker.address.hostname = "192.168.43.228",
+        .broker.address.transport = MQTT_TRANSPORT_OVER_TCP,
+        .broker.address.port = 1883,
     };
     client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
@@ -484,7 +482,6 @@ void rfft_calcule(void)
 
         freq_aux= k*1.0*RESOLUTION_F;
         mag_aux= sqrt(pow(fft_analysis->output[2*k],2) + pow(fft_analysis->output[2*k+1],2));
-        //mag_aux= cal_amp(mag_aux*0.01, freq_aux); //no necesario
 
         /* pasaje a DBV */
         mag_aux=20*log10(mag_aux*(0.707)); 
@@ -496,9 +493,24 @@ void rfft_calcule(void)
     fft_destroy(fft_analysis);
 
     for(int k=0; k<FFT_SAMPLES; k++){
-		mag[k]=mag[k]/SWEEP_FFT;
-	}
+        mag[k]=mag[k]/SWEEP_FFT;
+    }
 
+}
+
+void rfft_prom_calcule(void)
+{
+    /* Cantidad de barridos para promediar*/
+    for(int i=0; i<SWEEP_FFT; i++){
+        rfft_calcule();
+        vTaskDelay(pdMS_TO_TICKS(100));
+        /* Delay por barrido */
+    }
+#ifdef DEBUG
+    for(int k=0; k<FFT_SAMPLES; k++){
+        printf("%.5f \t   %.2f\n", mag[k], freq[k]);
+    }
+#endif
 }
 
 /**
@@ -611,19 +623,49 @@ void measure_sensors(void)
     printf("\n-----------------INICIA MUESTREO FFT-----------------------\n");
     printf("\nMagnitud \t Frecuencia\n");
 #endif
-    rfft_calcule(); // solo un barrido, se puede agregar la opcion de promedio
-#ifdef DEBUG
-    for(int k=0; k<FFT_SAMPLES; k++){
-        printf("%.5f \t   %.2f\n", mag[k], freq[k]);
-    }
-#endif
+
+    rfft_prom_calcule();
     vTaskDelay(pdMS_TO_TICKS(100));
 
-    magBPFI=searchFreq(frecBPFI, 5);
     magBPFO=searchFreq(frecBPFO, 5);
+    magBPFI=searchFreq(frecBPFI, 5);
     magFTF=searchFreq(frecFTF, 5);
     magBSF=searchFreq(frecBSF, 5);
 
+#ifdef DEBUG
+    ESP_LOGI(TAG, "Magnitud de BPFO (%.2fHz)= %.2fdBV", frecBPFO, magBPFO);
+    ESP_LOGI(TAG, "Magnitud de BPFI (%.2fHz) = %.2fdBV", frecBPFI, magBPFI);
+    ESP_LOGI(TAG, "Magnitud de FTF (%.2fHz) = %.2fdBV", frecFTF, magFTF);
+    ESP_LOGI(TAG, "Magnitud de BSF (%.2fHz) = %.2fdBV", frecBSF, magBSF);
+#endif 
+
+    if(magBPFO > SNR){
+        presBPFO = true;
+    }
+    else{
+        presBPFO = false;
+    }
+
+    if(magBPFI > SNR){
+        presBPFI = true;
+    }
+    else{
+        presBPFI = false;
+    }
+
+    if(magFTF > SNR){
+        presFTF = true;
+    }
+    else{
+        presFTF = false;
+    }
+
+    if(magBSF > SNR){
+        presBSF = true;
+    }
+    else{
+        presBSF = false;
+    }
 
 }
 
@@ -742,7 +784,10 @@ void init_peripherals(void)
     ESP_LOGI(TAG, "ADC initialized successfully");
 #endif
     ESP_ERROR_CHECK(mqtt_init());
-
+#ifdef DEBUG
+    ESP_LOGI(TAG, "MCP3008 initialized successfully");
+#endif
+    mcpInit();
 
     //ESP_ERROR_CHECK(MPU6050_Init(MPU6050_DataRate_100Hz, MPU6050_Accelerometer_2G, MPU6050_GyroSens_250));
 }

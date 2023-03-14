@@ -64,19 +64,19 @@ int16_t MCP3008_ReadChannel(int16_t channel)
     memset(wbuf, 0, sizeof(rbuf));
     memset(rbuf, 0, sizeof(rbuf));
     memset(&SPITransaction, 0, sizeof(spi_transaction_t));
-
+    
     wbuf[0] = 0x60 | channel << 2;
 
-    SPITransaction.length = 3*8;
+    SPITransaction.length = 24;
     SPITransaction.tx_buffer = wbuf;
     SPITransaction.rx_buffer = rbuf;
 
-    ret = spi_device_transmit( spi3, &SPITransaction );
+    ret = spi_device_transmit( spi3, &SPITransaction );    //ACA ESTA EL PROBLEMA
 	assert(ret==ESP_OK); 
 
     //val = (rbuf[1]<<2) + (rbuf[2]>>6); 
     val = (rbuf[1]<<3) + (rbuf[2]>>5); // Solo para frecuencia de CLK=20MHz.
+    
     return val;
-
 }
 
