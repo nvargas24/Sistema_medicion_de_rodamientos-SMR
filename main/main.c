@@ -155,21 +155,11 @@ void app_main(void)
 #endif
         if(run)
         {
-            //measure_sensors();
-            //publish_measures(); 
-            //gpio_set_level(WIFI_STATE_LED, HIGH);
-            //gpio_set_level(WIFI_STATE_LED, LOW);
-            //vTaskDelay(pdMS_TO_TICKS(SLEEP));
-            
-            bzero(mag, sizeof(mag));
-            bzero(freq, sizeof(freq));
-#ifdef DEBUG
-            printf("\n-----------------INICIA MUESTREO FFT-----------------------\n");
-            printf("\nMagnitud \t Frecuencia\n");
-#endif
-            rfft_prom_calcule();
-            vTaskDelay(pdMS_TO_TICKS(100));
-
+            measure_sensors();
+            publish_measures(); 
+            gpio_set_level(WIFI_STATE_LED, HIGH);
+            gpio_set_level(WIFI_STATE_LED, LOW);
+            vTaskDelay(pdMS_TO_TICKS(SLEEP));
         }
     }
     
@@ -414,8 +404,6 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
             frecFTF = strtof(aux, NULL);
         }
 #endif
-        
-//#endif
         break;
     case MQTT_EVENT_ERROR:
 #ifdef DEBUG
@@ -483,9 +471,6 @@ void rfft_calcule(void)
         freq_aux= k*1.0*RESOLUTION_F;
         mag_aux= sqrt(pow(fft_analysis->output[2*k],2) + pow(fft_analysis->output[2*k+1],2));
 
-        /* pasaje a DBV */
-        mag_aux=20*log10(mag_aux*(0.707)); 
-
         mag[k]=mag[k]+mag_aux; // Solo la magnitud se promedia
         freq[k]=freq_aux;
     }
@@ -500,12 +485,17 @@ void rfft_calcule(void)
 
 void rfft_prom_calcule(void)
 {
-    /* Cantidad de barridos para promediar*/
+    /* Cantidad de barridos para promediar */
     for(int i=0; i<SWEEP_FFT; i++){
         rfft_calcule();
-        vTaskDelay(pdMS_TO_TICKS(100));
-        /* Delay por barrido */
+        vTaskDelay(pdMS_TO_TICKS(100)); /* Delay por barrido */
     }
+    
+    /* pasaje a DBV */
+    for(int k=0; k<FFT_SAMPLES; k++){
+        mag[k]=20*log10(mag[k]*(0.707));
+    }
+
 #ifdef DEBUG
     for(int k=0; k<FFT_SAMPLES; k++){
         printf("%.5f \t   %.2f\n", mag[k], freq[k]);
