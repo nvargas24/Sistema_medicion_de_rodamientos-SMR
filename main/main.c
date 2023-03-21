@@ -84,6 +84,7 @@ esp_err_t configure_gpios(void);
 void init_peripherals(void);
 void adc_read(int *batteryLevel);
 void publish_measures(void);
+void smr_blink_led(t_smr_blink_led period) ;
 
 
 float searchFreq(float freq_s, int tol);
@@ -791,3 +792,38 @@ void adc_read(int *batteryLevel)
 {
     //*(batteryLevel) = esp_adc_cal_raw_to_voltage(adc1_get_raw(vBatLvl), &adc_chars);
 }
+
+void smr_blink_led(t_smr_blink_led period) 
+{
+    uint32_t speed;
+    switch (period) 
+    {
+        case SMR_BLINK_LED_ULTRA_SLOW:
+            speed = 2000;
+            break;
+
+        case SMR_BLINK_LED_SLOW:
+            speed = 1000;
+            break;
+
+        case SMR_BLINK_LED_NORMAL:
+            speed = 500;
+            break;
+
+        case SMR_BLINK_LED_FAST:
+            speed = 250;
+            break;
+        case SMR_BLINK_LED_ULTRA_FAST:
+            speed = 125;
+            break;
+    }
+}
+
+void smr_led_indicate(t_smr_blink_led type, unsigned int rep) 
+{
+    unsigned int i;
+
+    for (i = 0; i < rep; i++) 
+        smr_blink_led(type);
+}
+

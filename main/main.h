@@ -16,4 +16,15 @@
 #define SPI_MISO_PIN    19
 #define SPI_MOSI_PIN    23
 
+
+typedef enum smr_blink_led
+{
+  SMR_BLINK_LED_ULTRA_FAST=0,
+  SMR_BLINK_LED_FAST,
+  SMR_BLINK_LED_SLOW,
+  SMR_BLINK_LED_NORMAL,
+  SMR_BLINK_LED_ULTRA_SLOW
+} t_smr_blink_led;
+
+
 #endif
