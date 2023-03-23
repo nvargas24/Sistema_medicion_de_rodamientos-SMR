@@ -48,6 +48,8 @@
 #include "Drivers/mpu6050.h"
 #include "Drivers/mcp3008.h"
 #include "Drivers/fft.h"
+#include "ds3231.h"
+
 
 /* Defines */
 #define DEBUG
