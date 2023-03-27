@@ -48,7 +48,7 @@
 #include "Drivers/mpu6050.h"
 #include "Drivers/mcp3008.h"
 #include "Drivers/fft.h"
-#include "ds3231.h"
+#include "Drivers/ds3231.h"
 
 
 /* Defines */
@@ -148,6 +148,10 @@ void app_main(void)
 {
 
     init_peripherals();
+    uint8_t time[7];
+#ifdef DEBUG
+    //ESP_ERROR_CHECK(ds3231_set_time(&time));
+#endif
 
     while(1)
     {
@@ -156,6 +160,9 @@ void app_main(void)
         vTaskDelay(pdMS_TO_TICKS(SLEEP*3));
         gpio_set_level(WIFI_STATE_LED, 0);
 #endif
+        ESP_ERROR_CHECK(ds3231_get_time(&time));
+        printf("Time: %02x:%02x:%02x %02x/%02x/%02x\n", time[2], time[1], time[0], time[4], time[5], time[6]);
+
         if(run)
         {
             measure_sensors();
@@ -165,7 +172,7 @@ void app_main(void)
             vTaskDelay(pdMS_TO_TICKS(SLEEP));
         }
     }
-    
+
 }
 
 /**
@@ -517,7 +524,6 @@ float searchFreq(float freq_s, int tol)
     /* variables para asignar rango */
     float freq_max=freq_s * (1.0+tol/100.0);
     float freq_min=freq_s * (1.0-tol/100.0);
-    float freq_found=0.0;
     /* mag max en el rango pedido */
     float mag_found=SNR; 
 
@@ -525,7 +531,6 @@ float searchFreq(float freq_s, int tol)
         if(freq[i]<freq_max && freq[i]>freq_min){
             if(mag_found < mag[i]){
                 mag_found=mag[i];
-                freq_found=freq[i];
             } 
         }
     }
