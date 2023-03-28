@@ -148,10 +148,10 @@ void app_main(void)
 {
 
     init_peripherals();
+    /**** set time ****/
     uint8_t time[7];
-#ifdef DEBUG
     //ESP_ERROR_CHECK(ds3231_set_time(&time));
-#endif
+
 
     while(1)
     {
@@ -161,8 +161,9 @@ void app_main(void)
         gpio_set_level(WIFI_STATE_LED, 0);
 #endif
         ESP_ERROR_CHECK(ds3231_get_time(&time));
-        printf("Time: %02x:%02x:%02x %02x/%02x/%02x\n", time[2], time[1], time[0], time[4], time[5], time[6]);
-
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%02x:%02x:%02x %02x/%02x/%02x\n", time[2], time[1], time[0], time[4], time[5], time[6]);
+#endif
         if(run)
         {
             measure_sensors();
@@ -447,7 +448,7 @@ static esp_err_t mqtt_init(void)
     
     esp_mqtt_client_config_t mqtt_cfg = 
     {
-        .broker.address.hostname = "192.168.43.228",
+        .broker.address.hostname = "192.168.1.109",
         .broker.address.transport = MQTT_TRANSPORT_OVER_TCP,
         .broker.address.port = 1883,
     };
@@ -505,12 +506,12 @@ void rfft_prom_calcule(void)
     for(int k=0; k<FFT_SAMPLES; k++){
         mag[k]=20*log10(mag[k]*(0.707));
     }
-
+/*
 #ifdef DEBUG
     for(int k=0; k<FFT_SAMPLES; k++){
         printf("%.5f \t   %.2f\n", mag[k], freq[k]);
     }
-#endif
+#endif*/
 }
 
 /**
@@ -617,11 +618,12 @@ void measure_sensors(void)
     */
     bzero(mag, sizeof(mag));
     bzero(freq, sizeof(freq));
+/*
 #ifdef DEBUG
     printf("\n-----------------INICIA MUESTREO FFT-----------------------\n");
     printf("\nMagnitud \t Frecuencia\n");
 #endif
-
+*/
     rfft_prom_calcule();
     vTaskDelay(pdMS_TO_TICKS(100));
 
@@ -787,7 +789,7 @@ void init_peripherals(void)
 #endif
     mcpInit();
 
-    //ESP_ERROR_CHECK(MPU6050_Init(MPU6050_DataRate_100Hz, MPU6050_Accelerometer_2G, MPU6050_GyroSens_250));
+    ESP_ERROR_CHECK(MPU6050_Init(MPU6050_DataRate_100Hz, MPU6050_Accelerometer_2G, MPU6050_GyroSens_250));
 }
 
 /**
