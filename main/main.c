@@ -48,6 +48,7 @@
 #include "Drivers/mpu6050.h"
 #include "Drivers/mcp3008.h"
 #include "Drivers/fft.h"
+#include "Drivers/ds3231.h"
 
 /* Function prototypes */
 esp_err_t adc_init(void);
@@ -86,6 +87,7 @@ bool axialAlarm = false;
 bool radialAlarm = false;
 bool alarmTemp = false;
 bool run = false;
+char timeStamp[40];
 
 char aux[200];
 
@@ -578,6 +580,26 @@ smr_errorCtrl_t measure_sensors(void)
     char errorString[100];
     uint8_t i;
 
+    /* Timestamp generation */
+    ret = DS3231_GetTimeStamp(timeStamp);
+    if (ret != ESP_OK)
+    {
+        errorCtrl = SMR_DS3231_GETTING_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_DS3231_GETTING_ERROR - 7));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
     /* Acceleration measures */
     /* Considero ahora que la aceleración en X es la axial y radial en Y */
     ret = MPU6050_ReadAccelerometer(accel, 3);
@@ -593,28 +615,28 @@ smr_errorCtrl_t measure_sensors(void)
             vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
         }
 
-#ifdef DEBUG
-        ESP_LOGI(TAG, "%s", errorString);
-#endif
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
 
         return errorCtrl;
     }
 
     else
     {
-#ifdef DEBUG
-        ESP_LOGI(TAG, "AccelX = %f", accel[0]);
-        ESP_LOGI(TAG, "AccelY = %f", accel[1]);
-        ESP_LOGI(TAG, "AccelZ = %f", accel[2]);
-#endif
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "AccelX = %f", accel[0]);
+            ESP_LOGI(TAG, "AccelY = %f", accel[1]);
+            ESP_LOGI(TAG, "AccelZ = %f", accel[2]);
+        #endif
 
         /* Hay alarma axial? */
         if (accel[0] >= axialThreshold)
         {
             axialAlarm = true;
-#ifdef DEBUG
-            ESP_LOGI(TAG, "AXIAL ALARM");
-#endif
+            #ifdef DEBUG
+                ESP_LOGI(TAG, "AXIAL ALARM");
+            #endif
         }
         else
         {
@@ -625,9 +647,9 @@ smr_errorCtrl_t measure_sensors(void)
         if (accel[1] >= radialThreshold)
         {
             radialAlarm = true;
-#ifdef DEBUG
-            ESP_LOGI(TAG, "RADIAL ALARM");
-#endif
+            #ifdef DEBUG
+                ESP_LOGI(TAG, "RADIAL ALARM");
+            #endif
         }
         else
         {
@@ -649,9 +671,9 @@ smr_errorCtrl_t measure_sensors(void)
             vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
         }
 
-#ifdef DEBUG
-        ESP_LOGI(TAG, "%s", errorString);
-#endif
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
 
         return errorCtrl;
     }
@@ -672,28 +694,29 @@ smr_errorCtrl_t measure_sensors(void)
                 vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
             }
 
-#ifdef DEBUG
-            ESP_LOGI(TAG, "%s", errorString);
-#endif
+            #ifdef DEBUG
+                ESP_LOGI(TAG, "%s", errorString);
+            #endif
 
             return errorCtrl;
         }
 
         else
         {
-#ifdef DEBUG
-            ESP_LOGI(TAG, "Temperatura Ambiente = %f", Ta);
-            ESP_LOGI(TAG, "Temperatura Objetivo = %f", To);
-#endif
+            #ifdef DEBUG
+                ESP_LOGI(TAG, "Temperatura Ambiente = %f", Ta);
+                ESP_LOGI(TAG, "Temperatura Objetivo = %f", To);
+            #endif
+
             Td = To - Ta;
 
             /* Hay alarma de temperatura? */
             if (Td > tempThreshold)
             {
                 alarmTemp = true;
-#ifdef DEBUG
-                ESP_LOGI(TAG, "ALARMA TEMPERATURA. Td = %f", Td);
-#endif
+                #ifdef DEBUG
+                    ESP_LOGI(TAG, "ALARMA TEMPERATURA. Td = %f", Td);
+                #endif
             }
             else
             {
@@ -717,9 +740,9 @@ smr_errorCtrl_t measure_sensors(void)
             vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
         }
 
-#ifdef DEBUG
-        ESP_LOGI(TAG, "%s", errorString);
-#endif
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
 
         return errorCtrl;
     }
@@ -727,9 +750,9 @@ smr_errorCtrl_t measure_sensors(void)
     {
         if (batteryLevel <= SMR_LOW_BATTERY_MV)
         {
-#ifdef DEBUG
-            ESP_LOGI(TAG, "BATERIA BAJA ---- %d", batteryLevel);
-#endif
+            #ifdef DEBUG
+                ESP_LOGI(TAG, "BATERIA BAJA ---- %d", batteryLevel);
+            #endif
         }
     }
 
@@ -749,12 +772,12 @@ smr_errorCtrl_t measure_sensors(void)
     magFTF = searchFreq(frecFTF, 5);
     magBSF = searchFreq(frecBSF, 5);
 
-#ifdef DEBUG
-    ESP_LOGI(TAG, "Magnitud de BPFO (%.2fHz)= %.2fdBV", frecBPFO, magBPFO);
-    ESP_LOGI(TAG, "Magnitud de BPFI (%.2fHz) = %.2fdBV", frecBPFI, magBPFI);
-    ESP_LOGI(TAG, "Magnitud de FTF (%.2fHz) = %.2fdBV", frecFTF, magFTF);
-    ESP_LOGI(TAG, "Magnitud de BSF (%.2fHz) = %.2fdBV", frecBSF, magBSF);
-#endif
+    #ifdef DEBUG
+        ESP_LOGI(TAG, "Magnitud de BPFO (%.2fHz)= %.2fdBV", frecBPFO, magBPFO);
+        ESP_LOGI(TAG, "Magnitud de BPFI (%.2fHz) = %.2fdBV", frecBPFI, magBPFI);
+        ESP_LOGI(TAG, "Magnitud de FTF (%.2fHz) = %.2fdBV", frecFTF, magFTF);
+        ESP_LOGI(TAG, "Magnitud de BSF (%.2fHz) = %.2fdBV", frecBSF, magBSF);
+    #endif
 
     if (magBPFO > SNR)
     {
@@ -806,6 +829,26 @@ smr_errorCtrl_t publish_measures(void)
     int ret;
     int i;
     smr_errorCtrl_t errorCtrl;
+
+    ret = esp_mqtt_client_publish(client, "timeStamp", timeStamp, strlen(timeStamp), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
 
 #ifdef ROD_ANT
     sprintf(payload, "%d", batteryLevel);
@@ -1585,7 +1628,7 @@ smr_errorCtrl_t init_peripherals(void)
 #endif
     }
 
-    res = mcpInit();
+    res = MCP3008_Init();
     if (res != ESP_OK)
     {
         errorCtrl = SMR_MCP3008_INIT_ERROR;
@@ -1793,6 +1836,14 @@ void smr_error_reg(smr_errorCtrl_t errorCtrl, char *retString)
 
     case SMR_MQTT_PUBLISH_ERROR:
         sprintf(errorString, "SMR_MQTT_PUBLISH_ERROR");
+        break;
+
+    case SMR_DS3231_GETTING_ERROR:
+        sprintf(errorString, "SMR_DS3231_GETTING_ERROR");
+        break;
+
+    case SMR_DS3231_SETING_ERROR:
+        sprintf(errorString, "SMR_DS3231_SETING_ERROR");
         break;
     }
     sprintf(retString, "An error of the type %s has occurred", errorString);

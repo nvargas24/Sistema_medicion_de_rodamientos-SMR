@@ -23,7 +23,7 @@
 static const char *TAG = "SMR Sensors";
 spi_device_handle_t spi3;
 
-esp_err_t mcpInit(void)
+esp_err_t MCP3008_Init(void)
 {
     esp_err_t ret;
 

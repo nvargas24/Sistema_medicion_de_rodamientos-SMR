@@ -44,8 +44,9 @@
 #define I2C_MASTER_NUM      I2C_NUM_0
 
 /* Public Function prototypes */
-esp_err_t ds3231_set_time();
-esp_err_t ds3231_get_time(uint8_t *time);
+esp_err_t DS3231_SetTime();
+esp_err_t DS3231_GetTime(uint8_t *time);
+esp_err_t DS3231_GetTimeStamp(char *timestamp);
 
 /* Private Function Prototypes */
 

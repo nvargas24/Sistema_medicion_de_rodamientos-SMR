@@ -30,8 +30,9 @@ static uint8_t dec2bcd(uint8_t val)
     return ((val/10) << 4) + (val %10);
 }
 
-esp_err_t ds3231_set_time()
+esp_err_t DS3231_SetTime()
 {
+    esp_err_t ret;
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     uint8_t buffer[8];
     buffer[0] = 0x00; // Starting register address for time
@@ -49,14 +50,9 @@ esp_err_t ds3231_set_time()
     i2c_master_write_byte(cmd, DS3231_ADDR << 1 | I2C_MASTER_WRITE, true);
     i2c_master_write(cmd, buffer, sizeof(buffer), true);
     i2c_master_stop(cmd);
-    esp_err_t ret = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
+
+    ret = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
-    if (ret != ESP_OK) {
-        printf("Error setting time\n");
-    }
-    else {
-        printf("Time set successfully\n");
-    }
 
     int seconds = bcd2dec(buffer[1]);
     int minutes = bcd2dec(buffer[2]);
@@ -66,19 +62,13 @@ esp_err_t ds3231_set_time()
     int month = bcd2dec(buffer[6]);
     int year = bcd2dec(buffer[7]) + 2000;
 
-    
-    printf("----------------------------------\n");
-    printf("FECHA Y HORA POR DEFECTO\n");
-    printf("Horario: %02d:%02d:%02d\n", hours, minutes, seconds);
-    printf("Fecha: %02d/%02d/%02d\n", date, month, year);
-    printf("----------------------------------\n");
-
-    return ESP_OK;
+    return ret;
 }
 
-esp_err_t ds3231_get_time(uint8_t *time)
+esp_err_t DS3231_GetTime(uint8_t *time)
 {
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+    esp_err_t ret;
 
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, DS3231_ADDR << 1 | I2C_MASTER_WRITE, true);
@@ -87,13 +77,26 @@ esp_err_t ds3231_get_time(uint8_t *time)
     i2c_master_write_byte(cmd, DS3231_ADDR << 1 | I2C_MASTER_READ, true);
     i2c_master_read(cmd, time, 7, I2C_MASTER_LAST_NACK);
     i2c_master_stop(cmd);
-    esp_err_t ret = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
+    
+    ret = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
-    if (ret != ESP_OK) {
-        printf("Error reading from DS3231: %d\n", ret);
+    
+    return ret;
+}
+
+esp_err_t DS3231_GetTimeStamp(char *timestamp)
+{
+    esp_err_t ret;
+    uint8_t time[7];
+
+    ret = DS3231_GetTime(&time);
+    if(ret == ESP_OK)
+    {
+        /* AA_MM_DD_HH_MM_SS */
+        sprintf(timestamp, "%d%d%d_%d%d%d", time[7], time[6], time[5], time[3], time[2],time[1]);
     }
 
-    return ESP_OK;
+    return ret;
 }
 
 

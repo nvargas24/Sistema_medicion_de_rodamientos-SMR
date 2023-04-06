@@ -21,4 +21,4 @@
 
 
 int16_t MCP3008_ReadChannel(int16_t channel);
-esp_err_t mcpInit(void);
+esp_err_t MCP3008_Init(void);
