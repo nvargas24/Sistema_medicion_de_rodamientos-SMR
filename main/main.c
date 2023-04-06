@@ -4,9 +4,9 @@
  * @brief This file contains the main script for the SMR sensor
  * @version 0.1
  * @date 2022-10-13
- * 
+ *
  * @copyright  SMR Copyright (c) 2022
- * 
+ *
  */
 
 /* Includes */
@@ -48,31 +48,6 @@
 #include "Drivers/mpu6050.h"
 #include "Drivers/mcp3008.h"
 #include "Drivers/fft.h"
-#include "Drivers/ds3231.h"
-
-
-/* Defines */
-#define DEBUG
-#define ROD_ANT
-//#define ROD_POS
-
-#define HIGH 1
-#define LOW  0
-
-#define LOW_BATTERY 3000
-#define SLEEP       6000
-
-
-#define WIFI_STATE_LED  GPIO_NUM_2
-#define BATT_STATE_LED  GPIO_NUM_4
-#define RTC_RST_PIN     GPIO_NUM_12
-
-/* Macros para FFT */
-#define ADC_SAMPLES 1024
-#define FFT_SAMPLES 512
-#define RESOLUTION_F 37  // Hz
-#define SWEEP_FFT 5
-#define SNR -15
 
 /* Function prototypes */
 esp_err_t adc_init(void);
@@ -81,13 +56,14 @@ static esp_err_t spi_init(void);
 static void log_error_if_nonzero(const char *message, int error_code);
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data);
 static esp_err_t mqtt_init(void);
-void measure_sensors(void);
+smr_errorCtrl_t measure_sensors(void);
 esp_err_t configure_gpios(void);
-void init_peripherals(void);
-void adc_read(int *batteryLevel);
-void publish_measures(void);
-void smr_blink_led(t_smr_blink_led period) ;
-
+smr_errorCtrl_t init_peripherals(void);
+smr_errorCtrl_t adc_read(uint32_t *batteryLevel);
+smr_errorCtrl_t publish_measures(void);
+void smr_blink_led(smr_blink_led_t period);
+void smr_led_indicate(smr_blink_led_t type, unsigned int rep);
+void smr_error_reg(smr_errorCtrl_t errorCtrl, char *retString);
 
 float searchFreq(float freq_s, int tol);
 void rfft_calcule(void);
@@ -96,13 +72,13 @@ void rfft_prom_calcule(void);
 /* Global Variables */
 esp_mqtt_client_handle_t client;
 esp_adc_cal_characteristics_t *adc_chars;
-static const adc_channel_t  vBatLvl = ADC_CHANNEL_6;
+static const adc_channel_t vBatLvl = ADC_CHANNEL_6;
 
 float Ta;
 float To;
 float Td;
 float accel[3];
-int batteryLevel;
+uint32_t batteryLevel;
 float tempThreshold;
 float axialThreshold;
 float radialThreshold;
@@ -126,10 +102,10 @@ bool presBPFO = false;
 bool presBPFI = false;
 bool presFTF = false;
 bool presBSF = false;
-float magBPFO=0.0;
-float magBPFI=0.0;
-float magFTF=0.0;
-float magBSF=0.0;
+float magBPFO = 0.0;
+float magBPFI = 0.0;
+float magFTF = 0.0;
+float magBSF = 0.0;
 
 #ifdef ROD_ANT
 static const char *TAG = "SMR ROD ANTERIOR";
@@ -139,74 +115,116 @@ static const char *TAG = "SMR ROD ANTERIOR";
 static const char *TAG = "SMR ROD POSTERIOR";
 #endif
 
-
 /**
  * @brief Main function
- * 
+ *
  */
 void app_main(void)
 {
+    smr_errorCtrl_t errorCtrl;
+    char errorString[100];
+    int i;
 
-    init_peripherals();
-    /**** set time ****/
-    uint8_t time[7];
-    //ESP_ERROR_CHECK(ds3231_set_time(&time));
-
-
-    while(1)
+    errorCtrl = init_peripherals();
+    if (errorCtrl != SMR_OK)
     {
-#ifdef DEBUG
-        ESP_LOGI(TAG, "run = %d", run);
-        vTaskDelay(pdMS_TO_TICKS(SLEEP*3));
-        gpio_set_level(WIFI_STATE_LED, 0);
-#endif
-        ESP_ERROR_CHECK(ds3231_get_time(&time));
-#ifdef DEBUG
-        ESP_LOGI(TAG, "%02x:%02x:%02x %02x/%02x/%02x\n", time[2], time[1], time[0], time[4], time[5], time[6]);
-#endif
-        if(run)
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
         {
-            measure_sensors();
-            publish_measures(); 
-            gpio_set_level(WIFI_STATE_LED, HIGH);
-            gpio_set_level(WIFI_STATE_LED, LOW);
-            vTaskDelay(pdMS_TO_TICKS(SLEEP));
+            smr_led_indicate(SMR_BLINK_LED_ULTRA_SLOW, errorCtrl);
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
         }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        /* Nuestra rutina de manejo de errores de momento es indicarlo mediante LED y reiniciar */
+        esp_restart();
     }
 
+    while (1)
+    {
+        if (run)
+        {
+            errorCtrl = measure_sensors();
+            if (errorCtrl != SMR_OK)
+            {
+                smr_error_reg(errorCtrl, errorString);
+
+                for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+                {
+                    smr_led_indicate(SMR_BLINK_LED_ULTRA_SLOW, errorCtrl);
+                    /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+                    vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+                }
+
+                #ifdef DEBUG
+                    ESP_LOGI(TAG, "%s", errorString);
+                #endif
+
+                /* Nuestra rutina de manejo de errores de momento es indicarlo mediante LED y reiniciar */
+                esp_restart();
+            }
+
+            errorCtrl = publish_measures();
+            if (errorCtrl != SMR_OK)
+            {
+                smr_error_reg(errorCtrl, errorString);
+
+                for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+                {
+                    smr_led_indicate(SMR_BLINK_LED_ULTRA_SLOW, errorCtrl);
+                    /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+                    vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+                }
+
+                #ifdef DEBUG
+                    ESP_LOGI(TAG, "%s", errorString);
+                #endif
+
+                /* Nuestra rutina de manejo de errores de momento es indicarlo mediante LED y reiniciar */
+                esp_restart();
+            }
+            /* Blocking delay */
+            vTaskDelay(SMR_TIME_BTW_MEASURES / portTICK_PERIOD_MS);
+        }
+    }
 }
 
 /**
  * @brief This function is used to configurate de ADC Channel 1
- * 
+ *
  */
 esp_err_t adc_init(void)
 {
-    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, 0, &adc_chars);
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, 0, adc_chars);
     ESP_ERROR_CHECK(adc1_config_width(ADC_WIDTH_BIT_12));
     ESP_ERROR_CHECK(adc1_config_channel_atten(vBatLvl, ADC_ATTEN_DB_0));
-    
+
     return ESP_OK;
 }
 
 /**
  * @brief This function is used to initialize the I2C driver
- * 
+ *
  * @return esp_err_t  0 -> No error
  */
 esp_err_t i2c_master_init(void)
 {
     int i2c_master_port = I2C_MASTER_NUM;
 
-    i2c_config_t conf = 
-    {
-        .mode = I2C_MODE_MASTER,
-        .sda_io_num = I2C_MASTER_SDA_IO,
-        .scl_io_num = I2C_MASTER_SCL_IO,
-        .sda_pullup_en = GPIO_PULLUP_ENABLE,
-        .scl_pullup_en = GPIO_PULLUP_ENABLE,
-        .master.clk_speed = I2C_MASTER_FREQ_HZ,
-    };
+    i2c_config_t conf =
+        {
+            .mode = I2C_MODE_MASTER,
+            .sda_io_num = I2C_MASTER_SDA_IO,
+            .scl_io_num = I2C_MASTER_SCL_IO,
+            .sda_pullup_en = GPIO_PULLUP_ENABLE,
+            .scl_pullup_en = GPIO_PULLUP_ENABLE,
+            .master.clk_speed = I2C_MASTER_FREQ_HZ,
+        };
 
     i2c_param_config(i2c_master_port, &conf);
 
@@ -215,7 +233,7 @@ esp_err_t i2c_master_init(void)
 
 /**
  * @brief SPI initialization
- * 
+ *
  * @return esp_err_t    0 -> No error
  */
 static esp_err_t spi_init(void)
@@ -226,7 +244,7 @@ static esp_err_t spi_init(void)
     gpio_set_direction(SPI_CS_PIN, GPIO_MODE_OUTPUT);
     gpio_set_level(SPI_CS_PIN, 1);
 
-    spi_bus_config_t buscfg ={
+    spi_bus_config_t buscfg = {
         .miso_io_num = SPI_MISO_PIN,
         .mosi_io_num = SPI_MOSI_PIN,
         .sclk_io_num = SPI_CLK_PIN,
@@ -237,19 +255,19 @@ static esp_err_t spi_init(void)
     ret = spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_DISABLED);
     assert(ret == ESP_OK);
 
-	
     return ret;
 }
 
 /**
  * @brief This function is used to log all the errors
- * 
+ *
  * @param message  String that indicates the error
- * @param error_code Error code number 
+ * @param error_code Error code number
  */
 static void log_error_if_nonzero(const char *message, int error_code)
 {
-    if (error_code != 0) {
+    if (error_code != 0)
+    {
         ESP_LOGE(TAG, "Last error %s: 0x%x", message, error_code);
     }
 }
@@ -266,11 +284,12 @@ static void log_error_if_nonzero(const char *message, int error_code)
  */
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
-    //ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
+    // ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
     esp_mqtt_event_handle_t event = event_data;
     esp_mqtt_client_handle_t client = event->client;
     int msg_id;
-    switch ((esp_mqtt_event_id_t)event_id) {
+    switch ((esp_mqtt_event_id_t)event_id)
+    {
     case MQTT_EVENT_CONNECTED:
 #ifdef DEBUG
         ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
@@ -309,7 +328,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         ESP_LOGI(TAG, "Sent subscribe successful, msg_id=%d", msg_id);
 #endif
 
-        //msg_id = esp_mqtt_client_unsubscribe(client, "/topic/qos1");
+        // msg_id = esp_mqtt_client_unsubscribe(client, "/topic/qos1");
 #ifdef DEBUG
         ESP_LOGI(TAG, "Sent unsubscribe successful, msg_id=%d", msg_id);
 #endif
@@ -346,47 +365,47 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         printf("DATA=%.*s\r\n", event->data_len, event->data);
 #endif
         sprintf(aux, "%.*s", event->topic_len, event->topic);
-        if(strcmp(aux, "smr/start") == 0)
+        if (strcmp(aux, "smr/start") == 0)
         {
             run = true;
         }
-        else if(strcmp(aux, "smr/stop") == 0)
+        else if (strcmp(aux, "smr/stop") == 0)
         {
             run = false;
         }
-        else if(strcmp(aux, "tempThreshold") == 0)
+        else if (strcmp(aux, "tempThreshold") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             tempThreshold = strtof(aux, NULL);
         }
-        else if(strcmp(aux, "axialThreshold") == 0)
+        else if (strcmp(aux, "axialThreshold") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             axialThreshold = strtof(aux, NULL);
         }
-        else if(strcmp(aux, "radialThreshold") == 0)
+        else if (strcmp(aux, "radialThreshold") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             radialThreshold = strtof(aux, NULL);
         }
 
 #ifdef ROD_ANT
-        else if(strcmp(aux, "rodAnt/frecBPFI") == 0)
+        else if (strcmp(aux, "rodAnt/frecBPFI") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             frecBPFI = strtof(aux, NULL);
         }
-        else if(strcmp(aux, "rodAnt/frecBPFO") == 0)
+        else if (strcmp(aux, "rodAnt/frecBPFO") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             frecBPFO = strtof(aux, NULL);
         }
-        else if(strcmp(aux, "rodAnt/frecBSF") == 0)
+        else if (strcmp(aux, "rodAnt/frecBSF") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             frecBSF = strtof(aux, NULL);
         }
-        else if(strcmp(aux, "rodAnt/frecFTF") == 0)
+        else if (strcmp(aux, "rodAnt/frecFTF") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             frecFTF = strtof(aux, NULL);
@@ -394,22 +413,22 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 #endif
 
 #ifdef ROD_POS
-        else if(strcmp(aux, "rodPos/frecBPFI") == 0)
+        else if (strcmp(aux, "rodPos/frecBPFI") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             frecBPFI = strtof(aux, NULL);
         }
-        else if(strcmp(aux, "rodPos/frecBPFO") == 0)
+        else if (strcmp(aux, "rodPos/frecBPFO") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             frecBPFO = strtof(aux, NULL);
         }
-        else if(strcmp(aux, "rodPos/frecBSF") == 0)
+        else if (strcmp(aux, "rodPos/frecBSF") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             frecBSF = strtof(aux, NULL);
         }
-        else if(strcmp(aux, "rodPos/frecFTF") == 0)
+        else if (strcmp(aux, "rodPos/frecFTF") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             frecFTF = strtof(aux, NULL);
@@ -420,10 +439,11 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 #ifdef DEBUG
         ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
 #endif
-        if (event->error_handle->error_type == MQTT_ERROR_TYPE_TCP_TRANSPORT) {
+        if (event->error_handle->error_type == MQTT_ERROR_TYPE_TCP_TRANSPORT)
+        {
             log_error_if_nonzero("reported from esp-tls", event->error_handle->esp_tls_last_esp_err);
             log_error_if_nonzero("reported from tls stack", event->error_handle->esp_tls_stack_err);
-            log_error_if_nonzero("captured as transport's socket errno",  event->error_handle->esp_transport_sock_errno);
+            log_error_if_nonzero("captured as transport's socket errno", event->error_handle->esp_transport_sock_errno);
 #ifdef DEBUG
             ESP_LOGI(TAG, "Last errno string (%s)", strerror(event->error_handle->esp_transport_sock_errno));
 #endif
@@ -439,19 +459,17 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
 /**
  * @brief This function is used to initializate the MQTT client
- * 
+ *
  * @return esp_err_t  0 -> No error
  */
 static esp_err_t mqtt_init(void)
 {
     esp_err_t ret;
-    
-    esp_mqtt_client_config_t mqtt_cfg = 
-    {
-        .broker.address.hostname = "192.168.1.109",
-        .broker.address.transport = MQTT_TRANSPORT_OVER_TCP,
-        .broker.address.port = 1883,
-    };
+
+    esp_mqtt_client_config_t mqtt_cfg =
+        {
+            .uri = CONFIG_BROKER_URL,
+        };
     client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
     ret = esp_mqtt_client_start(client);
@@ -460,7 +478,7 @@ static esp_err_t mqtt_init(void)
 
 /**
  * @brief This function is used to cacule FFT
- * 
+ *
  * @return none
  */
 void rfft_calcule(void)
@@ -470,48 +488,53 @@ void rfft_calcule(void)
     fft_config_t *fft_analysis = fft_init(ADC_SAMPLES, FFT_REAL, FFT_FORWARD, fft_input, fft_output);
 
     /* Lectura de ADC*/
-    for (int k=0 ; k<ADC_SAMPLES ; k++){  
-      fft_analysis->input[k] = (5.0/1024.0)*((float)MCP3008_ReadChannel(0));
+    for (int k = 0; k < ADC_SAMPLES; k++)
+    {
+        fft_analysis->input[k] = (5.0 / 1024.0) * ((float)MCP3008_ReadChannel(0));
     }
 
     /* Calculo de magnitud */
-    fft_execute(fft_analysis); 
+    fft_execute(fft_analysis);
 
-    for (int k=0; k<FFT_SAMPLES; k++){
+    for (int k = 0; k < FFT_SAMPLES; k++)
+    {
 
-        freq_aux= k*1.0*RESOLUTION_F;
-        mag_aux= sqrt(pow(fft_analysis->output[2*k],2) + pow(fft_analysis->output[2*k+1],2));
+        freq_aux = k * 1.0 * RESOLUTION_F;
+        mag_aux = sqrt(pow(fft_analysis->output[2 * k], 2) + pow(fft_analysis->output[2 * k + 1], 2));
 
-        mag[k]=mag[k]+mag_aux; // Solo la magnitud se promedia
-        freq[k]=freq_aux;
+        mag[k] = mag[k] + mag_aux; // Solo la magnitud se promedia
+        freq[k] = freq_aux;
     }
 
     fft_destroy(fft_analysis);
 
-    for(int k=0; k<FFT_SAMPLES; k++){
-        mag[k]=mag[k]/SWEEP_FFT;
+    for (int k = 0; k < FFT_SAMPLES; k++)
+    {
+        mag[k] = mag[k] / SWEEP_FFT;
     }
-
 }
 
 void rfft_prom_calcule(void)
 {
     /* Cantidad de barridos para promediar */
-    for(int i=0; i<SWEEP_FFT; i++){
+    for (int i = 0; i < SWEEP_FFT; i++)
+    {
         rfft_calcule();
         vTaskDelay(pdMS_TO_TICKS(100)); /* Delay por barrido */
     }
-    
+
     /* pasaje a DBV */
-    for(int k=0; k<FFT_SAMPLES; k++){
-        mag[k]=20*log10(mag[k]*(0.707));
+    for (int k = 0; k < FFT_SAMPLES; k++)
+    {
+        mag[k] = 20 * log10(mag[k] * (0.707));
     }
-/*
+
 #ifdef DEBUG
-    for(int k=0; k<FFT_SAMPLES; k++){
+    for (int k = 0; k < FFT_SAMPLES; k++)
+    {
         printf("%.5f \t   %.2f\n", mag[k], freq[k]);
     }
-#endif*/
+#endif
 }
 
 /**
@@ -523,228 +546,793 @@ void rfft_prom_calcule(void)
 float searchFreq(float freq_s, int tol)
 {
     /* variables para asignar rango */
-    float freq_max=freq_s * (1.0+tol/100.0);
-    float freq_min=freq_s * (1.0-tol/100.0);
+    float freq_max = freq_s * (1.0 + tol / 100.0);
+    float freq_min = freq_s * (1.0 - tol / 100.0);
+    float freq_found = 0.0;
     /* mag max en el rango pedido */
-    float mag_found=SNR; 
+    float mag_found = SNR;
 
-    for(int i=0; i<FFT_SAMPLES; i++){
-        if(freq[i]<freq_max && freq[i]>freq_min){
-            if(mag_found < mag[i]){
-                mag_found=mag[i];
-            } 
+    for (int i = 0; i < FFT_SAMPLES; i++)
+    {
+        if (freq[i] < freq_max && freq[i] > freq_min)
+        {
+            if (mag_found < mag[i])
+            {
+                mag_found = mag[i];
+                freq_found = freq[i];
+            }
         }
     }
 
     return mag_found;
 }
 
-
 /**
  * @brief This function is used to perform sensor's measurement
- * 
+ *
  */
-void measure_sensors(void)
+smr_errorCtrl_t measure_sensors(void)
 {
+    smr_errorCtrl_t errorCtrl;
+    esp_err_t ret;
+    char errorString[100];
+    uint8_t i;
+
     /* Acceleration measures */
     /* Considero ahora que la aceleración en X es la axial y radial en Y */
-    ESP_ERROR_CHECK(MPU6050_ReadAccelerometer(accel, 3));
-#ifdef DEBUG
-    ESP_LOGI(TAG, "AccelX = %f", accel[0]);
-    ESP_LOGI(TAG, "AccelY = %f", accel[1]);
-    ESP_LOGI(TAG, "AccelZ = %f", accel[2]);
-#endif
-    if(accel[0] >= axialThreshold)
+    ret = MPU6050_ReadAccelerometer(accel, 3);
+    if (ret != ESP_OK)
     {
-        axialAlarm = true;
+        errorCtrl = SMR_MPU6050_READ_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_MPU6050_READ_ERROR - 7));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
 #ifdef DEBUG
-        ESP_LOGI(TAG, "AXIAL ALARM");
+        ESP_LOGI(TAG, "%s", errorString);
 #endif
+
+        return errorCtrl;
     }
+
     else
     {
-        axialAlarm = false;
-    }
-    if(accel[1] >= radialThreshold)
-    {
-        radialAlarm = true;
 #ifdef DEBUG
-        ESP_LOGI(TAG, "RADIAL ALARM");
+        ESP_LOGI(TAG, "AccelX = %f", accel[0]);
+        ESP_LOGI(TAG, "AccelY = %f", accel[1]);
+        ESP_LOGI(TAG, "AccelZ = %f", accel[2]);
 #endif
-    }
-    else
-    {
-        radialAlarm = false;
+
+        /* Hay alarma axial? */
+        if (accel[0] >= axialThreshold)
+        {
+            axialAlarm = true;
+#ifdef DEBUG
+            ESP_LOGI(TAG, "AXIAL ALARM");
+#endif
+        }
+        else
+        {
+            axialAlarm = false;
+        }
+
+        /* Hay alarma radial? */
+        if (accel[1] >= radialThreshold)
+        {
+            radialAlarm = true;
+#ifdef DEBUG
+            ESP_LOGI(TAG, "RADIAL ALARM");
+#endif
+        }
+        else
+        {
+            radialAlarm = false;
+        }
     }
 
     /* Temperature measures */
-    ESP_ERROR_CHECK(MLX90614_GetTa(&Ta));
-    ESP_ERROR_CHECK(MLX90614_GetTo(&To));
-#ifdef DEBUG
-    ESP_LOGI(TAG, "Temperatura Ambiente = %f", Ta);
-    ESP_LOGI(TAG, "Temperatura Objetivo = %f", To);
-#endif 
-    Td = To - Ta;
-    if(Td > tempThreshold)
+    ret = MLX90614_GetTa(&Ta);
+    if (ret != ESP_OK)
     {
-        alarmTemp = true;
+        errorCtrl = SMR_MLX3096_READ_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_MLX3096_READ_ERROR - 7));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
 #ifdef DEBUG
-        ESP_LOGI(TAG, "ALARMA TEMPERATURA. Td = %f", Td);
+        ESP_LOGI(TAG, "%s", errorString);
 #endif
+
+        return errorCtrl;
     }
+
     else
     {
-        alarmTemp = false;
+        ret = MLX90614_GetTo(&To);
+
+        if (ret != ESP_OK)
+        {
+            errorCtrl = SMR_MLX3096_READ_ERROR;
+            smr_error_reg(errorCtrl, errorString);
+
+            for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+            {
+                smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_MLX3096_READ_ERROR - 7));
+                /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+                vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+            }
+
+#ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+            return errorCtrl;
+        }
+
+        else
+        {
+#ifdef DEBUG
+            ESP_LOGI(TAG, "Temperatura Ambiente = %f", Ta);
+            ESP_LOGI(TAG, "Temperatura Objetivo = %f", To);
+#endif
+            Td = To - Ta;
+
+            /* Hay alarma de temperatura? */
+            if (Td > tempThreshold)
+            {
+                alarmTemp = true;
+#ifdef DEBUG
+                ESP_LOGI(TAG, "ALARMA TEMPERATURA. Td = %f", Td);
+#endif
+            }
+            else
+            {
+                alarmTemp = false;
+            }
+        }
     }
 
     /* Battery level measurement */
-    adc_read(&batteryLevel);
-    if(batteryLevel <= LOW_BATTERY)
+    errorCtrl = adc_read(&batteryLevel);
+
+    if (errorCtrl != SMR_OK)
     {
-        gpio_set_level(BATT_STATE_LED, HIGH);
+        errorCtrl = SMR_ADC_READ_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_ADC_READ_ERROR - 7));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
 #ifdef DEBUG
-        ESP_LOGI(TAG, "BATERIA BAJA ---- %d", batteryLevel);
+        ESP_LOGI(TAG, "%s", errorString);
 #endif
+
+        return errorCtrl;
     }
     else
     {
-        gpio_set_level(BATT_STATE_LED, LOW);
+        if (batteryLevel <= SMR_LOW_BATTERY_MV)
+        {
+#ifdef DEBUG
+            ESP_LOGI(TAG, "BATERIA BAJA ---- %d", batteryLevel);
+#endif
+        }
     }
 
     /* FFT measures */
-    /* Ver lógica de mediciones y como comparar los resultados contra una base de ruido 
+    /* Ver lógica de mediciones y como comparar los resultados contra una base de ruido
      * Disparar alarmas segun lo recibido por mqtt
      * #ifdef para posibles prints de info
-    */
+     */
     bzero(mag, sizeof(mag));
     bzero(freq, sizeof(freq));
-/*
-#ifdef DEBUG
-    printf("\n-----------------INICIA MUESTREO FFT-----------------------\n");
-    printf("\nMagnitud \t Frecuencia\n");
-#endif
-*/
+
     rfft_prom_calcule();
     vTaskDelay(pdMS_TO_TICKS(100));
 
-    magBPFO=searchFreq(frecBPFO, 5);
-    magBPFI=searchFreq(frecBPFI, 5);
-    magFTF=searchFreq(frecFTF, 5);
-    magBSF=searchFreq(frecBSF, 5);
+    magBPFO = searchFreq(frecBPFO, 5);
+    magBPFI = searchFreq(frecBPFI, 5);
+    magFTF = searchFreq(frecFTF, 5);
+    magBSF = searchFreq(frecBSF, 5);
 
 #ifdef DEBUG
     ESP_LOGI(TAG, "Magnitud de BPFO (%.2fHz)= %.2fdBV", frecBPFO, magBPFO);
     ESP_LOGI(TAG, "Magnitud de BPFI (%.2fHz) = %.2fdBV", frecBPFI, magBPFI);
     ESP_LOGI(TAG, "Magnitud de FTF (%.2fHz) = %.2fdBV", frecFTF, magFTF);
     ESP_LOGI(TAG, "Magnitud de BSF (%.2fHz) = %.2fdBV", frecBSF, magBSF);
-#endif 
+#endif
 
-    if(magBPFO > SNR){
+    if (magBPFO > SNR)
+    {
         presBPFO = true;
     }
-    else{
+    else
+    {
         presBPFO = false;
     }
 
-    if(magBPFI > SNR){
+    if (magBPFI > SNR)
+    {
         presBPFI = true;
     }
-    else{
+    else
+    {
         presBPFI = false;
     }
 
-    if(magFTF > SNR){
+    if (magFTF > SNR)
+    {
         presFTF = true;
     }
-    else{
+    else
+    {
         presFTF = false;
     }
 
-    if(magBSF > SNR){
+    if (magBSF > SNR)
+    {
         presBSF = true;
     }
-    else{
+    else
+    {
         presBSF = false;
     }
 
+    return SMR_OK;
 }
 
 /**
  * @brief This function is used to publish MQTT messages
- * 
+ *
  */
-void publish_measures(void)
+smr_errorCtrl_t publish_measures(void)
 {
     char payload[100];
+    char errorString[100];
+    int ret;
+    int i;
+    smr_errorCtrl_t errorCtrl;
 
 #ifdef ROD_ANT
     sprintf(payload, "%d", batteryLevel);
-    esp_mqtt_client_publish(client, "rodAnt/bateria", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/bateria", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%f", Ta);
-    esp_mqtt_client_publish(client, "rodAnt/tempAmb", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/tempAmb", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%f", To);
-    esp_mqtt_client_publish(client, "rodAnt/tempObj", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/tempObj", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%f", accel[0]);
-    esp_mqtt_client_publish(client, "rodAnt/acelAxial", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/acelAxial", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%f", accel[1]);
-    esp_mqtt_client_publish(client, "rodAnt/acelRadial", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/acelRadial", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", presBPFO);
-    esp_mqtt_client_publish(client, "rodAnt/presBPFO", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/presBPFO", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", presBPFI);
-    esp_mqtt_client_publish(client, "rodAnt/presBPFI", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/presBPFI", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", presBSF);
-    esp_mqtt_client_publish(client, "rodAnt/presBSF", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/presBSF", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", presFTF);
-    esp_mqtt_client_publish(client, "rodAnt/presFTF", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/presFTF", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", alarmTemp);
-    esp_mqtt_client_publish(client, "rodAnt/alarmTemp", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/alarmTemp", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", axialAlarm);
-    esp_mqtt_client_publish(client, "rodAnt/alarmAcelAxial", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/alarmAcelAxial", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", radialAlarm);
-    esp_mqtt_client_publish(client, "rodAnt/alarmAcelRadial", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodAnt/alarmAcelRadial", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
+    return SMR_OK;
 #endif
 #ifdef ROD_POS
     sprintf(payload, "%d", batteryLevel);
-    esp_mqtt_client_publish(client, "rodPos/bateria", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/bateria", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%f", Ta);
-    esp_mqtt_client_publish(client, "rodPos/tempAmb", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/tempAmb", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%f", To);
-    esp_mqtt_client_publish(client, "rodPos/tempObj", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/tempObj", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%f", accel[0]);
-    esp_mqtt_client_publish(client, "rodPos/acelAxial", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/acelAxial", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%f", accel[1]);
-    esp_mqtt_client_publish(client, "rodPos/acelRadial", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/acelRadial", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", presBPFO);
-    esp_mqtt_client_publish(client, "rodPos/presBPFO", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/presBPFO", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", presBPFI);
-    esp_mqtt_client_publish(client, "rodPos/presBPFI", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/presBPFI", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", presBSF);
-    esp_mqtt_client_publish(client, "rodPos/presBSF", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/presBSF", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", presFTF);
-    esp_mqtt_client_publish(client, "rodPos/presFTF", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/presFTF", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", alarmTemp);
-    esp_mqtt_client_publish(client, "rodPos/alarmTemp", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/alarmTemp", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", axialAlarm);
-    esp_mqtt_client_publish(client, "rodPos/alarmAcelAxial", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/alarmAcelAxial", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", radialAlarm);
-    esp_mqtt_client_publish(client, "rodPos/alarmAcelRadial", payload, strlen(payload), 0, false);
+    ret = esp_mqtt_client_publish(client, "rodPos/alarmAcelRadial", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
+    return SMR_OK;
 #endif
-#ifdef DEBUG 
+#ifdef DEBUG
     ESP_LOGI(TAG, "Publish done!");
 #endif
 }
 
 /**
  * @brief This function is used to configure all the GPIOs
- * 
+ *
  */
 esp_err_t configure_gpios(void)
 {
     int ret;
     gpio_reset_pin(WIFI_STATE_LED);
     ret = gpio_set_direction(WIFI_STATE_LED, GPIO_MODE_OUTPUT);
-    gpio_reset_pin(BATT_STATE_LED);
-    ret =gpio_set_direction(BATT_STATE_LED, GPIO_MODE_OUTPUT);
+    gpio_reset_pin(ERROR_STATE_LED);
+    ret = gpio_set_direction(ERROR_STATE_LED, GPIO_MODE_OUTPUT);
     gpio_reset_pin(RTC_RST_PIN);
     ret = gpio_set_direction(RTC_RST_PIN, GPIO_MODE_OUTPUT);
 
@@ -753,59 +1341,348 @@ esp_err_t configure_gpios(void)
 
 /**
  * @brief This function is used to initialize all the peripherals
- * 
+ *
+ * @return smr_errorCtrl_t 0 -> No error
  */
-void init_peripherals(void)
+smr_errorCtrl_t init_peripherals(void)
 {
-#ifdef DEBUG
-    ESP_LOGI(TAG, "[APP] Startup..");
-    //ESP_LOGI(TAG, "[APP] Free memory: %d bytes", esp_get_free_heap_size());
-    ESP_LOGI(TAG, "[APP] IDF version: %s", esp_get_idf_version());
-#endif
-    ESP_ERROR_CHECK(nvs_flash_init());
-    ESP_ERROR_CHECK(esp_netif_init());
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
-    ESP_ERROR_CHECK(configure_gpios());
-#ifdef DEBUG
-    ESP_LOGI(TAG, "GPIOs initialized successfully");
-#endif
-    ESP_ERROR_CHECK(example_connect());
-    gpio_set_level(WIFI_STATE_LED, HIGH);
-    ESP_ERROR_CHECK(i2c_master_init());
-#ifdef DEBUG
-    ESP_LOGI(TAG, "I2C initialized successfully");
-#endif
-    ESP_ERROR_CHECK(spi_init());
-#ifdef DEBUG
-    ESP_LOGI(TAG, "SPI initialized successfully");
-#endif
-    ESP_ERROR_CHECK(adc_init());
-#ifdef DEBUG
-    ESP_LOGI(TAG, "ADC initialized successfully");
-#endif
-    ESP_ERROR_CHECK(mqtt_init());
-#ifdef DEBUG
-    ESP_LOGI(TAG, "MCP3008 initialized successfully");
-#endif
-    mcpInit();
+    esp_err_t res;
+    smr_errorCtrl_t errorCtrl;
+    uint8_t i;
+    char errorString[100];
 
-    ESP_ERROR_CHECK(MPU6050_Init(MPU6050_DataRate_100Hz, MPU6050_Accelerometer_2G, MPU6050_GyroSens_250));
+#ifdef DEBUG
+    ESP_LOGI(TAG, "Starting....");
+    ESP_LOGI(TAG, "Firmware version: %s", SMR_FIRMWARE_VERSION);
+#endif
+
+    res = configure_gpios();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_GPIO_INIT_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "GPIO init successfully");
+#endif
+    }
+
+    res = nvs_flash_init();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_NVS_FLASH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_NORMAL, SMR_NVS_FLASH_ERROR);
+
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "NVS flash init successfully");
+#endif
+    }
+
+    res = esp_netif_init();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_NETIF_INIT_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_NORMAL, SMR_NETIF_INIT_ERROR);
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "NETIF init successfully");
+#endif
+    }
+
+    res = esp_event_loop_create_default();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_EVENT_LOOP_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_NORMAL, SMR_EVENT_LOOP_ERROR);
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "EVENT LOOP init successfully");
+#endif
+    }
+
+    res = example_connect();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_WIFI_CONN_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_NORMAL, SMR_WIFI_CONN_ERROR);
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+        gpio_set_level(WIFI_STATE_LED, HIGH);
+#ifdef DEBUG
+        ESP_LOGI(TAG, "WIFI successfully connected");
+#endif
+    }
+
+    res = i2c_master_init();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_I2C_INIT_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_NORMAL, SMR_I2C_INIT_ERROR);
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "I2C init successfully");
+#endif
+    }
+
+    res = spi_init();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_SPI_INIT_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_NORMAL, SMR_SPI_INIT_ERROR);
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "SPI init successfully");
+#endif
+    }
+
+    res = adc_init();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_ADC_INIT_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_NORMAL, SMR_ADC_INIT_ERROR);
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "ADC init successfully");
+#endif
+    }
+
+    res = i2c_master_init();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_I2C_INIT_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_NORMAL, SMR_I2C_INIT_ERROR);
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "I2C init successfully");
+#endif
+    }
+
+    res = mcpInit();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_MCP3008_INIT_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_MCP3008_INIT_ERROR - 7));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "MCP3008 init successfully");
+#endif
+    }
+
+    res = MPU6050_Init(MPU6050_DataRate_100Hz, MPU6050_Accelerometer_2G, MPU6050_GyroSens_250);
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_MPU6050_INIT_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_MPU6050_INIT_ERROR - 7));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "MPU6050 init successfully");
+#endif
+    }
+
+    return SMR_OK;
 }
 
 /**
  * @brief This function is used to get an ADC read.
- * 
+ *
  * @param batteryLevel Placeholder for the ADC measure.
+ * @return smr_errorCtrl  0 -> Not error.
  */
-void adc_read(int *batteryLevel)
+smr_errorCtrl_t adc_read(uint32_t *batteryLevel)
 {
-    //*(batteryLevel) = esp_adc_cal_raw_to_voltage(adc1_get_raw(vBatLvl), &adc_chars);
+    uint32_t result;
+    smr_errorCtrl_t errorCtrl;
+    char errorString[100];
+
+    result = esp_adc_cal_raw_to_voltage(adc1_get_raw(vBatLvl), adc_chars);
+
+    if ((result < SMR_LOW_BATTERY_MV) || (result > SMR_HIGH_BATTERY_MV))
+    {
+        errorCtrl = SMR_ADC_READ_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+    }
+
+    else
+    {
+        *(batteryLevel) = result;
+
+        errorCtrl = SMR_OK;
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "ADC Reading sucessfully");
+#endif
+    }
+
+    return errorCtrl;
 }
 
-void smr_blink_led(t_smr_blink_led period) 
+void smr_blink_led(smr_blink_led_t period)
 {
-    uint32_t speed;
-    switch (period) 
+    uint32_t speed = 0;
+
+    switch (period)
     {
         case SMR_BLINK_LED_ULTRA_SLOW:
             speed = 2000;
@@ -816,7 +1693,7 @@ void smr_blink_led(t_smr_blink_led period)
             break;
 
         case SMR_BLINK_LED_NORMAL:
-            speed = 500;
+            speed = SMR_TIME_BTW_LED_IND;
             break;
 
         case SMR_BLINK_LED_FAST:
@@ -826,13 +1703,97 @@ void smr_blink_led(t_smr_blink_led period)
             speed = 125;
             break;
     }
+
+    gpio_set_level(ERROR_STATE_LED, HIGH);
+    vTaskDelay(speed / portTICK_PERIOD_MS);
+    gpio_set_level(ERROR_STATE_LED, LOW);
 }
 
-void smr_led_indicate(t_smr_blink_led type, unsigned int rep) 
+void smr_led_indicate(smr_blink_led_t type, unsigned int rep)
 {
     unsigned int i;
 
-    for (i = 0; i < rep; i++) 
+    for (i = 0; i < rep; i++)
         smr_blink_led(type);
 }
 
+void smr_error_reg(smr_errorCtrl_t errorCtrl, char *retString)
+{
+    char errorString[40];
+
+    switch (errorCtrl)
+    {
+    case SMR_UNDEFINED_ERROR:
+        sprintf(errorString, "SMR_UNDEFINED_ERROR");
+        break;
+
+    case SMR_OK:
+        sprintf(errorString, "SMR_OK");
+        break;
+
+    case SMR_GPIO_INIT_ERROR:
+        sprintf(errorString, "SMR_GPIO_INIT_ERROR");
+        break;
+
+    case SMR_NVS_FLASH_ERROR:
+        sprintf(errorString, "SMR_NVS_FLASH_ERROR");
+        break;
+
+    case SMR_NETIF_INIT_ERROR:
+        sprintf(errorString, "SMR_NETIF_INIT_ERROR");
+        break;
+
+    case SMR_EVENT_LOOP_ERROR:
+        sprintf(errorString, "SMR_EVENT_LOOP_ERROR");
+        break;
+
+    case SMR_WIFI_CONN_ERROR:
+        sprintf(errorString, "SMR_WIFI_CONN_ERROR");
+        break;
+
+    case SMR_I2C_INIT_ERROR:
+        sprintf(errorString, "SMR_I2C_INIT_ERROR");
+        break;
+
+    case SMR_SPI_INIT_ERROR:
+        sprintf(errorString, "SMR_SPI_INIT_ERROR");
+        break;
+
+    case SMR_ADC_INIT_ERROR:
+        sprintf(errorString, "SMR_ADC_INIT_ERROR");
+        break;
+
+    case SMR_MQTT_CONN_ERROR:
+        sprintf(errorString, "SMR_MQTT_CONN_ERROR");
+        break;
+
+    case SMR_MCP3008_INIT_ERROR:
+        sprintf(errorString, "SMR_MCP3008_INIT_ERROR");
+        break;
+
+    case SMR_MPU6050_INIT_ERROR:
+        sprintf(errorString, "SMR_MPU6050_INIT_ERROR");
+        break;
+
+    case SMR_ADC_READ_ERROR:
+        sprintf(errorString, "SMR_ADC_READ_ERROR");
+        break;
+
+    case SMR_MPU6050_READ_ERROR:
+        sprintf(errorString, "SMR_MPU6050_READ_ERROR");
+        break;
+
+    case SMR_MCP3008_READ_ERROR:
+        sprintf(errorString, "SMR_MCP3008_READ_ERROR");
+        break;
+
+    case SMR_MLX3096_READ_ERROR:
+        sprintf(errorString, "SMR_MLX3096_READ_ERROR");
+        break;
+
+    case SMR_MQTT_PUBLISH_ERROR:
+        sprintf(errorString, "SMR_MQTT_PUBLISH_ERROR");
+        break;
+    }
+    sprintf(retString, "An error of the type %s has occurred", errorString);
+}

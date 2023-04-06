@@ -23,7 +23,7 @@
 static const char *TAG = "SMR Sensors";
 spi_device_handle_t spi3;
 
-void mcpInit(void)
+esp_err_t mcpInit(void)
 {
     esp_err_t ret;
 
@@ -36,9 +36,7 @@ void mcpInit(void)
         .flags = SPI_DEVICE_NO_DUMMY ,
     };
 
-    ret = spi_bus_add_device(SPI3_HOST, &devcfg, &spi3);
-    assert(ret == ESP_OK);
-   
+    return spi_bus_add_device(SPI3_HOST, &devcfg, &spi3);   
 }
 
 
