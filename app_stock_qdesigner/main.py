@@ -7,6 +7,9 @@ from PySide2 import QtCore as core
 
 # ===========================================================
 from app_stock import *
+from consulta import *
+
+
 
 class Opciones():
     def agregar_dat(self,):
@@ -17,6 +20,17 @@ class Opciones():
         print("modificar articulo")
     def consultar_dat(self,):
         print("consultar articulo")
+        window_consulta = ConsultaWindow(self,)        
+        #window_consulta.exec_()
+        window_consulta.setWindowTitle("Consulta")
+        window_consulta.show()
+
+class ConsultaWindow(QWidget):
+    def __init__(self, parent=None):
+        super().__init__()
+        self.ui = Ui_Form()
+        self.ui.setupUi(self,)
+        print("estoy aca")
 
 class MainWindow(QMainWindow, Opciones):
     def __init__(self, parent=None):
