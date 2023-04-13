@@ -20,17 +20,14 @@ class Opciones():
         print("modificar articulo")
     def consultar_dat(self,):
         print("consultar articulo")
-        window_consulta = ConsultaWindow(self,)        
-        #window_consulta.exec_()
-        window_consulta.setWindowTitle("Consulta")
-        window_consulta.show()
+        self.window_consulta.setWindowTitle("Consulta")
+        self.window_consulta.show()
 
 class ConsultaWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self,)
-        print("estoy aca")
 
 class MainWindow(QMainWindow, Opciones):
     def __init__(self, parent=None):
@@ -43,6 +40,14 @@ class MainWindow(QMainWindow, Opciones):
         self.ui.modificar.clicked.connect(self.modificar_dat)
         self.ui.consultar.clicked.connect(self.consultar_dat)
 
+        self.window_consulta = ConsultaWindow() 
+        
+        """ Se debe crear el objeto en la ventana principal, sino da la impresion que se cierra al crearlo en un metodo
+        esto debido a que el boton al hacer click, instaneamente se deselecciona, dando a mal entender que se realizo
+        otro click ocultando la primera. Para evitar depender de los click sea crea el objeto fuera del metodo y con self
+        se lo llama. """
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     QApplication.setStyle("fusion")
@@ -50,8 +55,6 @@ if __name__ == "__main__":
 
     # Los metodos utilizados son los heredados de la clase QMainWindow
     window.setWindowTitle("App Stock")
-    #window.setFixedWidth(750) # Opcional, ya esta definido al ajustar la ventana en el QtDesigner
-    #window.setFixedHeight(400) # Opcional, ya esta definido al ajustar la ventana en el QtDesigner
     window.show()
 
     try:
