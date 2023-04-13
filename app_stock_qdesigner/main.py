@@ -31,12 +31,13 @@ class MainWindow(QMainWindow, Opciones):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    QApplication.setStyle("fusion")
     window = MainWindow() # Creo objeto de la clase MainWindow
 
     # Los metodos utilizados son los heredados de la clase QMainWindow
     window.setWindowTitle("App Stock")
-    window.setFixedWidth(750) # Opcional, ya esta definido al ajustar la ventana en el QtDesigner
-    window.setFixedHeight(400) # Opcional, ya esta definido al ajustar la ventana en el QtDesigner
+    #window.setFixedWidth(750) # Opcional, ya esta definido al ajustar la ventana en el QtDesigner
+    #window.setFixedHeight(400) # Opcional, ya esta definido al ajustar la ventana en el QtDesigner
     window.show()
 
     try:

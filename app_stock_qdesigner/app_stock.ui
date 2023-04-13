@@ -6,21 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>750</width>
-    <height>368</height>
+    <width>628</width>
+    <height>383</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QApplication::setStyle(&quot;fusion&quot;);
+</string>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="menu_opciones">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>30</x>
       <y>90</y>
       <width>161</width>
-      <height>231</height>
+      <height>241</height>
      </rect>
     </property>
     <property name="title">
@@ -30,7 +40,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>20</y>
+       <y>30</y>
        <width>121</width>
        <height>41</height>
       </rect>
@@ -43,7 +53,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>70</y>
+       <y>80</y>
        <width>121</width>
        <height>41</height>
       </rect>
@@ -56,7 +66,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>120</y>
+       <y>130</y>
        <width>121</width>
        <height>41</height>
       </rect>
@@ -69,7 +79,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>170</y>
+       <y>180</y>
        <width>121</width>
        <height>41</height>
       </rect>
@@ -82,7 +92,7 @@
    <widget class="QLabel" name="titulo">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>120</x>
       <y>20</y>
       <width>441</width>
       <height>31</height>
@@ -102,7 +112,7 @@
    <widget class="QLabel" name="subtitulo">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>160</x>
       <y>60</y>
       <width>391</width>
       <height>31</height>
@@ -117,46 +127,15 @@
      <string>Bienvenido, seleccione la opcion a realizar</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="catalogo_list">
+   <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>210</x>
       <y>100</y>
-      <width>511</width>
-      <height>221</height>
+      <width>371</width>
+      <height>231</height>
      </rect>
     </property>
-    <column>
-     <property name="text">
-      <string>ID</string>
-     </property>
-     <property name="font">
-      <font>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Producto</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Cantidad</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Precio</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Descripcion</string>
-     </property>
-    </column>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
