@@ -1,16 +1,8 @@
-import tkinter
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib import style
 import paho.mqtt.client as mqtt
-
-import paho.mqtt.client as mqtt
 import tkinter as tk
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
 
 MUESTRAS_FFT = 512
 
@@ -27,7 +19,7 @@ def init_fft():
 def finish_fft():
     client.publish("smr/stop", 1)
     plt.clf() # Limpiar gráfico anterior
-    print("Finalizo conexion para recibir datos por mqtt")
+    print("Finalizo conexion para recibir datos")
 
 # Función que se llama cuando se recibe un mensaje MQTT
 def on_message(client, userdata, msg):
@@ -67,20 +59,19 @@ canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 # Establecer límites del eje X e Y
 ax.set_xlim(-100, 19000)
 ax.set_ylim(-40, 60)
-#plt.xticks(np.arange(0, 21, step=1))  # Set label locations.
-plt.legend(loc = "upper right")
+
 plt.title("Sweep FFT")
-plt.xlabel("Frecuencia[kHz]")
+plt.xlabel("Frecuencia[Hz]")
 plt.ylabel("Amplitud[dBV]")
 
 #crea botton e ventana principal
-btn_cerrar=tkinter.Button(root, text="Cerrar", command=cerrar)
+btn_cerrar=tk.Button(root, text="Cerrar", command=cerrar)
 btn_finish = tk.Button(root, text="Finalizar conexion", command=finish_fft)
 btn_init = tk.Button(root, text="Iniciar conexion", command=init_fft)
 
-btn_cerrar.pack(side=tkinter.BOTTOM)
-btn_finish.pack(side=tkinter.BOTTOM)
-btn_init.pack(side=tkinter.BOTTOM)
+btn_cerrar.pack(side=tk.BOTTOM)
+btn_finish.pack(side=tk.BOTTOM)
+btn_init.pack(side=tk.BOTTOM)
 
 # Conectar al servidor MQTT y suscribirse al tema "/mytopic"
 client = mqtt.Client()
