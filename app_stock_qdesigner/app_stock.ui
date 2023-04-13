@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>628</width>
-    <height>383</height>
+    <width>591</width>
+    <height>368</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
    <widget class="QGroupBox" name="menu_opciones">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>90</y>
       <width>161</width>
       <height>241</height>
@@ -89,56 +89,71 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="titulo">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>20</y>
-      <width>441</width>
-      <height>31</height>
+      <x>10</x>
+      <y>10</y>
+      <width>551</width>
+      <height>72</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>28</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Electronica del oeste</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="subtitulo">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>60</y>
-      <width>391</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Bienvenido, seleccione la opcion a realizar</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="titulo">
+       <property name="font">
+        <font>
+         <pointsize>28</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Electronica del oeste</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="subtitulo">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="text">
+        <string>Bienvenido, seleccione la opcion a realizar</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>190</x>
       <y>100</y>
       <width>371</width>
       <height>231</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QApplication.setStyle(&quot;Macintosh&quot;)
+</string>
+    </property>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

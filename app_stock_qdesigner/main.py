@@ -10,7 +10,6 @@ from app_stock import *
 from consulta import *
 
 
-
 class Opciones():
     def agregar_dat(self,):
         print("agregar articulo nuevo")
@@ -41,7 +40,7 @@ class MainWindow(QMainWindow, Opciones):
         self.ui.consultar.clicked.connect(self.consultar_dat)
 
         self.window_consulta = ConsultaWindow() 
-        
+
         """ Se debe crear el objeto en la ventana principal, sino da la impresion que se cierra al crearlo en un metodo
         esto debido a que el boton al hacer click, instaneamente se deselecciona, dando a mal entender que se realizo
         otro click ocultando la primera. Para evitar depender de los click sea crea el objeto fuera del metodo y con self

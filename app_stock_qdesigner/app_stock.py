@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(628, 383)
+        MainWindow.resize(591, 368)
         MainWindow.setStyleSheet(u"QApplication::setStyle(\"fusion\");\n"
 "")
         MainWindow.setDocumentMode(False)
@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.menu_opciones = QGroupBox(self.centralwidget)
         self.menu_opciones.setObjectName(u"menu_opciones")
-        self.menu_opciones.setGeometry(QRect(30, 90, 161, 241))
+        self.menu_opciones.setGeometry(QRect(20, 90, 161, 241))
         self.agregar = QPushButton(self.menu_opciones)
         self.agregar.setObjectName(u"agregar")
         self.agregar.setGeometry(QRect(20, 30, 121, 41))
@@ -39,27 +39,40 @@ class Ui_MainWindow(object):
         self.consultar = QPushButton(self.menu_opciones)
         self.consultar.setObjectName(u"consultar")
         self.consultar.setGeometry(QRect(20, 180, 121, 41))
-        self.titulo = QLabel(self.centralwidget)
+        self.widget = QWidget(self.centralwidget)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(10, 10, 551, 72))
+        self.verticalLayout = QVBoxLayout(self.widget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.titulo = QLabel(self.widget)
         self.titulo.setObjectName(u"titulo")
-        self.titulo.setGeometry(QRect(120, 20, 441, 31))
         font = QFont()
         font.setPointSize(28)
         font.setBold(True)
         font.setWeight(75)
         self.titulo.setFont(font)
-        self.subtitulo = QLabel(self.centralwidget)
+        self.titulo.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout.addWidget(self.titulo)
+
+        self.subtitulo = QLabel(self.widget)
         self.subtitulo.setObjectName(u"subtitulo")
-        self.subtitulo.setGeometry(QRect(160, 60, 391, 31))
         font1 = QFont()
         font1.setPointSize(12)
         self.subtitulo.setFont(font1)
+        self.subtitulo.setAcceptDrops(False)
+        self.subtitulo.setLayoutDirection(Qt.LeftToRight)
+        self.subtitulo.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout.addWidget(self.subtitulo)
+
         self.graphicsView = QGraphicsView(self.centralwidget)
         self.graphicsView.setObjectName(u"graphicsView")
-        self.graphicsView.setGeometry(QRect(210, 100, 371, 231))
+        self.graphicsView.setGeometry(QRect(190, 100, 371, 231))
+        self.graphicsView.setStyleSheet(u"QApplication.setStyle(\"Macintosh\")\n"
+"")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QStatusBar(MainWindow)
-        self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
 
