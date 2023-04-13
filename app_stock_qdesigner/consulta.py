@@ -13,15 +13,15 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        if not Form.objectName():
-            Form.setObjectName(u"Form")
-        Form.resize(556, 346)
-        Form.setToolTipDuration(0)
-        Form.setStyleSheet(u"QApplication::setStyle(\"fusion\");\n"
+class Ui_Consulta(object):
+    def setupUi(self, Consulta):
+        if not Consulta.objectName():
+            Consulta.setObjectName(u"Consulta")
+        Consulta.resize(556, 346)
+        Consulta.setToolTipDuration(0)
+        Consulta.setStyleSheet(u"QApplication::setStyle(\"fusion\");\n"
 "")
-        self.catalogo_list = QTableWidget(Form)
+        self.catalogo_list = QTableWidget(Consulta)
         if (self.catalogo_list.columnCount() < 5):
             self.catalogo_list.setColumnCount(5)
         font = QFont()
@@ -40,13 +40,13 @@ class Ui_Form(object):
         self.catalogo_list.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         self.catalogo_list.setObjectName(u"catalogo_list")
         self.catalogo_list.setGeometry(QRect(20, 50, 511, 231))
-        self.agregar = QPushButton(Form)
+        self.agregar = QPushButton(Consulta)
         self.agregar.setObjectName(u"agregar")
         self.agregar.setGeometry(QRect(130, 290, 131, 41))
-        self.agregar_2 = QPushButton(Form)
+        self.agregar_2 = QPushButton(Consulta)
         self.agregar_2.setObjectName(u"agregar_2")
         self.agregar_2.setGeometry(QRect(270, 290, 121, 41))
-        self.widget = QWidget(Form)
+        self.widget = QWidget(Consulta)
         self.widget.setObjectName(u"widget")
         self.widget.setGeometry(QRect(29, 20, 491, 25))
         self.horizontalLayout = QHBoxLayout(self.widget)
@@ -100,33 +100,33 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.agregar_3)
 
 
-        self.retranslateUi(Form)
+        self.retranslateUi(Consulta)
 
-        QMetaObject.connectSlotsByName(Form)
+        QMetaObject.connectSlotsByName(Consulta)
     # setupUi
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
+    def retranslateUi(self, Consulta):
+        Consulta.setWindowTitle(QCoreApplication.translate("Consulta", u"Form", None))
         ___qtablewidgetitem = self.catalogo_list.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("Form", u"ID", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("Consulta", u"ID", None));
         ___qtablewidgetitem1 = self.catalogo_list.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("Form", u"Producto", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("Consulta", u"Producto", None));
         ___qtablewidgetitem2 = self.catalogo_list.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("Form", u"Cantidad", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("Consulta", u"Cantidad", None));
         ___qtablewidgetitem3 = self.catalogo_list.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("Form", u"Precio", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("Consulta", u"Precio", None));
         ___qtablewidgetitem4 = self.catalogo_list.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("Form", u"Descripcion", None));
-        self.agregar.setText(QCoreApplication.translate("Form", u"Ver catatologo completo", None))
-        self.agregar_2.setText(QCoreApplication.translate("Form", u"Volver", None))
-        self.label.setText(QCoreApplication.translate("Form", u"Producto:", None))
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("Consulta", u"Descripcion", None));
+        self.agregar.setText(QCoreApplication.translate("Consulta", u"Ver catatologo completo", None))
+        self.agregar_2.setText(QCoreApplication.translate("Consulta", u"Volver", None))
+        self.label.setText(QCoreApplication.translate("Consulta", u"Producto:", None))
         self.lineEdit.setInputMask("")
         self.lineEdit.setText("")
-        self.lineEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Ingrese nombre de producto", None))
-        self.label_2.setText(QCoreApplication.translate("Form", u"Precio:", None))
+        self.lineEdit.setPlaceholderText(QCoreApplication.translate("Consulta", u"Ingrese nombre de producto", None))
+        self.label_2.setText(QCoreApplication.translate("Consulta", u"Precio:", None))
         self.lineEdit_2.setInputMask("")
         self.lineEdit_2.setText("")
-        self.lineEdit_2.setPlaceholderText(QCoreApplication.translate("Form", u"Ingrese precio en pesos", None))
-        self.agregar_3.setText(QCoreApplication.translate("Form", u"Buscar", None))
+        self.lineEdit_2.setPlaceholderText(QCoreApplication.translate("Consulta", u"Ingrese precio en pesos", None))
+        self.agregar_3.setText(QCoreApplication.translate("Consulta", u"Buscar", None))
     # retranslateUi
 
