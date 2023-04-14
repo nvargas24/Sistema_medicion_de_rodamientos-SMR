@@ -61,26 +61,26 @@
     </property>
    </column>
   </widget>
-  <widget class="QPushButton" name="agregar">
+  <widget class="QPushButton" name="btn_cat_full">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>150</x>
      <y>290</y>
-     <width>131</width>
-     <height>41</height>
+     <width>121</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Ver catatologo completo</string>
+    <string>Catalogo completo</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="agregar_2">
+  <widget class="QPushButton" name="btn_volver">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>280</x>
      <y>290</y>
      <width>121</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -98,7 +98,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="label_nombre">
       <property name="font">
        <font>
         <pointsize>9</pointsize>
@@ -110,7 +110,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="in_nombre">
       <property name="tabletTracking">
        <bool>false</bool>
       </property>
@@ -150,7 +150,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="label_precio">
       <property name="font">
        <font>
         <pointsize>9</pointsize>
@@ -162,7 +162,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="in_precio">
       <property name="tabletTracking">
        <bool>false</bool>
       </property>
@@ -202,7 +202,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="agregar_3">
+     <widget class="QPushButton" name="btn_buscar">
       <property name="text">
        <string>Buscar</string>
       </property>

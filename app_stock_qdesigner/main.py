@@ -5,13 +5,8 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 from PySide2 import QtCore as core
 
-# ===========================================================
 from app_stock import *
-
-from agregar import *
-from eliminar import *
-from modificar import *
-from consulta import *
+from ventanas import *
 
 class Opciones():
     def agregar_dat(self,):
@@ -34,40 +29,16 @@ class Opciones():
         self.window_consulta.setWindowTitle("Consulta")
         self.window_consulta.show()
 
-class WindowAgregar(QDialog):
-    def __init__(self, parent=None):
-        super().__init__()
-        self.ui = Ui_Agregar()
-        self.ui.setupUi(self,)
-
-class WindowEliminar(QDialog):
-    def __init__(self, parent=None):
-        super().__init__()
-        self.ui = Ui_Eliminar()
-        self.ui.setupUi(self,)
-
-class WindowModificar(QDialog):
-    def __init__(self, parent=None):
-        super().__init__()
-        self.ui = Ui_Modificar()
-        self.ui.setupUi(self,)
-
-class WindowConsulta(QWidget):
-    def __init__(self, parent=None):
-        super().__init__()
-        self.ui = Ui_Consulta()
-        self.ui.setupUi(self,)
-
 class MainWindow(QMainWindow, Opciones):
     def __init__(self, parent=None):
         super().__init__() # Acccedo a constructor de la clase QMainWindow
         self.ui = Ui_MainWindow() # Creo objeto de la clase en QT para crear widgets
         self.ui.setupUi(self,) # Se acccede al metodo setupUi que crea widgets
 
-        self.ui.agregar.clicked.connect(self.agregar_dat)
-        self.ui.eliminar.clicked.connect(self.eliminar_dat)
-        self.ui.modificar.clicked.connect(self.modificar_dat)
-        self.ui.consultar.clicked.connect(self.consultar_dat)
+        self.ui.btn_agregar.clicked.connect(self.agregar_dat)
+        self.ui.btn_eliminar.clicked.connect(self.eliminar_dat)
+        self.ui.btn_modificar.clicked.connect(self.modificar_dat)
+        self.ui.btn_consultar.clicked.connect(self.consultar_dat)
 
         self.window_agregar = WindowAgregar()
         self.window_eliminar = WindowEliminar()

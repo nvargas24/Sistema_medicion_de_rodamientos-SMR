@@ -36,7 +36,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QDialogButtonBox" name="buttonBox">
+  <widget class="QDialogButtonBox" name="btns_option">
    <property name="geometry">
     <rect>
      <x>60</x>
@@ -63,7 +63,7 @@
    </property>
    <layout class="QFormLayout" name="formLayout">
     <item row="0" column="0">
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="label_nombre">
       <property name="font">
        <font>
         <pointsize>9</pointsize>
@@ -75,7 +75,7 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="in_nombre">
       <property name="tabletTracking">
        <bool>false</bool>
       </property>
@@ -115,7 +115,7 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="label_cant">
       <property name="font">
        <font>
         <pointsize>9</pointsize>
@@ -127,7 +127,7 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="in_cant">
       <property name="tabletTracking">
        <bool>false</bool>
       </property>
@@ -167,7 +167,7 @@
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QLabel" name="label_3">
+     <widget class="QLabel" name="label_precio">
       <property name="font">
        <font>
         <pointsize>9</pointsize>
@@ -179,7 +179,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEdit_3">
+     <widget class="QLineEdit" name="in_precio">
       <property name="tabletTracking">
        <bool>false</bool>
       </property>
@@ -219,7 +219,7 @@
      </widget>
     </item>
     <item row="3" column="0">
-     <widget class="QLabel" name="label_4">
+     <widget class="QLabel" name="label_descrip">
       <property name="font">
        <font>
         <pointsize>9</pointsize>
@@ -231,7 +231,7 @@
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEdit_4">
+     <widget class="QLineEdit" name="in_descrip">
       <property name="tabletTracking">
        <bool>false</bool>
       </property>

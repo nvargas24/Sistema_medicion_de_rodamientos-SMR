@@ -36,7 +36,7 @@
     <property name="title">
      <string>Opciones</string>
     </property>
-    <widget class="QPushButton" name="agregar">
+    <widget class="QPushButton" name="btn_agregar">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -49,7 +49,7 @@
       <string>Agregar articulo</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="eliminar">
+    <widget class="QPushButton" name="btn_eliminar">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -62,7 +62,7 @@
       <string>Eliminar articulo</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="modificar">
+    <widget class="QPushButton" name="btn_modificar">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -75,7 +75,7 @@
       <string>Modificar articulo</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="consultar">
+    <widget class="QPushButton" name="btn_consultar">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -139,7 +139,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="QGraphicsView" name="graphic">
     <property name="geometry">
      <rect>
       <x>190</x>
