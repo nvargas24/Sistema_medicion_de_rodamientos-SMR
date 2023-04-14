@@ -15,6 +15,18 @@ class WindowAgregar(QDialog):
         super().__init__()
         self.ui = Ui_Agregar()
         self.ui.setupUi(self,)
+        self.ui.btns_option.accepted.connect(self.new_load)
+    
+    def new_load(self,):
+        nombre=str(self.ui.in_nombre.text())
+        cant=int(self.ui.in_cant.text())
+        precio=int(self.ui.in_precio.text())
+        descrip=str(self.ui.in_descrip.text())
+
+        print(nombre)
+        print(cant)
+        print(precio)
+        print(descrip)
 
 class WindowEliminar(QDialog):
     def __init__(self, parent=None):
