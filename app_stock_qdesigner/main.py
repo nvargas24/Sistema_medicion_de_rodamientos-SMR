@@ -44,15 +44,7 @@ class MainWindow(QMainWindow, Opciones):
         self.window_eliminar = WindowEliminar()
         self.window_modificar = WindowModificar()
         self.window_consulta = WindowConsulta() 
-
-        #nombre=self.window_agregar.new_load.nombre
-
-        """ Se debe crear el objeto en la ventana principal, sino da la impresion que se cierra al crearlo en un metodo
-        esto debido a que el boton al hacer click, instaneamente se deselecciona, dando a mal entender que se realizo
-        otro click ocultando la primera. Para evitar depender de los click sea crea el objeto fuera del metodo y con self
-        se lo llama. """
-
-
+        
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     QApplication.setStyle("fusion")
