@@ -3,10 +3,11 @@
 
 
 #define DEBUG
+#define SET_RTC
 #define ROD_ANT
 //#define ROD_POS
 
-#define SMR_FIRMWARE_VERSION    "V1.0_R3.1"
+#define SMR_FIRMWARE_VERSION    "V2.0_R1.1 14/04/23"
 #define SMR_LED_INDICATE_TIMES  3
 #define SMR_TIME_BTW_MEASURES   6000
 #define SMR_TIME_BTW_LED_IND    500
@@ -44,6 +45,8 @@
 /* Battery levels defines */
 #define SMR_LOW_BATTERY_MV  2700
 #define SMR_HIGH_BATTERY_MV 4300
+
+#define STORAGE_NAMESPACE "storage"
 
 typedef enum smr_errorCtrl_e
 {

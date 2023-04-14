@@ -51,20 +51,23 @@
 #include "Drivers/ds3231.h"
 
 /* Function prototypes */
-esp_err_t adc_init(void);
-esp_err_t i2c_master_init(void);
-static esp_err_t spi_init(void);
-static void log_error_if_nonzero(const char *message, int error_code);
-static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data);
-static esp_err_t mqtt_init(void);
-smr_errorCtrl_t measure_sensors(void);
-esp_err_t configure_gpios(void);
-smr_errorCtrl_t init_peripherals(void);
-smr_errorCtrl_t adc_read(uint32_t *batteryLevel);
-smr_errorCtrl_t publish_measures(void);
-void smr_blink_led(smr_blink_led_t period);
-void smr_led_indicate(smr_blink_led_t type, unsigned int rep);
-void smr_error_reg(smr_errorCtrl_t errorCtrl, char *retString);
+static esp_err_t smr_configure_gpios(void);
+static esp_err_t smr_adc_init(void);
+static esp_err_t smr_i2c_master_init(void);
+static esp_err_t smr_spi_init(void);
+static void smr_log_error_if_nonzero(const char *message, int error_code);
+static void smr_mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data);
+static esp_err_t smr_mqtt_init(void);
+static smr_errorCtrl_t smr_init_peripherals(void);
+static smr_errorCtrl_t smr_measure_sensors(void);
+static smr_errorCtrl_t smr_adc_read(uint32_t *batteryLevel);
+static smr_errorCtrl_t smr_publish_measures(void);
+static void smr_blink_led(smr_blink_led_t period);
+static void smr_led_indicate(smr_blink_led_t type, unsigned int rep);
+static void smr_error_reg(smr_errorCtrl_t errorCtrl, char *retString);
+static esp_err_t smr_save_run_time(void);
+static esp_err_t smr_save_last_error(uint8_t lastError);
+static esp_err_t smr_print_nvs_saved(void);
 
 float searchFreq(float freq_s, int tol);
 void rfft_calcule(void);
@@ -127,7 +130,7 @@ void app_main(void)
     char errorString[100];
     int i;
 
-    errorCtrl = init_peripherals();
+    errorCtrl = smr_init_peripherals();
     if (errorCtrl != SMR_OK)
     {
         smr_error_reg(errorCtrl, errorString);
@@ -141,17 +144,53 @@ void app_main(void)
 
         #ifdef DEBUG
             ESP_LOGI(TAG, "%s", errorString);
+            ESP_LOGI(TAG, "Restarting in 3 seconds....");
         #endif
-
+        vTaskDelay(3000 / portTICK_PERIOD_MS);
         /* Nuestra rutina de manejo de errores de momento es indicarlo mediante LED y reiniciar */
+        smr_save_last_error((uint8_t) errorCtrl);
+        smr_save_run_time();
         esp_restart();
+    }
+    else
+    {
+        smr_print_nvs_saved();
+
+        #ifdef SET_RTC
+            uint8_t time[] = {0x00, 0x02, 0x22, 0x07, 0x22, 0x04, 0x23, 0x44}; /* 0 SSMMHH WD DDMMAA */
+            esp_err_t ret;
+
+            ret = DS3231_SetTime(time);
+            if(ret != ESP_OK)
+            {
+                errorCtrl = SMR_DS3231_SETING_ERROR;
+                smr_error_reg(errorCtrl, errorString);
+
+                for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+                {
+                    smr_led_indicate(SMR_BLINK_LED_ULTRA_SLOW, errorCtrl);
+                    /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+                    vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+                }
+
+                #ifdef DEBUG
+                    ESP_LOGI(TAG, "%s", errorString);
+                    ESP_LOGI(TAG, "Restarting in 3 seconds....");
+                #endif
+                vTaskDelay(3000 / portTICK_PERIOD_MS);
+                /* Nuestra rutina de manejo de errores de momento es indicarlo mediante LED y reiniciar */
+                smr_save_last_error((uint8_t) errorCtrl);
+                smr_save_run_time();
+                esp_restart();
+            }
+        #endif
     }
 
     while (1)
     {
         if (run)
         {
-            errorCtrl = measure_sensors();
+            errorCtrl = smr_measure_sensors();
             if (errorCtrl != SMR_OK)
             {
                 smr_error_reg(errorCtrl, errorString);
@@ -165,13 +204,17 @@ void app_main(void)
 
                 #ifdef DEBUG
                     ESP_LOGI(TAG, "%s", errorString);
+                    ESP_LOGI(TAG, "Restarting in 3 seconds....");
                 #endif
+                vTaskDelay(3000 / portTICK_PERIOD_MS);
 
                 /* Nuestra rutina de manejo de errores de momento es indicarlo mediante LED y reiniciar */
+                smr_save_last_error((uint8_t) errorCtrl);
+                smr_save_run_time();
                 esp_restart();
             }
 
-            errorCtrl = publish_measures();
+            errorCtrl = smr_publish_measures();
             if (errorCtrl != SMR_OK)
             {
                 smr_error_reg(errorCtrl, errorString);
@@ -185,10 +228,13 @@ void app_main(void)
 
                 #ifdef DEBUG
                     ESP_LOGI(TAG, "%s", errorString);
+                    ESP_LOGI(TAG, "Restarting in 3 seconds....");
                 #endif
+                vTaskDelay(3000 / portTICK_PERIOD_MS);
 
                 /* Nuestra rutina de manejo de errores de momento es indicarlo mediante LED y reiniciar */
-                esp_restart();
+                smr_save_last_error((uint8_t) errorCtrl);
+                smr_save_run_time();
             }
             /* Blocking delay */
             vTaskDelay(SMR_TIME_BTW_MEASURES / portTICK_PERIOD_MS);
@@ -200,9 +246,9 @@ void app_main(void)
  * @brief This function is used to configurate de ADC Channel 1
  *
  */
-esp_err_t adc_init(void)
+esp_err_t smr_adc_init(void)
 {
-    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, 0, adc_chars);
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, 0, &adc_chars);
     ESP_ERROR_CHECK(adc1_config_width(ADC_WIDTH_BIT_12));
     ESP_ERROR_CHECK(adc1_config_channel_atten(vBatLvl, ADC_ATTEN_DB_0));
 
@@ -214,7 +260,7 @@ esp_err_t adc_init(void)
  *
  * @return esp_err_t  0 -> No error
  */
-esp_err_t i2c_master_init(void)
+esp_err_t smr_i2c_master_init(void)
 {
     int i2c_master_port = I2C_MASTER_NUM;
 
@@ -238,7 +284,7 @@ esp_err_t i2c_master_init(void)
  *
  * @return esp_err_t    0 -> No error
  */
-static esp_err_t spi_init(void)
+static esp_err_t smr_spi_init(void)
 {
     esp_err_t ret;
 
@@ -266,7 +312,7 @@ static esp_err_t spi_init(void)
  * @param message  String that indicates the error
  * @param error_code Error code number
  */
-static void log_error_if_nonzero(const char *message, int error_code)
+static void smr_log_error_if_nonzero(const char *message, int error_code)
 {
     if (error_code != 0)
     {
@@ -284,7 +330,7 @@ static void log_error_if_nonzero(const char *message, int error_code)
  * @param event_id The id for the received event.
  * @param event_data The data for the event, esp_mqtt_event_handle_t.
  */
-static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
+static void smr_mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
     // ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
     esp_mqtt_event_handle_t event = event_data;
@@ -443,9 +489,9 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 #endif
         if (event->error_handle->error_type == MQTT_ERROR_TYPE_TCP_TRANSPORT)
         {
-            log_error_if_nonzero("reported from esp-tls", event->error_handle->esp_tls_last_esp_err);
-            log_error_if_nonzero("reported from tls stack", event->error_handle->esp_tls_stack_err);
-            log_error_if_nonzero("captured as transport's socket errno", event->error_handle->esp_transport_sock_errno);
+            smr_log_error_if_nonzero("reported from esp-tls", event->error_handle->esp_tls_last_esp_err);
+            smr_log_error_if_nonzero("reported from tls stack", event->error_handle->esp_tls_stack_err);
+            smr_log_error_if_nonzero("captured as transport's socket errno", event->error_handle->esp_transport_sock_errno);
 #ifdef DEBUG
             ESP_LOGI(TAG, "Last errno string (%s)", strerror(event->error_handle->esp_transport_sock_errno));
 #endif
@@ -464,7 +510,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
  *
  * @return esp_err_t  0 -> No error
  */
-static esp_err_t mqtt_init(void)
+static esp_err_t smr_mqtt_init(void)
 {
     esp_err_t ret;
 
@@ -473,7 +519,7 @@ static esp_err_t mqtt_init(void)
             .uri = CONFIG_BROKER_URL,
         };
     client = esp_mqtt_client_init(&mqtt_cfg);
-    esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
+    esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, smr_mqtt_event_handler, NULL);
     ret = esp_mqtt_client_start(client);
     return ret;
 }
@@ -573,7 +619,7 @@ float searchFreq(float freq_s, int tol)
  * @brief This function is used to perform sensor's measurement
  *
  */
-smr_errorCtrl_t measure_sensors(void)
+smr_errorCtrl_t smr_measure_sensors(void)
 {
     smr_errorCtrl_t errorCtrl;
     esp_err_t ret;
@@ -726,7 +772,7 @@ smr_errorCtrl_t measure_sensors(void)
     }
 
     /* Battery level measurement */
-    errorCtrl = adc_read(&batteryLevel);
+    errorCtrl = smr_adc_read(&batteryLevel);
 
     if (errorCtrl != SMR_OK)
     {
@@ -822,7 +868,7 @@ smr_errorCtrl_t measure_sensors(void)
  * @brief This function is used to publish MQTT messages
  *
  */
-smr_errorCtrl_t publish_measures(void)
+smr_errorCtrl_t smr_publish_measures(void)
 {
     char payload[100];
     char errorString[100];
@@ -1369,7 +1415,7 @@ smr_errorCtrl_t publish_measures(void)
  * @brief This function is used to configure all the GPIOs
  *
  */
-esp_err_t configure_gpios(void)
+esp_err_t smr_configure_gpios(void)
 {
     int ret;
     gpio_reset_pin(WIFI_STATE_LED);
@@ -1387,7 +1433,7 @@ esp_err_t configure_gpios(void)
  *
  * @return smr_errorCtrl_t 0 -> No error
  */
-smr_errorCtrl_t init_peripherals(void)
+smr_errorCtrl_t smr_init_peripherals(void)
 {
     esp_err_t res;
     smr_errorCtrl_t errorCtrl;
@@ -1399,7 +1445,7 @@ smr_errorCtrl_t init_peripherals(void)
     ESP_LOGI(TAG, "Firmware version: %s", SMR_FIRMWARE_VERSION);
 #endif
 
-    res = configure_gpios();
+    res = smr_configure_gpios();
     if (res != ESP_OK)
     {
         errorCtrl = SMR_GPIO_INIT_ERROR;
@@ -1524,7 +1570,7 @@ smr_errorCtrl_t init_peripherals(void)
 #endif
     }
 
-    res = i2c_master_init();
+    res = smr_i2c_master_init();
     if (res != ESP_OK)
     {
         errorCtrl = SMR_I2C_INIT_ERROR;
@@ -1550,7 +1596,7 @@ smr_errorCtrl_t init_peripherals(void)
 #endif
     }
 
-    res = spi_init();
+    res = smr_spi_init();
     if (res != ESP_OK)
     {
         errorCtrl = SMR_SPI_INIT_ERROR;
@@ -1576,7 +1622,7 @@ smr_errorCtrl_t init_peripherals(void)
 #endif
     }
 
-    res = adc_init();
+    res = smr_adc_init();
     if (res != ESP_OK)
     {
         errorCtrl = SMR_ADC_INIT_ERROR;
@@ -1599,32 +1645,6 @@ smr_errorCtrl_t init_peripherals(void)
     {
 #ifdef DEBUG
         ESP_LOGI(TAG, "ADC init successfully");
-#endif
-    }
-
-    res = i2c_master_init();
-    if (res != ESP_OK)
-    {
-        errorCtrl = SMR_I2C_INIT_ERROR;
-        smr_error_reg(errorCtrl, errorString);
-
-        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
-        {
-            smr_led_indicate(SMR_BLINK_LED_NORMAL, SMR_I2C_INIT_ERROR);
-            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
-            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
-        }
-
-#ifdef DEBUG
-        ESP_LOGI(TAG, "%s", errorString);
-#endif
-
-        return errorCtrl;
-    }
-    else
-    {
-#ifdef DEBUG
-        ESP_LOGI(TAG, "I2C init successfully");
 #endif
     }
 
@@ -1680,6 +1700,32 @@ smr_errorCtrl_t init_peripherals(void)
 #endif
     }
 
+    res = smr_mqtt_init();
+    if (res != ESP_OK)
+    {
+        errorCtrl = SMR_MQTT_CONN_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_SLOW, SMR_MQTT_CONN_ERROR);
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%s", errorString);
+#endif
+
+        return errorCtrl;
+    }
+    else
+    {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "MQTT successfully connected");
+#endif
+    }
+
     return SMR_OK;
 }
 
@@ -1689,13 +1735,13 @@ smr_errorCtrl_t init_peripherals(void)
  * @param batteryLevel Placeholder for the ADC measure.
  * @return smr_errorCtrl  0 -> Not error.
  */
-smr_errorCtrl_t adc_read(uint32_t *batteryLevel)
+smr_errorCtrl_t smr_adc_read(uint32_t *batteryLevel)
 {
     uint32_t result;
     smr_errorCtrl_t errorCtrl;
     char errorString[100];
 
-    result = esp_adc_cal_raw_to_voltage(adc1_get_raw(vBatLvl), adc_chars);
+    result = esp_adc_cal_raw_to_voltage(adc1_get_raw(vBatLvl), &adc_chars);
 
     if ((result < SMR_LOW_BATTERY_MV) || (result > SMR_HIGH_BATTERY_MV))
     {
@@ -1721,6 +1767,11 @@ smr_errorCtrl_t adc_read(uint32_t *batteryLevel)
     return errorCtrl;
 }
 
+/**
+ * @brief This function returns a time period in milliseconds corresponding to the value of the enumeration smr_blink_led_t passed as an argument.
+ * 
+ * @param period  Blinking period.
+ */
 void smr_blink_led(smr_blink_led_t period)
 {
     uint32_t speed = 0;
@@ -1752,6 +1803,12 @@ void smr_blink_led(smr_blink_led_t period)
     gpio_set_level(ERROR_STATE_LED, LOW);
 }
 
+/**
+ * @brief This function is responsible for blinking the indicator LED a certain number of times defined by smr_errorCtrl_t at a speed specified by smr_blink_led_t.
+ * 
+ * @param type  Blinking period.
+ * @param rep   Blinking times.
+ */
 void smr_led_indicate(smr_blink_led_t type, unsigned int rep)
 {
     unsigned int i;
@@ -1760,6 +1817,12 @@ void smr_led_indicate(smr_blink_led_t type, unsigned int rep)
         smr_blink_led(type);
 }
 
+/**
+ * @brief This function returns a string indicating the error that occurred based on the value of smr_errorCtrl_t received.
+ * 
+ * @param errorCtrl  Error to be printed into string.
+ * @param retString  String that contains the error info.
+ */
 void smr_error_reg(smr_errorCtrl_t errorCtrl, char *retString)
 {
     char errorString[40];
@@ -1847,4 +1910,144 @@ void smr_error_reg(smr_errorCtrl_t errorCtrl, char *retString)
         break;
     }
     sprintf(retString, "An error of the type %s has occurred", errorString);
+}
+
+/**
+ * @brief This function saves the new operating time value of the equipment in flash memory.
+ * 
+ * @return esp_err_t  0 -> No error.
+ */
+esp_err_t smr_save_run_time(void)
+{
+    nvs_handle_t nvs_handle;
+    esp_err_t err;
+    size_t required_size = 0; 
+
+    err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &nvs_handle);
+    if (err != ESP_OK) 
+        return err;
+
+    err = nvs_get_blob(nvs_handle, "run_time", NULL, &required_size);
+    if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) return err;
+
+
+    uint32_t* run_time = malloc(required_size + sizeof(uint32_t));
+    if (required_size > 0) 
+    {
+        err = nvs_get_blob(nvs_handle, "run_time", run_time, &required_size);
+        if (err != ESP_OK) 
+        {
+            free(run_time);
+            return err;
+        }
+    }
+
+    required_size += sizeof(uint32_t);
+    run_time[required_size / sizeof(uint32_t) - 1] = xTaskGetTickCount() * portTICK_PERIOD_MS;
+    err = nvs_set_blob(nvs_handle, "run_time", run_time, required_size);
+    free(run_time);
+
+    if (err != ESP_OK) 
+        return err;
+
+    err = nvs_commit(nvs_handle);
+    if (err != ESP_OK) return err;
+
+    nvs_close(nvs_handle);
+    return ESP_OK;
+}
+
+/**
+ * @brief This function is responsible for storing the error code that caused the equipment to restart in flash memory.
+ * 
+ * @param lastError     Error code that caused restart.
+ * @return esp_err_t    0 -> No error.
+ */
+esp_err_t smr_save_last_error(uint8_t lastError)
+{
+    nvs_handle_t nvs_handle;
+    esp_err_t err;
+
+    // Open
+    err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &nvs_handle);
+    if (err != ESP_OK) 
+        return err;
+
+    uint8_t last_saved_error = 0; 
+    err = nvs_get_u8(nvs_handle, "restart_conter", &last_saved_error);
+    if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) 
+        return err;
+
+    last_saved_error = lastError;
+    err = nvs_set_i32(nvs_handle, "restart_conter", last_saved_error);
+    if (err != ESP_OK) 
+        return err;
+
+    err = nvs_commit(nvs_handle);
+    if (err != ESP_OK) 
+        return err;
+
+    nvs_close(nvs_handle);
+    return ESP_OK;
+}
+
+/**
+ * @brief This function is used to print the information stored in flash memory.
+ * 
+ * @return esp_err_t    0 -> No error
+ */
+esp_err_t smr_print_nvs_saved(void)
+{
+    nvs_handle_t nvs_handle;
+    esp_err_t err;
+    char errorString[100];
+
+    err = nvs_open(STORAGE_NAMESPACE, NVS_READWRITE, &nvs_handle);
+    if (err != ESP_OK) 
+        return err;
+
+    uint8_t last_error = 0; 
+    err = nvs_get_i32(nvs_handle, "restart_conter", &last_error);
+    if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) 
+        return err;
+    smr_error_reg((smr_errorCtrl_t) last_error, errorString);
+
+#ifdef DEBUG
+    ESP_LOGI(TAG, "The last error occured was: %s", errorString);
+#endif
+
+
+    size_t required_size = 0;
+
+    err = nvs_get_blob(nvs_handle, "run_time", NULL, &required_size);
+    if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND) 
+        return err;
+
+    if (required_size == 0) 
+    {
+
+#ifdef DEBUG
+        ESP_LOGI(TAG, "Run time is: Nothing saved yet!");
+#endif
+    } 
+    else 
+    {
+        uint32_t* run_time = malloc(required_size);
+        err = nvs_get_blob(nvs_handle, "run_time", run_time, &required_size);
+        if (err != ESP_OK) 
+        {
+            free(run_time);
+            return err;
+        }
+        for (int i = 0; i < required_size / sizeof(uint32_t); i++) 
+        {
+#ifdef DEBUG
+        ESP_LOGI(TAG, "%d: %d", i + 1, run_time[i]);
+#endif
+        }
+        free(run_time);
+    }
+
+    nvs_close(nvs_handle);
+    return ESP_OK;
 }

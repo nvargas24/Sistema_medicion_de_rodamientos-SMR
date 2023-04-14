@@ -19,6 +19,7 @@
 #include "time.h"
 
 #include "ds3231.h"
+#include "main.h"
 
 static uint8_t bcd2dec(uint8_t val)
 {
@@ -30,21 +31,10 @@ static uint8_t dec2bcd(uint8_t val)
     return ((val/10) << 4) + (val %10);
 }
 
-esp_err_t DS3231_SetTime()
+esp_err_t DS3231_SetTime(uint8_t *buffer)
 {
     esp_err_t ret;
-    i2c_cmd_handle_t cmd = i2c_cmd_link_create();
-    uint8_t buffer[8];
-    buffer[0] = 0x00; // Starting register address for time
-
-    // Set default time and date values
-    buffer[1] = 0x00; // Segundos
-    buffer[2] = 0x02; // Minutos
-    buffer[3] = 0x22; // Horas (24hs)
-    buffer[4] = 0x07; // Dia de la semana
-    buffer[5] = 0x26; // Dia
-    buffer[6] = 0x03; // Mes
-    buffer[7] = 0x23; // Anio(20YY)
+    i2c_cmd_handle_t cmd = i2c_cmd_link_create();  
 
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, DS3231_ADDR << 1 | I2C_MASTER_WRITE, true);
@@ -53,14 +43,6 @@ esp_err_t DS3231_SetTime()
 
     ret = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
-
-    int seconds = bcd2dec(buffer[1]);
-    int minutes = bcd2dec(buffer[2]);
-    int hours = bcd2dec(buffer[3]);
-    int day = buffer[4];
-    int date = bcd2dec(buffer[5]);
-    int month = bcd2dec(buffer[6]);
-    int year = bcd2dec(buffer[7]) + 2000;
 
     return ret;
 }

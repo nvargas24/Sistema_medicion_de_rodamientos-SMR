@@ -17,7 +17,7 @@
 #include <stddef.h>
 
 /* Registers Defines */
-#define MPU6050_I2C_ADDR        0x68
+#define MPU6050_I2C_ADDR        0x69
 
 #define MPU6050_AUX_VDDIO       0x00
 #define MPU6050_YG_OFFS_TC      0x01
