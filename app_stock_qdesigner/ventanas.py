@@ -21,6 +21,7 @@ class WindowAgregar(QDialog):
     
     def exit(self, ):
         self.close()
+        print("Regresa a menu principal")
 
     def new_load(self,):
         nombre=str(self.ui.in_nombre.text())
@@ -38,6 +39,7 @@ class WindowAgregar(QDialog):
         print(precio)
         print(descrip)
         self.exit()
+        print("Se guarda nuevo articulo")
     
 class WindowEliminar(QDialog):
     def __init__(self, parent=None):
@@ -49,6 +51,7 @@ class WindowEliminar(QDialog):
     
     def exit(self, ):
         self.close()
+        print("Regresa a menu principal")
 
     def delete(self,):
         nombre=str(self.ui.in_nombre.text())
@@ -56,6 +59,7 @@ class WindowEliminar(QDialog):
 
         print(nombre)
         self.exit()
+        print("Se elimino articulo")
 
 class WindowModificar(QDialog):
     def __init__(self, parent=None):
@@ -67,6 +71,7 @@ class WindowModificar(QDialog):
     
     def exit(self, ):
         self.close()
+        print("Regresa a menu principal")
 
     def modificated(self,):
         nombre=str(self.ui.in_nombre.text())
@@ -84,6 +89,7 @@ class WindowModificar(QDialog):
         print(precio)
         print(descrip)
         self.exit()
+        print("Se guardo modificaciones")
 
 class WindowConsulta(QWidget):
     def __init__(self, parent=None):
@@ -96,9 +102,10 @@ class WindowConsulta(QWidget):
 
     def exit(self, ):
         self.close()
+        print("Regresa a menu principal")
     
     def search(self, ):
-        print("buscar")
+        print("Busca articulo")
     
     def full_cat(self, ):
-        print("mostrar catalogo completo")
+        print("Muestra catalogo completo")

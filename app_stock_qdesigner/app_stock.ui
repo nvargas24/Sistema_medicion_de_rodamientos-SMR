@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>591</width>
-    <height>368</height>
+    <height>354</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -89,7 +89,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -139,19 +139,32 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGraphicsView" name="graphic">
+   <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>220</x>
       <y>100</y>
-      <width>371</width>
+      <width>341</width>
       <height>231</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">QApplication.setStyle(&quot;Macintosh&quot;)
-</string>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
     </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>19</x>
+       <y>19</y>
+       <width>311</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="grafica_torta"/>
+    </widget>
    </widget>
   </widget>
  </widget>

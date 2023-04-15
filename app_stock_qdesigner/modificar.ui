@@ -49,7 +49,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
    </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
@@ -110,7 +110,7 @@
        <string>Ingrese nombre de producto</string>
       </property>
       <property name="clearButtonEnabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -162,7 +162,7 @@
        <string>Ingrese valor numerico</string>
       </property>
       <property name="clearButtonEnabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -214,7 +214,7 @@
        <string>Ingrese valor numerico</string>
       </property>
       <property name="clearButtonEnabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -266,7 +266,7 @@
        <string>Ingrese una breve descripcion</string>
       </property>
       <property name="clearButtonEnabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
      </widget>
     </item>

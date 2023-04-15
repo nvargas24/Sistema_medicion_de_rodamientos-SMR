@@ -31,7 +31,7 @@ class Ui_Modificar(object):
         self.btns_option.setObjectName(u"btns_option")
         self.btns_option.setGeometry(QRect(60, 180, 171, 32))
         self.btns_option.setOrientation(Qt.Horizontal)
-        self.btns_option.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
+        self.btns_option.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Save)
         self.layoutWidget = QWidget(Modificar)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(30, 60, 231, 111))
@@ -56,7 +56,7 @@ class Ui_Modificar(object):
         self.in_nombre.setFrame(True)
         self.in_nombre.setDragEnabled(False)
         self.in_nombre.setReadOnly(False)
-        self.in_nombre.setClearButtonEnabled(False)
+        self.in_nombre.setClearButtonEnabled(True)
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.in_nombre)
 
@@ -76,7 +76,7 @@ class Ui_Modificar(object):
         self.in_cant.setFrame(True)
         self.in_cant.setDragEnabled(False)
         self.in_cant.setReadOnly(False)
-        self.in_cant.setClearButtonEnabled(False)
+        self.in_cant.setClearButtonEnabled(True)
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.in_cant)
 
@@ -96,7 +96,7 @@ class Ui_Modificar(object):
         self.in_precio.setFrame(True)
         self.in_precio.setDragEnabled(False)
         self.in_precio.setReadOnly(False)
-        self.in_precio.setClearButtonEnabled(False)
+        self.in_precio.setClearButtonEnabled(True)
 
         self.formLayout.setWidget(2, QFormLayout.FieldRole, self.in_precio)
 
@@ -116,7 +116,7 @@ class Ui_Modificar(object):
         self.in_descrip.setFrame(True)
         self.in_descrip.setDragEnabled(False)
         self.in_descrip.setReadOnly(False)
-        self.in_descrip.setClearButtonEnabled(False)
+        self.in_descrip.setClearButtonEnabled(True)
 
         self.formLayout.setWidget(3, QFormLayout.FieldRole, self.in_descrip)
 

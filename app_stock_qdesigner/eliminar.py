@@ -47,7 +47,7 @@ class Ui_Eliminar(object):
         self.in_nombre.setFrame(True)
         self.in_nombre.setDragEnabled(False)
         self.in_nombre.setReadOnly(False)
-        self.in_nombre.setClearButtonEnabled(False)
+        self.in_nombre.setClearButtonEnabled(True)
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.in_nombre)
 

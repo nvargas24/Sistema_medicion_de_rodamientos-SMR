@@ -17,7 +17,7 @@ class Ui_Consulta(object):
     def setupUi(self, Consulta):
         if not Consulta.objectName():
             Consulta.setObjectName(u"Consulta")
-        Consulta.resize(556, 346)
+        Consulta.resize(556, 370)
         Consulta.setToolTipDuration(0)
         Consulta.setStyleSheet(u"QApplication::setStyle(\"fusion\");\n"
 "")
@@ -39,20 +39,20 @@ class Ui_Consulta(object):
         __qtablewidgetitem4 = QTableWidgetItem()
         self.catalogo_list.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         self.catalogo_list.setObjectName(u"catalogo_list")
-        self.catalogo_list.setGeometry(QRect(20, 50, 511, 231))
+        self.catalogo_list.setGeometry(QRect(20, 90, 511, 231))
         self.btn_cat_full = QPushButton(Consulta)
         self.btn_cat_full.setObjectName(u"btn_cat_full")
-        self.btn_cat_full.setGeometry(QRect(150, 290, 121, 31))
+        self.btn_cat_full.setGeometry(QRect(150, 330, 121, 31))
         self.btn_volver = QPushButton(Consulta)
         self.btn_volver.setObjectName(u"btn_volver")
-        self.btn_volver.setGeometry(QRect(280, 290, 121, 31))
-        self.widget = QWidget(Consulta)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(29, 20, 491, 25))
-        self.horizontalLayout = QHBoxLayout(self.widget)
+        self.btn_volver.setGeometry(QRect(280, 330, 121, 31))
+        self.layoutWidget = QWidget(Consulta)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(29, 60, 491, 25))
+        self.horizontalLayout = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.label_nombre = QLabel(self.widget)
+        self.label_nombre = QLabel(self.layoutWidget)
         self.label_nombre.setObjectName(u"label_nombre")
         font1 = QFont()
         font1.setPointSize(9)
@@ -60,7 +60,7 @@ class Ui_Consulta(object):
 
         self.horizontalLayout.addWidget(self.label_nombre)
 
-        self.in_nombre = QLineEdit(self.widget)
+        self.in_nombre = QLineEdit(self.layoutWidget)
         self.in_nombre.setObjectName(u"in_nombre")
         self.in_nombre.setTabletTracking(False)
         self.in_nombre.setFocusPolicy(Qt.StrongFocus)
@@ -70,17 +70,17 @@ class Ui_Consulta(object):
         self.in_nombre.setFrame(True)
         self.in_nombre.setDragEnabled(False)
         self.in_nombre.setReadOnly(False)
-        self.in_nombre.setClearButtonEnabled(False)
+        self.in_nombre.setClearButtonEnabled(True)
 
         self.horizontalLayout.addWidget(self.in_nombre)
 
-        self.label_precio = QLabel(self.widget)
+        self.label_precio = QLabel(self.layoutWidget)
         self.label_precio.setObjectName(u"label_precio")
         self.label_precio.setFont(font1)
 
         self.horizontalLayout.addWidget(self.label_precio)
 
-        self.in_precio = QLineEdit(self.widget)
+        self.in_precio = QLineEdit(self.layoutWidget)
         self.in_precio.setObjectName(u"in_precio")
         self.in_precio.setTabletTracking(False)
         self.in_precio.setFocusPolicy(Qt.StrongFocus)
@@ -90,15 +90,24 @@ class Ui_Consulta(object):
         self.in_precio.setFrame(True)
         self.in_precio.setDragEnabled(False)
         self.in_precio.setReadOnly(False)
-        self.in_precio.setClearButtonEnabled(False)
+        self.in_precio.setClearButtonEnabled(True)
 
         self.horizontalLayout.addWidget(self.in_precio)
 
-        self.btn_buscar = QPushButton(self.widget)
+        self.btn_buscar = QPushButton(self.layoutWidget)
         self.btn_buscar.setObjectName(u"btn_buscar")
 
         self.horizontalLayout.addWidget(self.btn_buscar)
 
+        self.titulo = QLabel(Consulta)
+        self.titulo.setObjectName(u"titulo")
+        self.titulo.setGeometry(QRect(160, 10, 221, 45))
+        font2 = QFont()
+        font2.setPointSize(12)
+        font2.setBold(True)
+        font2.setWeight(75)
+        self.titulo.setFont(font2)
+        self.titulo.setAlignment(Qt.AlignCenter)
 
         self.retranslateUi(Consulta)
 
@@ -128,5 +137,6 @@ class Ui_Consulta(object):
         self.in_precio.setText("")
         self.in_precio.setPlaceholderText(QCoreApplication.translate("Consulta", u"Ingrese precio en pesos", None))
         self.btn_buscar.setText(QCoreApplication.translate("Consulta", u"Buscar", None))
+        self.titulo.setText(QCoreApplication.translate("Consulta", u"Catalogo", None))
     # retranslateUi
 

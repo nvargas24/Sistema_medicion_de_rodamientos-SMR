@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(591, 368)
+        MainWindow.resize(591, 354)
         MainWindow.setStyleSheet(u"QApplication::setStyle(\"fusion\");\n"
 "")
         MainWindow.setDocumentMode(False)
@@ -39,13 +39,13 @@ class Ui_MainWindow(object):
         self.btn_consultar = QPushButton(self.menu_opciones)
         self.btn_consultar.setObjectName(u"btn_consultar")
         self.btn_consultar.setGeometry(QRect(20, 180, 121, 41))
-        self.widget = QWidget(self.centralwidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(10, 10, 551, 72))
-        self.verticalLayout = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(self.centralwidget)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(10, 10, 551, 72))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.titulo = QLabel(self.widget)
+        self.titulo = QLabel(self.layoutWidget)
         self.titulo.setObjectName(u"titulo")
         font = QFont()
         font.setPointSize(28)
@@ -56,7 +56,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.titulo)
 
-        self.subtitulo = QLabel(self.widget)
+        self.subtitulo = QLabel(self.layoutWidget)
         self.subtitulo.setObjectName(u"subtitulo")
         font1 = QFont()
         font1.setPointSize(12)
@@ -67,11 +67,17 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.subtitulo)
 
-        self.graphic = QGraphicsView(self.centralwidget)
-        self.graphic.setObjectName(u"graphic")
-        self.graphic.setGeometry(QRect(190, 100, 371, 231))
-        self.graphic.setStyleSheet(u"QApplication.setStyle(\"Macintosh\")\n"
-"")
+        self.frame = QFrame(self.centralwidget)
+        self.frame.setObjectName(u"frame")
+        self.frame.setGeometry(QRect(220, 100, 341, 231))
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Raised)
+        self.verticalLayoutWidget = QWidget(self.frame)
+        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
+        self.verticalLayoutWidget.setGeometry(QRect(19, 19, 311, 191))
+        self.grafica_torta = QVBoxLayout(self.verticalLayoutWidget)
+        self.grafica_torta.setObjectName(u"grafica_torta")
+        self.grafica_torta.setContentsMargins(0, 0, 0, 0)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
