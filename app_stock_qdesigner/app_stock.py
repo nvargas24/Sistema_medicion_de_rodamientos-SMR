@@ -69,9 +69,11 @@ class Ui_MainWindow(object):
 
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
+        self.frame.setEnabled(True)
         self.frame.setGeometry(QRect(220, 100, 341, 231))
-        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShape(QFrame.NoFrame)
         self.frame.setFrameShadow(QFrame.Raised)
+        self.frame.setLineWidth(1)
         self.verticalLayoutWidget = QWidget(self.frame)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(19, 19, 311, 191))

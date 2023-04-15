@@ -53,7 +53,7 @@ class MainWindow(QMainWindow, Opciones):
 
 class Canvas_grafica(FigureCanvas):
     def __init__(self, ):
-        self.fig, self.ax = plt.subplots(1, dpi=100, figsize=(5,5), sharey=True, facecolor='white')
+        self.fig, self.ax = plt.subplots(1, dpi=100, figsize=(5,5), sharey=True, facecolor='none')
         super().__init__(self.fig)
 
         nombres= ['Diodos', 'Resistencias', 'Tiristores', 'Capacitores']

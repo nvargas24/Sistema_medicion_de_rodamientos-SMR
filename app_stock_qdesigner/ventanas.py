@@ -100,11 +100,47 @@ class WindowConsulta(QWidget):
         self.ui.btn_cat_full.clicked.connect(self.full_cat)
         self.ui.btn_volver.clicked.connect(self.exit)
 
+        self.ui.catalogo_list.setColumnWidth(0, 40)
+        self.ui.catalogo_list.setColumnWidth(1, 120)
+        self.ui.catalogo_list.setColumnWidth(2, 80)
+        self.ui.catalogo_list.setColumnWidth(3, 80)
+        self.ui.catalogo_list.setColumnWidth(4, 160)
+
+        self.list_componentes_test()
+        self.load_list_componentes()
+    
+    def list_componentes_test(self, ):
+        self.datos = []
+
+        self.datos.append(('2','1N4548', '32', '32', 'Diodo'))
+        self.datos.append(('3','MCP3008', '2', '434', 'Circuito integrado'))
+        self.datos.append(('4','7805', '45', '120', 'Regulador de tension'))
+
+    def load_list_componentes(self, ):
+        fila=0        
+        for registro in self.datos:
+            columna=0            
+            self.ui.catalogo_list.insertRow(fila) # se debe crear filas cada vez que se cargan dato
+            for elemento in registro:
+                celda = QTableWidgetItem(elemento)
+                self.ui.catalogo_list.setItem(fila, columna, celda)
+                columna+=1
+            fila+=1
+
+
     def exit(self, ):
         self.close()
         print("Regresa a menu principal")
     
     def search(self, ):
+        nombre=str(self.ui.in_nombre.text())
+        descrip=str(self.ui.in_descrip.text())
+
+        self.ui.in_nombre.clear()
+        self.ui.in_descrip.clear()
+
+        print(nombre)
+        print(descrip)        
         print("Busca articulo")
     
     def full_cat(self, ):
