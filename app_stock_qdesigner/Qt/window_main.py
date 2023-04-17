@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'app_stock.ui'
+## Form generated from reading UI file 'window_main.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
