@@ -5,7 +5,7 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 from PySide2 import QtCore as core
 
-from ventanas import *
+from vista import *
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
