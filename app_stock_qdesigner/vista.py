@@ -14,8 +14,10 @@ from Qt.window_eliminar import *
 from Qt.window_modificar import *
 from Qt.window_consulta import *
 
-#-------- Clases para widgets --------#
+from modelo import Crud
 
+#-------- Clases para widgets --------#
+#--- Clase para abrir ventanas secundarias ---#
 class Opciones():
     def agregar_dat(self,):
         print("Agregar articulo nuevo")
@@ -37,6 +39,7 @@ class Opciones():
         self.window_consulta.setWindowTitle("Consulta")
         self.window_consulta.show()
 
+# --- Clase para iteractuar con grafico ---#
 class Canvas_grafica(FigureCanvas):
     def __init__(self, ):
         self.fig, self.ax = plt.subplots(1, dpi=100, figsize=(5,5), sharey=True, facecolor='none')
@@ -51,6 +54,15 @@ class Canvas_grafica(FigureCanvas):
                     autopct='%1.0f%%', pctdistance=0.6, shadow=True, startangle=90, radius=0.8, labeldistance=1.1)
         self.ax.axis('equal')
 
+#--- Clase para interaturar con tabla de catalogo ---#
+class Catalogo():
+    def agregar():
+        pass
+    def eliminar():
+        pass
+    def modificar():
+        pass
+
 #-------- Clases para ventanas -------#
 
 class MainWindow(QMainWindow, Opciones):
@@ -59,18 +71,37 @@ class MainWindow(QMainWindow, Opciones):
         self.ui = Ui_MainWindow() # Creo objeto de la clase en QT para crear widgets
         self.ui.setupUi(self,) # Se acccede al metodo setupUi que crea widgets
 
-        self.ui.btn_agregar.clicked.connect(self.agregar_dat)
-        self.ui.btn_eliminar.clicked.connect(self.eliminar_dat)
-        self.ui.btn_modificar.clicked.connect(self.modificar_dat)
-        self.ui.btn_consultar.clicked.connect(self.consultar_dat)
-
+        self.obj_f = Crud()  # Creo un objeto de clase Crud.
+        
+        #-------------- Ventanas secundarias --------------#
         self.window_agregar = WindowAgregar()
         self.window_eliminar = WindowEliminar()
         self.window_modificar = WindowModificar()
         self.window_consulta = WindowConsulta() 
 
+        # ------------------- Variables -------------------#
+        self.var_nombre = StringVar()
+        self.var_cantidad = StringVar()  # Luego lo convierto a int.
+        self.var_precio = StringVar()  # Luego lo convierto a float.
+        self.var_descrip = StringVar()
+
+        mje = self.obj_f.agreg(
+            self.var_nombre,
+            self.var_cantidad,
+            self.var_precio,
+            self.var_descrip,
+        )
+
+        #------------- Grafico de torta -------------------#
         self.grafica = Canvas_grafica()
         self.ui.grafica_torta.addWidget(self.grafica)
+
+        #--------------- Acciones para botones ------------#
+        self.ui.btn_agregar.clicked.connect(self.agregar_dat)
+        self.ui.btn_eliminar.clicked.connect(self.eliminar_dat)
+        self.ui.btn_modificar.clicked.connect(self.modificar_dat)
+        self.ui.btn_consultar.clicked.connect(self.consultar_dat)
+
 
 class WindowAgregar(QDialog):
     def __init__(self, parent=None):
@@ -90,10 +121,11 @@ class WindowAgregar(QDialog):
         precio=int(self.ui.in_precio.text())
         descrip=str(self.ui.in_descrip.text())
 
+        #--- Limpia celdas una vez cargados datos ---#
         self.ui.in_nombre.clear()
         self.ui.in_cant.clear()
         self.ui.in_precio.clear()
-        self.ui.in_descrip.clear()    
+        self.ui.in_descrip.clear()
 
         print(nombre)
         print(cant)
