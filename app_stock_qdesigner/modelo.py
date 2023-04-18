@@ -216,7 +216,7 @@ class BaseDatos:
 
 
 # ---------------------Clase que contienen métodos para manejo de datos ingresados--------------------------------
-class Crud(BaseDatos):
+class Crud():
     """
     Clase que contiene métodos para el manejo de los datos ingresados.
     """
@@ -226,10 +226,10 @@ class Crud(BaseDatos):
         Constructor que hereda el correspondiente a la clase ``BaseDatos()``,
         y que además crea un objeto ``Validacion()`` para comprobar los campos de entrada.
         """
-        super(Crud, self).__init__()
+        super().__init__()
         self.obj_val = Validacion()
 
-    def agreg(self, nombre, cantidad, precio, descripcion, tree):
+    def agreg(self, nombre, cantidad, precio, descripcion):
         """
         Método para agregar un nuevo componente.
 
@@ -246,10 +246,15 @@ class Crud(BaseDatos):
         Si en algunos de los campos se ingresó un dato inválido (no cumple regex)
         se generará una excepción.
         """
-        nom = nombre.get()
-        cant = cantidad.get()
-        prec = precio.get()
-        descrip = descripcion.get()
+        nom = nombre.text()
+        cant = cantidad.text()
+        prec = precio.text()
+        descrip = descripcion.text()
+
+        print(nom)
+        print(cant)
+        print(prec)
+        print(descrip)
 
         # Chequeo que los campos esten completos.
         if (
@@ -265,8 +270,12 @@ class Crud(BaseDatos):
                 and self.obj_val.val_entry(prec, "prec")
                 and self.obj_val.val_entry(descrip, "descrip")
             ):
+                return "ok"
+            
+                """
                 if self.leer_db(nom):
                     return "existe"
+                
                 else:
                     self.agregar_db(nom, cant, prec, descrip)
                     tree.insert(
@@ -275,6 +284,7 @@ class Crud(BaseDatos):
                         values=(nom, int(cant), float(prec), descrip),
                     )
                     return "cargado"
+                """
             else:
                 raise ValueError(
                     "campos incorrectos"

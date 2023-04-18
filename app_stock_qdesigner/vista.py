@@ -54,15 +54,6 @@ class Canvas_grafica(FigureCanvas):
                     autopct='%1.0f%%', pctdistance=0.6, shadow=True, startangle=90, radius=0.8, labeldistance=1.1)
         self.ax.axis('equal')
 
-#--- Clase para interaturar con tabla de catalogo ---#
-class Catalogo():
-    def agregar():
-        pass
-    def eliminar():
-        pass
-    def modificar():
-        pass
-
 #-------- Clases para ventanas -------#
 
 class MainWindow(QMainWindow, Opciones):
@@ -78,19 +69,6 @@ class MainWindow(QMainWindow, Opciones):
         self.window_eliminar = WindowEliminar()
         self.window_modificar = WindowModificar()
         self.window_consulta = WindowConsulta() 
-
-        # ------------------- Variables -------------------#
-        self.var_nombre = StringVar()
-        self.var_cantidad = StringVar()  # Luego lo convierto a int.
-        self.var_precio = StringVar()  # Luego lo convierto a float.
-        self.var_descrip = StringVar()
-
-        mje = self.obj_f.agreg(
-            self.var_nombre,
-            self.var_cantidad,
-            self.var_precio,
-            self.var_descrip,
-        )
 
         #------------- Grafico de torta -------------------#
         self.grafica = Canvas_grafica()
@@ -110,27 +88,29 @@ class WindowAgregar(QDialog):
         self.ui.setupUi(self,)
         self.ui.btns_option.accepted.connect(self.new_load)
         self.ui.btns_option.rejected .connect(self.exit)
+
+        self.obj_f=Crud()
     
     def exit(self, ):
         self.close()
         print("Regresa a menu principal")
-
+#aca tengo que pasar las variables in_nombre, in_ ... al modelo.py  y desde ahi trabajar con Crud que se encarga 
+# de cargar el treeview de QT
     def new_load(self,):
-        nombre=str(self.ui.in_nombre.text())
-        cant=int(self.ui.in_cant.text())
-        precio=int(self.ui.in_precio.text())
-        descrip=str(self.ui.in_descrip.text())
 
+        mje = self.obj_f.agreg(
+                    self.ui.in_nombre, 
+                    self.ui.in_cant, 
+                    self.ui.in_precio, 
+                    self.ui.in_descrip)
+
+        print("Mensaje de agregar:", mje)
         #--- Limpia celdas una vez cargados datos ---#
         self.ui.in_nombre.clear()
         self.ui.in_cant.clear()
         self.ui.in_precio.clear()
         self.ui.in_descrip.clear()
 
-        print(nombre)
-        print(cant)
-        print(precio)
-        print(descrip)
         self.exit()
         print("Se guarda nuevo articulo")
     
