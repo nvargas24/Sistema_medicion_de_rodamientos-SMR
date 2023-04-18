@@ -20,24 +20,32 @@ from modelo import Crud
 #--- Clase para abrir ventanas secundarias ---#
 class Opciones():
     def agregar_dat(self,):
-        print("Agregar articulo nuevo")
-        self.window_agregar.setWindowTitle("Agregar")
-        self.window_agregar.show()
+        if not self.show_window_agregar:
+            self.show_window_agregar = True
+            print("Agregar articulo nuevo")
+            self.window_agregar.setWindowTitle("Agregar")
+            self.window_agregar.show()
 
     def eliminar_dat(self,):
-        print("Eliminar articulo")
-        self.window_eliminar.setWindowTitle("Eliminar")
-        self.window_eliminar.show()
+        if not self.show_window_eliminar:
+            self.show_window_eliminar = True
+            print("Eliminar articulo")
+            self.window_eliminar.setWindowTitle("Eliminar")
+            self.window_eliminar.show()
 
     def modificar_dat(self,):
-        print("Modificar articulo")
-        self.window_modificar.setWindowTitle("Modificar")
-        self.window_modificar.show()
+        if not self.show_window_modificar:
+            self.show_window_modificar = True
+            print("Modificar articulo")
+            self.window_modificar.setWindowTitle("Modificar")
+            self.window_modificar.show()
 
     def consultar_dat(self,):
-        print("Consultar articulo")
-        self.window_consulta.setWindowTitle("Consulta")
-        self.window_consulta.show()
+        if not self.show_window_consulta:
+            self.show_window_consulta = True
+            print("Consultar articulo")
+            self.window_consulta.setWindowTitle("Consulta")
+            self.window_consulta.show()
 
 # --- Clase para iteractuar con grafico ---#
 class Canvas_grafica(FigureCanvas):
@@ -70,6 +78,18 @@ class MainWindow(QMainWindow, Opciones):
         self.window_modificar = WindowModificar()
         self.window_consulta = WindowConsulta() 
 
+        # Inicialmente no hay niguna ventana secundaria abierta
+        self.show_window_agregar = False
+        self.show_window_eliminar = False
+        self.show_window_modificar = False
+        self.show_window_consulta = False
+
+        if not (self.show_window_agregar or
+            self.show_window_eliminar or
+            self.show_window_modificar or
+            self.show_window_consulta):
+            print("Mostrar ventana principal")
+
         #------------- Grafico de torta -------------------#
         self.grafica = Canvas_grafica()
         self.ui.grafica_torta.addWidget(self.grafica)
@@ -87,13 +107,17 @@ class WindowAgregar(QDialog):
         self.ui = Ui_Agregar()
         self.ui.setupUi(self,)
         self.ui.btns_option.accepted.connect(self.new_load)
-        self.ui.btns_option.rejected .connect(self.exit)
+        self.ui.btns_option.rejected.connect(self.exit)
 
         self.obj_f=Crud()
+        
     
     def exit(self, ):
         self.close()
+        self.show_window_agregar = False
         print("Regresa a menu principal")
+
+
 #aca tengo que pasar las variables in_nombre, in_ ... al modelo.py  y desde ahi trabajar con Crud que se encarga 
 # de cargar el treeview de QT
     def new_load(self,):
@@ -122,13 +146,14 @@ class WindowEliminar(QDialog):
         self.ui.setupUi(self,)
 
         self.ui.btns_option.accepted.connect(self.delete)
-        self.ui.btns_option.rejected .connect(self.exit)
+        self.ui.btns_option.rejected.connect(self.exit)
 
         self.obj_f=Crud()
     
     def exit(self, ):
-        self.close()
         print("Regresa a menu principal")
+        self.close()
+        self.show_window_eliminar = False
 
     def delete(self,):
         mje = self.obj_f.elim(
@@ -140,6 +165,7 @@ class WindowEliminar(QDialog):
         self.ui.in_nombre.clear() # Limpia celda una vez cargado dato
 
         self.exit() # Borra ventana
+        self.show_window_eliminar = False
 
 class WindowModificar(QDialog):
     def __init__(self, parent=None):
@@ -148,13 +174,14 @@ class WindowModificar(QDialog):
         self.ui.setupUi(self,)
 
         self.ui.btns_option.accepted.connect(self.modificated)
-        self.ui.btns_option.rejected .connect(self.exit)
+        self.ui.btns_option.rejected.connect(self.exit)
         
         self.obj_f=Crud()
 
     def exit(self, ):
+        print("Regresa a menu principal")        
         self.close()
-        print("Regresa a menu principal")
+        self.show_window_modificar = False
 
     def modificated(self,):
         mje = self.obj_f.modif(
@@ -173,7 +200,7 @@ class WindowModificar(QDialog):
         self.ui.in_descrip.clear()
 
         self.exit() # Borra ventana
-
+        self.show_window_modificar = False
 
 class WindowConsulta(QWidget):
     def __init__(self, parent=None):
@@ -216,8 +243,9 @@ class WindowConsulta(QWidget):
             fila+=1
 
     def exit(self, ):
-        self.close()
         print("Regresa a menu principal")
+        self.close()
+        self.show_window_colsulta = False
     
     def search(self, ):
         mje = self.obj_f.consulta(
