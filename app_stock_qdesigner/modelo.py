@@ -251,11 +251,6 @@ class Crud():
         prec = precio.text()
         descrip = descripcion.text()
 
-        print(nom)
-        print(cant)
-        print(prec)
-        print(descrip)
-
         # Chequeo que los campos esten completos.
         if (
             self.obj_val.empty_entry(nom, "nom")
@@ -270,8 +265,6 @@ class Crud():
                 and self.obj_val.val_entry(prec, "prec")
                 and self.obj_val.val_entry(descrip, "descrip")
             ):
-                return "ok"
-            
                 """
                 if self.leer_db(nom):
                     return "existe"
@@ -285,6 +278,7 @@ class Crud():
                     )
                     return "cargado"
                 """
+                return "base de datos agregar"
             else:
                 raise ValueError(
                     "campos incorrectos"
@@ -302,17 +296,19 @@ class Crud():
         :returns: ``"no encontrado"`` si el componente a eliminar no se encuentra ingresado.
         :returns: ``"eliminado"`` si el componente fue eliminado exitosamente.
         """
-        nom = nombre.get()
+        nom = nombre.text()
 
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom"):
-
+            """
             # Chequeo si el artículo a eliminar existe.
             if self.leer_db(nom):
                 self.eliminar_db(nom)
                 return "eliminado"
             else:
                 return "no encontrado"
+            """
+            return "base de datos eliminar"
         else:
             return "campo vacio"
 
@@ -334,14 +330,14 @@ class Crud():
         global flag_p
         global flag_d
 
-        nom = nombre.get()
-        cant = cantidad.get()
-        prec = precio.get()
-        descrip = descripcion.get()
+        nom = nombre.text()
+        cant = cantidad.text()
+        prec = precio.text()
+        descrip = descripcion.text()
 
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom"):
-
+            """
             # Chequeo si el artículo a modificar existe.
             if self.leer_db(nom):
 
@@ -379,7 +375,6 @@ class Crud():
                     else:
                         # No se completó ningún campo a modificar
                         return "sin modificar"
-
                 # Si hubo error en la validación de datos (flag == 1)
                 # no se actualizará ningun campo y se informará del error al usuario.
                 if flag_e:
@@ -389,10 +384,12 @@ class Crud():
                     )  # Si se ingresó un dato inválido genero una excepción.
             else:
                 return "no existe"
+            """
+            return "base de datos modificar"
         else:
             return "campo vacio"
 
-    def consulta(self, nombre, tree):
+    def consulta(self, nombre):
         """
         Método para consultar los datos de un componente en particular (lo busco por el nombre).
 
@@ -401,15 +398,15 @@ class Crud():
         :returns: ``"campo vacio"`` si no se ingresó ningún nombre.
         :returns: ``"no encontrado"`` si el componente a consultar no se encuentra ingresado.
         """
-        nom = nombre.get()
+        nom = nombre.text()
 
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom"):
-
+            """
             # Chequeo si el artículo a consultar existe.
             if self.leer_db(nom):
                 data_from_db = self.leer_db(nom)
-
+                
                 # Borro todas las filas del treeview para mostrar solo el artículo consultado.
                 tree.delete(*tree.get_children())
                 for row in data_from_db:
@@ -426,6 +423,8 @@ class Crud():
                     )
             else:
                 return "no encontrado"
+            """
+            return "base de datos consulta"
         else:
             return "campo vacio"
 

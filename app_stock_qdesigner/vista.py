@@ -97,7 +97,6 @@ class WindowAgregar(QDialog):
 #aca tengo que pasar las variables in_nombre, in_ ... al modelo.py  y desde ahi trabajar con Crud que se encarga 
 # de cargar el treeview de QT
     def new_load(self,):
-
         mje = self.obj_f.agreg(
                     self.ui.in_nombre, 
                     self.ui.in_cant, 
@@ -105,74 +104,90 @@ class WindowAgregar(QDialog):
                     self.ui.in_descrip)
 
         print("Mensaje de agregar:", mje)
+        print("Se guarda nuevo articulo")
+
         #--- Limpia celdas una vez cargados datos ---#
         self.ui.in_nombre.clear()
         self.ui.in_cant.clear()
         self.ui.in_precio.clear()
         self.ui.in_descrip.clear()
 
-        self.exit()
-        print("Se guarda nuevo articulo")
+        self.exit() # Borra ventana
+
     
 class WindowEliminar(QDialog):
     def __init__(self, parent=None):
         super().__init__()
         self.ui = Ui_Eliminar()
         self.ui.setupUi(self,)
+
         self.ui.btns_option.accepted.connect(self.delete)
         self.ui.btns_option.rejected .connect(self.exit)
+
+        self.obj_f=Crud()
     
     def exit(self, ):
         self.close()
         print("Regresa a menu principal")
 
     def delete(self,):
-        nombre=str(self.ui.in_nombre.text())
-        self.ui.in_nombre.clear()
+        mje = self.obj_f.elim(
+            self.ui.in_nombre)
 
-        print(nombre)
-        self.exit()
+        print("Mensaje de eliminar:", mje)
         print("Se elimino articulo")
+
+        self.ui.in_nombre.clear() # Limpia celda una vez cargado dato
+
+        self.exit() # Borra ventana
 
 class WindowModificar(QDialog):
     def __init__(self, parent=None):
         super().__init__()
         self.ui = Ui_Modificar()
         self.ui.setupUi(self,)
+
         self.ui.btns_option.accepted.connect(self.modificated)
         self.ui.btns_option.rejected .connect(self.exit)
-    
+        
+        self.obj_f=Crud()
+
     def exit(self, ):
         self.close()
         print("Regresa a menu principal")
 
     def modificated(self,):
-        nombre=str(self.ui.in_nombre.text())
-        cant=int(self.ui.in_cant.text())
-        precio=int(self.ui.in_precio.text())
-        descrip=str(self.ui.in_descrip.text())
+        mje = self.obj_f.modif(
+                    self.ui.in_nombre, 
+                    self.ui.in_cant, 
+                    self.ui.in_precio, 
+                    self.ui.in_descrip)
 
+        print("Mensaje de modificar:", mje)
+        print("Se guardo modificaciones")
+
+        #--- Limpia celdas una vez cargados datos ---#
         self.ui.in_nombre.clear()
         self.ui.in_cant.clear()
         self.ui.in_precio.clear()
-        self.ui.in_descrip.clear()    
+        self.ui.in_descrip.clear()
 
-        print(nombre)
-        print(cant)
-        print(precio)
-        print(descrip)
-        self.exit()
-        print("Se guardo modificaciones")
+        self.exit() # Borra ventana
+
 
 class WindowConsulta(QWidget):
     def __init__(self, parent=None):
         super().__init__()
         self.ui = Ui_Consulta()
         self.ui.setupUi(self,)
+
         self.ui.btn_buscar.clicked.connect(self.search)
         self.ui.btn_cat_full.clicked.connect(self.full_cat)
         self.ui.btn_volver.clicked.connect(self.exit)
 
+        self.obj_f=Crud()
+
+        #--- Ajusto ancho de columnas de la tabla ---#
         self.ui.catalogo_list.setColumnWidth(0, 40)
         self.ui.catalogo_list.setColumnWidth(1, 120)
         self.ui.catalogo_list.setColumnWidth(2, 80)
@@ -200,21 +215,20 @@ class WindowConsulta(QWidget):
                 columna+=1
             fila+=1
 
-
     def exit(self, ):
         self.close()
         print("Regresa a menu principal")
     
     def search(self, ):
-        nombre=str(self.ui.in_nombre.text())
-        descrip=str(self.ui.in_descrip.text())
+        mje = self.obj_f.consulta(
+                    self.ui.in_nombre)
 
+        print("Mensaje de consulta:", mje)
+        print("Busca articulo por nombre")
+
+        #--- Limpia celdas una vez cargados datos ---#
         self.ui.in_nombre.clear()
         self.ui.in_descrip.clear()
-
-        print(nombre)
-        print(descrip)        
-        print("Busca articulo")
     
     def full_cat(self, ):
         print("Muestra catalogo completo")
