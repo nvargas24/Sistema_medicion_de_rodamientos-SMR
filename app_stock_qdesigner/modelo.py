@@ -229,7 +229,7 @@ class Crud():
         super().__init__()
         self.obj_val = Validacion()
 
-    def agreg(self, nombre, cantidad, precio, descripcion):
+    def agreg(self, nombre, cantidad, precio, descripcion, tree):
         """
         Método para agregar un nuevo componente.
 
@@ -278,6 +278,7 @@ class Crud():
                     )
                     return "cargado"
                 """
+                tree.insert(nom, cant, prec, descrip)
                 return "base de datos agregar"
             else:
                 raise ValueError(

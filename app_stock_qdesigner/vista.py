@@ -110,6 +110,7 @@ class WindowAgregar(QDialog):
         self.ui.btns_option.rejected.connect(self.exit)
 
         self.obj_f=Crud()
+        self.tree=WindowConsulta()
         
     
     def exit(self, ):
@@ -125,7 +126,8 @@ class WindowAgregar(QDialog):
                     self.ui.in_nombre, 
                     self.ui.in_cant, 
                     self.ui.in_precio, 
-                    self.ui.in_descrip)
+                    self.ui.in_descrip,
+                    self.tree)
 
         print("Mensaje de agregar:", mje)
         print("Se guarda nuevo articulo")
@@ -221,23 +223,29 @@ class WindowConsulta(QWidget):
         self.ui.catalogo_list.setColumnWidth(3, 80)
         self.ui.catalogo_list.setColumnWidth(4, 160)
 
-        self.list_componentes_test()
-        self.load_list_componentes()
+        
     
-    def list_componentes_test(self, ):
+    def insert(self, nom, cant, prec, descrip):
         self.datos = []
+        self.datos.append(('1', nom, cant, prec, descrip))
 
         self.datos.append(('2','1N4548', '32', '32', 'Diodo'))
         self.datos.append(('3','MCP3008', '2', '434', 'Circuito integrado'))
         self.datos.append(('4','7805', '45', '120', 'Regulador de tension'))
+    
+        self.load_list_componentes(self.datos)
 
-    def load_list_componentes(self, ):
+    def load_list_componentes(self, frame):
+        print("frame: ", frame)
         fila=0        
-        for registro in self.datos:
+        for registro in frame:
+            print("registro: ", registro, "  frame:", frame)
             columna=0            
             self.ui.catalogo_list.insertRow(fila) # se debe crear filas cada vez que se cargan dato
             for elemento in registro:
+                print("registro: ", registro, "  elemento:", elemento)
                 celda = QTableWidgetItem(elemento)
+                print("celda:  ", celda)
                 self.ui.catalogo_list.setItem(fila, columna, celda)
                 columna+=1
             fila+=1
