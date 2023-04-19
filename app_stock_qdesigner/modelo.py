@@ -216,7 +216,7 @@ class BaseDatos:
 
 
 # ---------------------Clase que contienen métodos para manejo de datos ingresados--------------------------------
-class Crud(BaseDatos):.
+class Crud(BaseDatos):
     """
     Clase que contiene métodos para el manejo de los datos ingresados.
     """

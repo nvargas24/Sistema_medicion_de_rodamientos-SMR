@@ -73,10 +73,10 @@ class MainWindow(QMainWindow, Opciones):
         self.obj_f = Crud()  # Creo un objeto de clase Crud.
         
         #-------------- Ventanas secundarias --------------#
-        self.window_agregar = WindowAgregar(self)
-        self.window_eliminar = WindowEliminar(self)
-        self.window_modificar = WindowModificar(self)
-        self.window_consulta = WindowConsulta(self) 
+        self.window_agregar = WindowAgregar(self.obj_f)
+        self.window_eliminar = WindowEliminar(self.obj_f)
+        self.window_modificar = WindowModificar(self.obj_f)
+        self.window_consulta = WindowConsulta(self.obj_f) 
 
         # Inicialmente no hay niguna ventana secundaria abierta
         self.show_window_agregar = False
@@ -102,14 +102,12 @@ class MainWindow(QMainWindow, Opciones):
 
 
 class WindowAgregar(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, obj_f, parent=None):
         super().__init__()
         self.ui = Ui_Agregar()
         self.ui.setupUi(self,)
         self.ui.btns_option.accepted.connect(self.new_load)
         self.ui.btns_option.rejected.connect(self.exit)
-
-        self.obj_f=Crud()
 
     def exit(self, ):
         self.close()
@@ -120,7 +118,7 @@ class WindowAgregar(QDialog):
 #aca tengo que pasar las variables in_nombre, in_ ... al modelo.py  y desde ahi trabajar con Crud que se encarga 
 # de cargar el treeview de QT
     def new_load(self,):
-        mje = self.obj_f.agreg(
+        mje = obj_f.agreg(
                     self.ui.in_nombre, 
                     self.ui.in_cant, 
                     self.ui.in_precio, 
@@ -146,8 +144,6 @@ class WindowEliminar(QDialog):
 
         self.ui.btns_option.accepted.connect(self.delete)
         self.ui.btns_option.rejected.connect(self.exit)
-
-        self.obj_f=Crud()
     
     def exit(self, ):
         print("Regresa a menu principal")
@@ -174,8 +170,7 @@ class WindowModificar(QDialog):
 
         self.ui.btns_option.accepted.connect(self.modificated)
         self.ui.btns_option.rejected.connect(self.exit)
-        
-        self.obj_f=Crud()
+
 
     def exit(self, ):
         print("Regresa a menu principal")        
@@ -211,8 +206,6 @@ class WindowConsulta(QWidget):
         self.ui.btn_buscar.clicked.connect(self.search)
         self.ui.btn_cat_full.clicked.connect(self.full_cat)
         self.ui.btn_volver.clicked.connect(self.exit)
-
-        self.obj_f=Crud()
 
         #--- Ajusto ancho de columnas de la tabla ---#
         self.ui.catalogo_list.setColumnWidth(0, 40)
