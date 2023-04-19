@@ -73,10 +73,10 @@ class MainWindow(QMainWindow, Opciones):
         self.obj_f = Crud()  # Creo un objeto de clase Crud.
         
         #-------------- Ventanas secundarias --------------#
-        self.window_agregar = WindowAgregar()
-        self.window_eliminar = WindowEliminar()
-        self.window_modificar = WindowModificar()
-        self.window_consulta = WindowConsulta() 
+        self.window_agregar = WindowAgregar(self)
+        self.window_eliminar = WindowEliminar(self)
+        self.window_modificar = WindowModificar(self)
+        self.window_consulta = WindowConsulta(self) 
 
         # Inicialmente no hay niguna ventana secundaria abierta
         self.show_window_agregar = False
@@ -110,9 +110,7 @@ class WindowAgregar(QDialog):
         self.ui.btns_option.rejected.connect(self.exit)
 
         self.obj_f=Crud()
-        self.tree=WindowConsulta()
-        
-    
+
     def exit(self, ):
         self.close()
         self.show_window_agregar = False
@@ -126,8 +124,7 @@ class WindowAgregar(QDialog):
                     self.ui.in_nombre, 
                     self.ui.in_cant, 
                     self.ui.in_precio, 
-                    self.ui.in_descrip,
-                    self.tree)
+                    self.ui.in_descrip)
 
         print("Mensaje de agregar:", mje)
         print("Se guarda nuevo articulo")
@@ -207,6 +204,7 @@ class WindowModificar(QDialog):
 class WindowConsulta(QWidget):
     def __init__(self, parent=None):
         super().__init__()
+
         self.ui = Ui_Consulta()
         self.ui.setupUi(self,)
 
@@ -224,7 +222,6 @@ class WindowConsulta(QWidget):
         self.ui.catalogo_list.setColumnWidth(4, 160)
 
         
-    
     def insert(self, nom, cant, prec, descrip):
         self.datos = []
         self.datos.append(('1', nom, cant, prec, descrip))

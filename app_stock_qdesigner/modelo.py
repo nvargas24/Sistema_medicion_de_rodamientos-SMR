@@ -216,7 +216,7 @@ class BaseDatos:
 
 
 # ---------------------Clase que contienen métodos para manejo de datos ingresados--------------------------------
-class Crud():
+class Crud(BaseDatos):.
     """
     Clase que contiene métodos para el manejo de los datos ingresados.
     """
@@ -229,7 +229,7 @@ class Crud():
         super().__init__()
         self.obj_val = Validacion()
 
-    def agreg(self, nombre, cantidad, precio, descripcion, tree):
+    def agreg(self, nombre, cantidad, precio, descripcion):
         """
         Método para agregar un nuevo componente.
 
@@ -265,21 +265,13 @@ class Crud():
                 and self.obj_val.val_entry(prec, "prec")
                 and self.obj_val.val_entry(descrip, "descrip")
             ):
-                """
                 if self.leer_db(nom):
                     return "existe"
                 
                 else:
                     self.agregar_db(nom, cant, prec, descrip)
-                    tree.insert(
-                        "",
-                        "end",
-                        values=(nom, int(cant), float(prec), descrip),
-                    )
                     return "cargado"
-                """
-                tree.insert(nom, cant, prec, descrip)
-                return "base de datos agregar"
+                
             else:
                 raise ValueError(
                     "campos incorrectos"
@@ -301,15 +293,12 @@ class Crud():
 
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom"):
-            """
             # Chequeo si el artículo a eliminar existe.
             if self.leer_db(nom):
                 self.eliminar_db(nom)
                 return "eliminado"
             else:
                 return "no encontrado"
-            """
-            return "base de datos eliminar"
         else:
             return "campo vacio"
 
@@ -338,7 +327,6 @@ class Crud():
 
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom"):
-            """
             # Chequeo si el artículo a modificar existe.
             if self.leer_db(nom):
 
@@ -385,8 +373,6 @@ class Crud():
                     )  # Si se ingresó un dato inválido genero una excepción.
             else:
                 return "no existe"
-            """
-            return "base de datos modificar"
         else:
             return "campo vacio"
 
@@ -403,49 +389,19 @@ class Crud():
 
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom"):
-            """
             # Chequeo si el artículo a consultar existe.
             if self.leer_db(nom):
                 data_from_db = self.leer_db(nom)
-                
-                # Borro todas las filas del treeview para mostrar solo el artículo consultado.
-                tree.delete(*tree.get_children())
-                for row in data_from_db:
-                    tree.insert(
-                        "",
-                        "end",
-                        text=str(row.id),
-                        values=(
-                            row.nombre,
-                            int(row.cantidad),
-                            float(row.precio),
-                            row.descripcion,
-                        ),
-                    )
             else:
                 return "no encontrado"
-            """
-            return "base de datos consulta"
         else:
             return "campo vacio"
 
-    def mostrar_cat(self, tree):
+    def mostrar_cat(self, ):
         """
         Método que muestra el catálogo completo de componentes cargados hasta el momento.
 
         :param tree: Treeview de la interfaz.
         """
         data_from_db = self.leer_db(None)
-        tree.delete(*tree.get_children())
-        for row in data_from_db:
-            tree.insert(
-                "",
-                "end",
-                text=str(row.id),
-                values=(
-                    row.nombre,
-                    int(row.cantidad),
-                    float(row.precio),
-                    row.descripcion,
-                ),
-            )
+
