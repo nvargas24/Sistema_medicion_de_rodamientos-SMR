@@ -8,3 +8,6 @@ Se ingresó un nuevo registro Fecha: 19/04/23 Hora: 23:00:17
 Se eliminó un registro Fecha: 19/04/23 Hora: 23:00:25
 Se modificó un registro Fecha: 19/04/23 Hora: 23:01:13
 Se ingresó un nuevo registro Fecha: 19/04/23 Hora: 23:05:28
+Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 01:21:03
+Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 01:21:12
+Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 01:21:22

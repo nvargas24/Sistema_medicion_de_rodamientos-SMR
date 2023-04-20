@@ -397,11 +397,22 @@ class Crud(BaseDatos):
         else:
             return "campo vacio"
 
-    def mostrar_cat(self, ):
+    def mostrar_cat(self, tree):
         """
         Método que muestra el catálogo completo de componentes cargados hasta el momento.
 
         :param tree: Treeview de la interfaz.
         """
         data_from_db = self.leer_db(None)
+
+        for row in data_from_db:
+                tree.insert(
+                        str(row.id),
+                        row.nombre,
+                        row.cantidad,
+                        row.precio,
+                        row.descripcion,
+                    )
+
+
 

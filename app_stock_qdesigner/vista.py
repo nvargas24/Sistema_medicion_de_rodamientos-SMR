@@ -185,14 +185,11 @@ class WindowConsulta(QWidget):
         self.ui.catalogo_list.setColumnWidth(3, 80)
         self.ui.catalogo_list.setColumnWidth(4, 160)
 
-    def insert(self, nom, cant, prec, descrip):
-        self.frame = []
-        self.frame.append(('1', nom, cant, prec, descrip))
+    def insert(self, id, nom, cant, prec, descrip):
 
-        self.frame.append(('2','1N4548', '32', '32', 'Diodo'))
-        self.frame.append(('3','MCP3008', '2', '434', 'Circuito integrado'))
-        self.frame.append(('4','7805', '45', '120', 'Regulador de tension'))
-    
+        self.frame = []
+        self.frame.append((id, nom, cant, prec, descrip))
+
         fila=0        
         for registro in self.frame:
             columna=0            
@@ -219,5 +216,4 @@ class WindowConsulta(QWidget):
     
     def full_cat(self, obj_f):
         print("Muestra catalogo completo")
-        obj_f.mostrar_cat()
-        self.insert("test", "1", "33333", "capacitores")
+        obj_f.mostrar_cat(self)
