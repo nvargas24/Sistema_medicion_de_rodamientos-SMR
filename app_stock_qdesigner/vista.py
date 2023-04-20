@@ -212,6 +212,9 @@ class WindowConsulta(QWidget):
                 columna+=1
             fila+=1
 
+    def delete(self, ):
+        self.ui.catalogo_list.clearContents()
+
     def exit(self, ):
         print("Regresa a menu principal")
         self.ui.catalogo_list.clearContents()
@@ -220,8 +223,8 @@ class WindowConsulta(QWidget):
     def search(self, obj_f):
         print("Buscar articulo por nombre")        
         mje = obj_f.consulta(
-                    self.ui.in_nombre)
-
+                    self.ui.in_nombre, self)
+        
         print("Mensaje de consulta:", mje)
         self.ui.notificacion.setText(mje)
 

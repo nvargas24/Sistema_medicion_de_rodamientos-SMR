@@ -379,7 +379,7 @@ class Crud(BaseDatos):
         else:
             return "Campo vacio"
 
-    def consulta(self, nombre):
+    def consulta(self, nombre, tree):
         """
         Método para consultar los datos de un componente en particular (lo busco por el nombre).
 
@@ -395,6 +395,15 @@ class Crud(BaseDatos):
             # Chequeo si el artículo a consultar existe.
             if self.leer_db(nom):
                 data_from_db = self.leer_db(nom)
+                tree.delete()
+                for row in data_from_db:
+                    tree.insert(
+                        str(row.id),
+                        row.nombre,
+                        row.cantidad,
+                        row.precio,
+                        row.descripcion,
+                    )
             else:
                 return "Articulo no encontrado"
         else:

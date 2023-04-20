@@ -8,3 +8,8 @@ Se modificó un registro Fecha: 20/04/23 Hora: 10:08:10
 Se eliminó un registro Fecha: 20/04/23 Hora: 10:11:11
 Se eliminó un registro Fecha: 20/04/23 Hora: 10:11:35
 Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 10:27:34
+Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 10:47:05
+Se eliminó un registro Fecha: 20/04/23 Hora: 10:47:40
+Se modificó un registro Fecha: 20/04/23 Hora: 10:48:10
+Se modificó un registro Fecha: 20/04/23 Hora: 10:48:16
+Se modificó un registro Fecha: 20/04/23 Hora: 10:48:32
