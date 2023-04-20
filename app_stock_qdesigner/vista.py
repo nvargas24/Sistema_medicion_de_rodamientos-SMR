@@ -23,6 +23,7 @@ class Opciones():
         print("Agregar articulo nuevo")
         self.window_agregar.setWindowTitle("Agregar")
         self.window_agregar.show()
+
         #--- Limpia celdas  ---#
         self.window_agregar.ui.in_nombre.clear()
         self.window_agregar.ui.in_cant.clear()
@@ -30,21 +31,36 @@ class Opciones():
         self.window_agregar.ui.in_descrip.clear()
         self.window_agregar.ui.notificacion.clear()
 
-
     def eliminar_dat(self,):
         print("Eliminar articulo")
         self.window_eliminar.setWindowTitle("Eliminar")
         self.window_eliminar.show()
+
+        #--- Limpia celdas  ---#
+        self.window_eliminar.ui.in_nombre.clear()
+        self.window_eliminar.ui.notificacion.clear()
 
     def modificar_dat(self,):
         print("Modificar articulo")
         self.window_modificar.setWindowTitle("Modificar")
         self.window_modificar.show()
 
+        #--- Limpia celdas  ---#
+        self.window_modificar.ui.in_nombre.clear()
+        self.window_modificar.ui.in_cant.clear()
+        self.window_modificar.ui.in_precio.clear()
+        self.window_modificar.ui.in_descrip.clear()
+        self.window_modificar.ui.notificacion.clear()
+
     def consultar_dat(self,):
         print("Consultar articulo")
         self.window_consulta.setWindowTitle("Consulta")
         self.window_consulta.show()
+
+        #--- Limpia celdas  ---#
+        self.window_consulta.ui.in_nombre.clear()
+        self.window_consulta.ui.in_descrip.clear()
+        self.window_consulta.ui.notificacion.clear()
 
 # --- Clase para iteractuar con grafico ---#
 class Canvas_grafica(FigureCanvas):
@@ -92,6 +108,10 @@ class WindowAgregar(QDialog):
         super().__init__()
         self.ui = Ui_Agregar()
         self.ui.setupUi(self,)
+
+        #self.ui.btns_option.setButtonText(QtWidgets.QDialogButtonBox.Save, "Agregar")
+        #self.ui.btns_option.setButtonText(QtWidgets.QDialogButtonBox.Cancel, "Salir")
+
         self.ui.btns_option.accepted.connect(lambda: self.new_load(obj_f))
         self.ui.btns_option.rejected.connect(self.exit)
 
@@ -109,14 +129,7 @@ class WindowAgregar(QDialog):
         print("Mensaje de agregar:", mje)
         self.ui.notificacion.setText(mje)
 
-        #--- Limpia celdas  ---#
-        #self.ui.in_nombre.clear()
-        #self.ui.in_cant.clear()
-        #self.ui.in_precio.clear()
-        #self.ui.in_descrip.clear() 
-
         if not mje:
-            self.ui.notificacion.clear()
             self.exit() # Borra ventana
 
 class WindowEliminar(QDialog):
@@ -137,11 +150,10 @@ class WindowEliminar(QDialog):
             self.ui.in_nombre)
 
         print("Mensaje de eliminar:", mje)
-        print("Se elimino articulo")
-
-        self.ui.in_nombre.clear() # Limpia celda una vez cargado dato
-
-        self.exit() # Borra ventana
+        self.ui.notificacion.setText(mje)
+        
+        if not mje:
+            self.exit() # Borra ventana
 
 class WindowModificar(QDialog):
     def __init__(self, obj_f, parent=None):
@@ -151,7 +163,6 @@ class WindowModificar(QDialog):
 
         self.ui.btns_option.accepted.connect(lambda: self.modificated(obj_f))
         self.ui.btns_option.rejected.connect(self.exit)
-
 
     def exit(self, ):
         print("Regresa a menu principal")        
@@ -165,15 +176,10 @@ class WindowModificar(QDialog):
                     self.ui.in_descrip)
 
         print("Mensaje de modificar:", mje)
-        print("Se guardo modificaciones")
-
-        #--- Limpia celdas una vez cargados datos ---#
-        self.ui.in_nombre.clear()
-        self.ui.in_cant.clear()
-        self.ui.in_precio.clear()
-        self.ui.in_descrip.clear()
-
-        self.exit() # Borra ventana
+        self.ui.notificacion.setText(mje)
+        
+        if not mje:
+            self.exit() # Borra ventana
 
 class WindowConsulta(QWidget):
     def __init__(self, obj_f, parent=None):
@@ -212,16 +218,13 @@ class WindowConsulta(QWidget):
         self.close()
 
     def search(self, obj_f):
-        print("Busca articulo por nombre")        
+        print("Buscar articulo por nombre")        
         mje = obj_f.consulta(
                     self.ui.in_nombre)
 
         print("Mensaje de consulta:", mje)
+        self.ui.notificacion.setText(mje)
 
-        #--- Limpia celdas una vez cargados datos ---#
-        self.ui.in_nombre.clear()
-        self.ui.in_descrip.clear()
-    
     def full_cat(self, obj_f):
         self.ui.catalogo_list.clearContents()  
         print("Muestra catalogo completo")

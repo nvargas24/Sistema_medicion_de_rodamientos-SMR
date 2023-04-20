@@ -298,11 +298,11 @@ class Crud(BaseDatos):
             # Chequeo si el artículo a eliminar existe.
             if self.leer_db(nom):
                 self.eliminar_db(nom)
-                return "eliminado"
+                return "Articulo eliminado"
             else:
-                return "no encontrado"
+                return "Articulo no encontrado"
         else:
-            return "campo vacio"
+            return "Campo vacio"
 
     def modif(self, nombre, cantidad, precio, descripcion):
         """
@@ -362,21 +362,22 @@ class Crud(BaseDatos):
                     if flag_c or flag_p or flag_d:  # Si se ingresó un dato a modificar
                         self.actualizar_db(nom, cant, prec, descrip)
 
-                        return "modificado"
+                        return "Articulo modificado"
                     else:
                         # No se completó ningún campo a modificar
-                        return "sin modificar"
+                        return "Articulo sin modificar"
                 # Si hubo error en la validación de datos (flag == 1)
                 # no se actualizará ningun campo y se informará del error al usuario.
                 if flag_e:
                     flag_e = 0
+                    return "Campos incorrectos"
                     raise ValueError(
                         "campos incorrectos"
                     )  # Si se ingresó un dato inválido genero una excepción.
             else:
-                return "no existe"
+                return "Articulo no existe"
         else:
-            return "campo vacio"
+            return "Campo vacio"
 
     def consulta(self, nombre):
         """
@@ -395,9 +396,9 @@ class Crud(BaseDatos):
             if self.leer_db(nom):
                 data_from_db = self.leer_db(nom)
             else:
-                return "no encontrado"
+                return "Articulo no encontrado"
         else:
-            return "campo vacio"
+            return "Campo vacio"
 
     def mostrar_cat(self, tree):
         """
