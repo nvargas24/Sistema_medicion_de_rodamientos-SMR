@@ -161,7 +161,7 @@ class BaseDatos:
 
         :returns: Fila/s encontrada/s de acuerdo a la referencia.
         """
-
+        print("nombre: ", nombre, "   descrip: ", descrip)
         if nombre==None and descrip==None:
             rows = Componentes.select()
         elif nombre!=None and descrip==None:
@@ -169,7 +169,7 @@ class BaseDatos:
         elif nombre==None and descrip!=None:
             rows = Componentes.select().where(Componentes.descripcion == descrip)
         elif nombre!=None and descrip!=None:
-            rows = Componentes.select().where(Componentes.nombre == nombre and Componentes.descripcion == descrip)
+            rows = Componentes.select().where((Componentes.nombre == nombre) & (Componentes.descripcion == descrip))
     
         return rows
 
@@ -438,7 +438,6 @@ class Crud(BaseDatos):
             # Chequeo si el artículo a consultar existe.
             if self.leer_db(nom, descrip):
                 data_from_db = self.leer_db(nom, descrip)
-                print("data_from_db: ", data_from_db)
                 tree.delete()
                 for row in data_from_db:
                     tree.insert(
