@@ -116,20 +116,20 @@ class WindowAgregar(QDialog):
 
     
 class WindowEliminar(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, obj_f, parent=None):
         super().__init__()
         self.ui = Ui_Eliminar()
         self.ui.setupUi(self,)
 
-        self.ui.btns_option.accepted.connect(self.delete)
+        self.ui.btns_option.accepted.connect(lambda: self.delete(obj_f))
         self.ui.btns_option.rejected.connect(self.exit)
     
     def exit(self, ):
         print("Regresa a menu principal")
         self.close()
 
-    def delete(self,):
-        mje = self.obj_f.elim(
+    def delete(self, obj_f):
+        mje = obj_f.elim(
             self.ui.in_nombre)
 
         print("Mensaje de eliminar:", mje)
@@ -140,12 +140,12 @@ class WindowEliminar(QDialog):
         self.exit() # Borra ventana
 
 class WindowModificar(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, obj_f, parent=None):
         super().__init__()
         self.ui = Ui_Modificar()
         self.ui.setupUi(self,)
 
-        self.ui.btns_option.accepted.connect(self.modificated)
+        self.ui.btns_option.accepted.connect(lambda: self.modificated(obj_f))
         self.ui.btns_option.rejected.connect(self.exit)
 
 
@@ -153,8 +153,8 @@ class WindowModificar(QDialog):
         print("Regresa a menu principal")        
         self.close()
 
-    def modificated(self,):
-        mje = self.obj_f.modif(
+    def modificated(self, obj_f):
+        mje = obj_f.modif(
                     self.ui.in_nombre, 
                     self.ui.in_cant, 
                     self.ui.in_precio, 
