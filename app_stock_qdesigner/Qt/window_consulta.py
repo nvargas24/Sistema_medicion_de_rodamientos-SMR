@@ -153,7 +153,7 @@ class Ui_Consulta(object):
         self.titulo.setAlignment(Qt.AlignCenter)
         self.notificacion = QLabel(Consulta)
         self.notificacion.setObjectName(u"notificacion")
-        self.notificacion.setGeometry(QRect(370, 30, 161, 20))
+        self.notificacion.setGeometry(QRect(310, 30, 231, 20))
         font4 = QFont()
         font4.setBold(True)
         font4.setWeight(75)

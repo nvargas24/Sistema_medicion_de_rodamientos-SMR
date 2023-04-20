@@ -357,9 +357,9 @@
   <widget class="QLabel" name="notificacion">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>310</x>
      <y>30</y>
-     <width>161</width>
+     <width>231</width>
      <height>20</height>
     </rect>
    </property>

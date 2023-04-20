@@ -152,19 +152,25 @@ class BaseDatos:
         except:
             print("No se pudo eliminar el registro")
 
-    def leer_db(self, nombre=None):
+    def leer_db(self, nombre=None, descrip=None):
         """
         Método para seleccionar una o varias filas de la tabla usando como referencia el campo **Nombre**.
 
         :param nombre: Nombre del componente.
+        :param descrip: Descripcion del componente.
 
         :returns: Fila/s encontrada/s de acuerdo a la referencia.
         """
-        if nombre == None:
-            rows = Componentes.select()
-        else:
-            rows = Componentes.select().where(Componentes.nombre == nombre)
 
+        if nombre==None and descrip==None:
+            rows = Componentes.select()
+        elif nombre!=None and descrip==None:
+            rows = Componentes.select().where(Componentes.nombre == nombre)
+        elif nombre==None and descrip!=None:
+            rows = Componentes.select().where(Componentes.descripcion == descrip)
+        elif nombre!=None and descrip!=None:
+            rows = Componentes.select().where(Componentes.nombre == nombre and Componentes.descripcion == descrip)
+    
         return rows
 
     @decorador_mod
@@ -379,7 +385,7 @@ class Crud(BaseDatos):
         else:
             return "Campo vacio"
 
-    def consulta(self, nombre, tree):
+    def consulta(self, nombre, descrip, tree):
         """
         Método para consultar los datos de un componente en particular (lo busco por el nombre).
 
@@ -389,12 +395,50 @@ class Crud(BaseDatos):
         :returns: ``"no encontrado"`` si el componente a consultar no se encuentra ingresado.
         """
         nom = nombre.text()
+        descrip = descrip.text()
 
+        # Busqueda por nombre
         # Chequeo que el campo nombre no esté vacío.
-        if self.obj_val.empty_entry(nom, "nom"):
+        if self.obj_val.empty_entry(nom, "nom") and not self.obj_val.empty_entry(descrip, "descrip"):
             # Chequeo si el artículo a consultar existe.
-            if self.leer_db(nom):
-                data_from_db = self.leer_db(nom)
+            if self.leer_db(nom, None):
+                data_from_db = self.leer_db(nom, None)
+                tree.delete()
+                for row in data_from_db:
+                    tree.insert(
+                        str(row.id),
+                        row.nombre,
+                        row.cantidad,
+                        row.precio,
+                        row.descripcion,
+                    )
+            else:
+                return "Articulo no encontrado por nombre"
+
+        # Busqueda por descripcion
+        # Chequeo que el campo descripcion no esté vacío.
+        elif self.obj_val.empty_entry(descrip, "descrip") and not self.obj_val.empty_entry(nom, "nom"):
+            # Chequeo si el artículo a consultar existe.
+            if self.leer_db(None, descrip):
+                data_from_db = self.leer_db(None, descrip)
+                tree.delete()
+                for row in data_from_db:
+                    tree.insert(
+                        str(row.id),
+                        row.nombre,
+                        row.cantidad,
+                        row.precio,
+                        row.descripcion,
+                    )
+            else:
+                return "Articulo no encontrado por descripcion"
+        # Busqueda por nombre y descripcion
+        # Chequeo que el campo nombre y descripcion no esten vacíos.
+        elif self.obj_val.empty_entry(nom, "nom") and self.obj_val.empty_entry(descrip, "descrip"):
+            # Chequeo si el artículo a consultar existe.
+            if self.leer_db(nom, descrip):
+                data_from_db = self.leer_db(nom, descrip)
+                print("data_from_db: ", data_from_db)
                 tree.delete()
                 for row in data_from_db:
                     tree.insert(
@@ -406,8 +450,10 @@ class Crud(BaseDatos):
                     )
             else:
                 return "Articulo no encontrado"
-        else:
-            return "Campo vacio"
+
+        elif not self.obj_val.empty_entry(nom, "nom") and not self.obj_val.empty_entry(descrip, "descrip"):
+            return "Campos vacios"
+        
 
     def mostrar_cat(self, tree):
         """

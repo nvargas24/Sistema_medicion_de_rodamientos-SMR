@@ -221,9 +221,9 @@ class WindowConsulta(QWidget):
         self.close()
 
     def search(self, obj_f):
-        print("Buscar articulo por nombre")        
+        print("Buscar articulo")        
         mje = obj_f.consulta(
-                    self.ui.in_nombre, self)
+                    self.ui.in_nombre, self.ui.in_descrip, self)
         
         print("Mensaje de consulta:", mje)
         self.ui.notificacion.setText(mje)
