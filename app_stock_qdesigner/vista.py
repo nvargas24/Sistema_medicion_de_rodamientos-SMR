@@ -23,6 +23,13 @@ class Opciones():
         print("Agregar articulo nuevo")
         self.window_agregar.setWindowTitle("Agregar")
         self.window_agregar.show()
+        #--- Limpia celdas  ---#
+        self.window_agregar.ui.in_nombre.clear()
+        self.window_agregar.ui.in_cant.clear()
+        self.window_agregar.ui.in_precio.clear()
+        self.window_agregar.ui.in_descrip.clear()
+        self.window_agregar.ui.notificacion.clear()
+
 
     def eliminar_dat(self,):
         print("Eliminar articulo")
@@ -80,7 +87,6 @@ class MainWindow(QMainWindow, Opciones):
         self.ui.btn_modificar.clicked.connect(self.modificar_dat)
         self.ui.btn_consultar.clicked.connect(self.consultar_dat)
 
-
 class WindowAgregar(QDialog):
     def __init__(self, obj_f, parent=None):
         super().__init__()
@@ -101,15 +107,17 @@ class WindowAgregar(QDialog):
                     self.ui.in_descrip)
 
         print("Mensaje de agregar:", mje)
-        print("Se guarda nuevo articulo")
+        self.ui.notificacion.setText(mje)
 
-        #--- Limpia celdas una vez cargados datos ---#
-        self.ui.in_nombre.clear()
-        self.ui.in_cant.clear()
-        self.ui.in_precio.clear()
-        self.ui.in_descrip.clear()
+        #--- Limpia celdas  ---#
+        #self.ui.in_nombre.clear()
+        #self.ui.in_cant.clear()
+        #self.ui.in_precio.clear()
+        #self.ui.in_descrip.clear() 
 
-        self.exit() # Borra ventana
+        if not mje:
+            self.ui.notificacion.clear()
+            self.exit() # Borra ventana
 
 class WindowEliminar(QDialog):
     def __init__(self, obj_f, parent=None):
@@ -183,10 +191,9 @@ class WindowConsulta(QWidget):
         self.ui.catalogo_list.setColumnWidth(1, 120)
         self.ui.catalogo_list.setColumnWidth(2, 80)
         self.ui.catalogo_list.setColumnWidth(3, 80)
-        self.ui.catalogo_list.setColumnWidth(4, 160)
+        self.ui.catalogo_list.setColumnWidth(4, 160)  
 
     def insert(self, id, nom, cant, prec, descrip):
-
         self.frame = []
         self.frame.append((id, nom, cant, prec, descrip))
 
@@ -201,6 +208,7 @@ class WindowConsulta(QWidget):
 
     def exit(self, ):
         print("Regresa a menu principal")
+        self.ui.catalogo_list.clearContents()
         self.close()
 
     def search(self, obj_f):
@@ -215,5 +223,6 @@ class WindowConsulta(QWidget):
         self.ui.in_descrip.clear()
     
     def full_cat(self, obj_f):
+        self.ui.catalogo_list.clearContents()  
         print("Muestra catalogo completo")
         obj_f.mostrar_cat(self)

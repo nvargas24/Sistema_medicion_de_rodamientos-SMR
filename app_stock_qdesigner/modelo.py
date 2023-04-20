@@ -266,18 +266,20 @@ class Crud(BaseDatos):
                 and self.obj_val.val_entry(descrip, "descrip")
             ):
                 if self.leer_db(nom):
-                    return "existe"
+                    return "Ya existe el articulo"
                 
                 else:
                     self.agregar_db(nom, cant, prec, descrip)
-                    return "cargado"
+                    return "Nuevo articulo cargado"
                 
             else:
+                return "Campos incorrectos"                
                 raise ValueError(
                     "campos incorrectos"
                 )  # Si se ingresó un dato inválido genero una excepción.
+
         else:
-            return "campos vacios"
+            return "Campos vacios"
 
     def elim(self, nombre):
         """
