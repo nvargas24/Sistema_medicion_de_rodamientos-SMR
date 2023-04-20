@@ -20,3 +20,11 @@ Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 14:44:34
 Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 14:44:38
 Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 14:44:42
 Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 15:14:35
+Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 15:37:55
+Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 15:38:21
+Se eliminó un registro Fecha: 20/04/23 Hora: 15:38:37
+Se eliminó un registro Fecha: 20/04/23 Hora: 15:38:49
+Se ingresó un nuevo registro Fecha: 20/04/23 Hora: 15:38:56
+Se modificó un registro Fecha: 20/04/23 Hora: 15:39:19
+Se modificó un registro Fecha: 20/04/23 Hora: 15:39:37
+Se modificó un registro Fecha: 20/04/23 Hora: 15:40:00
