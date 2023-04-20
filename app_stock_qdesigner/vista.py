@@ -93,9 +93,6 @@ class WindowAgregar(QDialog):
         self.close()
         print("Regresa a menu principal")
 
-
-#aca tengo que pasar las variables in_nombre, in_ ... al modelo.py  y desde ahi trabajar con Crud que se encarga 
-# de cargar el treeview de QT
     def new_load(self, obj_f):
         mje = obj_f.agreg(
                     self.ui.in_nombre, 
@@ -114,7 +111,6 @@ class WindowAgregar(QDialog):
 
         self.exit() # Borra ventana
 
-    
 class WindowEliminar(QDialog):
     def __init__(self, obj_f, parent=None):
         super().__init__()
@@ -172,14 +168,14 @@ class WindowModificar(QDialog):
         self.exit() # Borra ventana
 
 class WindowConsulta(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, obj_f, parent=None):
         super().__init__()
 
         self.ui = Ui_Consulta()
         self.ui.setupUi(self,)
 
-        self.ui.btn_buscar.clicked.connect(self.search)
-        self.ui.btn_cat_full.clicked.connect(self.full_cat)
+        self.ui.btn_buscar.clicked.connect(lambda: self.search(obj_f))
+        self.ui.btn_cat_full.clicked.connect(lambda: self.full_cat(obj_f))
         self.ui.btn_volver.clicked.connect(self.exit)
 
         #--- Ajusto ancho de columnas de la tabla ---#
@@ -219,16 +215,17 @@ class WindowConsulta(QWidget):
         print("Regresa a menu principal")
         self.close()
 
-    def search(self, ):
-        mje = self.obj_f.consulta(
+    def search(self, obj_f):
+        print("Busca articulo por nombre")        
+        mje = obj_f.consulta(
                     self.ui.in_nombre)
 
         print("Mensaje de consulta:", mje)
-        print("Busca articulo por nombre")
 
         #--- Limpia celdas una vez cargados datos ---#
         self.ui.in_nombre.clear()
         self.ui.in_descrip.clear()
     
-    def full_cat(self, ):
+    def full_cat(self, obj_f):
         print("Muestra catalogo completo")
+        obj_f.mostrar_cat()
