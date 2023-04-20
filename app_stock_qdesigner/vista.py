@@ -61,6 +61,8 @@ class Opciones():
         self.window_consulta.ui.in_nombre.clear()
         self.window_consulta.ui.in_descrip.clear()
         self.window_consulta.ui.notificacion.clear()
+        
+        self.window_consulta.full_cat(self.obj_f)
 
 # --- Clase para iteractuar con grafico ---#
 class Canvas_grafica(FigureCanvas):
