@@ -152,7 +152,7 @@ class BaseDatos:
         except:
             print("No se pudo eliminar el registro")
 
-    def leer_db(self, nombre):
+    def leer_db(self, nombre=None):
         """
         Método para seleccionar una o varias filas de la tabla usando como referencia el campo **Nombre**.
 
@@ -415,7 +415,7 @@ class Crud(BaseDatos):
 
         :param tree: Treeview de la interfaz.
         """
-        data_from_db = self.leer_db(None)
+        data_from_db = self.leer_db()
 
         for row in data_from_db:
                 tree.insert(
