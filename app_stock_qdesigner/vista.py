@@ -185,29 +185,20 @@ class WindowConsulta(QWidget):
         self.ui.catalogo_list.setColumnWidth(3, 80)
         self.ui.catalogo_list.setColumnWidth(4, 160)
 
-        
     def insert(self, nom, cant, prec, descrip):
-        self.datos = []
-        self.datos.append(('1', nom, cant, prec, descrip))
+        self.frame = []
+        self.frame.append(('1', nom, cant, prec, descrip))
 
-        self.datos.append(('2','1N4548', '32', '32', 'Diodo'))
-        self.datos.append(('3','MCP3008', '2', '434', 'Circuito integrado'))
-        self.datos.append(('4','7805', '45', '120', 'Regulador de tension'))
+        self.frame.append(('2','1N4548', '32', '32', 'Diodo'))
+        self.frame.append(('3','MCP3008', '2', '434', 'Circuito integrado'))
+        self.frame.append(('4','7805', '45', '120', 'Regulador de tension'))
     
-        self.load_list_componentes(self.datos)
-
-    def load_list_componentes(self, frame):
-        print("frame: ", frame)
         fila=0        
-        for registro in frame:
-            print("registro: ", registro, "  frame:", frame)
+        for registro in self.frame:
             columna=0            
             self.ui.catalogo_list.insertRow(fila) # se debe crear filas cada vez que se cargan dato
             for elemento in registro:
-                print("registro: ", registro, "  elemento:", elemento)
-                celda = QTableWidgetItem(elemento)
-                print("celda:  ", celda)
-                self.ui.catalogo_list.setItem(fila, columna, celda)
+                self.ui.catalogo_list.setItem(fila, columna, QTableWidgetItem(elemento))
                 columna+=1
             fila+=1
 
@@ -229,3 +220,4 @@ class WindowConsulta(QWidget):
     def full_cat(self, obj_f):
         print("Muestra catalogo completo")
         obj_f.mostrar_cat()
+        self.insert("test", "1", "33333", "capacitores")
