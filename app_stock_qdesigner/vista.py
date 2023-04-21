@@ -69,7 +69,7 @@ class Opciones():
 class Canvas_grafica(FigureCanvas):
     def __init__(self, ):
         # Asigno un espacio para ubicar el grafico de matplotlib usando Canvas
-        self.fig, self.ax = plt.subplots(1, dpi=100, figsize=(5,5), sharey=True, facecolor='none')
+        self.fig, self.ax = plt.subplots(1, dpi=70, figsize=(9,9), sharey=True, facecolor='none')
         super().__init__(self.fig)
         
     def upgrade_graph(self, componentes, cantidad):
@@ -88,7 +88,7 @@ class Canvas_grafica(FigureCanvas):
 
         self.ax.clear()
         self.ax.pie(self.tamanio, explode=self.explotar, labels=self.nombres, colors=self.colores,
-                    autopct='%1.0f%%', pctdistance=0.6, shadow=True, startangle=90, radius=0.8, labeldistance=1.1)
+                    autopct='%1.0f%%', pctdistance=0.8, shadow=True, startangle=90, radius=1.2, labeldistance=1.1)
         self.ax.axis('equal')
         self.draw() # para actualizar grafico de ventana
 
@@ -112,6 +112,7 @@ class MainWindow(QMainWindow, Opciones):
         self.grafica = Canvas_grafica()
         self.ui.grafica_torta.addWidget(self.grafica)
 
+        self.window_consulta.full_cat(self.obj_f, self) #Obtiene catalogo completo de la DB y la muestra al abrir la ventana
         #--------------- Acciones para botones ------------#
         self.ui.btn_agregar.clicked.connect(self.agregar_dat)
         self.ui.btn_eliminar.clicked.connect(self.eliminar_dat)
