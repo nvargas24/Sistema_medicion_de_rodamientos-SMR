@@ -62,7 +62,7 @@ class Opciones():
         self.window_consulta.ui.in_descrip.clear()
         self.window_consulta.ui.notificacion.clear()
         
-        self.window_consulta.full_cat(self.obj_f)
+        self.window_consulta.full_cat(self.obj_f) #Obtiene catalogo completo de la DB y la muestra al abrir la ventana
 
 # --- Clase para iteractuar con grafico ---#
 class Canvas_grafica(FigureCanvas):
@@ -128,7 +128,6 @@ class WindowAgregar(QDialog):
                     self.ui.in_precio, 
                     self.ui.in_descrip)
 
-        print("Mensaje de agregar:", mje)
         self.ui.notificacion.setText(mje)
 
         if not mje:
@@ -151,7 +150,6 @@ class WindowEliminar(QDialog):
         mje = obj_f.elim(
             self.ui.in_nombre)
 
-        print("Mensaje de eliminar:", mje)
         self.ui.notificacion.setText(mje)
         
         if not mje:
@@ -167,7 +165,7 @@ class WindowModificar(QDialog):
         self.ui.btns_option.rejected.connect(self.exit)
 
     def exit(self, ):
-        print("Regresa a menu principal")        
+        print("Regresa a menu principal")
         self.close()
 
     def modificated(self, obj_f):
@@ -177,7 +175,6 @@ class WindowModificar(QDialog):
                     self.ui.in_precio, 
                     self.ui.in_descrip)
 
-        print("Mensaje de modificar:", mje)
         self.ui.notificacion.setText(mje)
         
         if not mje:
@@ -223,14 +220,13 @@ class WindowConsulta(QWidget):
         self.close()
 
     def search(self, obj_f):
-        print("Buscar articulo")        
+        print("Buscar articulo")
         mje = obj_f.consulta(
                     self.ui.in_nombre, self.ui.in_descrip, self)
-        
-        print("Mensaje de consulta:", mje)
+
         self.ui.notificacion.setText(mje)
 
     def full_cat(self, obj_f):
         self.ui.catalogo_list.clearContents()  
         print("Muestra catalogo completo")
-        obj_f.mostrar_cat(self)
+        obj_f.mostrar_cat(self, True)
