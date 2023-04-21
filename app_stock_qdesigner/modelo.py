@@ -41,7 +41,6 @@ def decorador_add(metodo):
 
     return envoltura
 
-
 def decorador_del(metodo):
     def envoltura(*args):
         print("Se eliminó un registro")
@@ -78,18 +77,20 @@ def decorador_mostrar(metodo):
     def envoltura(*args):
         # Si args[2] == True (graf=True) se muestra en consola una tabla de cada componente cargado con su respectiva cantidad
         # y se realiza un gráfico de torta a partir de dichos datos
-        if len(args) == 3 and args[2] == True:
-            componente, cantidad = metodo(*args)
+        window_main = args[3]
+        if len(args) == 4 and args[2] == True:
+            list_componente, list_cantidad= metodo(*args)
 
             # Se calcula y se muestra en consola una tabla de componentes cargados con sus respectivas cantidades
             print("---" * 23)
             print("Lista de stock")
-            dataset = {"Componente": componente, "Cantidad": cantidad}
+            dataset = {"Componente": list_componente, "Cantidad": list_cantidad}
             df = pd.DataFrame(dataset)
             print(df)
             print("---" * 23)
 
             # Se realiza un gráfico de torta del total de componentes cargados con sus respectivas cantidades
+            window_main.grafica.upgrade_graph(list_componente, list_cantidad)
             """
             df.groupby(["Componente"]).sum().plot(
                 kind="pie",
@@ -489,7 +490,7 @@ class Crud(BaseDatos):
             return "Campos vacios"
         
     @decorador_mostrar
-    def mostrar_cat(self, tree, graf):
+    def mostrar_cat(self, tree, graf, window_main):
         """
         Método que muestra el catálogo completo de componentes cargados hasta el momento.
 

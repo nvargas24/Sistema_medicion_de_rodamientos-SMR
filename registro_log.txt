@@ -25,3 +25,4 @@ Se ingresÛ un nuevo registro Fecha: 20/04/23 Hora: 19:33:42
 Se ingresÛ un nuevo registro Fecha: 20/04/23 Hora: 19:36:09
 Se ingres√≥ un nuevo registro Fecha: 20/04/23 Hora: 21:04:50
 Se elimin√≥ un registro Fecha: 20/04/23 Hora: 21:55:52
+Se ingres√≥ un nuevo registro Fecha: 20/04/23 Hora: 23:39:35

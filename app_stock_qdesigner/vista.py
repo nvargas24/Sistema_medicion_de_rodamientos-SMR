@@ -15,6 +15,7 @@ from Qt.window_modificar import *
 from Qt.window_consulta import *
 
 from modelo import Crud
+import random
 
 #-------- Clases para widgets --------#
 #--- Clase para abrir ventanas secundarias ---#
@@ -62,20 +63,40 @@ class Opciones():
         self.window_consulta.ui.in_descrip.clear()
         self.window_consulta.ui.notificacion.clear()
         
-        self.window_consulta.full_cat(self.obj_f) #Obtiene catalogo completo de la DB y la muestra al abrir la ventana
+        self.window_consulta.full_cat(self.obj_f, self) #Obtiene catalogo completo de la DB y la muestra al abrir la ventana
 
 # --- Clase para iteractuar con grafico ---#
 class Canvas_grafica(FigureCanvas):
     def __init__(self, ):
+        # Asigno un espacio para ubicar el grafico de matplotlib usando Canvas
         self.fig, self.ax = plt.subplots(1, dpi=100, figsize=(5,5), sharey=True, facecolor='none')
         super().__init__(self.fig)
+        
+        self.nombres= []
+        self.colores = []
+        self.tamanio=[]
+        self.explotar=[]
 
-        nombres= ['Diodos', 'Resistencias', 'Tiristores', 'Capacitores']
-        colores=['red', 'blue', 'yellow', 'fuchsia']
-        tamanio=[20, 29, 25, 30]
-        explotar=[0.05, 0.05, 0.05, 0.05]
+        self.ax.pie(self.tamanio, labels=self.nombres, colors=self.colores,
+                    autopct='%1.0f%%', pctdistance=0.6, shadow=True, startangle=90, radius=0.8, labeldistance=1.1)
+        self.ax.axis('equal')
+        
+    def upgrade_graph(self, componentes, cantidad):
+        self.nombres=componentes
+        self.tamanio=cantidad
 
-        self.ax.pie(tamanio, explode=explotar, labels=nombres, colors=colores,
+        # Asigno color aleatorio segun la cantidad de articulos disponibles
+        for i in range(len(self.nombres)):
+            r = random.randint(0, 255)
+            g = random.randint(0, 255)
+            b = random.randint(0, 255)
+            self.colores.append('#%02x%02x%02x' % (r, g, b))
+
+        for i in range(len(self.nombres)):
+            self.explotar.append(0.5)
+
+        self.ax.clear()
+        self.ax.pie(self.tamanio, labels=self.nombres, colors=self.colores,
                     autopct='%1.0f%%', pctdistance=0.6, shadow=True, startangle=90, radius=0.8, labeldistance=1.1)
         self.ax.axis('equal')
 
@@ -93,7 +114,7 @@ class MainWindow(QMainWindow, Opciones):
         self.window_agregar = WindowAgregar(self.obj_f)
         self.window_eliminar = WindowEliminar(self.obj_f)
         self.window_modificar = WindowModificar(self.obj_f)
-        self.window_consulta = WindowConsulta(self.obj_f) 
+        self.window_consulta = WindowConsulta(self.obj_f, self) 
 
         #------------- Grafico de torta -------------------#
         self.grafica = Canvas_grafica()
@@ -181,14 +202,13 @@ class WindowModificar(QDialog):
             self.exit() # Borra ventana
 
 class WindowConsulta(QWidget):
-    def __init__(self, obj_f, parent=None):
+    def __init__(self, obj_f, obj_win_main, parent=None):
         super().__init__()
 
         self.ui = Ui_Consulta()
         self.ui.setupUi(self,)
-
         self.ui.btn_buscar.clicked.connect(lambda: self.search(obj_f))
-        self.ui.btn_cat_full.clicked.connect(lambda: self.full_cat(obj_f))
+        self.ui.btn_cat_full.clicked.connect(lambda: self.full_cat(obj_f, obj_win_main))
         self.ui.btn_volver.clicked.connect(self.exit)
 
         #--- Ajusto ancho de columnas de la tabla ---#
@@ -226,7 +246,7 @@ class WindowConsulta(QWidget):
 
         self.ui.notificacion.setText(mje)
 
-    def full_cat(self, obj_f):
+    def full_cat(self, obj_f, obj_win_main):
         self.ui.catalogo_list.clearContents()  
         print("Muestra catalogo completo")
-        obj_f.mostrar_cat(self, True)
+        obj_f.mostrar_cat(self, True, obj_win_main)
