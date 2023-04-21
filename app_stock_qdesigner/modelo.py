@@ -91,17 +91,7 @@ def decorador_mostrar(metodo):
 
             # Se realiza un gráfico de torta del total de componentes cargados con sus respectivas cantidades
             window_main.grafica.upgrade_graph(list_componente, list_cantidad)
-            """
-            df.groupby(["Componente"]).sum().plot(
-                kind="pie",
-                y="Cantidad",
-                autopct=lambda p: "{:.0f}".format(p * sum(df["Cantidad"]) / 100),
-                title="Stock total de componentes",
-                legend=False,
-            )
-            plt.ylabel("")
-            plt.show()
-            """
+
         else:
             metodo(*args)
 

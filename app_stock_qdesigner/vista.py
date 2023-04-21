@@ -72,33 +72,25 @@ class Canvas_grafica(FigureCanvas):
         self.fig, self.ax = plt.subplots(1, dpi=100, figsize=(5,5), sharey=True, facecolor='none')
         super().__init__(self.fig)
         
-        self.nombres= []
-        self.colores = []
-        self.tamanio=[]
-        self.explotar=[]
-
-        self.ax.pie(self.tamanio, labels=self.nombres, colors=self.colores,
-                    autopct='%1.0f%%', pctdistance=0.6, shadow=True, startangle=90, radius=0.8, labeldistance=1.1)
-        self.ax.axis('equal')
-        
     def upgrade_graph(self, componentes, cantidad):
         self.nombres=componentes
         self.tamanio=cantidad
-
+        self.colores=[]
+        self.explotar=[]
+        
         # Asigno color aleatorio segun la cantidad de articulos disponibles
         for i in range(len(self.nombres)):
             r = random.randint(0, 255)
             g = random.randint(0, 255)
             b = random.randint(0, 255)
             self.colores.append('#%02x%02x%02x' % (r, g, b))
-
-        for i in range(len(self.nombres)):
-            self.explotar.append(0.5)
+            self.explotar.append(0.05)
 
         self.ax.clear()
-        self.ax.pie(self.tamanio, labels=self.nombres, colors=self.colores,
+        self.ax.pie(self.tamanio, explode=self.explotar, labels=self.nombres, colors=self.colores,
                     autopct='%1.0f%%', pctdistance=0.6, shadow=True, startangle=90, radius=0.8, labeldistance=1.1)
         self.ax.axis('equal')
+        self.draw() # para actualizar grafico de ventana
 
 #-------- Clases para ventanas -------#
 
