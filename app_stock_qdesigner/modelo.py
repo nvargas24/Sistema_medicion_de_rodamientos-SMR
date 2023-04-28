@@ -128,7 +128,7 @@ class Componentes(BaseModel):
     descripcion = CharField()
 
 
-class BaseDatos:
+class BaseDatos():
     """
     Clase que contiene métodos para conectarme a la base de datos, y para manejar los registros de la misma.
     """
@@ -240,18 +240,19 @@ class BaseDatos:
 
 
 # ---------------------Clase que contienen métodos para manejo de datos ingresados--------------------------------
-class Crud(BaseDatos, Sujeto):
+class Crud(Sujeto):
     """
     Clase que contiene métodos para el manejo de los datos ingresados.
     """
 
-    def __init__(self):
+    def __init__(self, obj_db):
         """
         Constructor que hereda el correspondiente a la clase ``BaseDatos()``,
         y que además crea un objeto ``Validacion()`` para comprobar los campos de entrada.
         """
         super().__init__()
         self.obj_val = Validacion()
+        self.obj_db = obj_db
 
     def agreg(self, nombre, cantidad, precio, descripcion):
         """
@@ -289,14 +290,8 @@ class Crud(BaseDatos, Sujeto):
                 and self.obj_val.val_entry(prec, "prec")
                 and self.obj_val.val_entry(descrip, "descrip")
             ):
-                if self.leer_db(nom):
-                    return "Ya existe el articulo"
-                
-                else:
-                    self.agregar_db(nom, cant, prec, descrip)
-                    self.notificar("agreg",nom,cant,prec,descrip)  # Notifico al observador
-                    return "Nuevo articulo cargado"
-                
+                self.notificar(nom,cant,prec,descrip)  # Notifico al observador
+                return "Notificado"
             else:
                 return "Campos incorrectos"
                 raise ValueError(
@@ -320,13 +315,8 @@ class Crud(BaseDatos, Sujeto):
 
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom"):
-            # Chequeo si el artículo a eliminar existe.
-            if self.leer_db(nom):
-                self.eliminar_db(nom)
-                self.notificar("elim", nom)  # Notifico al observador
-                return "Articulo eliminado"
-            else:
-                return "Articulo no encontrado"
+            self.notificar(nom)  # Notifico al observador
+            return "Notificado"
         else:
             return "Campo vacio"
 
@@ -386,8 +376,7 @@ class Crud(BaseDatos, Sujeto):
                 # los datos que hayan sido ingresados en los campos correspondientes.
                 if flag_e == 0:
                     if flag_c or flag_p or flag_d:  # Si se ingresó un dato a modificar
-                        self.actualizar_db(nom, cant, prec, descrip)
-                        self.notificar("modif", nom, flag_c, cant, flag_p, prec, flag_d, descrip)
+                        self.notificar(nom, flag_c, cant, flag_p, prec, flag_d, descrip)
 
                         flag_c = 0
                         flag_p = 0
@@ -426,8 +415,8 @@ class Crud(BaseDatos, Sujeto):
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom") and not self.obj_val.empty_entry(descrip, "descrip"):
             # Chequeo si el artículo a consultar existe.
-            if self.leer_db(nom, None):
-                data_from_db = self.leer_db(nom, None)
+            if self.leer_db(nom):
+                data_from_db = self.leer_db(nom)
                 tree.delete()
                 for row in data_from_db:
                     tree.insert(

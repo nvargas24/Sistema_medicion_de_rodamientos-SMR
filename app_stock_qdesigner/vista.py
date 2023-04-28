@@ -14,7 +14,6 @@ from Qt.window_eliminar import *
 from Qt.window_modificar import *
 from Qt.window_consulta import *
 
-from modelo import Crud
 import random
 
 #-------- Clases para widgets --------#
@@ -100,19 +99,10 @@ class MainWindow(QMainWindow, Opciones):
         self.ui = Ui_MainWindow() # Creo objeto de la clase en QT para crear widgets
         self.ui.setupUi(self,) # Se acccede al metodo setupUi que crea widgets
 
-        self.obj_f = Crud()  # Creo un objeto de clase Crud.
-        
-        #-------------- Ventanas secundarias --------------#
-        self.window_agregar = WindowAgregar(self.obj_f)
-        self.window_eliminar = WindowEliminar(self.obj_f)
-        self.window_modificar = WindowModificar(self.obj_f)
-        self.window_consulta = WindowConsulta(self.obj_f, self) 
-
         #------------- Grafico de torta -------------------#
         self.grafica = Canvas_grafica()
         self.ui.grafica_torta.addWidget(self.grafica)
 
-        self.window_consulta.full_cat(self.obj_f, self) #Obtiene catalogo completo de la DB y la muestra al abrir la ventana
         #--------------- Acciones para botones ------------#
         self.ui.btn_agregar.clicked.connect(self.agregar_dat)
         self.ui.btn_eliminar.clicked.connect(self.eliminar_dat)
@@ -124,11 +114,9 @@ class WindowAgregar(QDialog):
         super().__init__()
         self.ui = Ui_Agregar()
         self.ui.setupUi(self,)
+        self.obj_f = obj_f # Objeto Crud
 
-        #self.ui.btns_option.setButtonText(QtWidgets.QDialogButtonBox.Save, "Agregar")
-        #self.ui.btns_option.setButtonText(QtWidgets.QDialogButtonBox.Cancel, "Salir")
-
-        self.ui.btns_option.accepted.connect(lambda: self.new_load(obj_f))
+        self.ui.btns_option.accepted.connect(lambda: self.new_load(self.obj_f))
         self.ui.btns_option.rejected.connect(self.exit)
 
     def exit(self, ):
@@ -197,9 +185,9 @@ class WindowModificar(QDialog):
 class WindowConsulta(QWidget):
     def __init__(self, obj_f, obj_win_main, parent=None):
         super().__init__()
-
         self.ui = Ui_Consulta()
         self.ui.setupUi(self,)
+
         self.ui.btn_buscar.clicked.connect(lambda: self.search(obj_f))
         self.ui.btn_cat_full.clicked.connect(lambda: self.full_cat(obj_f, obj_win_main))
         self.ui.btn_volver.clicked.connect(self.exit)
