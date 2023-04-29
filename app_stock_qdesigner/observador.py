@@ -41,10 +41,10 @@ class ObservadorConcreto(Observador):
             )
             print("---"*23)
 
-            if self.leer_db(nombre):
+            if self.data_base.leer_db(nombre):
                 print("Ya existe articulo")
             else:
-                self.agregar_db(nombre, cantidad, precio, descrip)
+                self.data_base.agregar_db(nombre, cantidad, precio, descrip)
                 print("Nuevo articulo cargado")
 
         # Eliminar articulo
@@ -53,8 +53,8 @@ class ObservadorConcreto(Observador):
             print("---"*23)
             print("Se eliminó el siguiente componente: ", nombre)
             print("---"*23)
-            if self.leer_db(nombre):
-                self.eliminar_db(nombre)
+            if self.data_base.leer_db(nombre):
+                self.data_base.eliminar_db(nombre)
                 print("Articulo eliminado")
             else:
                 print("Articulo no encontrado")
@@ -71,5 +71,5 @@ class ObservadorConcreto(Observador):
             if flag_descrip == 1: # flag_d == 1
                 print("Nueva descripción: ", descrip)
             print("---"*23)
-            self.actualizar_db(nom, cant, prec, descrip)
+            self.data_base.actualizar_db(nombre, cantidad, precio, descrip)
 

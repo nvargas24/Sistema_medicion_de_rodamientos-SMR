@@ -76,10 +76,9 @@ def decorador_mod(metodo):
 
 def decorador_mostrar(metodo):
     def envoltura(*args):
-        # Si args[2] == True (graf=True) se muestra en consola una tabla de cada componente cargado con su respectiva cantidad
-        # y se realiza un gráfico de torta a partir de dichos datos
-        window_main = args[3]
-        if len(args) == 4 and args[2] == True:
+        #  se realiza un gráfico de torta a partir de dichos datos
+        window_main = args[2]
+        if len(args) == 3:
             list_componente, list_cantidad= metodo(*args)
 
             # Se calcula y se muestra en consola una tabla de componentes cargados con sus respectivas cantidades
@@ -291,7 +290,7 @@ class Crud(Sujeto):
                 and self.obj_val.val_entry(descrip, "descrip")
             ):
                 self.notificar(nom,cant,prec,descrip)  # Notifico al observador
-                return "Notificado"
+                return "Articulo agregado"
             else:
                 return "Campos incorrectos"
                 raise ValueError(
@@ -316,7 +315,7 @@ class Crud(Sujeto):
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom"):
             self.notificar(nom)  # Notifico al observador
-            return "Notificado"
+            return "Articulo eliminado"
         else:
             return "Campo vacio"
 
@@ -346,8 +345,7 @@ class Crud(Sujeto):
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom"):
             # Chequeo si el artículo a modificar existe.
-            if self.leer_db(nom):
-
+            if self.obj_db.leer_db(nom):
                 # Si el campo cantidad no está vacío y cumple con el patrón de regex
                 # se pondrá en '1' el flag_c (dato válido para actualizar).
                 if self.obj_val.empty_entry(cant, "cant"):
@@ -415,8 +413,8 @@ class Crud(Sujeto):
         # Chequeo que el campo nombre no esté vacío.
         if self.obj_val.empty_entry(nom, "nom") and not self.obj_val.empty_entry(descrip, "descrip"):
             # Chequeo si el artículo a consultar existe.
-            if self.leer_db(nom):
-                data_from_db = self.leer_db(nom)
+            if self.obj_db.leer_db(nom):
+                data_from_db = self.obj_db.leer_db(nom)
                 tree.delete()
                 for row in data_from_db:
                     tree.insert(
@@ -433,8 +431,8 @@ class Crud(Sujeto):
         # Chequeo que el campo descripcion no esté vacío.
         elif self.obj_val.empty_entry(descrip, "descrip") and not self.obj_val.empty_entry(nom, "nom"):
             # Chequeo si el artículo a consultar existe.
-            if self.leer_db(None, descrip):
-                data_from_db = self.leer_db(None, descrip)
+            if self.obj_db.leer_db(None, descrip):
+                data_from_db = self.obj_db.leer_db(None, descrip)
                 tree.delete()
                 for row in data_from_db:
                     tree.insert(
@@ -450,8 +448,8 @@ class Crud(Sujeto):
         # Chequeo que el campo nombre y descripcion no esten vacíos.
         elif self.obj_val.empty_entry(nom, "nom") and self.obj_val.empty_entry(descrip, "descrip"):
             # Chequeo si el artículo a consultar existe.
-            if self.leer_db(nom, descrip):
-                data_from_db = self.leer_db(nom, descrip)
+            if self.obj_db.leer_db(nom, descrip):
+                data_from_db = self.obj_db.leer_db(nom, descrip)
                 tree.delete()
                 for row in data_from_db:
                     tree.insert(
@@ -468,7 +466,7 @@ class Crud(Sujeto):
             return "Campos vacios"
         
     @decorador_mostrar
-    def mostrar_cat(self, tree, graf, window_main):
+    def mostrar_cat(self, tree, obj_menu):
         """
         Método que muestra el catálogo completo de componentes cargados hasta el momento.
 
@@ -478,7 +476,7 @@ class Crud(Sujeto):
         x_nom = []  # Lista que almacena los nombres de cada componente cargado
         y_cant = []  # Lista que almacena los cantidades de cada componente cargado
 
-        data_from_db = self.leer_db()
+        data_from_db = self.obj_db.leer_db()
 
         for row in data_from_db:
                 tree.insert(
