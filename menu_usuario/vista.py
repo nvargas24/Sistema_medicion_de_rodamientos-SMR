@@ -18,7 +18,7 @@ from Qt.window_main import *
 from Qt.window_login import *
 
 # Hay que tener en cuenta la clase definida en el qtdesigner de cada ventana
-# Esto se puede editar en QtDesigner
+# Para la ventana principal siempre es QMainWindow, esto se asigna cuando se crea la ventana en QtDesigner
 class Mainwindow(QMainWindow):
     def __init__(self, ):
         super().__init__() # Accedo constructor de QMainWindwow, por si se cambia de nombre es mejor utilizar super()
@@ -35,7 +35,8 @@ class Mainwindow(QMainWindow):
         print("Esta en ventana principal")
         self.selecct = self.ui.comboBox_seleccion.currentText() # Para obtener valor seleccionado en combobox
 
-class WindowLogin():
+# Se debe asignar la clase padre QWidget o QForm para ventanas secundarias, esto se configura en QtDesigner
+class WindowLogin(QWidget):
     def __init__(self, parent):
         super().__init__()
         self.ui = Ui_LoginWindow()
