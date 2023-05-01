@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'window_usuario.ui'
+## Form generated from reading UI file 'window_login.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -13,16 +13,16 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        if not Form.objectName():
-            Form.setObjectName(u"Form")
-        Form.resize(567, 235)
-        Form.setStyleSheet(u"/*QApplication::setStyle(\"fusion\");*/\n"
+class Ui_LoginWindow(object):
+    def setupUi(self, LoginWindow):
+        if not LoginWindow.objectName():
+            LoginWindow.setObjectName(u"LoginWindow")
+        LoginWindow.resize(567, 235)
+        LoginWindow.setStyleSheet(u"/*QApplication::setStyle(\"fusion\");*/\n"
 "\n"
 "background-color: #EAEAEA;\n"
 "")
-        self.verticalLayoutWidget = QWidget(Form)
+        self.verticalLayoutWidget = QWidget(LoginWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(50, 40, 471, 151))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
@@ -176,20 +176,20 @@ class Ui_Form(object):
 
         self.verticalLayout.setStretch(2, 1)
 
-        self.retranslateUi(Form)
+        self.retranslateUi(LoginWindow)
 
-        QMetaObject.connectSlotsByName(Form)
+        QMetaObject.connectSlotsByName(LoginWindow)
     # setupUi
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.label_usuario.setText(QCoreApplication.translate("Form", u"Usuario:", None))
+    def retranslateUi(self, LoginWindow):
+        LoginWindow.setWindowTitle(QCoreApplication.translate("LoginWindow", u"Form", None))
+        self.label_usuario.setText(QCoreApplication.translate("LoginWindow", u"Usuario:", None))
         self.usuario.setInputMask("")
         self.usuario.setText("")
-        self.usuario.setPlaceholderText(QCoreApplication.translate("Form", u"Ingrese nombre de usuario en minuscula", None))
-        self.label_contra.setText(QCoreApplication.translate("Form", u"Contrase\u00f1a:", None))
-        self.contrasenia.setPlaceholderText(QCoreApplication.translate("Form", u"Ingrese contrase\u00f1a en minuscula", None))
-        self.btn_aceptar.setText(QCoreApplication.translate("Form", u"Ingresar", None))
-        self.btn_salir.setText(QCoreApplication.translate("Form", u"Salir", None))
+        self.usuario.setPlaceholderText(QCoreApplication.translate("LoginWindow", u"Ingrese nombre de usuario en minuscula", None))
+        self.label_contra.setText(QCoreApplication.translate("LoginWindow", u"Contrase\u00f1a:", None))
+        self.contrasenia.setPlaceholderText(QCoreApplication.translate("LoginWindow", u"Ingrese contrase\u00f1a en minuscula", None))
+        self.btn_aceptar.setText(QCoreApplication.translate("LoginWindow", u"Ingresar", None))
+        self.btn_salir.setText(QCoreApplication.translate("LoginWindow", u"Salir", None))
     # retranslateUi
 
