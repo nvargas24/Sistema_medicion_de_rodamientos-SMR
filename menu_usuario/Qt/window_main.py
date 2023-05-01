@@ -185,11 +185,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
-        self.pushButton = QPushButton(self.verticalLayoutWidget)
-        self.pushButton.setObjectName(u"pushButton")
-        sizePolicy4.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
-        self.pushButton.setSizePolicy(sizePolicy4)
-        self.pushButton.setStyleSheet(u"QPushButton {\n"
+        self.btn_menu = QPushButton(self.verticalLayoutWidget)
+        self.btn_menu.setObjectName(u"btn_menu")
+        sizePolicy4.setHeightForWidth(self.btn_menu.sizePolicy().hasHeightForWidth())
+        self.btn_menu.setSizePolicy(sizePolicy4)
+        self.btn_menu.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
 "    border-radius: 15px; /* Bordes curvos */\n"
@@ -212,7 +212,7 @@ class Ui_MainWindow(object):
 "	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}")
 
-        self.horizontalLayout_2.addWidget(self.pushButton)
+        self.horizontalLayout_2.addWidget(self.btn_menu)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -234,6 +234,6 @@ class Ui_MainWindow(object):
         self.label_opening.setText(QCoreApplication.translate("MainWindow", u"Opening:", None))
         self.nombre_op.setText("")
         self.btn_aceptar.setText(QCoreApplication.translate("MainWindow", u"Aceptar", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Volver a menu", None))
+        self.btn_menu.setText(QCoreApplication.translate("MainWindow", u"Volver a menu", None))
     # retranslateUi
 

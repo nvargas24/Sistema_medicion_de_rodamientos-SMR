@@ -19,7 +19,7 @@ from Qt.window_login import *
 
 # Hay que tener en cuenta la clase definida en el qtdesigner de cada ventana
 # Esto se puede editar en QtDesigner
-class Mainwindwow(QMainWindow):
+class Mainwindow(QMainWindow):
     def __init__(self, ):
         super().__init__() # Accedo constructor de QMainWindwow, por si se cambia de nombre es mejor utilizar super()
         self.ui = Ui_MainWindow() # Instancio la ventana main esta clase esta defnida en .py del .ui
@@ -28,14 +28,22 @@ class Mainwindwow(QMainWindow):
                               # En el archivo window_main.py se puede ver el nombre que se lo 
                               # identifica al objeto, esto se puede modificar en QtDesigner
         # Ahora puedo acceder a los metodos de cada widget creado por medio del objeto self .ui
+        self.ui.btn_aceptar.clicked.connect(self.url_op)
 
-class UsuarioWindow():
+    # --- Metodos que se accede al hacer click ---#
+    def url_op():
+        pass
+
+class WindowLogin():
     def __init__(self, ):
         super().__init__()
         self.ui = Ui_LoginWindow()
         self.ui.setupUi(self)
          # Ahora puedo acceder a los metodos de cada widget creado por medio del objeto self .ui       
-
-
-
+        self.ui.btn_aceptar.clicked.connect(self.input_user)
+        self.ui.btn_aceptar.clicked.connect(self.close)
+    
+    # --- Metodos que accede al hacer click --#
+    def input_user():
+        pass
 
