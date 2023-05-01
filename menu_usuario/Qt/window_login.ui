@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>567</width>
-    <height>235</height>
+    <height>236</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,17 +25,23 @@ background-color: #EAEAEA;
      <x>50</x>
      <y>40</y>
      <width>471</width>
-     <height>151</height>
+     <height>168</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1,1">
     <property name="spacing">
-     <number>5</number>
+     <number>10</number>
     </property>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
-       <number>41</number>
+       <number>45</number>
+      </property>
+      <property name="topMargin">
+       <number>10</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
       </property>
       <item>
        <widget class="QLabel" name="label_usuario">
@@ -60,6 +66,12 @@ background-color: #EAEAEA;
       </item>
       <item>
        <widget class="QLineEdit" name="usuario">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="styleSheet">
          <string notr="true">QLineEdit {
     background-color: #F7F7F7; /* Color de fondo */
@@ -92,7 +104,13 @@ QLineEdit:focus {
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_contra">
         <property name="sizePolicy">
@@ -116,6 +134,12 @@ QLineEdit:focus {
       </item>
       <item>
        <widget class="QLineEdit" name="contrasenia">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="styleSheet">
          <string notr="true">QLineEdit {
     background-color: #F7F7F7; /* Color de fondo */
@@ -150,7 +174,7 @@ QLineEdit:focus {
        <number>50</number>
       </property>
       <property name="topMargin">
-       <number>20</number>
+       <number>7</number>
       </property>
       <property name="rightMargin">
        <number>50</number>
