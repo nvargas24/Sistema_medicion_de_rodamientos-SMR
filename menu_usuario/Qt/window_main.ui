@@ -89,7 +89,7 @@ background-color: #EAEAEA;
           </font>
          </property>
          <property name="text">
-          <string>Seleccione anime</string>
+          <string>Seleccione anime:</string>
          </property>
         </widget>
        </item>
@@ -122,6 +122,44 @@ QComboBox:focus {
 
 </string>
          </property>
+         <property name="currentText">
+          <string>Demon Slayer</string>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <property name="maxVisibleItems">
+          <number>5</number>
+         </property>
+         <property name="minimumContentsLength">
+          <number>0</number>
+         </property>
+         <property name="placeholderText">
+          <string/>
+         </property>
+         <property name="duplicatesEnabled">
+          <bool>false</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>Demon Slayer</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Chainsaw Man</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Nier Automata</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Los Caballeros de Zodiaco</string>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>

@@ -74,6 +74,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.label_seleccion)
 
         self.comboBox_seleccion = QComboBox(self.verticalLayoutWidget)
+        self.comboBox_seleccion.addItem("")
+        self.comboBox_seleccion.addItem("")
+        self.comboBox_seleccion.addItem("")
+        self.comboBox_seleccion.addItem("")
         self.comboBox_seleccion.setObjectName(u"comboBox_seleccion")
         sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
@@ -97,6 +101,9 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "")
+        self.comboBox_seleccion.setMaxVisibleItems(5)
+        self.comboBox_seleccion.setMinimumContentsLength(0)
+        self.comboBox_seleccion.setDuplicatesEnabled(False)
 
         self.horizontalLayout_3.addWidget(self.comboBox_seleccion)
 
@@ -223,6 +230,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
+        self.comboBox_seleccion.setCurrentIndex(0)
+
+
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
@@ -230,7 +240,14 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.label_usuario.setText(QCoreApplication.translate("MainWindow", u"Usuario:", None))
         self.usuario.setText(QCoreApplication.translate("MainWindow", u"*********", None))
-        self.label_seleccion.setText(QCoreApplication.translate("MainWindow", u"Seleccione anime", None))
+        self.label_seleccion.setText(QCoreApplication.translate("MainWindow", u"Seleccione anime:", None))
+        self.comboBox_seleccion.setItemText(0, QCoreApplication.translate("MainWindow", u"Demon Slayer", None))
+        self.comboBox_seleccion.setItemText(1, QCoreApplication.translate("MainWindow", u"Chainsaw Man", None))
+        self.comboBox_seleccion.setItemText(2, QCoreApplication.translate("MainWindow", u"Nier Automata", None))
+        self.comboBox_seleccion.setItemText(3, QCoreApplication.translate("MainWindow", u"Los Caballeros de Zodiaco", None))
+
+        self.comboBox_seleccion.setCurrentText(QCoreApplication.translate("MainWindow", u"Demon Slayer", None))
+        self.comboBox_seleccion.setPlaceholderText("")
         self.label_opening.setText(QCoreApplication.translate("MainWindow", u"Opening:", None))
         self.nombre_op.setText("")
         self.btn_aceptar.setText(QCoreApplication.translate("MainWindow", u"Aceptar", None))

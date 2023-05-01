@@ -31,19 +31,24 @@ class Mainwindow(QMainWindow):
         self.ui.btn_aceptar.clicked.connect(self.url_op)
 
     # --- Metodos que se accede al hacer click ---#
-    def url_op():
-        pass
+    def url_op(self, ):
+        print("Esta en ventana principal")
+        self.selecct = self.ui.comboBox_seleccion.currentText() # Para obtener valor seleccionado en combobox
 
 class WindowLogin():
-    def __init__(self, ):
+    def __init__(self, parent):
         super().__init__()
         self.ui = Ui_LoginWindow()
         self.ui.setupUi(self)
+        self.parent = parent # Accedo a metodos de ventana principal por medio del objeto controlador
          # Ahora puedo acceder a los metodos de cada widget creado por medio del objeto self .ui       
         self.ui.btn_aceptar.clicked.connect(self.input_user)
         self.ui.btn_aceptar.clicked.connect(self.close)
     
     # --- Metodos que accede al hacer click --#
-    def input_user():
-        pass
+    def input_user(self, ):
+        # Se debe tomar los datos y si coinciden con los de usuarios se puede acceder a MainWindow
+        self.parent.window_main.show()
+
+
 
