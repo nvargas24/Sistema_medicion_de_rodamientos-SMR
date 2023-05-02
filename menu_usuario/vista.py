@@ -20,20 +20,18 @@ from Qt.window_login import *
 # Hay que tener en cuenta la clase definida en el qtdesigner de cada ventana
 # Para la ventana principal siempre es QMainWindow, esto se asigna cuando se crea la ventana en QtDesigner
 class Mainwindow(QMainWindow):
-    def __init__(self, ):
+    def __init__(self, option):
         super().__init__() # Accedo constructor de QMainWindwow, por si se cambia de nombre es mejor utilizar super()
         self.ui = Ui_MainWindow() # Instancio la ventana main esta clase esta defnida en .py del .ui
         self.ui.setupUi(self) # Se pasa objeto de la clase MainWindow asi se
                               # se identifica el espacio de trabajo
                               # En el archivo window_main.py se puede ver el nombre que se lo 
                               # identifica al objeto, esto se puede modificar en QtDesigner
-        # Ahora puedo acceder a los metodos de cada widget creado por medio del objeto self .ui
-        self.ui.btn_aceptar.clicked.connect(self.url_op)
+        self.option = option # Parametro para acceder a los metodos del modelo, en este caso de la clase Option
 
-    # --- Metodos que se accede al hacer click ---#
-    def url_op(self, ):
-        print("Esta en ventana principal")
-        self.selecct = self.ui.comboBox_seleccion.currentText() # Para obtener valor seleccionado en combobox
+        # Ahora puedo acceder a los metodos de cada widget creado por medio del objeto self .ui
+        self.ui.btn_aceptar.clicked.connect(lambda: self.option.url_op(self.ui))
+        self.ui.btn_menu.clicked.connect(self.close)
 
 # Se debe asignar la clase padre QWidget o QForm para ventanas secundarias, esto se configura en QtDesigner
 class WindowLogin(QWidget):
@@ -43,13 +41,8 @@ class WindowLogin(QWidget):
         self.ui.setupUi(self)
         self.parent = parent # Accedo a metodos de ventana principal por medio del objeto controlador
          # Ahora puedo acceder a los metodos de cada widget creado por medio del objeto self .ui       
-        self.ui.btn_aceptar.clicked.connect(self.input_user)
-        self.ui.btn_aceptar.clicked.connect(self.close)
-    
-    # --- Metodos que accede al hacer click --#
-    def input_user(self, ):
-        # Se debe tomar los datos y si coinciden con los de usuarios se puede acceder a MainWindow
-        self.parent.window_main.show()
-
+        self.ui.btn_aceptar.clicked.connect(lambda: self.parent.option.input_user(self)) # En este caso necesito acceder a self.ui y a self.parent, 
+                                                                                                # para obtener datos de Qline y mostrar ventana principal, respectivamente
+        self.ui.btn_salir.clicked.connect(self.close)
 
 

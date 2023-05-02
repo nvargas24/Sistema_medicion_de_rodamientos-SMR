@@ -144,6 +144,7 @@ class Ui_LoginWindow(object):
 "    color: #FFFFFF; /* Color de texto blanco */\n"
 "	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}")
+        self.btn_aceptar.setAutoDefault(True)
 
         self.horizontalLayout_3.addWidget(self.btn_aceptar)
 
@@ -177,6 +178,7 @@ class Ui_LoginWindow(object):
 "    color: #FFFFFF; /* Color de texto blanco */\n"
 "	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}")
+        self.btn_salir.setAutoDefault(True)
 
         self.horizontalLayout_3.addWidget(self.btn_salir)
 

@@ -185,6 +185,7 @@ class Ui_MainWindow(object):
 "    color: #FFFFFF; /* Color de texto blanco */\n"
 "	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}")
+        self.btn_aceptar.setAutoDefault(True)
 
         self.horizontalLayout_2.addWidget(self.btn_aceptar)
 
@@ -218,6 +219,7 @@ class Ui_MainWindow(object):
 "    color: #FFFFFF; /* Color de texto blanco */\n"
 "	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}")
+        self.btn_menu.setAutoDefault(True)
 
         self.horizontalLayout_2.addWidget(self.btn_menu)
 

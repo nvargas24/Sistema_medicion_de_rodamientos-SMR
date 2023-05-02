@@ -217,6 +217,9 @@ QPushButton:focus {
         <property name="text">
          <string>Ingresar</string>
         </property>
+        <property name="autoDefault">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
@@ -269,6 +272,9 @@ QPushButton:focus {
         </property>
         <property name="text">
          <string>Salir</string>
+        </property>
+        <property name="autoDefault">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
