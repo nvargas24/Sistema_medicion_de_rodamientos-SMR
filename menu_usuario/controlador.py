@@ -13,10 +13,11 @@ class Controlador():
         # se deben crear las clases que interactuan con los .ui en vista.py
         self.option = Option()
         # Creo ventanas
-        self.window_main = Mainwindow(self.option) # Esta ventana ya se define como principala pero se debe asignar cuando se muestra
+
         self.window_login = WindowLogin(self) # Esta ventana es secundaria por lo tanto se debe decir cuando se muestra
         # Una tiene que ser mostrada apenas se abre la app, las demas al realizar alguna accion como hace un click en un boton
-        # Paso el objeto controlador para poder acceder a los metodos de MainWindow --> mostrar ventana
+        # Paso el objeto controlador para poder acceder a los metodos de MainWindow --> mostrar ventana        
+        self.window_main = Mainwindow(self) # Esta ventana ya se define como principala pero se debe asignar cuando se muestra
         self.window_login.show() # Muestra la ventana de login
         try:
             print("Abro menu de app_stock")            

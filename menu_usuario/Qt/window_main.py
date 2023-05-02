@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(490, 577)
+        MainWindow.resize(490, 565)
         MainWindow.setStyleSheet(u"/*QApplication::setStyle(\"fusion\");*/\n"
 "\n"
 "background-color: #EAEAEA;\n"
@@ -112,19 +112,11 @@ class Ui_MainWindow(object):
 
         self.frame = QFrame(self.verticalLayoutWidget)
         self.frame.setObjectName(u"frame")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
-        self.frame.setSizePolicy(sizePolicy3)
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
-        self.verticalLayoutWidget_2 = QWidget(self.frame)
-        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(9, 9, 411, 271))
-        self.image = QVBoxLayout(self.verticalLayoutWidget_2)
+        self.image = QLabel(self.frame)
         self.image.setObjectName(u"image")
-        self.image.setContentsMargins(0, 0, 0, 0)
+        self.image.setGeometry(QRect(10, 10, 401, 271))
 
         self.verticalLayout.addWidget(self.frame)
 
@@ -157,11 +149,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setContentsMargins(15, 20, 15, 10)
         self.btn_aceptar = QPushButton(self.verticalLayoutWidget)
         self.btn_aceptar.setObjectName(u"btn_aceptar")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.btn_aceptar.sizePolicy().hasHeightForWidth())
-        self.btn_aceptar.setSizePolicy(sizePolicy4)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.btn_aceptar.sizePolicy().hasHeightForWidth())
+        self.btn_aceptar.setSizePolicy(sizePolicy3)
         self.btn_aceptar.setSizeIncrement(QSize(0, 0))
         self.btn_aceptar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
@@ -195,8 +187,8 @@ class Ui_MainWindow(object):
 
         self.btn_menu = QPushButton(self.verticalLayoutWidget)
         self.btn_menu.setObjectName(u"btn_menu")
-        sizePolicy4.setHeightForWidth(self.btn_menu.sizePolicy().hasHeightForWidth())
-        self.btn_menu.setSizePolicy(sizePolicy4)
+        sizePolicy3.setHeightForWidth(self.btn_menu.sizePolicy().hasHeightForWidth())
+        self.btn_menu.setSizePolicy(sizePolicy3)
         self.btn_menu.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
@@ -241,7 +233,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.label_usuario.setText(QCoreApplication.translate("MainWindow", u"Usuario:", None))
-        self.usuario.setText(QCoreApplication.translate("MainWindow", u"*********", None))
+        self.usuario.setText("")
         self.label_seleccion.setText(QCoreApplication.translate("MainWindow", u"Seleccione anime:", None))
         self.comboBox_seleccion.setItemText(0, QCoreApplication.translate("MainWindow", u"Demon Slayer", None))
         self.comboBox_seleccion.setItemText(1, QCoreApplication.translate("MainWindow", u"Chainsaw Man", None))
@@ -250,6 +242,7 @@ class Ui_MainWindow(object):
 
         self.comboBox_seleccion.setCurrentText(QCoreApplication.translate("MainWindow", u"Demon Slayer", None))
         self.comboBox_seleccion.setPlaceholderText("")
+        self.image.setText("")
         self.label_opening.setText(QCoreApplication.translate("MainWindow", u"Opening:", None))
         self.nombre_op.setText("")
         self.btn_aceptar.setText(QCoreApplication.translate("MainWindow", u"Aceptar", None))
