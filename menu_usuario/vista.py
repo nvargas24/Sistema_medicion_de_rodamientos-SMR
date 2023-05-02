@@ -16,7 +16,7 @@ from PySide2 import QtCore as core
 # Necesario para acceder a las clases y metodos de cada widget en .ui
 from Qt.window_main import *
 from Qt.window_login import *
-
+import chainsawman_rc
 # Hay que tener en cuenta la clase definida en el qtdesigner de cada ventana
 # Para la ventana principal siempre es QMainWindow, esto se asigna cuando se crea la ventana en QtDesigner
 class Mainwindow(QMainWindow):
@@ -31,9 +31,8 @@ class Mainwindow(QMainWindow):
         self.ui.usuario.setText("Lab")  # se debe utilizar un observador para no tener problemas al cerrar la ventana login y quede registrado el nomnbre
         # Ahora puedo acceder a los metodos de cada widget
 
-        image = QImage("Imagenes/chainsawman.jpeg", "JPEG")
-        pixmap = QPixmap.fromImage(image)
-        self.ui.image.setPixmap(pixmap)
+        self.ui.image.setPixmap(QPixmap(":/chainsawman.jpeg"))
+        self.ui.image.setScaledContents(True)
 
         self.ui.btn_aceptar.clicked.connect(lambda: self.windows.option.url_op(self))
         self.ui.btn_menu.clicked.connect(self.exit)
