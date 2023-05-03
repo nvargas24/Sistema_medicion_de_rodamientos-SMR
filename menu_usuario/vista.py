@@ -16,7 +16,13 @@ from PySide2 import QtCore as core
 # Necesario para acceder a las clases y metodos de cada widget en .ui
 from Qt.window_main import *
 from Qt.window_login import *
-import chainsawman_rc
+
+# Para agregar imagenes en un label de Qt:
+# 1: Crear archivo .qrc donde se indique el nombre del archivo
+# 2: Pasar archivo .qrc a .py con pyrcc5 -o [].py [].qrc
+# 3: Importar los archivos .py generados al archivo donde se utilizaran las imagenes
+# 4: Usar : self.ui.image.setPixmap(QPixmap("caballeros_zodiaco.jpeg")) por ejemplos,para cargar la imagen al label
+
 # Hay que tener en cuenta la clase definida en el qtdesigner de cada ventana
 # Para la ventana principal siempre es QMainWindow, esto se asigna cuando se crea la ventana en QtDesigner
 class Mainwindow(QMainWindow):
@@ -30,10 +36,7 @@ class Mainwindow(QMainWindow):
         self.windows = windows # Parametro para acceder a los metodos del modelo, en este caso de la clase Option
         self.ui.usuario.setText("Lab")  # se debe utilizar un observador para no tener problemas al cerrar la ventana login y quede registrado el nomnbre
         # Ahora puedo acceder a los metodos de cada widget
-
-        self.ui.image.setPixmap(QPixmap(":/chainsawman.jpeg"))
-        self.ui.image.setScaledContents(True)
-
+        self.ui.comboBox_seleccion.activated.connect(lambda: self.windows.option.select(self))
         self.ui.btn_aceptar.clicked.connect(lambda: self.windows.option.url_op(self))
         self.ui.btn_menu.clicked.connect(self.exit)
     

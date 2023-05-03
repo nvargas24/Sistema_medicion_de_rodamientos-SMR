@@ -157,7 +157,7 @@ QComboBox:focus {
          </item>
          <item>
           <property name="text">
-           <string>Los Caballeros de Zodiaco</string>
+           <string>Los Caballeros del Zodiaco</string>
           </property>
          </item>
         </widget>
@@ -183,9 +183,6 @@ QComboBox:focus {
         </property>
         <property name="text">
          <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="../demon.qrc">:/de/Imagenes/nier_automata.jpeg</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -355,8 +352,6 @@ QPushButton:focus {
    </widget>
   </widget>
  </widget>
- <resources>
-  <include location="../demon.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -1,12 +1,30 @@
 # No es el metodo mas apropiado, deberia usarse un observador para los cambios realizados
+from PySide2.QtGui import *
 
 class Option():    
     # --- Metodos que accede al hacer click --#
-    def url_op(self, window):
+    def select(self, window):
         self.op_select = window.ui.comboBox_seleccion.currentText()
         print("Se verifica option elegida")
         print("Opening elegido %s" %self.op_select)
-        # window.ui.image.setPixmap(window.grafico.QPixmap("Imagenes/demon_slayer.jpeg"))
+
+        if self.op_select == "Demon Slayer":
+            window.ui.image.setPixmap(QPixmap("demon_slayer.jpeg"))
+            window.ui.image.setScaledContents(True)
+        if self.op_select == "Chainsaw Man":
+            window.ui.image.setPixmap(QPixmap("chainsawman.jpeg"))
+            window.ui.image.setScaledContents(True)
+        if self.op_select == "Los Caballeros del Zodiaco":
+            window.ui.image.setPixmap(QPixmap("caballeros_zodiaco.jpeg"))
+            window.ui.image.setScaledContents(True)
+        if self.op_select == "Nier Automata":
+            window.ui.image.setPixmap(QPixmap("nier_automata.jpeg"))
+            window.ui.image.setScaledContents(True)
+        if self.op_select == "luz":
+            window.ui.image.setPixmap(QPixmap("luz.png"))
+            window.ui.image.setScaledContents(True)            
+
+    def url_op(self, window): pass
 
     def input_user(self, parent):
         self.parent = parent # Accedo a atributos de clase WindowLogin

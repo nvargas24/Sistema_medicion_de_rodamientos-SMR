@@ -117,6 +117,7 @@ class Ui_MainWindow(object):
         self.image = QLabel(self.frame)
         self.image.setObjectName(u"image")
         self.image.setGeometry(QRect(20, 10, 391, 271))
+        self.image.setScaledContents(True)
 
         self.verticalLayout.addWidget(self.frame)
 
@@ -238,7 +239,7 @@ class Ui_MainWindow(object):
         self.comboBox_seleccion.setItemText(0, QCoreApplication.translate("MainWindow", u"Chainsaw Man", None))
         self.comboBox_seleccion.setItemText(1, QCoreApplication.translate("MainWindow", u"Demon Slayer", None))
         self.comboBox_seleccion.setItemText(2, QCoreApplication.translate("MainWindow", u"Nier Automata", None))
-        self.comboBox_seleccion.setItemText(3, QCoreApplication.translate("MainWindow", u"Los Caballeros de Zodiaco", None))
+        self.comboBox_seleccion.setItemText(3, QCoreApplication.translate("MainWindow", u"Los Caballeros del Zodiaco", None))
 
         self.comboBox_seleccion.setCurrentText(QCoreApplication.translate("MainWindow", u"Chainsaw Man", None))
         self.comboBox_seleccion.setPlaceholderText("")
