@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(490, 565)
+        MainWindow.resize(475, 565)
         MainWindow.setStyleSheet(u"/*QApplication::setStyle(\"fusion\");*/\n"
 "\n"
 "background-color: #EAEAEA;\n"
@@ -116,7 +116,7 @@ class Ui_MainWindow(object):
         self.frame.setFrameShadow(QFrame.Raised)
         self.image = QLabel(self.frame)
         self.image.setObjectName(u"image")
-        self.image.setGeometry(QRect(10, 10, 401, 271))
+        self.image.setGeometry(QRect(20, 10, 391, 271))
 
         self.verticalLayout.addWidget(self.frame)
 
@@ -235,12 +235,12 @@ class Ui_MainWindow(object):
         self.label_usuario.setText(QCoreApplication.translate("MainWindow", u"Usuario:", None))
         self.usuario.setText("")
         self.label_seleccion.setText(QCoreApplication.translate("MainWindow", u"Seleccione anime:", None))
-        self.comboBox_seleccion.setItemText(0, QCoreApplication.translate("MainWindow", u"Demon Slayer", None))
-        self.comboBox_seleccion.setItemText(1, QCoreApplication.translate("MainWindow", u"Chainsaw Man", None))
+        self.comboBox_seleccion.setItemText(0, QCoreApplication.translate("MainWindow", u"Chainsaw Man", None))
+        self.comboBox_seleccion.setItemText(1, QCoreApplication.translate("MainWindow", u"Demon Slayer", None))
         self.comboBox_seleccion.setItemText(2, QCoreApplication.translate("MainWindow", u"Nier Automata", None))
         self.comboBox_seleccion.setItemText(3, QCoreApplication.translate("MainWindow", u"Los Caballeros de Zodiaco", None))
 
-        self.comboBox_seleccion.setCurrentText(QCoreApplication.translate("MainWindow", u"Demon Slayer", None))
+        self.comboBox_seleccion.setCurrentText(QCoreApplication.translate("MainWindow", u"Chainsaw Man", None))
         self.comboBox_seleccion.setPlaceholderText("")
         self.image.setText("")
         self.label_opening.setText(QCoreApplication.translate("MainWindow", u"Opening:", None))
