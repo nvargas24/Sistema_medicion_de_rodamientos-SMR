@@ -16,9 +16,17 @@
  */
  
 
+#ifndef __MCP3008_H__
+#define __MCP3008_H__
+
+#include <stdio.h>
+#include <stddef.h>
+#include "esp_system.h"
 
 #define MAX_CHANNEL 8
 
 
-int16_t MCP3008_ReadChannel(int16_t channel);
+esp_err_t MCP3008_ReadChannel(int16_t channel, int16_t *meas_mcp);
 esp_err_t MCP3008_Init(void);
+
+#endif // __FFT_H__

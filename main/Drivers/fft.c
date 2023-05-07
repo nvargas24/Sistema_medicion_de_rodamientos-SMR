@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <complex.h>
+#include "esp_err.h"
 
 #include "fft.h"
 
@@ -664,4 +665,100 @@ inline void fft4(float *input, int stride_in, float *output, int stride_out)
   t2 = input[3*stride_in] - input[stride_in];
   output[stride_out+1] = t1 + t2;
   output[3*stride_out+1] = t1 - t2;
+}
+
+
+/**
+ * @brief This function is used to cacule FFT
+ *
+ * @return none
+ */
+esp_err_t rfft_calcule(int16_t *meas_mcp, float *mag_fft, float *freq_fft)
+{
+    esp_err_t ret;
+    
+    fft_config_t *fft_analysis = fft_init(ADC_SAMPLES, FFT_REAL, FFT_FORWARD, 0, 0);
+
+    /* Lectura de ADC*/
+    for (int k = 0; k < ADC_SAMPLES; k++)
+    {
+        fft_analysis->input[k] = (5.0 / 1024.0) *((float)meas_mcp[k]);
+    }
+
+    /* Calculo de magnitud */
+    fft_execute(fft_analysis);
+
+    for (int k = 0; k < FFT_SAMPLES; k++)
+    {
+      freq_fft[k] = k * 1.0 * RESOLUTION_F;
+      mag_fft[k] = sqrt(pow(fft_analysis->output[2 * k], 2) + pow(fft_analysis->output[2 * k + 1], 2));
+      mag_fft[k] = 20 * log10(mag_fft[k] * (0.707)); // pasaje a dBV
+
+      if(mag_fft[k]<=120.0 && mag_fft[k]>-70.0){ // valores random hacer test con prototipo completo
+        ret=ESP_OK;
+      }
+      else{
+        ret=ESP_FAIL;
+        break;
+      }
+    }
+
+    fft_destroy(fft_analysis);
+
+    return ret;
+}
+/*
+void rfft_prom_calcule(void)
+{
+    Cantidad de barridos para promediar 
+    for (int i = 0; i < SWEEP_FFT; i++)
+    {
+        rfft_calcule();
+    }
+
+    for (int k = 0; k < FFT_SAMPLES; k++)
+    {
+        mag[k] = mag[k] / SWEEP_FFT;
+    }
+
+     pasaje a DBV 
+    for (int k = 0; k < FFT_SAMPLES; k++)
+    {
+        mag[k] = 20 * log10(mag[k] * (0.707));
+    }
+
+    #ifdef DEBUG
+    for (int k = 0; k < FFT_SAMPLES; k++)
+    {
+        printf("%.5f \t   %.2f\n", mag[k], freq[k]);
+    }
+    #endif
+}
+*/
+/**
+ * @brief This function is used to search for amplitudes at desired frequencies
+ * @param freq_s  frequency in Hertz
+ * @param tol tolerance in relative porcentage
+ * @return amplitude
+ */
+float searchFreq(float freq_s, int tol, float *mag_fft, float *freq_fft)
+{
+    /* variables para asignar rango */
+    float freq_max = freq_s * (1.0 + tol / 100.0);
+    float freq_min = freq_s * (1.0 - tol / 100.0);
+    /* mag max en el rango pedido */
+    float mag_found = SNR;
+
+    for (int i = 0; i < FFT_SAMPLES; i++)
+    {
+        if (freq_fft[i] < freq_max && freq_fft[i] > freq_min)
+        {
+            if (mag_found < mag_fft[i])
+            {
+                mag_found = mag_fft[i];
+            }
+        }
+    }
+
+    return mag_found;
 }

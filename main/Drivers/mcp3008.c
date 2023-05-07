@@ -46,12 +46,12 @@ esp_err_t MCP3008_Init(void)
  * @param channel 
  * @return int16_t 
  */
-int16_t MCP3008_ReadChannel(int16_t channel)
+esp_err_t MCP3008_ReadChannel(int16_t channel, int16_t *meas_mcp)
 {
     esp_err_t ret;
     unsigned char rbuf[3];
     unsigned char wbuf[3];
-    int16_t val = 0;
+
     spi_transaction_t SPITransaction;    
 
     if (channel > MAX_CHANNEL) {
@@ -69,12 +69,13 @@ int16_t MCP3008_ReadChannel(int16_t channel)
     SPITransaction.tx_buffer = wbuf;
     SPITransaction.rx_buffer = rbuf;
 
-    ret = spi_device_transmit( spi3, &SPITransaction );    //ACA ESTA EL PROBLEMA
-	assert(ret==ESP_OK); 
+    // Se captura error si no hay comunicacion con el MCP3008
+    ret = spi_device_transmit( spi3, &SPITransaction );
 
     //val = (rbuf[1]<<2) + (rbuf[2]>>6); 
-    val = (rbuf[1]<<3) + (rbuf[2]>>5); // Solo para frecuencia de CLK=20MHz.
-    
-    return val;
+    *meas_mcp = (rbuf[1]<<3) + (rbuf[2]>>5); // Solo para frecuencia de CLK=20MHz.
+
+    return ret;
 }
+
 

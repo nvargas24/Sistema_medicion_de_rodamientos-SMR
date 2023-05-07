@@ -69,8 +69,8 @@ static esp_err_t smr_save_run_time(void);
 static esp_err_t smr_save_last_error(uint8_t lastError);
 static esp_err_t smr_print_nvs_saved(void);
 
-float searchFreq(float freq_s, int tol);
-void rfft_calcule(void);
+float searchFreq(float freq_s, int tol, float *mag_fft, float *freq_fft);
+esp_err_t rfft_calcule(int16_t *meas_mcp, float *mag_fft, float *freq_fft);
 void rfft_prom_calcule(void);
 
 /* Global Variables */
@@ -95,10 +95,6 @@ char timeStamp[40];
 char aux[200];
 
 /* Variables para FFT*/
-float mag[FFT_SAMPLES];
-float freq[FFT_SAMPLES];
-float fft_input[ADC_SAMPLES];
-float fft_output[ADC_SAMPLES];
 float frecBPFI;
 float frecBPFO;
 float frecBSF;
@@ -516,7 +512,9 @@ static esp_err_t smr_mqtt_init(void)
 
     esp_mqtt_client_config_t mqtt_cfg =
         {
-            .uri = CONFIG_BROKER_URL,
+            .broker.address.hostname = "192.168.86.203",
+            .broker.address.transport = MQTT_TRANSPORT_OVER_TCP,
+            .broker.address.port = 1883,
         };
     client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, smr_mqtt_event_handler, NULL);
@@ -524,96 +522,6 @@ static esp_err_t smr_mqtt_init(void)
     return ret;
 }
 
-/**
- * @brief This function is used to cacule FFT
- *
- * @return none
- */
-void rfft_calcule(void)
-{
-    float mag_aux, freq_aux;
-
-    fft_config_t *fft_analysis = fft_init(ADC_SAMPLES, FFT_REAL, FFT_FORWARD, fft_input, fft_output);
-
-    /* Lectura de ADC*/
-    for (int k = 0; k < ADC_SAMPLES; k++)
-    {
-        fft_analysis->input[k] = (5.0 / 1024.0) * ((float)MCP3008_ReadChannel(0));
-    }
-
-    /* Calculo de magnitud */
-    fft_execute(fft_analysis);
-
-    for (int k = 0; k < FFT_SAMPLES; k++)
-    {
-
-        freq_aux = k * 1.0 * RESOLUTION_F;
-        mag_aux = sqrt(pow(fft_analysis->output[2 * k], 2) + pow(fft_analysis->output[2 * k + 1], 2));
-
-        mag[k] = mag[k] + mag_aux; // Solo la magnitud se promedia
-        freq[k] = freq_aux;
-    }
-
-    fft_destroy(fft_analysis);
-
-    for (int k = 0; k < FFT_SAMPLES; k++)
-    {
-        mag[k] = mag[k] / SWEEP_FFT;
-    }
-}
-
-void rfft_prom_calcule(void)
-{
-    /* Cantidad de barridos para promediar */
-    for (int i = 0; i < SWEEP_FFT; i++)
-    {
-        rfft_calcule();
-        vTaskDelay(pdMS_TO_TICKS(100)); /* Delay por barrido */
-    }
-
-    /* pasaje a DBV */
-    for (int k = 0; k < FFT_SAMPLES; k++)
-    {
-        mag[k] = 20 * log10(mag[k] * (0.707));
-    }
-
-#ifdef DEBUG
-    for (int k = 0; k < FFT_SAMPLES; k++)
-    {
-        printf("%.5f \t   %.2f\n", mag[k], freq[k]);
-    }
-#endif
-}
-
-/**
- * @brief This function is used to search for amplitudes at desired frequencies
- * @param freq_s  frequency in Hertz
- * @param tol tolerance in relative porcentage
- * @return amplitude
- */
-float searchFreq(float freq_s, int tol)
-{
-    /* variables para asignar rango */
-    float freq_max = freq_s * (1.0 + tol / 100.0);
-    float freq_min = freq_s * (1.0 - tol / 100.0);
-    float freq_found = 0.0;
-    /* mag max en el rango pedido */
-    float mag_found = SNR;
-
-    for (int i = 0; i < FFT_SAMPLES; i++)
-    {
-        if (freq[i] < freq_max && freq[i] > freq_min)
-        {
-            if (mag_found < mag[i])
-            {
-                mag_found = mag[i];
-                freq_found = freq[i];
-            }
-        }
-    }
-
-    return mag_found;
-}
 
 /**
  * @brief This function is used to perform sensor's measurement
@@ -771,7 +679,7 @@ smr_errorCtrl_t smr_measure_sensors(void)
         }
     }
 
-    /* Battery level measurement */
+    /* Battery level measurement
     errorCtrl = smr_adc_read(&batteryLevel);
 
     if (errorCtrl != SMR_OK)
@@ -782,7 +690,7 @@ smr_errorCtrl_t smr_measure_sensors(void)
         for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
         {
             smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_ADC_READ_ERROR - 7));
-            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            // Blocking wait for SMR_TIME_BTW_LED_IND ms
             vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
         }
 
@@ -797,26 +705,79 @@ smr_errorCtrl_t smr_measure_sensors(void)
         if (batteryLevel <= SMR_LOW_BATTERY_MV)
         {
             #ifdef DEBUG
-                ESP_LOGI(TAG, "BATERIA BAJA ---- %d", batteryLevel);
+                ESP_LOGI(TAG, "BATERIA BAJA ---- %lu", batteryLevel);
             #endif
         }
+    }*/
+/* Medicion  de MCP3008 */
+    int16_t meas_mcp[ADC_SAMPLES];
+
+    bzero(meas_mcp, sizeof(meas_mcp));
+    for(int k = 0; k < ADC_SAMPLES; k++)
+    {
+        ret = MCP3008_ReadChannel(0, &meas_mcp[k]);
+
+        if(ret != ESP_OK)
+        {
+            errorCtrl = SMR_MCP3008_READ_ERROR;
+            smr_error_reg(errorCtrl, errorString);
+
+            for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+            {
+                smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_MCP3008_READ_ERROR - 7));
+                /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+                vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+            }
+
+            #ifdef DEBUG
+                ESP_LOGI(TAG, "%s", errorString);
+            #endif
+
+            return errorCtrl;
+
+        }
+        else
+        {
+            if(meas_mcp[k] <= 1024 && meas_mcp[k] >= 0){
+                #ifdef DEBUG_MCP
+                    ESP_LOGI(TAG, "LECTURA DE MCP --- %u", meas_mcp[k]);
+                #endif
+            }
+            else
+            {
+                #ifdef DEBUG
+                    ESP_LOGI(TAG, "LECTURA DE MCP NO VALIDA ---");
+                #endif
+            }
+        }
     }
+    
+
+    /* Calculo de FFT */
+    float mag_fft[FFT_SAMPLES];
+    float freq_fft[FFT_SAMPLES];
 
     /* FFT measures */
     /* Ver lógica de mediciones y como comparar los resultados contra una base de ruido
      * Disparar alarmas segun lo recibido por mqtt
      * #ifdef para posibles prints de info
      */
-    bzero(mag, sizeof(mag));
-    bzero(freq, sizeof(freq));
+    bzero(mag_fft, sizeof(mag_fft));
+    bzero(freq_fft, sizeof(freq_fft));
 
-    rfft_prom_calcule();
+    ret=rfft_calcule(meas_mcp, mag_fft, freq_fft);
+    #ifdef DEBUG
+        printf("Magnitud\tFrecuencia\n");
+        for (int k = 0; k < FFT_SAMPLES; k++){
+            printf("%.5f\t%.2f\n", mag_fft[k], freq_fft[k]);
+        }
+    #endif
     vTaskDelay(pdMS_TO_TICKS(100));
 
-    magBPFO = searchFreq(frecBPFO, 5);
-    magBPFI = searchFreq(frecBPFI, 5);
-    magFTF = searchFreq(frecFTF, 5);
-    magBSF = searchFreq(frecBSF, 5);
+    magBPFO = searchFreq(frecBPFO, 5, mag_fft, freq_fft);
+    magBPFI = searchFreq(frecBPFI, 5, mag_fft, freq_fft);
+    magFTF = searchFreq(frecFTF, 5, mag_fft, freq_fft);
+    magBSF = searchFreq(frecBSF, 5, mag_fft, freq_fft);
 
     #ifdef DEBUG
         ESP_LOGI(TAG, "Magnitud de BPFO (%.2fHz)= %.2fdBV", frecBPFO, magBPFO);
@@ -897,7 +858,7 @@ smr_errorCtrl_t smr_publish_measures(void)
     }
 
 #ifdef ROD_ANT
-    sprintf(payload, "%d", batteryLevel);
+    sprintf(payload, "%lu", batteryLevel);
     ret = esp_mqtt_client_publish(client, "rodAnt/bateria", payload, strlen(payload), 0, false);
     if (ret < 0)
     {
@@ -2042,7 +2003,7 @@ esp_err_t smr_print_nvs_saved(void)
         for (int i = 0; i < required_size / sizeof(uint32_t); i++) 
         {
 #ifdef DEBUG
-        ESP_LOGI(TAG, "%d: %d", i + 1, run_time[i]);
+        ESP_LOGI(TAG, "%d: %lu", i + 1, run_time[i]);
 #endif
         }
         free(run_time);
