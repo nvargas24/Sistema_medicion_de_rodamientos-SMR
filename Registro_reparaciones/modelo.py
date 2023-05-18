@@ -26,8 +26,6 @@ class Crud():
         self.nom_sistema = qt_entry.nom_sistema.currentText()
         self.num_serie = qt_entry.num_serie.text()
 
-        
-
         # Descripcion de reparacion
 
         # Verificacion
@@ -42,7 +40,7 @@ class Crud():
 
 # ---------------------Clases que contienen métodos para base de datos--------------------------------
 try:
-    db = SqliteDatabase(
+    db = MySQLDatabase(
         "control_laboratorio_de_electronica.db"
     )  # Creo el objeto que indica el tipo y nombre de bd a la cual me voy a conectar (si no existe la crea).
 except:
@@ -57,17 +55,26 @@ class BaseModel(Model):
     class Meta:
         database = db  # Indico a que base me conecto y su tipo.
 
+class Fallas(BaseModel):
+    falla = CharField()
+    detalle = TextField()
+    tipo = CharField()
 
-class Componentes(BaseModel):
-    """
-    Clase asociada a la tabla de la base de datos, y donde defino sus atributos (campos).
-    """
+class Dispositivos(BaseModel):
+    num_serie = IntegerField()
+    modulo = CharField()
+    sistema = CharField()
+    descripcion = TextField()
 
+class Operarios(BaseModel):
+    legajo = IntegerField()
     nombre = CharField()
-    cantidad = CharField()
-    precio = CharField()
-    descripcion = CharField()
+    apellido = CharField()
+    cargo = CharField()
 
+class Reparacion(BaseModel):
+    num_ref = IntegerField()
+    detalle_rep = TextField()
 
 class BaseDatos:
     """
@@ -80,29 +87,23 @@ class BaseDatos:
         """
         self.con = db
         self.con.connect()  # Me conecto a la bd.
-        self.con.create_tables([Componentes])  # Creo la tabla Componentes.
+        self.con.create_tables([Dispositivo, Operarios])  # Creo la tabla
 
-    def agregar_db(self, nombre, cantidad, precio, descripcion):
-        """
-        Método para agregar una fila de datos (registro) a la tabla.
+    def agregar_dispositivos(self, num_serie, nombre, descripcion, ubicacion, num_reparacion):
 
-        :param nombre: Nombre del componente.
-        :param cantidad: Cantidad del componente.
-        :param precio: Precio del componente.
-        :param descripcion: Descripción del componente.
-        """
-        comp = Componentes()  # Creo un objeto (registro) de la clase Componentes.
+        dispo = Dispositivos()  # Creo un objeto (registro) de la clase Componentes.
 
-        # Le asigno los valores ingresados a cada atributo(campo) del objeto.
-        comp.nombre = nombre
-        comp.cantidad = cantidad
-        comp.precio = precio
-        comp.descripcion = descripcion
-
+        # Creo registro
         try:
-            comp.save()  # Guardo el registro en la tabla.
+            dispo.create(
+                num_serie = num_serie,
+                nombre = nombre,
+                descripcion = descripcion,
+                ubicacion = ubicacion,
+                num_reparacion = num_reparacion
+            ) 
         except:
-            print("No se pudo guardar el registro")
+            print("No se pudo crear el registro")
 
     def eliminar_db(self, nombre):
         """
