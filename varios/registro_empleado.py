@@ -27,20 +27,26 @@ class Crud(BaseDatos):
 class Empleado:
     def __init__(self, ):
         #self.obj_crud = Crud()
-        print("---"*5, "Bienvenido", "---"*5)
-        self.menu()
+        print("----"*4, "Bienvenido", "----"*4)
 
     def menu(self, ):
+        print("---"*15)
         print("Seleccione una opcion:")
         print("(1) Agregar nuevo empleado")
         print("(2) Eliminar empleado")
         print("(3) Actualizar datos de empleado")
         print("(4) Ver listado de empleados")
-        
-        self.option = int(input(""))
-        self.operacion()
+        print("(5) Salir")
 
-    def operacion(self, ):
+        try:
+            return int(input())
+        except:
+            ## se debe utilizar regex
+            print("error de dato")
+
+    def operacion(self, option):
+        self.option = option
+
         if self.option == 1:
             print("new")
         elif self.option == 2:
@@ -49,6 +55,14 @@ class Empleado:
             print("up")
         elif self.option == 4:
             print("view")
+        elif self.option == 5:
+            print("salir")
+        else:
+            print("opcion no valida, vuelva a intentar")
 
+obj_empleado = Empleado()
 while True:
-    obj_empleado = Empleado()
+        select = obj_empleado.menu()
+        obj_empleado.operacion(select)
+
+
