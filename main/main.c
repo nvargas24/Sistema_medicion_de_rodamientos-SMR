@@ -78,6 +78,8 @@ esp_mqtt_client_handle_t client;
 esp_adc_cal_characteristics_t *adc_chars;
 static const adc_channel_t vBatLvl = ADC_CHANNEL_6;
 
+uint8_t stageNum = 0;
+
 float Ta;
 float To;
 float Td;
@@ -412,6 +414,7 @@ static void smr_mqtt_event_handler(void *handler_args, esp_event_base_t base, in
         if (strcmp(aux, "smr/start") == 0)
         {
             run = true;
+            stageNum++;
         }
         else if (strcmp(aux, "smr/stop") == 0)
         {
@@ -837,7 +840,9 @@ smr_errorCtrl_t smr_publish_measures(void)
     int i;
     smr_errorCtrl_t errorCtrl;
 
-    ret = esp_mqtt_client_publish(client, "timeStamp", timeStamp, strlen(timeStamp), 0, false);
+#ifdef ROD_ANT
+
+    ret = esp_mqtt_client_publish(client, "rodAnt/timeStamp", timeStamp, strlen(timeStamp), 0, false);
     if (ret < 0)
     {
         errorCtrl = SMR_MQTT_PUBLISH_ERROR;
@@ -857,7 +862,27 @@ smr_errorCtrl_t smr_publish_measures(void)
         return errorCtrl;
     }
 
-#ifdef ROD_ANT
+    sprintf(payload, "%d", stageNum);
+    ret = esp_mqtt_client_publish(client, "rodAnt/stageNum", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%lu", batteryLevel);
     ret = esp_mqtt_client_publish(client, "rodAnt/bateria", payload, strlen(payload), 0, false);
     if (ret < 0)
@@ -1113,6 +1138,48 @@ smr_errorCtrl_t smr_publish_measures(void)
     return SMR_OK;
 #endif
 #ifdef ROD_POS
+
+    ret = esp_mqtt_client_publish(client, "rodPos/timeStamp", timeStamp, strlen(timeStamp), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
+    sprintf(payload, "%d", stageNum);
+    ret = esp_mqtt_client_publish(client, "rodPos/stageNum", payload, strlen(payload), 0, false);
+    if (ret < 0)
+    {
+        errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+        smr_error_reg(errorCtrl, errorString);
+
+        for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+        {
+            smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+            /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+            vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+        }
+
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "%s", errorString);
+        #endif
+
+        return errorCtrl;
+    }
+
     sprintf(payload, "%d", batteryLevel);
     ret = esp_mqtt_client_publish(client, "rodPos/bateria", payload, strlen(payload), 0, false);
     if (ret < 0)
