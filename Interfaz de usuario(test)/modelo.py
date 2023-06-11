@@ -129,9 +129,8 @@ class Measure():
             # Cargo valor a progressbar, segun avance el contador            
             self.menu.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
             
-            print("Ya se realizaron 5 ensayos")
             if self.cont_ensayos == 5:            
-
+                print("Ya se realizaron 5 ensayos")
                 self.cont_ensayos = 1
                 self.init_conf()
             else:
@@ -154,9 +153,22 @@ class Measure():
     """
     Fuerza finalizacion de ensayo actual y arranca el siguiente (si es que lo hay)
     """
-    def finish_ensayo(self, ): pass
-        #print("Finaliza "+ str(self.cont) +" - Forzado")
+    def finish_ensayo(self, ):
+        print("Finaliza ensayo "+ str(self.cont_ensayos) +" - Forzado")
+        self.menu.timer1.stop()
 
+        # Seteo widget como si hubiese terminado ensayo
+        self.menu.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}")
+        self.menu.ui.progress_bar_ensayo.setValue(int(self.seconds_total_aux))
+        self.menu.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
+        
+        # En el caso de que se cumplan los 5 ensayos pase a modo config
+        if self.cont_ensayos == 5:            
+            self.cont_ensayos = 1
+            self.init_conf()
+        else:
+            self.menu.timer2.start(1000)
+            self.seconds_total = self.seconds_total_aux
     """
     Informa eventos
     """
