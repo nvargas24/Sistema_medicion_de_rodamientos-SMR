@@ -86,18 +86,32 @@ class Measure():
         self.menu.ui.groupBox_leds.setEnabled(True)
         self.menu.ui.groupBox_meas.setEnabled(True)
 
-        # Se inicia ensayos
+        # Temporizador de 1 segundo, cuando finaliza accede a metodo asociado
         self.menu.timer.start(1000)
 
+    # Cuando timer finalice entra a este metodo
     def update_clock(self, ):
-        # Verificar si el tiempo ha alcanzado 0
+        print("Tiempo restante", self.seconds_total)
+
+        self.minutes = self.seconds_total//60
+        self.seconds = self.seconds_total%60
+        self.menu.ui.lcd_time_ensayo.display(f"{self.minutes:02d}:{self.seconds:02d}")
+
+        self.seconds_total = self.seconds_total-1
+        # Se detiene contador para que no siga con parte negativa
+        if self.seconds_total<0 : 
+            self.menu.timer.stop()
+            print("Finalizo contador") 
+
+
+        """
         if self.selected_time <= QTime(0, 0, 0): #hh, mm, ss
             self.reset_cronometro()
 
         else:
             self.notificacion("Ensayo " +str(self.cont) +" - en proceso")
             self.cronometro()
-
+        """
     def reset_cronometro(self, ):            
         self.menu.timer_standby()
         self.menu.timer.stop()

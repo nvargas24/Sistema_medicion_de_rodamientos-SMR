@@ -47,9 +47,9 @@ class Mainwindow(QMainWindow):
 
         # Creo contador asociado a un metodo que inicia el conteo
         self.timer = QTimer(self)
-        self.timer.timeout.connect(self.measure.update_clock)
-
         self.timer_standby = QTimer(self)
+        
+        self.timer.timeout.connect(self.measure.update_clock)
         self.timer_standby.timeout.connect(self.measure.cronometro_stanby)
 
     def on_slider_bpfo_value_changed(self, value):
