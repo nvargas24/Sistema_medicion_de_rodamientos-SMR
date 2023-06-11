@@ -29,13 +29,9 @@ class Measure():
     
     def __init__(self):
         self.mqtt = Mqtt()
-        self.mode = "Modo configuracion"
-        self.cont = 1
-        self.flag_forzar = 0
+        self.cont_ensayos = 1
 
     def init_conf(self, ):
-        self.notificacion("Esperando configuracion")
-
         self.menu.ui.groupBox_time.setEnabled(False)
         self.menu.ui.groupBox_leds.setEnabled(False)
         self.menu.ui.groupBox_meas.setEnabled(False)
@@ -50,6 +46,9 @@ class Measure():
 
         self.menu.ui.btn_init.setEnabled(True)
 
+        self.notificacion("Esperando configuracion")
+        self.menu.ui.progress_bar_programa.setValue(0)
+        self.menu.ui.progress_bar_ensayo.setValue(0)
     """
     Obtiene parametros del ui y los envia por mqtt
     """
@@ -70,6 +69,7 @@ class Measure():
         self.seconds_standby_aux = self.seconds_standby  # Valor ramdom de standby
         # Asigno rango dinamico a progressbar
         self.menu.ui.progress_bar_ensayo.setRange(0, int(self.seconds_total))
+        self.menu.ui.progress_bar_programa.setRange(0, 5)
 
         # Obtener configuracion de frecuencias a buscar
         self.freq_bpfo = str(self.menu.ui.slider_bpfo.value())
@@ -108,7 +108,6 @@ class Measure():
         self.menu.ui.groupBox_leds.setEnabled(True)
         self.menu.ui.groupBox_meas.setEnabled(True)
 
-        self.cont_ensayos = 1
         # Temporizador de 1 segundo, cuando finaliza accede a metodo asociado
         self.menu.timer1.start(1000)
 
@@ -119,15 +118,21 @@ class Measure():
         self.minutes = self.seconds_total//60
         self.seconds = self.seconds_total%60
         self.menu.ui.lcd_time_ensayo.display(f"{self.minutes:02d}:{self.seconds:02d}")
+        # Cargo valor a progressbar, segun avance el contador
+        self.menu.ui.progress_bar_ensayo.setValue(int(self.seconds_total_aux)-int(self.seconds_total))
 
         self.seconds_total = self.seconds_total-1
         # Se detiene contador para que no siga con parte negativa
         if self.seconds_total<0 : 
             self.menu.timer1.stop()
             print("Finalizo contador")
+            # Cargo valor a progressbar, segun avance el contador            
+            self.menu.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
+            
+            print("Ya se realizaron 5 ensayos")
+            if self.cont_ensayos == 5:            
 
-            if self.cont_ensayos == 5:
-                print("Ya se realizaron 5 ensayos")
+                self.cont_ensayos = 1
                 self.init_conf()
             else:
                 self.menu.timer2.start(1000)
@@ -143,58 +148,14 @@ class Measure():
             print("Finalizo contador 2") 
             self.menu.timer1.start(1000)
             self.seconds_standby = self.seconds_standby_aux
+
             self.cont_ensayos = self.cont_ensayos +1
-
-
-        """
-        if self.selected_time <= QTime(0, 0, 0): #hh, mm, ss
-            self.reset_cronometro()
-
-        else:
-            self.notificacion("Ensayo " +str(self.cont) +" - en proceso")
-            self.cronometro()
-        """
-    def reset_cronometro(self, ):            
-        self.menu.timer_standby()
-        self.menu.timer.stop()
-        # Se inicia nuevo ensayo
-        self.menu.timer.start(1000)
-        self.selected_time = self.menu.ui.time_ensayo.time()
-        self.cont = self.cont+1
-
-    def cronometro_stanby(self, ):
-        self.notificacion("Ajuste velocidad de motor")
-        # Standby Mode, para ajustar frecuencia de motor
-        self.cont_stanby = 10
-        while not self.cont_stanby < 0 and self.flag_forzar == 1:
-            print("Nuevo ensayo en " +str(self.cont_stanby))
-            self.notificacion("Nuevo ensayo en " +str(self.cont_stanby))
-            self.cont_stanby = self.cont_stanby - 1
-            time.sleep(1)            
-            if self.cont_stanby == 10: self.flag_forzar = 0
-
-
-    def cronometro(self, ):
-        # Restar un segundo al tiempo actual
-        self.selected_time = self.selected_time.addSecs(-1)
-        
-        # Obtener tiempo actual de timer
-        self.minutes_now = self.selected_time.minute()
-        self.seconds_now = self.selected_time.second()
-        self.seconds_total_now = self.minutes_now*60 + self.seconds_now
-
-        # Formatear el tiempo en estilo "mm:ss" y mostrarlo en el QLCDNumber
-        self.menu.ui.lcd_time_ensayo.display(f"{self.minutes_now:02d}:{self.seconds_now:02d}")
-        # Cargo valor a progressbar, segun avance el contador
-        self.menu.ui.progress_bar_ensayo.setValue(int(self.seconds_total)-int(self.seconds_total_now))
 
     """
     Fuerza finalizacion de ensayo actual y arranca el siguiente (si es que lo hay)
     """
-    def finish_ensayo(self, ):
-        self.flag_forzar = 1
-        print("Finaliza "+ str(self.cont) +" - Forzado")
-        self.reset_cronometro()
+    def finish_ensayo(self, ): pass
+        #print("Finaliza "+ str(self.cont) +" - Forzado")
 
     """
     Informa eventos
@@ -202,11 +163,6 @@ class Measure():
     def notificacion(self, msj):
         self.menu.ui.notificacion.setText(str(msj))
     
-    """
-    Contador de tiempo para ensayos, tanto el transcurrido como tiempo faltante para el prox
-    """
-    def time_progress(self): pass
-
     """
     Muestra lecturas obtenidas de sensores en display
     """
