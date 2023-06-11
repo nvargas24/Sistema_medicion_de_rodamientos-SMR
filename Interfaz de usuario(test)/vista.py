@@ -27,6 +27,8 @@ class Mainwindow(QMainWindow):
         self.ui.groupBox_leds.setEnabled(False)
         self.ui.groupBox_meas.setEnabled(False)
 
+        self.ui.notificacion.setText("Esperando configuracion")
+
         # Asigno metodos a cada boton
         ## Uso lambda para poder a acceder a ui desde el modelo
         self.ui.btn_finish.clicked.connect(self.close)
@@ -46,11 +48,11 @@ class Mainwindow(QMainWindow):
         self.ui.slider_bsf.valueChanged.connect(self.on_slider_bsf_value_changed)
 
         # Creo contador asociado a un metodo que inicia el conteo
-        self.timer = QTimer(self)
-        self.timer_standby = QTimer(self)
+        self.timer1 = QTimer(self)
+        self.timer2 = QTimer(self)
         
-        self.timer.timeout.connect(self.measure.update_clock)
-        self.timer_standby.timeout.connect(self.measure.cronometro_stanby)
+        self.timer1.timeout.connect(self.measure.timer_ensayo)
+        self.timer2.timeout.connect(self.measure.timer_standby)
 
     def on_slider_bpfo_value_changed(self, value):
         self.ui.label_slider_bpfo.setText(f"{value}Hz")

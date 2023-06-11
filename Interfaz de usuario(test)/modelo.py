@@ -32,6 +32,24 @@ class Measure():
         self.mode = "Modo configuracion"
         self.cont = 1
         self.flag_forzar = 0
+
+    def init_conf(self, ):
+        self.notificacion("Esperando configuracion")
+
+        self.menu.ui.groupBox_time.setEnabled(False)
+        self.menu.ui.groupBox_leds.setEnabled(False)
+        self.menu.ui.groupBox_meas.setEnabled(False)
+
+        self.menu.ui.time_ensayo.setEnabled(True)
+
+        self.menu.ui.groupBox_freq.setEnabled(True)
+        self.menu.ui.slider_bpfo.setEnabled(True)
+        self.menu.ui.slider_bpfi.setEnabled(True)
+        self.menu.ui.slider_ftf.setEnabled(True)
+        self.menu.ui.slider_bsf.setEnabled(True)
+
+        self.menu.ui.btn_init.setEnabled(True)
+
     """
     Obtiene parametros del ui y los envia por mqtt
     """
@@ -46,6 +64,10 @@ class Measure():
         self.minutes = self.selected_time.minute()
         self.seconds = self.selected_time.second()
         self.seconds_total = (self.minutes * 60 + self.seconds)
+        self.seconds_total_aux = self.seconds_total
+
+        self.seconds_standby = 10  # Valor ramdom de standby
+        self.seconds_standby_aux = self.seconds_standby  # Valor ramdom de standby
         # Asigno rango dinamico a progressbar
         self.menu.ui.progress_bar_ensayo.setRange(0, int(self.seconds_total))
 
@@ -86,13 +108,14 @@ class Measure():
         self.menu.ui.groupBox_leds.setEnabled(True)
         self.menu.ui.groupBox_meas.setEnabled(True)
 
+        self.cont_ensayos = 1
         # Temporizador de 1 segundo, cuando finaliza accede a metodo asociado
-        self.menu.timer.start(1000)
+        self.menu.timer1.start(1000)
 
     # Cuando timer finalice entra a este metodo
-    def update_clock(self, ):
-        print("Tiempo restante", self.seconds_total)
-
+    def timer_ensayo(self, ):
+        self.notificacion("Ensayo "+ str(self.cont_ensayos) + " en proceso")
+        
         self.minutes = self.seconds_total//60
         self.seconds = self.seconds_total%60
         self.menu.ui.lcd_time_ensayo.display(f"{self.minutes:02d}:{self.seconds:02d}")
@@ -100,8 +123,27 @@ class Measure():
         self.seconds_total = self.seconds_total-1
         # Se detiene contador para que no siga con parte negativa
         if self.seconds_total<0 : 
-            self.menu.timer.stop()
-            print("Finalizo contador") 
+            self.menu.timer1.stop()
+            print("Finalizo contador")
+
+            if self.cont_ensayos == 5:
+                print("Ya se realizaron 5 ensayos")
+                self.init_conf()
+            else:
+                self.menu.timer2.start(1000)
+                self.seconds_total = self.seconds_total_aux
+
+    def timer_standby(self, ):
+        self.notificacion("Nuevo ensayo en "+ str(self.seconds_standby))
+        self.seconds_standby = self.seconds_standby-1
+
+        # Se detiene contador para que no siga con parte negativa
+        if self.seconds_standby<0 : 
+            self.menu.timer2.stop()
+            print("Finalizo contador 2") 
+            self.menu.timer1.start(1000)
+            self.seconds_standby = self.seconds_standby_aux
+            self.cont_ensayos = self.cont_ensayos +1
 
 
         """
