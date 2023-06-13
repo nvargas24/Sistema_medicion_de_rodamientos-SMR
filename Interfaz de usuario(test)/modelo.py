@@ -4,31 +4,46 @@ from PySide2.QtWidgets import *
 from PySide2 import QtCore as core
 import time
 
-class Mqtt():
-    """
-    Inicializa comunicacion mqtt
-    """
-    def start(self, ): pass
+import paho.mqtt.client as mqtt
 
-    """
-    Envia mensaje por mqtt
-    """
-    def send(self, topic, msj): pass
+class Mqtt:
+    def __init__(self, broker_host, broker_port):
+        self.client = mqtt.Client()
+        self.broker_host = broker_host
+        self.broker_port = broker_port
+        self.topic = None
+        self.msg = None
 
-    """
-    Se suscribe a un topico y devuelve valor obtenido
-    """
-    def suscrip(self, ): pass
-    
-    """
-    Se desuscribirse de un topico
-    """
-    def unsuscrip(self, ): pass
+    def on_connect(self, client, userdata, flags, rc):
+        if rc == 0:
+            print("Conexión exitosa al broker")
+        else:
+            print(f"No se pudo conectar al broker. Código de retorno: {rc}")
+
+    def start(self):
+        self.client.on_connect = self.on_connect
+        self.client.connect(self.broker_host, self.broker_port)
+        self.client.loop_start()
+
+    def send(self, topic, message):
+        self.client.publish(topic, message)
+
+    def on_message(self, client, userdata, msg):
+        print(f"Mensaje recibido en el tópico {msg.topic}: {msg.payload.decode()}")
+        self.topic = msg.topic
+        self.msg = msg.payload.decode()
+
+    def suscrip(self, topic):
+        self.client.subscribe(topic)
+        self.client.on_message = self.on_message
 
 class Measure():
     
     def __init__(self):
-        self.mqtt = Mqtt()
+        super().__init__()
+        self.mqtt_obj = Mqtt("192.168.1.108", 1883)
+        self.mqtt_obj.start()
+
         self.cont_ensayos = 1
 
     def init_conf(self, ):
@@ -84,14 +99,18 @@ class Measure():
         print("Frecuencia FTF: "+ self.freq_ftf+ "Hz")
         print("Frecuencia BSF: "+ self.freq_bsf+ "Hz")
 
-        print("Configuracion realizada \nDeshabilito widgets")
+        print("Configuracion realizada")
 
-        ###### Enviar por mqtt los datos de configuracion
+        # Enviar por mqtt los datos de configuracion
+        self.mqtt_obj.send("smr/start", True)
+        self.mqtt_obj.send("rodAnt/frecBPFO", int(self.freq_bpfo))
+        self.mqtt_obj.send("rodAnt/frecBPFI", int(self.freq_bpfi))
+        self.mqtt_obj.send("rodAnt/frecBSF", int(self.freq_bsf))
+        self.mqtt_obj.send("rodAnt/frecFTF", int(self.freq_ftf))
 
         self.init_ensayos()
 
     def init_ensayos(self, ):
-        self.mode = "Modo ensayo"
         # Bloquear acceso a todos los widget hasta que termine el sistema, excepto btn_finish
         self.menu.ui.time_ensayo.setEnabled(False)
 
@@ -108,27 +127,42 @@ class Measure():
         self.menu.ui.groupBox_leds.setEnabled(True)
         self.menu.ui.groupBox_meas.setEnabled(True)
 
+        # Habilito suscripciones
+        self.mqtt_obj.suscrip("rodAnt/fft")
+        self.mqtt_obj.suscrip("rodAnt/tempObj")
+        self.mqtt_obj.suscrip("rodAnt/acelAxial")
+        self.mqtt_obj.suscrip("rodAnt/acelRadial")
+        self.mqtt_obj.suscrip("rodAnt/presBPFO")
+        self.mqtt_obj.suscrip("rodAnt/presBPFI")
+        self.mqtt_obj.suscrip("rodAnt/presBSF")
+        self.mqtt_obj.suscrip("rodAnt/presFTF")
+
         # Temporizador de 1 segundo, cuando finaliza accede a metodo asociado
         self.menu.timer1.start(1000)
 
     # Cuando timer finalice entra a este metodo
     def timer_ensayo(self, ):
         self.notificacion("Ensayo "+ str(self.cont_ensayos) + " en proceso")
-        
+
+        # Se obtiene minutos y segundos a mostrar en lcd
         self.minutes = self.seconds_total//60
         self.seconds = self.seconds_total%60
         self.menu.ui.lcd_time_ensayo.display(f"{self.minutes:02d}:{self.seconds:02d}")
         # Cargo valor a progressbar, segun avance el contador
         self.menu.ui.progress_bar_ensayo.setValue(int(self.seconds_total_aux)-int(self.seconds_total))
-
+        # Cada vez que se cumpla un 1 seg resto un valor del total de segundos
         self.seconds_total = self.seconds_total-1
+
+        # Se verifica si el dispositivo publico algo en un topic
+        self.data_recive()
+
         # Se detiene contador para que no siga con parte negativa
         if self.seconds_total<0 : 
             self.menu.timer1.stop()
             print("Finalizo contador")
-            # Cargo valor a progressbar, segun avance el contador            
+            # Cargo valor a progressbar cada vez que finaliza un ensayo
             self.menu.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
-            
+            # Se vertfica si ya se cumplio el total de ensayos o no
             if self.cont_ensayos == 5:            
                 print("Ya se realizaron 5 ensayos")
                 self.cont_ensayos = 1
@@ -178,10 +212,18 @@ class Measure():
     """
     Muestra lecturas obtenidas de sensores en display
     """
-    def lecturas(self, ): pass
-
-    """
-    Modifica 'leds' en caso de detectar alguna frecuencia solicitada
-    """
-    def fallas_detectadas(self, ): pass
-
+    def data_recive(self, ):
+        if self.mqtt_obj.topic == "rodAnt/tempObj":
+            print("Temperatura obj: ", self.mqtt_obj.msg, "°C")
+        if self.mqtt_obj.topic == "rodAnt/acelAxial":
+            print("Accel axial: ", self.mqtt_obj.msg)
+        if self.mqtt_obj.topic == "rodAnt/acelRadial":
+            print("Accel radial: ", self.mqtt_obj.msg)
+        if self.mqtt_obj.topic == "rodAnt/presBPFO":
+            print("Se detecto BPFO")
+        if self.mqtt_obj.topic == "rodAnt/presBPFI":
+            print("Se detecto BPFI")
+        if self.mqtt_obj.topic == "rodAnt/presBSF":
+            print("Se detecto BSF")
+        if self.mqtt_obj.topic == "rodAnt/presFTF":
+            print("Se detecto FTF")
