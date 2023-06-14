@@ -41,13 +41,13 @@ class Measure():
     
     def __init__(self):
         super().__init__()
-        self.mqtt_obj = Mqtt("192.168.1.108", 1883)
+        self.mqtt_obj = Mqtt("192.168.68.168", 1883)
         self.mqtt_obj.start()
 
         self.cont_ensayos = 1
 
     def init_conf(self, ):
-        self.menu.ui.groupBox_time.setEnabled(False)
+        #self.menu.ui.groupBox_time.setEnabled(False)
         self.menu.ui.groupBox_leds.setEnabled(False)
         self.menu.ui.groupBox_meas.setEnabled(False)
 
@@ -123,7 +123,7 @@ class Measure():
         self.menu.ui.btn_init.setEnabled(False)
 
         # Habilito widgets para ver datos
-        self.menu.ui.groupBox_time.setEnabled(True)
+        #self.menu.ui.groupBox_time.setEnabled(True)
         self.menu.ui.groupBox_leds.setEnabled(True)
         self.menu.ui.groupBox_meas.setEnabled(True)
 

@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>907</width>
+    <width>1013</width>
     <height>690</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #EAEAEA;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget_2">
@@ -19,7 +22,7 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>861</width>
+      <width>971</width>
       <height>641</height>
      </rect>
     </property>
@@ -48,7 +51,7 @@
         <string notr="true">font: 75 26pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
-        <string>Sistema de medicion de rodamientos</string>
+        <string>SMR - Interfaz de personal de puesta en marcha</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -119,6 +122,12 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
+           <property name="leftMargin">
+            <number>40</number>
+           </property>
+           <property name="rightMargin">
+            <number>40</number>
+           </property>
            <property name="bottomMargin">
             <number>20</number>
            </property>
@@ -186,10 +195,10 @@
          <widget class="QWidget" name="horizontalLayoutWidget_5">
           <property name="geometry">
            <rect>
-            <x>20</x>
-            <y>30</y>
-            <width>431</width>
-            <height>118</height>
+            <x>10</x>
+            <y>40</y>
+            <width>501</width>
+            <height>125</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,1">
@@ -199,14 +208,14 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
-              <widget class="QLabel" name="label_9">
-               <property name="text">
-                <string>BPFO</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="6,1">
+              <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,6,4">
+               <item>
+                <widget class="QLabel" name="label_9">
+                 <property name="text">
+                  <string>BPFO</string>
+                 </property>
+                </widget>
+               </item>
                <item>
                 <widget class="QSlider" name="slider_bpfo">
                  <property name="minimum">
@@ -248,14 +257,14 @@
               </layout>
              </item>
              <item>
-              <widget class="QLabel" name="label_11">
-               <property name="text">
-                <string>BPFI</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="6,1">
+              <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,6,4">
+               <item>
+                <widget class="QLabel" name="label_11">
+                 <property name="text">
+                  <string>BPFI</string>
+                 </property>
+                </widget>
+               </item>
                <item>
                 <widget class="QSlider" name="slider_bpfi">
                  <property name="minimum">
@@ -295,14 +304,14 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
-              <widget class="QLabel" name="label_12">
-               <property name="text">
-                <string>FTF</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="6,1">
+              <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,6,4">
+               <item>
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>FTF</string>
+                 </property>
+                </widget>
+               </item>
                <item>
                 <widget class="QSlider" name="slider_ftf">
                  <property name="minimum">
@@ -338,14 +347,14 @@
               </layout>
              </item>
              <item>
-              <widget class="QLabel" name="label_14">
-               <property name="text">
-                <string>BSF</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="6,1">
+              <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,6,4">
+               <item>
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>BSF</string>
+                 </property>
+                </widget>
+               </item>
                <item>
                 <widget class="QSlider" name="slider_bsf">
                  <property name="minimum">
@@ -389,26 +398,11 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="14,8">
+      <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="14,9">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,15,0">
+        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="15,0">
          <item>
-          <widget class="QLabel" name="label_5">
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Grafico FFT</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2"/>
+          <layout class="QVBoxLayout" name="grafico_fft"/>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,1,10,2">
@@ -466,31 +460,22 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_11" stretch="8,6,8">
+        <layout class="QVBoxLayout" name="verticalLayout_11" stretch="4,6,7">
          <item>
-          <widget class="QGroupBox" name="groupBox_time">
-           <property name="styleSheet">
-            <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
-           </property>
-           <property name="title">
-            <string>Tiempos</string>
-           </property>
-           <widget class="QWidget" name="verticalLayoutWidget_8">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>20</y>
-              <width>291</width>
-              <height>111</height>
-             </rect>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="3,1,3">
+          <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="6,1">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="3,1">
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="9,4">
+              <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="9,7">
                <item>
                 <widget class="QLabel" name="label_7">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
-                  <string>Tiempo de ensayo actual:</string>
+                  <string>Tiempo de ensayo:</string>
                  </property>
                 </widget>
                </item>
@@ -525,22 +510,27 @@
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QPushButton" name="btn_forzar">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Forzar</string>
-               </property>
-              </widget>
-             </item>
             </layout>
-           </widget>
-          </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_forzar">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Forzar</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QGroupBox" name="groupBox_leds">
@@ -553,10 +543,10 @@
            <widget class="QWidget" name="horizontalLayoutWidget_13">
             <property name="geometry">
              <rect>
-              <x>70</x>
-              <y>20</y>
-              <width>181</width>
-              <height>82</height>
+              <x>80</x>
+              <y>30</y>
+              <width>241</width>
+              <height>87</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -569,7 +559,7 @@
                 <number>0</number>
                </property>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="1,3">
                  <property name="spacing">
                   <number>5</number>
                  </property>
@@ -627,7 +617,7 @@
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="1,3">
                  <property name="spacing">
                   <number>5</number>
                  </property>
@@ -671,12 +661,12 @@
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_7">
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_17">
+                <layout class="QHBoxLayout" name="horizontalLayout_17" stretch="1,3">
                  <property name="spacing">
                   <number>5</number>
                  </property>
                  <property name="leftMargin">
-                  <number>2</number>
+                  <number>0</number>
                  </property>
                  <property name="topMargin">
                   <number>5</number>
@@ -711,12 +701,12 @@
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_18">
+                <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="1,3">
                  <property name="spacing">
                   <number>5</number>
                  </property>
                  <property name="leftMargin">
-                  <number>2</number>
+                  <number>0</number>
                  </property>
                  <property name="topMargin">
                   <number>5</number>
@@ -767,7 +757,7 @@
            <widget class="QWidget" name="verticalLayoutWidget">
             <property name="geometry">
              <rect>
-              <x>10</x>
+              <x>40</x>
               <y>30</y>
               <width>291</width>
               <height>101</height>
@@ -836,7 +826,7 @@
                <item>
                 <widget class="QLabel" name="label_4">
                  <property name="text">
-                  <string>Vibracion longitudinal:</string>
+                  <string>Vibracion radial:</string>
                  </property>
                 </widget>
                </item>

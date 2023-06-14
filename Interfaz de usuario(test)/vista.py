@@ -5,8 +5,49 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 from PySide2 import QtCore as core
 
+import matplotlib.pyplot as plt
+from matplotlib import style
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
 from menu import *
 from modelo import *
+
+class Canvas_grafica(FigureCanvas):
+    def __init__(self, ):
+        self.fig, self.ax = plt.subplots(1, dpi=80, figsize=(12,12), sharey=True, facecolor="none") 
+        super().__init__(self.fig)
+
+        for i in range(0, 19000, 1000):
+            self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
+        for j in range(-40, 60, 10):   
+            self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
+
+        #style.use("bmh")
+        # Establecer límites del eje X e Y
+        self.ax.set_xlim(-100, 19000)
+        self.ax.set_ylim(-40, 60)
+
+        plt.title("Grafico FFT")
+        plt.xlabel("Frecuencia[Hz]")
+        plt.ylabel("Amplitud[dBV]")
+
+    def upgrade_fft(self, freq_decode, mag_str):
+        self.ax.clear()
+        mag_decode = mag_str.payload.decode()
+        mag = mag_decode.split(',')
+        freq = freq_decode.split(',')
+        self.mag = [float(value) for value in mag]
+        self.freq = [float(value) for value in freq]
+
+        plt.clf()
+        plt.plot(self.freq, self.mag)
+
+        plt.xlabel("Frecuencia[kHz]")
+        plt.ylabel("Amplitud[dBV]")
+        plt.xlim(-100, 19000) # Establecer límites del eje X
+        plt.ylim(-40, 60) # Establecer límites del eje Y
+        self.draw() # Actualizar gráfico
+
 
 class Mainwindow(QMainWindow):
     def __init__(self, ):
@@ -22,8 +63,12 @@ class Mainwindow(QMainWindow):
         self.ui.progress_bar_ensayo.setValue(0)
         self.ui.progress_bar_ensayo.setRange(0, 100)  # Asignar rango de 0 a 100
 
+        # Para crear y actualizar grafico fft
+        self.grafica = Canvas_grafica()
+        self.ui.grafico_fft.addWidget(self.grafica)
+
         # Deshabilito widgets que hasta que finalice configuracion
-        self.ui.groupBox_time.setEnabled(False)
+        #self.ui.groupBox_time.setEnabled(False)
         self.ui.groupBox_leds.setEnabled(False)
         self.ui.groupBox_meas.setEnabled(False)
 

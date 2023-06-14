@@ -17,12 +17,13 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(907, 690)
+        MainWindow.resize(1013, 690)
+        MainWindow.setStyleSheet(u"background-color: #EAEAEA;")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(20, 10, 861, 641))
+        self.verticalLayoutWidget_2.setGeometry(QRect(20, 10, 971, 641))
         self.verticalLayout_9 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
@@ -79,7 +80,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_16 = QHBoxLayout()
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
-        self.horizontalLayout_16.setContentsMargins(-1, -1, -1, 20)
+        self.horizontalLayout_16.setContentsMargins(40, -1, 40, 20)
         self.btn_init = QPushButton(self.verticalLayoutWidget_2)
         self.btn_init.setObjectName(u"btn_init")
         sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -123,20 +124,20 @@ class Ui_MainWindow(object):
         self.groupBox_freq.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
         self.horizontalLayoutWidget_5 = QWidget(self.groupBox_freq)
         self.horizontalLayoutWidget_5.setObjectName(u"horizontalLayoutWidget_5")
-        self.horizontalLayoutWidget_5.setGeometry(QRect(20, 30, 431, 118))
+        self.horizontalLayoutWidget_5.setGeometry(QRect(10, 40, 501, 125))
         self.horizontalLayout_5 = QHBoxLayout(self.horizontalLayoutWidget_5)
         self.horizontalLayout_5.setSpacing(20)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.label_9 = QLabel(self.horizontalLayoutWidget_5)
         self.label_9.setObjectName(u"label_9")
 
-        self.verticalLayout_4.addWidget(self.label_9)
+        self.horizontalLayout_6.addWidget(self.label_9)
 
-        self.horizontalLayout_6 = QHBoxLayout()
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.slider_bpfo = QSlider(self.horizontalLayoutWidget_5)
         self.slider_bpfo.setObjectName(u"slider_bpfo")
         self.slider_bpfo.setMinimum(100)
@@ -156,18 +157,18 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_6.addWidget(self.label_slider_bpfo)
 
-        self.horizontalLayout_6.setStretch(0, 6)
-        self.horizontalLayout_6.setStretch(1, 1)
+        self.horizontalLayout_6.setStretch(1, 6)
+        self.horizontalLayout_6.setStretch(2, 4)
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_6)
 
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.label_11 = QLabel(self.horizontalLayoutWidget_5)
         self.label_11.setObjectName(u"label_11")
 
-        self.verticalLayout_4.addWidget(self.label_11)
+        self.horizontalLayout_7.addWidget(self.label_11)
 
-        self.horizontalLayout_7 = QHBoxLayout()
-        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.slider_bpfi = QSlider(self.horizontalLayoutWidget_5)
         self.slider_bpfi.setObjectName(u"slider_bpfi")
         self.slider_bpfi.setMinimum(100)
@@ -185,8 +186,8 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_7.addWidget(self.label_slider_bpfi)
 
-        self.horizontalLayout_7.setStretch(0, 6)
-        self.horizontalLayout_7.setStretch(1, 1)
+        self.horizontalLayout_7.setStretch(1, 6)
+        self.horizontalLayout_7.setStretch(2, 4)
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_7)
 
@@ -195,13 +196,13 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.label_12 = QLabel(self.horizontalLayoutWidget_5)
         self.label_12.setObjectName(u"label_12")
 
-        self.verticalLayout_5.addWidget(self.label_12)
+        self.horizontalLayout_8.addWidget(self.label_12)
 
-        self.horizontalLayout_8 = QHBoxLayout()
-        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.slider_ftf = QSlider(self.horizontalLayoutWidget_5)
         self.slider_ftf.setObjectName(u"slider_ftf")
         self.slider_ftf.setMinimum(100)
@@ -219,18 +220,18 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_8.addWidget(self.label_slider_ftf)
 
-        self.horizontalLayout_8.setStretch(0, 6)
-        self.horizontalLayout_8.setStretch(1, 1)
+        self.horizontalLayout_8.setStretch(1, 6)
+        self.horizontalLayout_8.setStretch(2, 4)
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_8)
 
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.label_14 = QLabel(self.horizontalLayoutWidget_5)
         self.label_14.setObjectName(u"label_14")
 
-        self.verticalLayout_5.addWidget(self.label_14)
+        self.horizontalLayout_9.addWidget(self.label_14)
 
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.slider_bsf = QSlider(self.horizontalLayoutWidget_5)
         self.slider_bsf.setObjectName(u"slider_bsf")
         self.slider_bsf.setMinimum(100)
@@ -248,8 +249,8 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_9.addWidget(self.label_slider_bsf)
 
-        self.horizontalLayout_9.setStretch(0, 6)
-        self.horizontalLayout_9.setStretch(1, 1)
+        self.horizontalLayout_9.setStretch(1, 6)
+        self.horizontalLayout_9.setStretch(2, 4)
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_9)
 
@@ -270,19 +271,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.label_5 = QLabel(self.verticalLayoutWidget_2)
-        self.label_5.setObjectName(u"label_5")
-        font2 = QFont()
-        font2.setPointSize(12)
-        self.label_5.setFont(font2)
-        self.label_5.setAlignment(Qt.AlignCenter)
+        self.grafico_fft = QVBoxLayout()
+        self.grafico_fft.setObjectName(u"grafico_fft")
 
-        self.verticalLayout_3.addWidget(self.label_5)
-
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-
-        self.verticalLayout_3.addLayout(self.verticalLayout_2)
+        self.verticalLayout_3.addLayout(self.grafico_fft)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -315,30 +307,27 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout)
 
-        self.verticalLayout_3.setStretch(0, 1)
-        self.verticalLayout_3.setStretch(1, 15)
+        self.verticalLayout_3.setStretch(0, 15)
 
         self.horizontalLayout_20.addLayout(self.verticalLayout_3)
 
         self.verticalLayout_11 = QVBoxLayout()
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
-        self.groupBox_time = QGroupBox(self.verticalLayoutWidget_2)
-        self.groupBox_time.setObjectName(u"groupBox_time")
-        self.groupBox_time.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
-        self.verticalLayoutWidget_8 = QWidget(self.groupBox_time)
-        self.verticalLayoutWidget_8.setObjectName(u"verticalLayoutWidget_8")
-        self.verticalLayoutWidget_8.setGeometry(QRect(10, 20, 291, 111))
-        self.verticalLayout_8 = QVBoxLayout(self.verticalLayoutWidget_8)
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.verticalLayout_8 = QVBoxLayout()
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.label_7 = QLabel(self.verticalLayoutWidget_8)
+        self.label_7 = QLabel(self.verticalLayoutWidget_2)
         self.label_7.setObjectName(u"label_7")
+        font2 = QFont()
+        font2.setPointSize(12)
+        self.label_7.setFont(font2)
 
         self.horizontalLayout_11.addWidget(self.label_7)
 
-        self.lcd_time_ensayo = QLCDNumber(self.verticalLayoutWidget_8)
+        self.lcd_time_ensayo = QLCDNumber(self.verticalLayoutWidget_2)
         self.lcd_time_ensayo.setObjectName(u"lcd_time_ensayo")
         self.lcd_time_ensayo.setSmallDecimalPoint(True)
         self.lcd_time_ensayo.setSegmentStyle(QLCDNumber.Flat)
@@ -346,11 +335,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.addWidget(self.lcd_time_ensayo)
 
         self.horizontalLayout_11.setStretch(0, 9)
-        self.horizontalLayout_11.setStretch(1, 4)
+        self.horizontalLayout_11.setStretch(1, 7)
 
         self.verticalLayout_8.addLayout(self.horizontalLayout_11)
 
-        self.progress_bar_ensayo = QProgressBar(self.verticalLayoutWidget_8)
+        self.progress_bar_ensayo = QProgressBar(self.verticalLayoutWidget_2)
         self.progress_bar_ensayo.setObjectName(u"progress_bar_ensayo")
         sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
@@ -363,28 +352,33 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.progress_bar_ensayo)
 
-        self.btn_forzar = QPushButton(self.verticalLayoutWidget_8)
+        self.verticalLayout_8.setStretch(0, 3)
+        self.verticalLayout_8.setStretch(1, 1)
+
+        self.horizontalLayout_12.addLayout(self.verticalLayout_8)
+
+        self.btn_forzar = QPushButton(self.verticalLayoutWidget_2)
         self.btn_forzar.setObjectName(u"btn_forzar")
         sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.btn_forzar.sizePolicy().hasHeightForWidth())
         self.btn_forzar.setSizePolicy(sizePolicy3)
+        self.btn_forzar.setFont(font2)
 
-        self.verticalLayout_8.addWidget(self.btn_forzar)
+        self.horizontalLayout_12.addWidget(self.btn_forzar)
 
-        self.verticalLayout_8.setStretch(0, 3)
-        self.verticalLayout_8.setStretch(1, 1)
-        self.verticalLayout_8.setStretch(2, 3)
+        self.horizontalLayout_12.setStretch(0, 6)
+        self.horizontalLayout_12.setStretch(1, 1)
 
-        self.verticalLayout_11.addWidget(self.groupBox_time)
+        self.verticalLayout_11.addLayout(self.horizontalLayout_12)
 
         self.groupBox_leds = QGroupBox(self.verticalLayoutWidget_2)
         self.groupBox_leds.setObjectName(u"groupBox_leds")
         self.groupBox_leds.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
         self.horizontalLayoutWidget_13 = QWidget(self.groupBox_leds)
         self.horizontalLayoutWidget_13.setObjectName(u"horizontalLayoutWidget_13")
-        self.horizontalLayoutWidget_13.setGeometry(QRect(70, 20, 181, 82))
+        self.horizontalLayoutWidget_13.setGeometry(QRect(80, 30, 241, 87))
         self.horizontalLayout_15 = QHBoxLayout(self.horizontalLayoutWidget_13)
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
         self.horizontalLayout_15.setContentsMargins(0, 0, 0, 0)
@@ -419,6 +413,8 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_13.addWidget(self.label_18)
 
+        self.horizontalLayout_13.setStretch(0, 1)
+        self.horizontalLayout_13.setStretch(1, 3)
 
         self.verticalLayout_6.addLayout(self.horizontalLayout_13)
 
@@ -441,6 +437,8 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_14.addWidget(self.label_20)
 
+        self.horizontalLayout_14.setStretch(0, 1)
+        self.horizontalLayout_14.setStretch(1, 3)
 
         self.verticalLayout_6.addLayout(self.horizontalLayout_14)
 
@@ -452,7 +450,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17 = QHBoxLayout()
         self.horizontalLayout_17.setSpacing(5)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
-        self.horizontalLayout_17.setContentsMargins(2, 5, 5, 5)
+        self.horizontalLayout_17.setContentsMargins(0, 5, 5, 5)
         self.led_ftf = QLabel(self.horizontalLayoutWidget_13)
         self.led_ftf.setObjectName(u"led_ftf")
         self.led_ftf.setStyleSheet(u"QLabel#led_ftf{\n"
@@ -468,13 +466,15 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_17.addWidget(self.label_27)
 
+        self.horizontalLayout_17.setStretch(0, 1)
+        self.horizontalLayout_17.setStretch(1, 3)
 
         self.verticalLayout_7.addLayout(self.horizontalLayout_17)
 
         self.horizontalLayout_18 = QHBoxLayout()
         self.horizontalLayout_18.setSpacing(5)
         self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
-        self.horizontalLayout_18.setContentsMargins(2, 5, 5, 5)
+        self.horizontalLayout_18.setContentsMargins(0, 5, 5, 5)
         self.led_bsf = QLabel(self.horizontalLayoutWidget_13)
         self.led_bsf.setObjectName(u"led_bsf")
         self.led_bsf.setStyleSheet(u"QLabel#led_bsf {\n"
@@ -490,6 +490,8 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_18.addWidget(self.label_29)
 
+        self.horizontalLayout_18.setStretch(0, 1)
+        self.horizontalLayout_18.setStretch(1, 3)
 
         self.verticalLayout_7.addLayout(self.horizontalLayout_18)
 
@@ -504,7 +506,7 @@ class Ui_MainWindow(object):
         self.groupBox_meas.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
         self.verticalLayoutWidget = QWidget(self.groupBox_meas)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(10, 30, 291, 101))
+        self.verticalLayoutWidget.setGeometry(QRect(40, 30, 291, 101))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -574,14 +576,14 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_11.addWidget(self.groupBox_meas)
 
-        self.verticalLayout_11.setStretch(0, 8)
+        self.verticalLayout_11.setStretch(0, 4)
         self.verticalLayout_11.setStretch(1, 6)
-        self.verticalLayout_11.setStretch(2, 8)
+        self.verticalLayout_11.setStretch(2, 7)
 
         self.horizontalLayout_20.addLayout(self.verticalLayout_11)
 
         self.horizontalLayout_20.setStretch(0, 14)
-        self.horizontalLayout_20.setStretch(1, 8)
+        self.horizontalLayout_20.setStretch(1, 9)
 
         self.verticalLayout_9.addLayout(self.horizontalLayout_20)
 
@@ -600,7 +602,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.label_25.setText(QCoreApplication.translate("MainWindow", u"Sistema de medicion de rodamientos", None))
+        self.label_25.setText(QCoreApplication.translate("MainWindow", u"SMR - Interfaz de personal de puesta en marcha", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayos c/u:", None))
         self.time_ensayo.setDisplayFormat(QCoreApplication.translate("MainWindow", u"mm:ss", None))
         self.btn_init.setText(QCoreApplication.translate("MainWindow", u"Iniciar", None))
@@ -615,10 +617,8 @@ class Ui_MainWindow(object):
         self.label_slider_ftf.setText("")
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
         self.label_slider_bsf.setText("")
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Grafico FFT", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Progreso:", None))
-        self.groupBox_time.setTitle(QCoreApplication.translate("MainWindow", u"Tiempos", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayo actual:", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayo:", None))
         self.btn_forzar.setText(QCoreApplication.translate("MainWindow", u"Forzar", None))
         self.groupBox_leds.setTitle(QCoreApplication.translate("MainWindow", u"Fallas detectadas", None))
         self.led_bpfo.setText("")
@@ -632,6 +632,6 @@ class Ui_MainWindow(object):
         self.groupBox_meas.setTitle(QCoreApplication.translate("MainWindow", u"Mediciones", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Temperatura (\u00b0C):", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Vibracion axial:", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Vibracion longitudinal:", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Vibracion radial:", None))
     # retranslateUi
 
