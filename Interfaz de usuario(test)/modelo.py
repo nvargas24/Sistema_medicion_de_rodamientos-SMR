@@ -13,6 +13,14 @@ class Mqtt:
         self.broker_port = broker_port
         self.topic = None
         self.msg = None
+        self.temp_obj = 0.0
+        self.acel_axial = 0.0
+        self.acel_radial = 0.0
+        self.pres_bpfi = 0
+        self.pres_bpfo = 0
+        self.pres_bsf = 0
+        self.pres_ftf = 0
+        self.fft = "0"
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
@@ -33,6 +41,24 @@ class Mqtt:
         self.topic = msg.topic
         self.msg = msg.payload.decode()
 
+        # Verifico si hay datos recibidos por broker
+        if self.topic == "rodAnt/tempObj":
+            self.temp_obj = "{:.2f}".format(float(self.msg)) 
+        if self.topic == "rodAnt/acelAxial":
+            self.acel_axial = "{:.2f}".format(float(self.msg)) 
+        if self.topic == "rodAnt/acelRadial":
+            self.acel_radial = "{:.2f}".format(float(self.msg)) 
+        if self.topic == "rodAnt/presBPFO":
+            self.pres_bpfo = self.msg
+        if self.topic == "rodAnt/presBPFI":
+            self.pres_bpfi = self.msg
+        if self.topic == "rodAnt/presBSF":
+            self.pres_bsf = self.msg
+        if self.topic == "rodAnt/presFTF":
+            self.pres_ftf = self.msg
+        if self.topic == "rodAnt/fft":
+            self.fft = self.msg
+
     def suscrip(self, topic):
         self.client.subscribe(topic)
         self.client.on_message = self.on_message
@@ -45,7 +71,8 @@ class Measure():
     def __init__(self):
         super().__init__()
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        self.mqtt_obj = Mqtt("192.168.1.108", 1883)
+        #self.mqtt_obj = Mqtt("192.168.1.108", 1883)
+        self.mqtt_obj = Mqtt("192.168.68.203", 1883)       
         self.cont_ensayos = 1
 
         self.freq = []
@@ -248,31 +275,24 @@ class Measure():
         self.menu.ui.led_bpfi.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
         self.menu.ui.led_bsf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
         self.menu.ui.led_ftf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-        
-        # Verifico si hay datos recibidos por broker
-        if self.mqtt_obj.topic == "rodAnt/tempObj":
-            print("Temperatura obj: ", self.mqtt_obj.msg, "°C")
-            self.menu.ui.lcd_temperatura.display(float(self.mqtt_obj.msg))
-        if self.mqtt_obj.topic == "rodAnt/acelAxial":
-            print("Accel axial: ", self.mqtt_obj.msg)
-            self.menu.ui.lcd_vibra_axial.display(float(self.mqtt_obj.msg))
-        if self.mqtt_obj.topic == "rodAnt/acelRadial":
-            print("Accel radial: ", self.mqtt_obj.msg)
-            self.menu.ui.lcd_vibra_radial.display(float(self.mqtt_obj.msg))
-        if self.mqtt_obj.topic == "rodAnt/presBPFO":
-            print("Recibo BPFO")
+
+        # Muestro datos recibidos por qlcd
+        if self.mqtt_obj.temp_obj:
+            self.menu.ui.lcd_temperatura.display(self.mqtt_obj.temp_obj)
+        if self.mqtt_obj.acel_axial:
+            self.menu.ui.lcd_vibra_axial.display(self.mqtt_obj.acel_axial)
+        if self.mqtt_obj.acel_radial:
+            self.menu.ui.lcd_vibra_radial.display(self.mqtt_obj.acel_radial)
+        if self.mqtt_obj.pres_bpfo == 1:
             self.menu.ui.led_bpfo.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.topic == "rodAnt/presBPFI":
-            print("Recibo BPFI")
-            self.menu.ui.led_bpfi.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.topic == "rodAnt/presBSF":
-            print("Recibo BSF")
+        if self.mqtt_obj.pres_bpfi == 1:
+            self.menu.ui.led_bpfi.setStyleSheet("background-color: gree; border-radius: 10px; border: 2px solid darkgreen;")
+        if self.mqtt_obj.pres_bsf == 1:
             self.menu.ui.led_bsf.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.topic == "rodAnt/presFTF":
-            print("Recibo FTF")
+        if self.mqtt_obj.pres_ftf == 1:
             self.menu.ui.led_ftf.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.topic == "rodAnt/fft":
-            self.menu.grafica.upgrade_fft(self.freq, self.mqtt_obj.msg)
+        if self.mqtt_obj.fft:
+            self.menu.grafica.upgrade_fft(self.freq, self.mqtt_obj.fft)
 
         # Reseteo buffer para topic y msg
         self.mqtt_obj.topic = None
