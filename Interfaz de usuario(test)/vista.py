@@ -19,15 +19,14 @@ class Canvas_grafica(FigureCanvas):
         self.fig, self.ax = plt.subplots(1, dpi=80, figsize=(12,12), sharey=True, facecolor="none") 
         super().__init__(self.fig)
 
+        # Establecer límites del eje X e Y
+        self.ax.set_xlim(-100, 19000)
+        self.ax.set_ylim(-40, 60)
+
         for i in range(0, 19000, 1000):
             self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
         for j in range(-40, 60, 10):   
             self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
-
-        #style.use("bmh")
-        # Establecer límites del eje X e Y
-        self.ax.set_xlim(-100, 19000)
-        self.ax.set_ylim(-40, 60)
 
         # Establecer estilo de fuente y tamaño
         matplotlib.rcParams['font.size'] = 12
@@ -35,22 +34,29 @@ class Canvas_grafica(FigureCanvas):
         plt.xlabel("Frecuencia[Hz]")
         plt.ylabel("Amplitud[dBV]")
 
-    def upgrade_fft(self, freq_decode, mag_str):
-        self.ax.clear()
-        mag_decode = mag_str.payload.decode()
+    def upgrade_fft(self, freq, mag_decode):
+        self.ax.clear()  # Borrar el contenido del subplot
+
+        # Establecer límites del eje X e Y
+        self.ax.set_xlim(-100, 19000)
+        self.ax.set_ylim(-40, 60)
+
+        for i in range(0, 19000, 1000):
+            self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
+        for j in range(-40, 60, 10):   
+            self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
+            
+        # Establecer estilo de fuente y tamaño
+        matplotlib.rcParams['font.size'] = 12
+        self.ax.set_title("Grafico FFT")
+        self.ax.set_xlabel("Frecuencia[kHz]")
+        self.ax.set_ylabel("Amplitud[dBV]")
+
         mag = mag_decode.split(',')
-        freq = freq_decode.split(',')
         self.mag = [float(value) for value in mag]
-        self.freq = [float(value) for value in freq]
+        self.ax.plot(freq, self.mag)
 
-        plt.clf()
-        plt.plot(self.freq, self.mag)
-
-        plt.xlabel("Frecuencia[kHz]")
-        plt.ylabel("Amplitud[dBV]")
-        plt.xlim(-100, 19000) # Establecer límites del eje X
-        plt.ylim(-40, 60) # Establecer límites del eje Y
-        self.draw() # Actualizar gráfico
+        self.draw()  # Actualizar gráfico
 
 
 class Mainwindow(QMainWindow):

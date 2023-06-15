@@ -46,8 +46,11 @@ class Measure():
         super().__init__()
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
         self.mqtt_obj = Mqtt("192.168.1.108", 1883)
-
         self.cont_ensayos = 1
+
+        self.freq = []
+        for i in range(512): # Cantidad de muestras fft
+            self.freq.append(37*i)
 
     def init_conf(self, ):
         #self.menu.ui.groupBox_time.setEnabled(False)
@@ -268,6 +271,8 @@ class Measure():
         if self.mqtt_obj.topic == "rodAnt/presFTF":
             print("Recibo FTF")
             self.menu.ui.led_ftf.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+        if self.mqtt_obj.topic == "rodAnt/fft":
+            self.menu.grafica.upgrade_fft(self.freq, self.mqtt_obj.msg)
 
         # Reseteo buffer para topic y msg
         self.mqtt_obj.topic = None
