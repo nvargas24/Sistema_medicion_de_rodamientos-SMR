@@ -132,22 +132,6 @@
             <number>20</number>
            </property>
            <item>
-            <widget class="QPushButton" name="btn_init">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
-             </property>
-             <property name="text">
-              <string>Iniciar</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QPushButton" name="btn_finish">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
@@ -160,6 +144,22 @@
              </property>
              <property name="text">
               <string>Finalizar</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_init">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Iniciar</string>
              </property>
             </widget>
            </item>
@@ -831,7 +831,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLCDNumber" name="lcd_vibra_longitudinal">
+                <widget class="QLCDNumber" name="lcd_vibra_radial">
                  <property name="smallDecimalPoint">
                   <bool>true</bool>
                  </property>

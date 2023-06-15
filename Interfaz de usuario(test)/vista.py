@@ -3,11 +3,13 @@ import sys
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
+from PySide2.QtGui import QDoubleValidator
 from PySide2 import QtCore as core
 
 import matplotlib.pyplot as plt
 from matplotlib import style
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import matplotlib
 
 from menu import *
 from modelo import *
@@ -27,6 +29,8 @@ class Canvas_grafica(FigureCanvas):
         self.ax.set_xlim(-100, 19000)
         self.ax.set_ylim(-40, 60)
 
+        # Establecer estilo de fuente y tamaño
+        matplotlib.rcParams['font.size'] = 12
         plt.title("Grafico FFT")
         plt.xlabel("Frecuencia[Hz]")
         plt.ylabel("Amplitud[dBV]")
@@ -59,6 +63,7 @@ class Mainwindow(QMainWindow):
 
         # Formato a qtimer
         self.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}")
+
         # Asigno rango default a qprogressbar
         self.ui.progress_bar_ensayo.setValue(0)
         self.ui.progress_bar_ensayo.setRange(0, 100)  # Asignar rango de 0 a 100

@@ -37,12 +37,15 @@ class Mqtt:
         self.client.subscribe(topic)
         self.client.on_message = self.on_message
 
+    def desuscrip(self, topic):
+        self.client.unsubscribe(topic)
+
 class Measure():
     
     def __init__(self):
         super().__init__()
-        self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        self.mqtt_obj.start()
+        #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
+        self.mqtt_obj = Mqtt("192.168.1.108", 1883)
 
         self.cont_ensayos = 1
 
@@ -64,14 +67,14 @@ class Measure():
         self.notificacion("Esperando configuracion")
         self.menu.ui.progress_bar_programa.setValue(0)
         self.menu.ui.progress_bar_ensayo.setValue(0)
+
     """
     Obtiene parametros del ui y los envia por mqtt
     """
     def finish_conf(self, menu):
         self.menu = menu
+        self.mqtt_obj.start()
 
-        # Cambaio color de 'led'
-        self.menu.ui.led_bpfo.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         # Obtener valor de tiempo de cada ensayo
         self.selected_time = self.menu.ui.time_ensayo.time() # va a cambiar por addSecs()
         # Se debe obtener los segundos totales para determinar el rango de la progressbar(valores fijos)
@@ -111,7 +114,7 @@ class Measure():
         self.init_ensayos()
 
     def init_ensayos(self, ):
-        # Bloquear acceso a todos los widget hasta que termine el sistema, excepto btn_finish
+        # Bloquear acceso a ciertos widgets hasta que termine el sistema
         self.menu.ui.time_ensayo.setEnabled(False)
 
         self.menu.ui.groupBox_freq.setEnabled(False)
@@ -152,7 +155,6 @@ class Measure():
         self.menu.ui.progress_bar_ensayo.setValue(int(self.seconds_total_aux)-int(self.seconds_total))
         # Cada vez que se cumpla un 1 seg resto un valor del total de segundos
         self.seconds_total = self.seconds_total-1
-
         # Se verifica si el dispositivo publico algo en un topic
         self.data_recive()
 
@@ -162,6 +164,21 @@ class Measure():
             print("Finalizo contador")
             # Cargo valor a progressbar cada vez que finaliza un ensayo
             self.menu.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
+            # Reseteo 'leds'
+            self.menu.ui.led_bpfo.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_bpfi.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_bsf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_ftf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+
+            # Desuscricpion cada vez que termine programa
+            self.mqtt_obj.desuscrip("rodAnt/fft")
+            self.mqtt_obj.desuscrip("rodAnt/tempObj")
+            self.mqtt_obj.desuscrip("rodAnt/acelAxial")
+            self.mqtt_obj.desuscrip("rodAnt/acelRadial")
+            self.mqtt_obj.desuscrip("rodAnt/presBPFO")
+            self.mqtt_obj.desuscrip("rodAnt/presBPFI")
+            self.mqtt_obj.desuscrip("rodAnt/presBSF")
+            self.mqtt_obj.desuscrip("rodAnt/presFTF")
             # Se vertfica si ya se cumplio el total de ensayos o no
             if self.cont_ensayos == 5:            
                 print("Ya se realizaron 5 ensayos")
@@ -178,7 +195,17 @@ class Measure():
         # Se detiene contador para que no siga con parte negativa
         if self.seconds_standby<0 : 
             self.menu.timer2.stop()
-            print("Finalizo contador 2") 
+            print("Finalizo contador 2")
+            # Habilito suscripciones
+            self.mqtt_obj.suscrip("rodAnt/fft")
+            self.mqtt_obj.suscrip("rodAnt/tempObj")
+            self.mqtt_obj.suscrip("rodAnt/acelAxial")
+            self.mqtt_obj.suscrip("rodAnt/acelRadial")
+            self.mqtt_obj.suscrip("rodAnt/presBPFO")
+            self.mqtt_obj.suscrip("rodAnt/presBPFI")
+            self.mqtt_obj.suscrip("rodAnt/presBSF")
+            self.mqtt_obj.suscrip("rodAnt/presFTF")
+
             self.menu.timer1.start(1000)
             self.seconds_standby = self.seconds_standby_aux
 
@@ -213,17 +240,35 @@ class Measure():
     Muestra lecturas obtenidas de sensores en display
     """
     def data_recive(self, ):
+        # Reseteo 'leds'
+        self.menu.ui.led_bpfo.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.menu.ui.led_bpfi.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.menu.ui.led_bsf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.menu.ui.led_ftf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        
+        # Verifico si hay datos recibidos por broker
         if self.mqtt_obj.topic == "rodAnt/tempObj":
             print("Temperatura obj: ", self.mqtt_obj.msg, "°C")
+            self.menu.ui.lcd_temperatura.display(float(self.mqtt_obj.msg))
         if self.mqtt_obj.topic == "rodAnt/acelAxial":
             print("Accel axial: ", self.mqtt_obj.msg)
+            self.menu.ui.lcd_vibra_axial.display(float(self.mqtt_obj.msg))
         if self.mqtt_obj.topic == "rodAnt/acelRadial":
             print("Accel radial: ", self.mqtt_obj.msg)
+            self.menu.ui.lcd_vibra_radial.display(float(self.mqtt_obj.msg))
         if self.mqtt_obj.topic == "rodAnt/presBPFO":
-            print("Se detecto BPFO")
+            print("Recibo BPFO")
+            self.menu.ui.led_bpfo.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.topic == "rodAnt/presBPFI":
-            print("Se detecto BPFI")
+            print("Recibo BPFI")
+            self.menu.ui.led_bpfi.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.topic == "rodAnt/presBSF":
-            print("Se detecto BSF")
+            print("Recibo BSF")
+            self.menu.ui.led_bsf.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.topic == "rodAnt/presFTF":
-            print("Se detecto FTF")
+            print("Recibo FTF")
+            self.menu.ui.led_ftf.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+
+        # Reseteo buffer para topic y msg
+        self.mqtt_obj.topic = None
+        self.mqtt_obj.msg = None        

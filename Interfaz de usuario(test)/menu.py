@@ -81,24 +81,24 @@ class Ui_MainWindow(object):
         self.horizontalLayout_16 = QHBoxLayout()
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
         self.horizontalLayout_16.setContentsMargins(40, -1, 40, 20)
-        self.btn_init = QPushButton(self.verticalLayoutWidget_2)
-        self.btn_init.setObjectName(u"btn_init")
+        self.btn_finish = QPushButton(self.verticalLayoutWidget_2)
+        self.btn_finish.setObjectName(u"btn_finish")
         sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.btn_init.sizePolicy().hasHeightForWidth())
-        self.btn_init.setSizePolicy(sizePolicy1)
-        self.btn_init.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
-
-        self.horizontalLayout_16.addWidget(self.btn_init)
-
-        self.btn_finish = QPushButton(self.verticalLayoutWidget_2)
-        self.btn_finish.setObjectName(u"btn_finish")
         sizePolicy1.setHeightForWidth(self.btn_finish.sizePolicy().hasHeightForWidth())
         self.btn_finish.setSizePolicy(sizePolicy1)
         self.btn_finish.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_16.addWidget(self.btn_finish)
+
+        self.btn_init = QPushButton(self.verticalLayoutWidget_2)
+        self.btn_init.setObjectName(u"btn_init")
+        sizePolicy1.setHeightForWidth(self.btn_init.sizePolicy().hasHeightForWidth())
+        self.btn_init.setSizePolicy(sizePolicy1)
+        self.btn_init.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_16.addWidget(self.btn_init)
 
 
         self.verticalLayout_10.addLayout(self.horizontalLayout_16)
@@ -560,13 +560,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.label_4)
 
-        self.lcd_vibra_longitudinal = QLCDNumber(self.verticalLayoutWidget)
-        self.lcd_vibra_longitudinal.setObjectName(u"lcd_vibra_longitudinal")
-        self.lcd_vibra_longitudinal.setSmallDecimalPoint(True)
-        self.lcd_vibra_longitudinal.setDigitCount(5)
-        self.lcd_vibra_longitudinal.setSegmentStyle(QLCDNumber.Flat)
+        self.lcd_vibra_radial = QLCDNumber(self.verticalLayoutWidget)
+        self.lcd_vibra_radial.setObjectName(u"lcd_vibra_radial")
+        self.lcd_vibra_radial.setSmallDecimalPoint(True)
+        self.lcd_vibra_radial.setDigitCount(5)
+        self.lcd_vibra_radial.setSegmentStyle(QLCDNumber.Flat)
 
-        self.horizontalLayout_4.addWidget(self.lcd_vibra_longitudinal)
+        self.horizontalLayout_4.addWidget(self.lcd_vibra_radial)
 
         self.horizontalLayout_4.setStretch(0, 6)
         self.horizontalLayout_4.setStretch(1, 4)
@@ -605,8 +605,8 @@ class Ui_MainWindow(object):
         self.label_25.setText(QCoreApplication.translate("MainWindow", u"SMR - Interfaz de personal de puesta en marcha", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayos c/u:", None))
         self.time_ensayo.setDisplayFormat(QCoreApplication.translate("MainWindow", u"mm:ss", None))
-        self.btn_init.setText(QCoreApplication.translate("MainWindow", u"Iniciar", None))
         self.btn_finish.setText(QCoreApplication.translate("MainWindow", u"Finalizar", None))
+        self.btn_init.setText(QCoreApplication.translate("MainWindow", u"Iniciar", None))
         self.notificacion.setText("")
         self.groupBox_freq.setTitle(QCoreApplication.translate("MainWindow", u"Frecuencias a detectar", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"BPFO", None))
