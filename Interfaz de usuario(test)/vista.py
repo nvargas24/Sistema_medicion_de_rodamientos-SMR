@@ -77,7 +77,7 @@ class Mainwindow(QMainWindow):
         self.ui.grafico_fft.addWidget(self.grafica)
 
         # Deshabilito widgets que hasta que finalice configuracion
-        #self.ui.groupBox_time.setEnabled(False)
+        self.ui.btn_forzar.setEnabled(False)
         self.ui.groupBox_leds.setEnabled(False)
         self.ui.groupBox_meas.setEnabled(False)
 

@@ -7,10 +7,10 @@ import time
 import paho.mqtt.client as mqtt
 
 class Mqtt:
-    def __init__(self, broker_host, broker_port):
+    def __init__(self, ):
         self.client = mqtt.Client()
-        self.broker_host = broker_host
-        self.broker_port = broker_port
+        self.broker_host = None
+        self.broker_port = None
         self.topic = None
         self.msg = None
         self.temp_obj = 0.0
@@ -32,14 +32,13 @@ class Mqtt:
 
     def start(self):
         self.client.on_connect = self.on_connect
-
         retries = 0
         while retries < 3:
             try:
                 self.client.connect(self.broker_host, self.broker_port)
                 self.client.loop_start()
                 self.client.connected_flag = False
-                while not self.client.connected.flag:
+                while not self.client.connected_flag:
                     pass
                 self.client.loop_stop()
                 self.client.disconnect()
@@ -89,7 +88,7 @@ class Measure():
     def __init__(self):
         super().__init__()
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        self.mqtt_obj = Mqtt("192.168.1.108", 1883)
+        self.mqtt_obj = Mqtt()
         #self.mqtt_obj = Mqtt("192.168.68.203", 1883)       
         self.cont_ensayos = 1
 
@@ -121,10 +120,15 @@ class Measure():
     """
     def finish_conf(self, menu):
         self.menu = menu
-        
+        # Obtener host y port de broker
+        self.mqtt_obj.broker_host = str(self.menu.ui.host_broker.text())
+        self.mqtt_obj.broker_port = int(self.menu.ui.port_broker.text())
+        # Conectar a broker
+        print("Intento conectar a broker")
+        print("Host: ", self.mqtt_obj.broker_host, "\nPort: ", self.mqtt_obj.broker_port) 
         if not self.mqtt_obj.start():
            return print("No se logro conectar a host: ", self.mqtt_obj.broker_host) 
-
+        
         print("Conectado a host: ", self.mqtt_obj.broker_host)
         # Obtener valor de tiempo de cada ensayo
         self.selected_time = self.menu.ui.time_ensayo.time() # va a cambiar por addSecs()
@@ -177,7 +181,7 @@ class Measure():
         self.menu.ui.btn_init.setEnabled(False)
 
         # Habilito widgets para ver datos
-        #self.menu.ui.groupBox_time.setEnabled(True)
+        self.menu.ui.btn_forzar.setEnabled(True)
         self.menu.ui.groupBox_leds.setEnabled(True)
         self.menu.ui.groupBox_meas.setEnabled(True)
 

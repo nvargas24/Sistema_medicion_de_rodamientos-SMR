@@ -59,22 +59,127 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="4,8">
+      <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="7,8">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_10" stretch="2,2,0">
+        <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0,2,2,0">
          <property name="rightMargin">
           <number>20</number>
          </property>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="4,2">
+          <layout class="QHBoxLayout" name="horizontalLayout_21" stretch="1,21,2,1">
+           <property name="spacing">
+            <number>10</number>
+           </property>
            <property name="leftMargin">
-            <number>40</number>
+            <number>20</number>
            </property>
            <property name="topMargin">
-            <number>30</number>
+            <number>20</number>
            </property>
            <property name="rightMargin">
-            <number>40</number>
+            <number>20</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_8">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+             </property>
+             <property name="text">
+              <string>IP:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="host_broker">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::ClickFocus</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="maxLength">
+              <number>15</number>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="placeholderText">
+              <string>192.168.XXX.XXX</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_10">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+             </property>
+             <property name="text">
+              <string>PORT:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="port_broker">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::ClickFocus</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="maxLength">
+              <number>4</number>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="placeholderText">
+              <string>XXXX</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="4,2">
+           <property name="leftMargin">
+            <number>20</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>20</number>
            </property>
            <item>
             <widget class="QLabel" name="label_6">
@@ -89,19 +194,26 @@
            <item>
             <widget class="QTimeEdit" name="time_ensayo">
              <property name="focusPolicy">
-              <enum>Qt::NoFocus</enum>
+              <enum>Qt::ClickFocus</enum>
              </property>
              <property name="styleSheet">
-              <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+              <string notr="true">background-color: rgb(255, 255, 255);
+font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::UpDownArrows</enum>
+             </property>
+             <property name="correctionMode">
+              <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
              </property>
              <property name="showGroupSeparator" stdset="0">
               <bool>false</bool>
              </property>
              <property name="currentSection">
-              <enum>QDateTimeEdit::MinuteSection</enum>
+              <enum>QDateTimeEdit::SecondSection</enum>
              </property>
              <property name="displayFormat">
               <string>mm:ss</string>
@@ -109,11 +221,14 @@
              <property name="calendarPopup">
               <bool>false</bool>
              </property>
+             <property name="currentSectionIndex">
+              <number>1</number>
+             </property>
              <property name="time">
               <time>
                <hour>0</hour>
                <minute>0</minute>
-               <second>30</second>
+               <second>0</second>
               </time>
              </property>
             </widget>
@@ -123,13 +238,13 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
            <property name="leftMargin">
-            <number>40</number>
+            <number>20</number>
            </property>
            <property name="rightMargin">
-            <number>40</number>
+            <number>20</number>
            </property>
            <property name="bottomMargin">
-            <number>20</number>
+            <number>10</number>
            </property>
            <item>
             <widget class="QPushButton" name="btn_finish">
@@ -481,6 +596,9 @@
                </item>
                <item>
                 <widget class="QLCDNumber" name="lcd_time_ensayo">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 255, 255);</string>
+                 </property>
                  <property name="smallDecimalPoint">
                   <bool>true</bool>
                  </property>
@@ -775,6 +893,9 @@
                </item>
                <item>
                 <widget class="QLCDNumber" name="lcd_temperatura">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 255, 255);</string>
+                 </property>
                  <property name="smallDecimalPoint">
                   <bool>true</bool>
                  </property>
@@ -808,6 +929,9 @@
                </item>
                <item>
                 <widget class="QLCDNumber" name="lcd_vibra_axial">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 255, 255);</string>
+                 </property>
                  <property name="smallDecimalPoint">
                   <bool>true</bool>
                  </property>
@@ -832,6 +956,9 @@
                </item>
                <item>
                 <widget class="QLCDNumber" name="lcd_vibra_radial">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 255, 255);</string>
+                 </property>
                  <property name="smallDecimalPoint">
                   <bool>true</bool>
                  </property>

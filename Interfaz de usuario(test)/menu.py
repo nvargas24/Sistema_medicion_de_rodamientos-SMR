@@ -52,9 +52,60 @@ class Ui_MainWindow(object):
         self.verticalLayout_10 = QVBoxLayout()
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.verticalLayout_10.setContentsMargins(-1, -1, 20, -1)
+        self.horizontalLayout_21 = QHBoxLayout()
+        self.horizontalLayout_21.setSpacing(10)
+        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
+        self.horizontalLayout_21.setContentsMargins(20, 20, 20, 0)
+        self.label_8 = QLabel(self.verticalLayoutWidget_2)
+        self.label_8.setObjectName(u"label_8")
+        sizePolicy.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
+        self.label_8.setSizePolicy(sizePolicy)
+        self.label_8.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_21.addWidget(self.label_8)
+
+        self.host_broker = QLineEdit(self.verticalLayoutWidget_2)
+        self.host_broker.setObjectName(u"host_broker")
+        font1 = QFont()
+        font1.setPointSize(12)
+        self.host_broker.setFont(font1)
+        self.host_broker.setFocusPolicy(Qt.ClickFocus)
+        self.host_broker.setAutoFillBackground(False)
+        self.host_broker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.host_broker.setMaxLength(15)
+        self.host_broker.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_21.addWidget(self.host_broker)
+
+        self.label_10 = QLabel(self.verticalLayoutWidget_2)
+        self.label_10.setObjectName(u"label_10")
+        sizePolicy.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
+        self.label_10.setSizePolicy(sizePolicy)
+        self.label_10.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_21.addWidget(self.label_10)
+
+        self.port_broker = QLineEdit(self.verticalLayoutWidget_2)
+        self.port_broker.setObjectName(u"port_broker")
+        self.port_broker.setFont(font1)
+        self.port_broker.setFocusPolicy(Qt.ClickFocus)
+        self.port_broker.setAutoFillBackground(False)
+        self.port_broker.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.port_broker.setMaxLength(4)
+        self.port_broker.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_21.addWidget(self.port_broker)
+
+        self.horizontalLayout_21.setStretch(0, 1)
+        self.horizontalLayout_21.setStretch(1, 21)
+        self.horizontalLayout_21.setStretch(2, 2)
+        self.horizontalLayout_21.setStretch(3, 1)
+
+        self.verticalLayout_10.addLayout(self.horizontalLayout_21)
+
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.horizontalLayout_10.setContentsMargins(40, 30, 40, -1)
+        self.horizontalLayout_10.setContentsMargins(20, 0, 20, -1)
         self.label_6 = QLabel(self.verticalLayoutWidget_2)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
@@ -63,13 +114,17 @@ class Ui_MainWindow(object):
 
         self.time_ensayo = QTimeEdit(self.verticalLayoutWidget_2)
         self.time_ensayo.setObjectName(u"time_ensayo")
-        self.time_ensayo.setFocusPolicy(Qt.NoFocus)
-        self.time_ensayo.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
+        self.time_ensayo.setFocusPolicy(Qt.ClickFocus)
+        self.time_ensayo.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"font: 14pt \"MS Shell Dlg 2\";")
+        self.time_ensayo.setAlignment(Qt.AlignCenter)
         self.time_ensayo.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
+        self.time_ensayo.setCorrectionMode(QAbstractSpinBox.CorrectToNearestValue)
         self.time_ensayo.setProperty("showGroupSeparator", False)
-        self.time_ensayo.setCurrentSection(QDateTimeEdit.MinuteSection)
+        self.time_ensayo.setCurrentSection(QDateTimeEdit.SecondSection)
         self.time_ensayo.setCalendarPopup(False)
-        self.time_ensayo.setTime(QTime(0, 0, 30))
+        self.time_ensayo.setCurrentSectionIndex(1)
+        self.time_ensayo.setTime(QTime(0, 0, 0))
 
         self.horizontalLayout_10.addWidget(self.time_ensayo)
 
@@ -80,7 +135,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_16 = QHBoxLayout()
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
-        self.horizontalLayout_16.setContentsMargins(40, -1, 40, 20)
+        self.horizontalLayout_16.setContentsMargins(20, -1, 20, 10)
         self.btn_finish = QPushButton(self.verticalLayoutWidget_2)
         self.btn_finish.setObjectName(u"btn_finish")
         sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -105,17 +160,17 @@ class Ui_MainWindow(object):
 
         self.notificacion = QLabel(self.verticalLayoutWidget_2)
         self.notificacion.setObjectName(u"notificacion")
-        font1 = QFont()
-        font1.setPointSize(18)
-        font1.setBold(False)
-        font1.setWeight(50)
-        self.notificacion.setFont(font1)
+        font2 = QFont()
+        font2.setPointSize(18)
+        font2.setBold(False)
+        font2.setWeight(50)
+        self.notificacion.setFont(font2)
         self.notificacion.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_10.addWidget(self.notificacion)
 
-        self.verticalLayout_10.setStretch(0, 2)
         self.verticalLayout_10.setStretch(1, 2)
+        self.verticalLayout_10.setStretch(2, 2)
 
         self.horizontalLayout_19.addLayout(self.verticalLayout_10)
 
@@ -262,7 +317,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_19.addWidget(self.groupBox_freq)
 
-        self.horizontalLayout_19.setStretch(0, 4)
+        self.horizontalLayout_19.setStretch(0, 7)
         self.horizontalLayout_19.setStretch(1, 8)
 
         self.verticalLayout_9.addLayout(self.horizontalLayout_19)
@@ -321,14 +376,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.label_7 = QLabel(self.verticalLayoutWidget_2)
         self.label_7.setObjectName(u"label_7")
-        font2 = QFont()
-        font2.setPointSize(12)
-        self.label_7.setFont(font2)
+        self.label_7.setFont(font1)
 
         self.horizontalLayout_11.addWidget(self.label_7)
 
         self.lcd_time_ensayo = QLCDNumber(self.verticalLayoutWidget_2)
         self.lcd_time_ensayo.setObjectName(u"lcd_time_ensayo")
+        self.lcd_time_ensayo.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_time_ensayo.setSmallDecimalPoint(True)
         self.lcd_time_ensayo.setSegmentStyle(QLCDNumber.Flat)
 
@@ -364,7 +418,7 @@ class Ui_MainWindow(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.btn_forzar.sizePolicy().hasHeightForWidth())
         self.btn_forzar.setSizePolicy(sizePolicy3)
-        self.btn_forzar.setFont(font2)
+        self.btn_forzar.setFont(font1)
 
         self.horizontalLayout_12.addWidget(self.btn_forzar)
 
@@ -519,6 +573,7 @@ class Ui_MainWindow(object):
 
         self.lcd_temperatura = QLCDNumber(self.verticalLayoutWidget)
         self.lcd_temperatura.setObjectName(u"lcd_temperatura")
+        self.lcd_temperatura.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_temperatura.setSmallDecimalPoint(True)
         self.lcd_temperatura.setDigitCount(5)
         self.lcd_temperatura.setMode(QLCDNumber.Dec)
@@ -542,6 +597,7 @@ class Ui_MainWindow(object):
 
         self.lcd_vibra_axial = QLCDNumber(self.verticalLayoutWidget)
         self.lcd_vibra_axial.setObjectName(u"lcd_vibra_axial")
+        self.lcd_vibra_axial.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_vibra_axial.setSmallDecimalPoint(True)
         self.lcd_vibra_axial.setDigitCount(5)
         self.lcd_vibra_axial.setSegmentStyle(QLCDNumber.Flat)
@@ -562,6 +618,7 @@ class Ui_MainWindow(object):
 
         self.lcd_vibra_radial = QLCDNumber(self.verticalLayoutWidget)
         self.lcd_vibra_radial.setObjectName(u"lcd_vibra_radial")
+        self.lcd_vibra_radial.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_vibra_radial.setSmallDecimalPoint(True)
         self.lcd_vibra_radial.setDigitCount(5)
         self.lcd_vibra_radial.setSegmentStyle(QLCDNumber.Flat)
@@ -603,6 +660,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.label_25.setText(QCoreApplication.translate("MainWindow", u"SMR - Interfaz de personal de puesta en marcha", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"IP:", None))
+        self.host_broker.setPlaceholderText(QCoreApplication.translate("MainWindow", u"192.168.XXX.XXX", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"PORT:", None))
+        self.port_broker.setPlaceholderText(QCoreApplication.translate("MainWindow", u"XXXX", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayos c/u:", None))
         self.time_ensayo.setDisplayFormat(QCoreApplication.translate("MainWindow", u"mm:ss", None))
         self.btn_finish.setText(QCoreApplication.translate("MainWindow", u"Finalizar", None))
