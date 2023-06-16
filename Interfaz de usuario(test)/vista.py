@@ -34,7 +34,7 @@ class Canvas_grafica(FigureCanvas):
         plt.xlabel("Frecuencia[Hz]")
         plt.ylabel("Amplitud[dBV]")
 
-    def upgrade_fft(self, freq, mag_decode):
+    def upgrade_fft(self, freq, mag):
         self.ax.clear()  # Borrar el contenido del subplot
 
         # Establecer límites del eje X e Y
@@ -49,12 +49,10 @@ class Canvas_grafica(FigureCanvas):
         # Establecer estilo de fuente y tamaño
         matplotlib.rcParams['font.size'] = 12
         self.ax.set_title("Grafico FFT")
-        self.ax.set_xlabel("Frecuencia[kHz]")
+        self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
 
-        mag = mag_decode.split(',')
-        self.mag = [float(value) for value in mag]
-        self.ax.plot(freq, self.mag)
+        self.ax.plot(freq, mag)
 
         self.draw()  # Actualizar gráfico
 

@@ -20,18 +20,35 @@ class Mqtt:
         self.pres_bpfo = 0
         self.pres_bsf = 0
         self.pres_ftf = 0
-        self.fft = "0"
+        self.fft = []
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
             print("Conexión exitosa al broker")
+            self.client.connected_flag = True
         else:
             print(f"No se pudo conectar al broker. Código de retorno: {rc}")
+            self.client.connected_flag = False
 
     def start(self):
         self.client.on_connect = self.on_connect
-        self.client.connect(self.broker_host, self.broker_port)
-        self.client.loop_start()
+
+        retries = 0
+        while retries < 3:
+            try:
+                self.client.connect(self.broker_host, self.broker_port)
+                self.client.loop_start()
+                self.client.connected_flag = False
+                while not self.client.connected.flag:
+                    pass
+                self.client.loop_stop()
+                self.client.disconnect()
+                return True
+            except:
+                retries += 1
+                print(f"Intento de conexion {retries} a broker MQTT")
+                time.sleep(1)
+        return False
 
     def send(self, topic, message):
         self.client.publish(topic, message)
@@ -45,9 +62,9 @@ class Mqtt:
         if self.topic == "rodAnt/tempObj":
             self.temp_obj = "{:.2f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelAxial":
-            self.acel_axial = "{:.2f}".format(float(self.msg)) 
+            self.acel_axial = "{:.4f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelRadial":
-            self.acel_radial = "{:.2f}".format(float(self.msg)) 
+            self.acel_radial = "{:.4f}".format(float(self.msg)) 
         if self.topic == "rodAnt/presBPFO":
             self.pres_bpfo = self.msg
         if self.topic == "rodAnt/presBPFI":
@@ -57,7 +74,8 @@ class Mqtt:
         if self.topic == "rodAnt/presFTF":
             self.pres_ftf = self.msg
         if self.topic == "rodAnt/fft":
-            self.fft = self.msg
+            self.fft = self.msg.split(',')
+            self.fft = [float(value) for value in self.fft] 
 
     def suscrip(self, topic):
         self.client.subscribe(topic)
@@ -71,8 +89,8 @@ class Measure():
     def __init__(self):
         super().__init__()
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        #self.mqtt_obj = Mqtt("192.168.1.108", 1883)
-        self.mqtt_obj = Mqtt("192.168.68.203", 1883)       
+        self.mqtt_obj = Mqtt("192.168.1.108", 1883)
+        #self.mqtt_obj = Mqtt("192.168.68.203", 1883)       
         self.cont_ensayos = 1
 
         self.freq = []
@@ -80,9 +98,9 @@ class Measure():
             self.freq.append(37*i)
 
     def init_conf(self, ):
-        #self.menu.ui.groupBox_time.setEnabled(False)
         self.menu.ui.groupBox_leds.setEnabled(False)
         self.menu.ui.groupBox_meas.setEnabled(False)
+        self.menu.ui.btn_forzar.setEnabled(False)
 
         self.menu.ui.time_ensayo.setEnabled(True)
 
@@ -103,8 +121,11 @@ class Measure():
     """
     def finish_conf(self, menu):
         self.menu = menu
-        self.mqtt_obj.start()
+        
+        if not self.mqtt_obj.start():
+           return print("No se logro conectar a host: ", self.mqtt_obj.broker_host) 
 
+        print("Conectado a host: ", self.mqtt_obj.broker_host)
         # Obtener valor de tiempo de cada ensayo
         self.selected_time = self.menu.ui.time_ensayo.time() # va a cambiar por addSecs()
         # Se debe obtener los segundos totales para determinar el rango de la progressbar(valores fijos)
@@ -270,12 +291,6 @@ class Measure():
     Muestra lecturas obtenidas de sensores en display
     """
     def data_recive(self, ):
-        # Reseteo 'leds'
-        self.menu.ui.led_bpfo.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-        self.menu.ui.led_bpfi.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-        self.menu.ui.led_bsf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-        self.menu.ui.led_ftf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-
         # Muestro datos recibidos por qlcd
         if self.mqtt_obj.temp_obj:
             self.menu.ui.lcd_temperatura.display(self.mqtt_obj.temp_obj)
@@ -283,14 +298,18 @@ class Measure():
             self.menu.ui.lcd_vibra_axial.display(self.mqtt_obj.acel_axial)
         if self.mqtt_obj.acel_radial:
             self.menu.ui.lcd_vibra_radial.display(self.mqtt_obj.acel_radial)
-        if self.mqtt_obj.pres_bpfo == 1:
+        if self.mqtt_obj.pres_bpfo == "1":
             self.menu.ui.led_bpfo.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.pres_bpfi == 1:
-            self.menu.ui.led_bpfi.setStyleSheet("background-color: gree; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.pres_bsf == 1:
+            self.mqtt_obj.pres_bpfo = "0"
+        if self.mqtt_obj.pres_bpfi == "1":
+            self.menu.ui.led_bpfi.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.mqtt_obj.pres_bpfi = "0"
+        if self.mqtt_obj.pres_bsf == "1":
             self.menu.ui.led_bsf.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.pres_ftf == 1:
+            self.mqtt_obj.pres_bsf = "0"
+        if self.mqtt_obj.pres_ftf == "1":
             self.menu.ui.led_ftf.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.mqtt_obj.pres_ftf = "0"
         if self.mqtt_obj.fft:
             self.menu.grafica.upgrade_fft(self.freq, self.mqtt_obj.fft)
 
