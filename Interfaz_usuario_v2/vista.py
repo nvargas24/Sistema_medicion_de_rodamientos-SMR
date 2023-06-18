@@ -29,7 +29,7 @@ class Canvas_grafica(FigureCanvas):
             self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
 
         # Establecer estilo de fuente y tamaño
-        matplotlib.rcParams['font.size'] = 12
+        matplotlib.rcParams['font.size'] = 9
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
 
@@ -44,7 +44,7 @@ class Canvas_grafica(FigureCanvas):
             self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
             
         # Establecer estilo de fuente y tamaño
-        matplotlib.rcParams['font.size'] = 12
+        matplotlib.rcParams['font.size'] = 9
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
 

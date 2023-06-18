@@ -17,13 +17,13 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(953, 703)
+        MainWindow.resize(953, 855)
         MainWindow.setStyleSheet(u"background-color: rgb(234, 234, 234);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(20, 10, 921, 661))
+        self.verticalLayoutWidget_2.setGeometry(QRect(10, 10, 921, 801))
         self.verticalLayout_9 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
@@ -273,6 +273,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_20 = QHBoxLayout()
         self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
         self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.fft_ant = QVBoxLayout()
         self.fft_ant.setObjectName(u"fft_ant")
@@ -286,7 +287,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(-1, 15, -1, -1)
+        self.horizontalLayout.setContentsMargins(-1, 0, -1, -1)
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
@@ -315,8 +316,9 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout)
 
-        self.verticalLayout_3.setStretch(0, 15)
-        self.verticalLayout_3.setStretch(1, 15)
+        self.verticalLayout_3.setStretch(0, 12)
+        self.verticalLayout_3.setStretch(1, 12)
+        self.verticalLayout_3.setStretch(2, 1)
 
         self.horizontalLayout_20.addLayout(self.verticalLayout_3)
 

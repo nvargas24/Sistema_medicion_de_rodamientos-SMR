@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>953</width>
-    <height>703</height>
+    <height>855</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,10 +20,10 @@
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>10</y>
       <width>921</width>
-      <height>661</height>
+      <height>801</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_9" stretch="1,1,18">
@@ -419,7 +419,10 @@ background-color: rgb(255, 255, 255);</string>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="12,9">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="15,15,0">
+        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="12,12,1">
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <item>
           <layout class="QVBoxLayout" name="fft_ant"/>
          </item>
@@ -429,7 +432,7 @@ background-color: rgb(255, 255, 255);</string>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,1,10,2">
            <property name="topMargin">
-            <number>15</number>
+            <number>0</number>
            </property>
            <item>
             <spacer name="horizontalSpacer">
