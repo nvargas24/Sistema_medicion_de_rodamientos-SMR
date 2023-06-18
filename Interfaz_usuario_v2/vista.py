@@ -11,7 +11,7 @@ from matplotlib import style
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib
 
-from menu import *
+from menu_v2 import *
 from modelo import *
 
 class Canvas_grafica(FigureCanvas):
@@ -30,13 +30,10 @@ class Canvas_grafica(FigureCanvas):
 
         # Establecer estilo de fuente y tamaño
         matplotlib.rcParams['font.size'] = 12
-        plt.title("Grafico FFT")
-        plt.xlabel("Frecuencia[Hz]")
-        plt.ylabel("Amplitud[dBV]")
+        self.ax.set_xlabel("Frecuencia[Hz]")
+        self.ax.set_ylabel("Amplitud[dBV]")
 
     def upgrade_fft(self, freq, mag_decode):
-        self.ax.clear()  # Borrar el contenido del subplot
-
         # Establecer límites del eje X e Y
         self.ax.set_xlim(-100, 19000)
         self.ax.set_ylim(-40, 60)
@@ -48,8 +45,7 @@ class Canvas_grafica(FigureCanvas):
             
         # Establecer estilo de fuente y tamaño
         matplotlib.rcParams['font.size'] = 12
-        self.ax.set_title("Grafico FFT")
-        self.ax.set_xlabel("Frecuencia[kHz]")
+        self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
 
         mag = mag_decode.split(',')
@@ -76,7 +72,13 @@ class Mainwindow(QMainWindow):
 
         # Para crear y actualizar grafico fft
         self.grafica = Canvas_grafica()
-        self.ui.grafico_fft.addWidget(self.grafica)
+        self.grafica2 = Canvas_grafica()
+
+        self.ui.fft_ant.addWidget(self.grafica)
+        self.ui.fft_pos.addWidget(self.grafica2)
+
+        self.grafica.ax.set_title("Rodamiento anterior")
+        self.grafica2.ax.set_title("Rodamiento posterior")
 
         # Deshabilito widgets que hasta que finalice configuracion
         #self.ui.groupBox_time.setEnabled(False)

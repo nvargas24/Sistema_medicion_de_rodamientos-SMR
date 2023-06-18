@@ -292,6 +292,8 @@ class Measure():
         if self.mqtt_obj.pres_ftf == 1:
             self.menu.ui.led_ftf.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.fft:
+            self.menu.grafica.ax.clear()  # Borrar el contenido del subplot
+            self.menu.grafica.ax.set_title("Rodamiento anterior")
             self.menu.grafica.upgrade_fft(self.freq, self.mqtt_obj.fft)
 
         # Reseteo buffer para topic y msg

@@ -18,6 +18,7 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(953, 703)
+        MainWindow.setStyleSheet(u"background-color: rgb(234, 234, 234);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
@@ -65,7 +66,8 @@ class Ui_MainWindow(object):
         self.time_ensayo.setObjectName(u"time_ensayo")
         self.time_ensayo.setFocusPolicy(Qt.NoFocus)
         self.time_ensayo.setContextMenuPolicy(Qt.NoContextMenu)
-        self.time_ensayo.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
+        self.time_ensayo.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";\n"
+"background-color: rgb(255, 255, 255);")
         self.time_ensayo.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
         self.time_ensayo.setProperty("showGroupSeparator", False)
         self.time_ensayo.setCurrentSection(QDateTimeEdit.SecondSection)
@@ -336,6 +338,7 @@ class Ui_MainWindow(object):
 
         self.lcd_time_ensayo = QLCDNumber(self.verticalLayoutWidget_2)
         self.lcd_time_ensayo.setObjectName(u"lcd_time_ensayo")
+        self.lcd_time_ensayo.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_time_ensayo.setSmallDecimalPoint(True)
         self.lcd_time_ensayo.setSegmentStyle(QLCDNumber.Flat)
 
@@ -730,7 +733,7 @@ class Ui_MainWindow(object):
         self.lcd_temp_ant = QLCDNumber(self.horizontalLayoutWidget)
         self.lcd_temp_ant.setObjectName(u"lcd_temp_ant")
         self.lcd_temp_ant.setFont(font4)
-        self.lcd_temp_ant.setStyleSheet(u"")
+        self.lcd_temp_ant.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_temp_ant.setSmallDecimalPoint(True)
         self.lcd_temp_ant.setDigitCount(6)
         self.lcd_temp_ant.setMode(QLCDNumber.Dec)
@@ -755,6 +758,7 @@ class Ui_MainWindow(object):
 
         self.lcd_axial_ant = QLCDNumber(self.horizontalLayoutWidget)
         self.lcd_axial_ant.setObjectName(u"lcd_axial_ant")
+        self.lcd_axial_ant.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_axial_ant.setSmallDecimalPoint(True)
         self.lcd_axial_ant.setDigitCount(6)
         self.lcd_axial_ant.setSegmentStyle(QLCDNumber.Flat)
@@ -776,6 +780,7 @@ class Ui_MainWindow(object):
 
         self.lcd_radial_ant = QLCDNumber(self.horizontalLayoutWidget)
         self.lcd_radial_ant.setObjectName(u"lcd_radial_ant")
+        self.lcd_radial_ant.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_radial_ant.setSmallDecimalPoint(True)
         self.lcd_radial_ant.setDigitCount(6)
         self.lcd_radial_ant.setSegmentStyle(QLCDNumber.Flat)
@@ -809,6 +814,7 @@ class Ui_MainWindow(object):
 
         self.lcd_temp_pos = QLCDNumber(self.horizontalLayoutWidget)
         self.lcd_temp_pos.setObjectName(u"lcd_temp_pos")
+        self.lcd_temp_pos.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_temp_pos.setSmallDecimalPoint(True)
         self.lcd_temp_pos.setDigitCount(6)
         self.lcd_temp_pos.setMode(QLCDNumber.Dec)
@@ -833,6 +839,7 @@ class Ui_MainWindow(object):
 
         self.lcd_axial_pos = QLCDNumber(self.horizontalLayoutWidget)
         self.lcd_axial_pos.setObjectName(u"lcd_axial_pos")
+        self.lcd_axial_pos.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_axial_pos.setSmallDecimalPoint(True)
         self.lcd_axial_pos.setDigitCount(6)
         self.lcd_axial_pos.setSegmentStyle(QLCDNumber.Flat)
@@ -854,6 +861,7 @@ class Ui_MainWindow(object):
 
         self.lcd_radial_pos = QLCDNumber(self.horizontalLayoutWidget)
         self.lcd_radial_pos.setObjectName(u"lcd_radial_pos")
+        self.lcd_radial_pos.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_radial_pos.setSmallDecimalPoint(True)
         self.lcd_radial_pos.setDigitCount(6)
         self.lcd_radial_pos.setSegmentStyle(QLCDNumber.Flat)
