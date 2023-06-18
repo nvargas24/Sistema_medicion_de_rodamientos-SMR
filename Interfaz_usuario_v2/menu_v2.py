@@ -1,0 +1,947 @@
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'menu_v2.ui'
+##
+## Created by: Qt User Interface Compiler version 5.15.2
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        if not MainWindow.objectName():
+            MainWindow.setObjectName(u"MainWindow")
+        MainWindow.resize(953, 703)
+        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
+        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
+        self.verticalLayoutWidget_2.setGeometry(QRect(20, 10, 921, 661))
+        self.verticalLayout_9 = QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.label_25 = QLabel(self.verticalLayoutWidget_2)
+        self.label_25.setObjectName(u"label_25")
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_25.sizePolicy().hasHeightForWidth())
+        self.label_25.setSizePolicy(sizePolicy)
+        font = QFont()
+        font.setFamily(u"MS Shell Dlg 2")
+        font.setPointSize(20)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(9)
+        self.label_25.setFont(font)
+        self.label_25.setLayoutDirection(Qt.LeftToRight)
+        self.label_25.setStyleSheet(u"font: 75 20pt \"MS Shell Dlg 2\";")
+        self.label_25.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_9.addWidget(self.label_25)
+
+        self.horizontalLayout_19 = QHBoxLayout()
+        self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
+        self.verticalLayout_10 = QVBoxLayout()
+        self.verticalLayout_10.setSpacing(5)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.verticalLayout_10.setContentsMargins(-1, 10, 20, -1)
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.horizontalLayout_10.setContentsMargins(40, 0, 40, -1)
+        self.label_6 = QLabel(self.verticalLayoutWidget_2)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_10.addWidget(self.label_6)
+
+        self.time_ensayo = QTimeEdit(self.verticalLayoutWidget_2)
+        self.time_ensayo.setObjectName(u"time_ensayo")
+        self.time_ensayo.setFocusPolicy(Qt.NoFocus)
+        self.time_ensayo.setContextMenuPolicy(Qt.NoContextMenu)
+        self.time_ensayo.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
+        self.time_ensayo.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
+        self.time_ensayo.setProperty("showGroupSeparator", False)
+        self.time_ensayo.setCurrentSection(QDateTimeEdit.SecondSection)
+        self.time_ensayo.setCalendarPopup(False)
+        self.time_ensayo.setCurrentSectionIndex(1)
+        self.time_ensayo.setTime(QTime(0, 0, 30))
+
+        self.horizontalLayout_10.addWidget(self.time_ensayo)
+
+        self.horizontalLayout_10.setStretch(0, 4)
+        self.horizontalLayout_10.setStretch(1, 2)
+
+        self.verticalLayout_10.addLayout(self.horizontalLayout_10)
+
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.horizontalLayout_16.setContentsMargins(40, -1, 40, 0)
+        self.btn_finish = QPushButton(self.verticalLayoutWidget_2)
+        self.btn_finish.setObjectName(u"btn_finish")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.btn_finish.sizePolicy().hasHeightForWidth())
+        self.btn_finish.setSizePolicy(sizePolicy1)
+        self.btn_finish.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_16.addWidget(self.btn_finish)
+
+        self.btn_init = QPushButton(self.verticalLayoutWidget_2)
+        self.btn_init.setObjectName(u"btn_init")
+        sizePolicy1.setHeightForWidth(self.btn_init.sizePolicy().hasHeightForWidth())
+        self.btn_init.setSizePolicy(sizePolicy1)
+        self.btn_init.setStyleSheet(u"font: 14pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_16.addWidget(self.btn_init)
+
+
+        self.verticalLayout_10.addLayout(self.horizontalLayout_16)
+
+        self.notificacion = QLabel(self.verticalLayoutWidget_2)
+        self.notificacion.setObjectName(u"notificacion")
+        font1 = QFont()
+        font1.setPointSize(18)
+        font1.setBold(False)
+        font1.setWeight(50)
+        self.notificacion.setFont(font1)
+        self.notificacion.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_10.addWidget(self.notificacion)
+
+        self.verticalLayout_10.setStretch(0, 2)
+        self.verticalLayout_10.setStretch(1, 1)
+
+        self.horizontalLayout_19.addLayout(self.verticalLayout_10)
+
+        self.groupBox_freq = QGroupBox(self.verticalLayoutWidget_2)
+        self.groupBox_freq.setObjectName(u"groupBox_freq")
+        self.groupBox_freq.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+        self.horizontalLayoutWidget_4 = QWidget(self.groupBox_freq)
+        self.horizontalLayoutWidget_4.setObjectName(u"horizontalLayoutWidget_4")
+        self.horizontalLayoutWidget_4.setGeometry(QRect(20, 30, 431, 80))
+        self.horizontalLayout_5 = QHBoxLayout(self.horizontalLayoutWidget_4)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(-1, -1, 10, -1)
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.label_9 = QLabel(self.horizontalLayoutWidget_4)
+        self.label_9.setObjectName(u"label_9")
+
+        self.horizontalLayout_6.addWidget(self.label_9)
+
+        self.slider_bpfo = QSlider(self.horizontalLayoutWidget_4)
+        self.slider_bpfo.setObjectName(u"slider_bpfo")
+        self.slider_bpfo.setMinimum(100)
+        self.slider_bpfo.setMaximum(19000)
+        self.slider_bpfo.setSingleStep(500)
+        self.slider_bpfo.setPageStep(500)
+        self.slider_bpfo.setValue(15000)
+        self.slider_bpfo.setSliderPosition(15000)
+        self.slider_bpfo.setOrientation(Qt.Horizontal)
+        self.slider_bpfo.setTickPosition(QSlider.NoTicks)
+        self.slider_bpfo.setTickInterval(500)
+
+        self.horizontalLayout_6.addWidget(self.slider_bpfo)
+
+        self.label_slider_bpfo = QLabel(self.horizontalLayoutWidget_4)
+        self.label_slider_bpfo.setObjectName(u"label_slider_bpfo")
+
+        self.horizontalLayout_6.addWidget(self.label_slider_bpfo)
+
+        self.horizontalLayout_6.setStretch(1, 6)
+        self.horizontalLayout_6.setStretch(2, 4)
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_6)
+
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.label_11 = QLabel(self.horizontalLayoutWidget_4)
+        self.label_11.setObjectName(u"label_11")
+
+        self.horizontalLayout_7.addWidget(self.label_11)
+
+        self.slider_bpfi = QSlider(self.horizontalLayoutWidget_4)
+        self.slider_bpfi.setObjectName(u"slider_bpfi")
+        self.slider_bpfi.setMinimum(100)
+        self.slider_bpfi.setMaximum(19000)
+        self.slider_bpfi.setSingleStep(500)
+        self.slider_bpfi.setPageStep(500)
+        self.slider_bpfi.setValue(12000)
+        self.slider_bpfi.setOrientation(Qt.Horizontal)
+        self.slider_bpfi.setTickInterval(500)
+
+        self.horizontalLayout_7.addWidget(self.slider_bpfi)
+
+        self.label_slider_bpfi = QLabel(self.horizontalLayoutWidget_4)
+        self.label_slider_bpfi.setObjectName(u"label_slider_bpfi")
+
+        self.horizontalLayout_7.addWidget(self.label_slider_bpfi)
+
+        self.horizontalLayout_7.setStretch(1, 6)
+        self.horizontalLayout_7.setStretch(2, 4)
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_7)
+
+
+        self.horizontalLayout_5.addLayout(self.verticalLayout_4)
+
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(10, -1, 5, -1)
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.label_12 = QLabel(self.horizontalLayoutWidget_4)
+        self.label_12.setObjectName(u"label_12")
+
+        self.horizontalLayout_8.addWidget(self.label_12)
+
+        self.slider_ftf = QSlider(self.horizontalLayoutWidget_4)
+        self.slider_ftf.setObjectName(u"slider_ftf")
+        self.slider_ftf.setMinimum(100)
+        self.slider_ftf.setMaximum(19000)
+        self.slider_ftf.setSingleStep(500)
+        self.slider_ftf.setPageStep(500)
+        self.slider_ftf.setValue(900)
+        self.slider_ftf.setOrientation(Qt.Horizontal)
+        self.slider_ftf.setTickInterval(500)
+
+        self.horizontalLayout_8.addWidget(self.slider_ftf)
+
+        self.label_slider_ftf = QLabel(self.horizontalLayoutWidget_4)
+        self.label_slider_ftf.setObjectName(u"label_slider_ftf")
+
+        self.horizontalLayout_8.addWidget(self.label_slider_ftf)
+
+        self.horizontalLayout_8.setStretch(1, 6)
+        self.horizontalLayout_8.setStretch(2, 4)
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_8)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.label_14 = QLabel(self.horizontalLayoutWidget_4)
+        self.label_14.setObjectName(u"label_14")
+
+        self.horizontalLayout_9.addWidget(self.label_14)
+
+        self.slider_bsf = QSlider(self.horizontalLayoutWidget_4)
+        self.slider_bsf.setObjectName(u"slider_bsf")
+        self.slider_bsf.setMinimum(100)
+        self.slider_bsf.setMaximum(19000)
+        self.slider_bsf.setSingleStep(500)
+        self.slider_bsf.setPageStep(500)
+        self.slider_bsf.setValue(500)
+        self.slider_bsf.setOrientation(Qt.Horizontal)
+        self.slider_bsf.setTickInterval(500)
+
+        self.horizontalLayout_9.addWidget(self.slider_bsf)
+
+        self.label_slider_bsf = QLabel(self.horizontalLayoutWidget_4)
+        self.label_slider_bsf.setObjectName(u"label_slider_bsf")
+
+        self.horizontalLayout_9.addWidget(self.label_slider_bsf)
+
+        self.horizontalLayout_9.setStretch(1, 6)
+        self.horizontalLayout_9.setStretch(2, 4)
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_9)
+
+
+        self.horizontalLayout_5.addLayout(self.verticalLayout_5)
+
+
+        self.horizontalLayout_19.addWidget(self.groupBox_freq)
+
+        self.horizontalLayout_19.setStretch(0, 4)
+        self.horizontalLayout_19.setStretch(1, 8)
+
+        self.verticalLayout_9.addLayout(self.horizontalLayout_19)
+
+        self.horizontalLayout_20 = QHBoxLayout()
+        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.fft_ant = QVBoxLayout()
+        self.fft_ant.setObjectName(u"fft_ant")
+
+        self.verticalLayout_3.addLayout(self.fft_ant)
+
+        self.fft_pos = QVBoxLayout()
+        self.fft_pos.setObjectName(u"fft_pos")
+
+        self.verticalLayout_3.addLayout(self.fft_pos)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(-1, 15, -1, -1)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.label = QLabel(self.verticalLayoutWidget_2)
+        self.label.setObjectName(u"label")
+        self.label.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout.addWidget(self.label)
+
+        self.progress_bar_programa = QProgressBar(self.verticalLayoutWidget_2)
+        self.progress_bar_programa.setObjectName(u"progress_bar_programa")
+        self.progress_bar_programa.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+        self.progress_bar_programa.setValue(0)
+
+        self.horizontalLayout.addWidget(self.progress_bar_programa)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_2)
+
+        self.horizontalLayout.setStretch(0, 2)
+        self.horizontalLayout.setStretch(1, 1)
+        self.horizontalLayout.setStretch(2, 10)
+        self.horizontalLayout.setStretch(3, 2)
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout)
+
+        self.verticalLayout_3.setStretch(0, 15)
+        self.verticalLayout_3.setStretch(1, 15)
+
+        self.horizontalLayout_20.addLayout(self.verticalLayout_3)
+
+        self.verticalLayout_11 = QVBoxLayout()
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.horizontalLayout_29 = QHBoxLayout()
+        self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
+        self.horizontalLayout_29.setContentsMargins(-1, -1, -1, 10)
+        self.verticalLayout_8 = QVBoxLayout()
+        self.verticalLayout_8.setSpacing(4)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.label_7 = QLabel(self.verticalLayoutWidget_2)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_11.addWidget(self.label_7)
+
+        self.lcd_time_ensayo = QLCDNumber(self.verticalLayoutWidget_2)
+        self.lcd_time_ensayo.setObjectName(u"lcd_time_ensayo")
+        self.lcd_time_ensayo.setSmallDecimalPoint(True)
+        self.lcd_time_ensayo.setSegmentStyle(QLCDNumber.Flat)
+
+        self.horizontalLayout_11.addWidget(self.lcd_time_ensayo)
+
+        self.horizontalLayout_11.setStretch(0, 9)
+        self.horizontalLayout_11.setStretch(1, 5)
+
+        self.verticalLayout_8.addLayout(self.horizontalLayout_11)
+
+        self.progress_bar_ensayo = QProgressBar(self.verticalLayoutWidget_2)
+        self.progress_bar_ensayo.setObjectName(u"progress_bar_ensayo")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.progress_bar_ensayo.sizePolicy().hasHeightForWidth())
+        self.progress_bar_ensayo.setSizePolicy(sizePolicy2)
+        font2 = QFont()
+        font2.setPointSize(9)
+        self.progress_bar_ensayo.setFont(font2)
+        self.progress_bar_ensayo.setValue(50)
+        self.progress_bar_ensayo.setInvertedAppearance(False)
+        self.progress_bar_ensayo.setTextDirection(QProgressBar.TopToBottom)
+
+        self.verticalLayout_8.addWidget(self.progress_bar_ensayo)
+
+        self.verticalLayout_8.setStretch(0, 7)
+        self.verticalLayout_8.setStretch(1, 6)
+
+        self.horizontalLayout_29.addLayout(self.verticalLayout_8)
+
+        self.btn_forzar = QPushButton(self.verticalLayoutWidget_2)
+        self.btn_forzar.setObjectName(u"btn_forzar")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.btn_forzar.sizePolicy().hasHeightForWidth())
+        self.btn_forzar.setSizePolicy(sizePolicy3)
+        font3 = QFont()
+        font3.setPointSize(12)
+        self.btn_forzar.setFont(font3)
+
+        self.horizontalLayout_29.addWidget(self.btn_forzar)
+
+        self.horizontalLayout_29.setStretch(0, 10)
+
+        self.verticalLayout_11.addLayout(self.horizontalLayout_29)
+
+        self.horizontalLayout_30 = QHBoxLayout()
+        self.horizontalLayout_30.setObjectName(u"horizontalLayout_30")
+        self.horizontalLayout_30.setContentsMargins(55, -1, 15, -1)
+        self.led_ant = QLabel(self.verticalLayoutWidget_2)
+        self.led_ant.setObjectName(u"led_ant")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.led_ant.sizePolicy().hasHeightForWidth())
+        self.led_ant.setSizePolicy(sizePolicy4)
+        self.led_ant.setStyleSheet(u"QLabel#led_ant {\n"
+"    background-color: red;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid darkred;\n"
+"}")
+        self.led_ant.setScaledContents(True)
+        self.led_ant.setMargin(0)
+        self.led_ant.setTextInteractionFlags(Qt.TextSelectableByMouse)
+
+        self.horizontalLayout_30.addWidget(self.led_ant)
+
+        self.label_16 = QLabel(self.verticalLayoutWidget_2)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setFont(font3)
+        self.label_16.setLayoutDirection(Qt.LeftToRight)
+        self.label_16.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.horizontalLayout_30.addWidget(self.label_16)
+
+        self.line_3 = QFrame(self.verticalLayoutWidget_2)
+        self.line_3.setObjectName(u"line_3")
+        self.line_3.setFrameShape(QFrame.VLine)
+        self.line_3.setFrameShadow(QFrame.Sunken)
+
+        self.horizontalLayout_30.addWidget(self.line_3)
+
+        self.led_pos = QLabel(self.verticalLayoutWidget_2)
+        self.led_pos.setObjectName(u"led_pos")
+        sizePolicy4.setHeightForWidth(self.led_pos.sizePolicy().hasHeightForWidth())
+        self.led_pos.setSizePolicy(sizePolicy4)
+        self.led_pos.setStyleSheet(u"QLabel#led_pos {\n"
+"    background-color: red;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid darkred;\n"
+"}")
+        self.led_pos.setScaledContents(True)
+        self.led_pos.setMargin(0)
+        self.led_pos.setTextInteractionFlags(Qt.TextSelectableByMouse)
+
+        self.horizontalLayout_30.addWidget(self.led_pos)
+
+        self.label_17 = QLabel(self.verticalLayoutWidget_2)
+        self.label_17.setObjectName(u"label_17")
+        self.label_17.setFont(font3)
+        self.label_17.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+
+        self.horizontalLayout_30.addWidget(self.label_17)
+
+        self.horizontalLayout_30.setStretch(0, 1)
+        self.horizontalLayout_30.setStretch(1, 2)
+        self.horizontalLayout_30.setStretch(2, 1)
+        self.horizontalLayout_30.setStretch(3, 1)
+        self.horizontalLayout_30.setStretch(4, 3)
+
+        self.verticalLayout_11.addLayout(self.horizontalLayout_30)
+
+        self.groupBox_leds = QGroupBox(self.verticalLayoutWidget_2)
+        self.groupBox_leds.setObjectName(u"groupBox_leds")
+        font4 = QFont()
+        font4.setFamily(u"MS Shell Dlg 2")
+        font4.setPointSize(10)
+        font4.setBold(False)
+        font4.setItalic(False)
+        font4.setWeight(50)
+        self.groupBox_leds.setFont(font4)
+        self.groupBox_leds.setStyleSheet(u"font: 10pt \"MS Shell Dlg 2\";")
+        self.horizontalLayoutWidget_2 = QWidget(self.groupBox_leds)
+        self.horizontalLayoutWidget_2.setObjectName(u"horizontalLayoutWidget_2")
+        self.horizontalLayoutWidget_2.setGeometry(QRect(100, 20, 191, 165))
+        self.horizontalLayout_28 = QHBoxLayout(self.horizontalLayoutWidget_2)
+        self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
+        self.horizontalLayout_28.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setSpacing(6)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_6.setContentsMargins(2, 0, -1, -1)
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setSpacing(5)
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.horizontalLayout_13.setContentsMargins(0, 5, 0, 5)
+        self.led_bpfo_ant = QLabel(self.horizontalLayoutWidget_2)
+        self.led_bpfo_ant.setObjectName(u"led_bpfo_ant")
+        sizePolicy4.setHeightForWidth(self.led_bpfo_ant.sizePolicy().hasHeightForWidth())
+        self.led_bpfo_ant.setSizePolicy(sizePolicy4)
+        self.led_bpfo_ant.setStyleSheet(u"QLabel#led_bpfo_ant {\n"
+"    background-color: red;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid darkred;\n"
+"}")
+        self.led_bpfo_ant.setScaledContents(True)
+        self.led_bpfo_ant.setMargin(0)
+        self.led_bpfo_ant.setTextInteractionFlags(Qt.TextSelectableByMouse)
+
+        self.horizontalLayout_13.addWidget(self.led_bpfo_ant)
+
+        self.label_18 = QLabel(self.horizontalLayoutWidget_2)
+        self.label_18.setObjectName(u"label_18")
+        font5 = QFont()
+        font5.setFamily(u"MS Shell Dlg 2")
+        font5.setPointSize(11)
+        font5.setBold(False)
+        font5.setItalic(False)
+        font5.setWeight(50)
+        self.label_18.setFont(font5)
+        self.label_18.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_13.addWidget(self.label_18)
+
+        self.horizontalLayout_13.setStretch(0, 2)
+        self.horizontalLayout_13.setStretch(1, 3)
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_13)
+
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setSpacing(5)
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.horizontalLayout_14.setContentsMargins(0, 5, 0, 5)
+        self.led_bpfi_ant = QLabel(self.horizontalLayoutWidget_2)
+        self.led_bpfi_ant.setObjectName(u"led_bpfi_ant")
+        self.led_bpfi_ant.setStyleSheet(u"QLabel#led_bpfi_ant {\n"
+"    background-color: red;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid darkred;\n"
+"}")
+
+        self.horizontalLayout_14.addWidget(self.led_bpfi_ant)
+
+        self.label_20 = QLabel(self.horizontalLayoutWidget_2)
+        self.label_20.setObjectName(u"label_20")
+        self.label_20.setFont(font5)
+        self.label_20.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_14.addWidget(self.label_20)
+
+        self.horizontalLayout_14.setStretch(0, 2)
+        self.horizontalLayout_14.setStretch(1, 3)
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_14)
+
+        self.horizontalLayout_17 = QHBoxLayout()
+        self.horizontalLayout_17.setSpacing(5)
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.horizontalLayout_17.setContentsMargins(0, 5, 0, 5)
+        self.led_ftf_ant = QLabel(self.horizontalLayoutWidget_2)
+        self.led_ftf_ant.setObjectName(u"led_ftf_ant")
+        self.led_ftf_ant.setStyleSheet(u"QLabel#led_ftf_ant{\n"
+"    background-color: red;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid darkred;\n"
+"}")
+
+        self.horizontalLayout_17.addWidget(self.led_ftf_ant)
+
+        self.label_27 = QLabel(self.horizontalLayoutWidget_2)
+        self.label_27.setObjectName(u"label_27")
+        self.label_27.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_17.addWidget(self.label_27)
+
+        self.horizontalLayout_17.setStretch(0, 2)
+        self.horizontalLayout_17.setStretch(1, 3)
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_17)
+
+        self.horizontalLayout_18 = QHBoxLayout()
+        self.horizontalLayout_18.setSpacing(5)
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
+        self.horizontalLayout_18.setContentsMargins(0, 5, 0, 5)
+        self.led_bsf_ant = QLabel(self.horizontalLayoutWidget_2)
+        self.led_bsf_ant.setObjectName(u"led_bsf_ant")
+        self.led_bsf_ant.setStyleSheet(u"QLabel#led_bsf_ant {\n"
+"    background-color: red;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid darkred;\n"
+"}")
+
+        self.horizontalLayout_18.addWidget(self.led_bsf_ant)
+
+        self.label_29 = QLabel(self.horizontalLayoutWidget_2)
+        self.label_29.setObjectName(u"label_29")
+        self.label_29.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_18.addWidget(self.label_29)
+
+        self.horizontalLayout_18.setStretch(0, 2)
+        self.horizontalLayout_18.setStretch(1, 3)
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_18)
+
+
+        self.horizontalLayout_28.addLayout(self.verticalLayout_6)
+
+        self.line_2 = QFrame(self.horizontalLayoutWidget_2)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setFrameShape(QFrame.VLine)
+        self.line_2.setFrameShadow(QFrame.Sunken)
+
+        self.horizontalLayout_28.addWidget(self.line_2)
+
+        self.verticalLayout_7 = QVBoxLayout()
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(2, 0, -1, -1)
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setSpacing(5)
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.horizontalLayout_15.setContentsMargins(0, 5, 0, 5)
+        self.led_bpfo_pos = QLabel(self.horizontalLayoutWidget_2)
+        self.led_bpfo_pos.setObjectName(u"led_bpfo_pos")
+        sizePolicy4.setHeightForWidth(self.led_bpfo_pos.sizePolicy().hasHeightForWidth())
+        self.led_bpfo_pos.setSizePolicy(sizePolicy4)
+        self.led_bpfo_pos.setStyleSheet(u"QLabel#led_bpfo_pos {\n"
+"    background-color: red;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid darkred;\n"
+"}")
+        self.led_bpfo_pos.setScaledContents(True)
+        self.led_bpfo_pos.setMargin(0)
+        self.led_bpfo_pos.setTextInteractionFlags(Qt.TextSelectableByMouse)
+
+        self.horizontalLayout_15.addWidget(self.led_bpfo_pos)
+
+        self.label_19 = QLabel(self.horizontalLayoutWidget_2)
+        self.label_19.setObjectName(u"label_19")
+        self.label_19.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_15.addWidget(self.label_19)
+
+        self.horizontalLayout_15.setStretch(0, 2)
+        self.horizontalLayout_15.setStretch(1, 3)
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_15)
+
+        self.horizontalLayout_21 = QHBoxLayout()
+        self.horizontalLayout_21.setSpacing(5)
+        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
+        self.horizontalLayout_21.setContentsMargins(0, 5, 0, 5)
+        self.led_bpfi_pos = QLabel(self.horizontalLayoutWidget_2)
+        self.led_bpfi_pos.setObjectName(u"led_bpfi_pos")
+        self.led_bpfi_pos.setStyleSheet(u"QLabel#led_bpfi_pos {\n"
+"    background-color: red;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid darkred;\n"
+"}")
+
+        self.horizontalLayout_21.addWidget(self.led_bpfi_pos)
+
+        self.label_21 = QLabel(self.horizontalLayoutWidget_2)
+        self.label_21.setObjectName(u"label_21")
+        self.label_21.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_21.addWidget(self.label_21)
+
+        self.horizontalLayout_21.setStretch(0, 2)
+        self.horizontalLayout_21.setStretch(1, 3)
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_21)
+
+        self.horizontalLayout_22 = QHBoxLayout()
+        self.horizontalLayout_22.setSpacing(5)
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.horizontalLayout_22.setContentsMargins(0, 5, 0, 5)
+        self.led_ftf_pos = QLabel(self.horizontalLayoutWidget_2)
+        self.led_ftf_pos.setObjectName(u"led_ftf_pos")
+        self.led_ftf_pos.setStyleSheet(u"QLabel#led_ftf_pos{\n"
+"    background-color: red;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid darkred;\n"
+"}")
+
+        self.horizontalLayout_22.addWidget(self.led_ftf_pos)
+
+        self.label_28 = QLabel(self.horizontalLayoutWidget_2)
+        self.label_28.setObjectName(u"label_28")
+        self.label_28.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_22.addWidget(self.label_28)
+
+        self.horizontalLayout_22.setStretch(0, 2)
+        self.horizontalLayout_22.setStretch(1, 3)
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_22)
+
+        self.horizontalLayout_23 = QHBoxLayout()
+        self.horizontalLayout_23.setSpacing(5)
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.horizontalLayout_23.setContentsMargins(0, 5, 0, 5)
+        self.led_bsf_pos = QLabel(self.horizontalLayoutWidget_2)
+        self.led_bsf_pos.setObjectName(u"led_bsf_pos")
+        self.led_bsf_pos.setStyleSheet(u"QLabel#led_bsf_pos {\n"
+"    background-color: red;\n"
+"    border-radius: 10px;\n"
+"    border: 2px solid darkred;\n"
+"}")
+
+        self.horizontalLayout_23.addWidget(self.led_bsf_pos)
+
+        self.label_30 = QLabel(self.horizontalLayoutWidget_2)
+        self.label_30.setObjectName(u"label_30")
+        self.label_30.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_23.addWidget(self.label_30)
+
+        self.horizontalLayout_23.setStretch(0, 2)
+        self.horizontalLayout_23.setStretch(1, 3)
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_23)
+
+
+        self.horizontalLayout_28.addLayout(self.verticalLayout_7)
+
+
+        self.verticalLayout_11.addWidget(self.groupBox_leds)
+
+        self.groupBox_meas = QGroupBox(self.verticalLayoutWidget_2)
+        self.groupBox_meas.setObjectName(u"groupBox_meas")
+        self.groupBox_meas.setFont(font4)
+        self.groupBox_meas.setStyleSheet(u"font: 10pt \"MS Shell Dlg 2\";")
+        self.horizontalLayoutWidget = QWidget(self.groupBox_meas)
+        self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
+        self.horizontalLayoutWidget.setGeometry(QRect(10, 20, 371, 121))
+        self.horizontalLayout_26 = QHBoxLayout(self.horizontalLayoutWidget)
+        self.horizontalLayout_26.setObjectName(u"horizontalLayout_26")
+        self.horizontalLayout_26.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.label_2 = QLabel(self.horizontalLayoutWidget)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_2.addWidget(self.label_2)
+
+        self.lcd_temp_ant = QLCDNumber(self.horizontalLayoutWidget)
+        self.lcd_temp_ant.setObjectName(u"lcd_temp_ant")
+        self.lcd_temp_ant.setFont(font4)
+        self.lcd_temp_ant.setStyleSheet(u"")
+        self.lcd_temp_ant.setSmallDecimalPoint(True)
+        self.lcd_temp_ant.setDigitCount(6)
+        self.lcd_temp_ant.setMode(QLCDNumber.Dec)
+        self.lcd_temp_ant.setSegmentStyle(QLCDNumber.Flat)
+        self.lcd_temp_ant.setProperty("value", 0.000000000000000)
+        self.lcd_temp_ant.setProperty("intValue", 0)
+
+        self.horizontalLayout_2.addWidget(self.lcd_temp_ant)
+
+        self.horizontalLayout_2.setStretch(0, 6)
+        self.horizontalLayout_2.setStretch(1, 7)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.label_3 = QLabel(self.horizontalLayoutWidget)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_3.addWidget(self.label_3)
+
+        self.lcd_axial_ant = QLCDNumber(self.horizontalLayoutWidget)
+        self.lcd_axial_ant.setObjectName(u"lcd_axial_ant")
+        self.lcd_axial_ant.setSmallDecimalPoint(True)
+        self.lcd_axial_ant.setDigitCount(6)
+        self.lcd_axial_ant.setSegmentStyle(QLCDNumber.Flat)
+
+        self.horizontalLayout_3.addWidget(self.lcd_axial_ant)
+
+        self.horizontalLayout_3.setStretch(0, 6)
+        self.horizontalLayout_3.setStretch(1, 7)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
+
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.label_4 = QLabel(self.horizontalLayoutWidget)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_4.addWidget(self.label_4)
+
+        self.lcd_radial_ant = QLCDNumber(self.horizontalLayoutWidget)
+        self.lcd_radial_ant.setObjectName(u"lcd_radial_ant")
+        self.lcd_radial_ant.setSmallDecimalPoint(True)
+        self.lcd_radial_ant.setDigitCount(6)
+        self.lcd_radial_ant.setSegmentStyle(QLCDNumber.Flat)
+
+        self.horizontalLayout_4.addWidget(self.lcd_radial_ant)
+
+        self.horizontalLayout_4.setStretch(0, 6)
+        self.horizontalLayout_4.setStretch(1, 7)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
+
+
+        self.horizontalLayout_26.addLayout(self.verticalLayout)
+
+        self.line = QFrame(self.horizontalLayoutWidget)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.VLine)
+        self.line.setFrameShadow(QFrame.Sunken)
+
+        self.horizontalLayout_26.addWidget(self.line)
+
+        self.verticalLayout_12 = QVBoxLayout()
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.label_8 = QLabel(self.horizontalLayoutWidget)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_12.addWidget(self.label_8)
+
+        self.lcd_temp_pos = QLCDNumber(self.horizontalLayoutWidget)
+        self.lcd_temp_pos.setObjectName(u"lcd_temp_pos")
+        self.lcd_temp_pos.setSmallDecimalPoint(True)
+        self.lcd_temp_pos.setDigitCount(6)
+        self.lcd_temp_pos.setMode(QLCDNumber.Dec)
+        self.lcd_temp_pos.setSegmentStyle(QLCDNumber.Flat)
+        self.lcd_temp_pos.setProperty("value", 0.000000000000000)
+        self.lcd_temp_pos.setProperty("intValue", 0)
+
+        self.horizontalLayout_12.addWidget(self.lcd_temp_pos)
+
+        self.horizontalLayout_12.setStretch(0, 6)
+        self.horizontalLayout_12.setStretch(1, 7)
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_12)
+
+        self.horizontalLayout_24 = QHBoxLayout()
+        self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
+        self.label_10 = QLabel(self.horizontalLayoutWidget)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_24.addWidget(self.label_10)
+
+        self.lcd_axial_pos = QLCDNumber(self.horizontalLayoutWidget)
+        self.lcd_axial_pos.setObjectName(u"lcd_axial_pos")
+        self.lcd_axial_pos.setSmallDecimalPoint(True)
+        self.lcd_axial_pos.setDigitCount(6)
+        self.lcd_axial_pos.setSegmentStyle(QLCDNumber.Flat)
+
+        self.horizontalLayout_24.addWidget(self.lcd_axial_pos)
+
+        self.horizontalLayout_24.setStretch(0, 6)
+        self.horizontalLayout_24.setStretch(1, 7)
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_24)
+
+        self.horizontalLayout_25 = QHBoxLayout()
+        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
+        self.label_13 = QLabel(self.horizontalLayoutWidget)
+        self.label_13.setObjectName(u"label_13")
+        self.label_13.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+
+        self.horizontalLayout_25.addWidget(self.label_13)
+
+        self.lcd_radial_pos = QLCDNumber(self.horizontalLayoutWidget)
+        self.lcd_radial_pos.setObjectName(u"lcd_radial_pos")
+        self.lcd_radial_pos.setSmallDecimalPoint(True)
+        self.lcd_radial_pos.setDigitCount(6)
+        self.lcd_radial_pos.setSegmentStyle(QLCDNumber.Flat)
+
+        self.horizontalLayout_25.addWidget(self.lcd_radial_pos)
+
+        self.horizontalLayout_25.setStretch(0, 6)
+        self.horizontalLayout_25.setStretch(1, 7)
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_25)
+
+
+        self.horizontalLayout_26.addLayout(self.verticalLayout_12)
+
+
+        self.verticalLayout_11.addWidget(self.groupBox_meas)
+
+        self.verticalLayout_11.setStretch(0, 6)
+        self.verticalLayout_11.setStretch(2, 13)
+        self.verticalLayout_11.setStretch(3, 10)
+
+        self.horizontalLayout_20.addLayout(self.verticalLayout_11)
+
+        self.horizontalLayout_20.setStretch(0, 12)
+        self.horizontalLayout_20.setStretch(1, 9)
+
+        self.verticalLayout_9.addLayout(self.horizontalLayout_20)
+
+        self.verticalLayout_9.setStretch(0, 1)
+        self.verticalLayout_9.setStretch(1, 1)
+        self.verticalLayout_9.setStretch(2, 18)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QStatusBar(MainWindow)
+        self.statusbar.setObjectName(u"statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+
+        QMetaObject.connectSlotsByName(MainWindow)
+    # setupUi
+
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.label_25.setText(QCoreApplication.translate("MainWindow", u"SMR-Interfaz de personal de puesta en marcha", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayos c/u:", None))
+        self.time_ensayo.setDisplayFormat(QCoreApplication.translate("MainWindow", u"mm:ss", None))
+        self.btn_finish.setText(QCoreApplication.translate("MainWindow", u"Finalizar", None))
+        self.btn_init.setText(QCoreApplication.translate("MainWindow", u"Iniciar", None))
+        self.notificacion.setText("")
+        self.groupBox_freq.setTitle(QCoreApplication.translate("MainWindow", u"Frecuencias a detectar", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"BPFO", None))
+        self.label_slider_bpfo.setText("")
+        self.label_11.setText(QCoreApplication.translate("MainWindow", u"BPFI", None))
+        self.label_slider_bpfi.setText("")
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"FTF", None))
+        self.label_slider_ftf.setText("")
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
+        self.label_slider_bsf.setText("")
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Progreso:", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayo:", None))
+        self.btn_forzar.setText(QCoreApplication.translate("MainWindow", u"Forzar", None))
+        self.led_ant.setText("")
+        self.label_16.setText(QCoreApplication.translate("MainWindow", u"Anterior", None))
+        self.led_pos.setText("")
+        self.label_17.setText(QCoreApplication.translate("MainWindow", u"Posterior", None))
+        self.groupBox_leds.setTitle(QCoreApplication.translate("MainWindow", u"Fallas detectadas", None))
+        self.led_bpfo_ant.setText("")
+        self.label_18.setText(QCoreApplication.translate("MainWindow", u"BPFO", None))
+        self.led_bpfi_ant.setText("")
+        self.label_20.setText(QCoreApplication.translate("MainWindow", u"BPFI", None))
+        self.led_ftf_ant.setText("")
+        self.label_27.setText(QCoreApplication.translate("MainWindow", u"FTF", None))
+        self.led_bsf_ant.setText("")
+        self.label_29.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
+        self.led_bpfo_pos.setText("")
+        self.label_19.setText(QCoreApplication.translate("MainWindow", u"BPFO", None))
+        self.led_bpfi_pos.setText("")
+        self.label_21.setText(QCoreApplication.translate("MainWindow", u"BPFI", None))
+        self.led_ftf_pos.setText("")
+        self.label_28.setText(QCoreApplication.translate("MainWindow", u"FTF", None))
+        self.led_bsf_pos.setText("")
+        self.label_30.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
+        self.groupBox_meas.setTitle(QCoreApplication.translate("MainWindow", u"Mediciones", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Temp.:", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.:", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.:", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"Temp.:", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.:", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.:", None))
+    # retranslateUi
+

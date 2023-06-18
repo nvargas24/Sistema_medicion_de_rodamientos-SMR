@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>920</width>
-    <height>677</height>
+    <width>953</width>
+    <height>703</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,11 +19,11 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>881</width>
-      <height>631</height>
+      <width>921</width>
+      <height>661</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_9" stretch="1,0,15">
+    <layout class="QVBoxLayout" name="verticalLayout_9" stretch="1,1,18">
      <item>
       <widget class="QLabel" name="label_25">
        <property name="sizePolicy">
@@ -35,7 +35,7 @@
        <property name="font">
         <font>
          <family>MS Shell Dlg 2</family>
-         <pointsize>26</pointsize>
+         <pointsize>20</pointsize>
          <weight>9</weight>
          <italic>false</italic>
          <bold>false</bold>
@@ -45,7 +45,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 75 26pt &quot;MS Shell Dlg 2&quot;;</string>
+        <string notr="true">font: 75 20pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
         <string>SMR-Interfaz de personal de puesta en marcha</string>
@@ -58,7 +58,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="4,8">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0,2,2,0">
+        <layout class="QVBoxLayout" name="verticalLayout_10" stretch="2,1,0">
          <property name="spacing">
           <number>5</number>
          </property>
@@ -68,53 +68,6 @@
          <property name="rightMargin">
           <number>20</number>
          </property>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_31" stretch="4,4">
-           <property name="leftMargin">
-            <number>40</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>40</number>
-           </property>
-           <item>
-            <widget class="QLabel" name="label_22">
-             <property name="styleSheet">
-              <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
-             </property>
-             <property name="text">
-              <string>IP Broker:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="ip_broker">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::ClickFocus</enum>
-             </property>
-             <property name="inputMask">
-              <string/>
-             </property>
-             <property name="maxLength">
-              <number>32762</number>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="placeholderText">
-              <string notr="true">192.168.___.___</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="4,2">
            <property name="leftMargin">
@@ -154,13 +107,16 @@
               <bool>false</bool>
              </property>
              <property name="currentSection">
-              <enum>QDateTimeEdit::MinuteSection</enum>
+              <enum>QDateTimeEdit::SecondSection</enum>
              </property>
              <property name="displayFormat">
               <string>mm:ss</string>
              </property>
              <property name="calendarPopup">
               <bool>false</bool>
+             </property>
+             <property name="currentSectionIndex">
+              <number>1</number>
              </property>
              <property name="time">
               <time>
@@ -249,8 +205,8 @@
           <property name="geometry">
            <rect>
             <x>20</x>
-            <y>40</y>
-            <width>451</width>
+            <y>30</y>
+            <width>431</width>
             <height>80</height>
            </rect>
           </property>
@@ -457,44 +413,14 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="15,9">
+      <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="12,9">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,15,1,15,0">
+        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="15,15,0">
          <item>
-          <widget class="QLabel" name="label_5">
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Grafico FFT anterior</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="fft_ant"/>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2"/>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_15">
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Grafico FFT posterior</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_14"/>
+          <layout class="QVBoxLayout" name="fft_pos"/>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,1,10,2">
@@ -552,16 +478,19 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_11" stretch="4,0,13,9">
+        <layout class="QVBoxLayout" name="verticalLayout_11" stretch="6,0,13,10">
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_29" stretch="10,0">
            <property name="bottomMargin">
-            <number>20</number>
+            <number>10</number>
            </property>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="4,2">
+            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="7,6">
+             <property name="spacing">
+              <number>4</number>
+             </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="9,4">
+              <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="9,5">
                <item>
                 <widget class="QLabel" name="label_7">
                  <property name="styleSheet">
@@ -594,7 +523,7 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>11</pointsize>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
                <property name="value">
@@ -631,7 +560,42 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_30">
+          <layout class="QHBoxLayout" name="horizontalLayout_30" stretch="1,2,1,1,3">
+           <property name="leftMargin">
+            <number>55</number>
+           </property>
+           <property name="rightMargin">
+            <number>15</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="led_ant">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel#led_ant {
+    background-color: red;
+    border-radius: 10px;
+    border: 2px solid darkred;
+}</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="scaledContents">
+              <bool>true</bool>
+             </property>
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::TextSelectableByMouse</set>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="QLabel" name="label_16">
              <property name="font">
@@ -654,6 +618,35 @@
             <widget class="Line" name="line_3">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="led_pos">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel#led_pos {
+    background-color: red;
+    border-radius: 10px;
+    border: 2px solid darkred;
+}</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="scaledContents">
+              <bool>true</bool>
+             </property>
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::TextSelectableByMouse</set>
              </property>
             </widget>
            </item>
@@ -694,10 +687,10 @@
            <widget class="QWidget" name="horizontalLayoutWidget_2">
             <property name="geometry">
              <rect>
-              <x>70</x>
+              <x>100</x>
               <y>20</y>
               <width>191</width>
-              <height>154</height>
+              <height>165</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_28">
@@ -763,14 +756,14 @@
                    <property name="font">
                     <font>
                      <family>MS Shell Dlg 2</family>
-                     <pointsize>12</pointsize>
+                     <pointsize>11</pointsize>
                      <weight>50</weight>
                      <italic>false</italic>
                      <bold>false</bold>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
                    </property>
                    <property name="text">
                     <string>BPFO</string>
@@ -815,14 +808,14 @@
                    <property name="font">
                     <font>
                      <family>MS Shell Dlg 2</family>
-                     <pointsize>12</pointsize>
+                     <pointsize>11</pointsize>
                      <weight>50</weight>
                      <italic>false</italic>
                      <bold>false</bold>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
                    </property>
                    <property name="text">
                     <string>BPFI</string>
@@ -865,7 +858,7 @@
                  <item>
                   <widget class="QLabel" name="label_27">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
                    </property>
                    <property name="text">
                     <string>FTF</string>
@@ -908,7 +901,7 @@
                  <item>
                   <widget class="QLabel" name="label_29">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
                    </property>
                    <property name="text">
                     <string>BSF</string>
@@ -983,7 +976,7 @@
                  <item>
                   <widget class="QLabel" name="label_19">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
                    </property>
                    <property name="text">
                     <string>BPFO</string>
@@ -1026,7 +1019,7 @@
                  <item>
                   <widget class="QLabel" name="label_21">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
                    </property>
                    <property name="text">
                     <string>BPFI</string>
@@ -1069,7 +1062,7 @@
                  <item>
                   <widget class="QLabel" name="label_28">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
                    </property>
                    <property name="text">
                     <string>FTF</string>
@@ -1112,7 +1105,7 @@
                  <item>
                   <widget class="QLabel" name="label_30">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
                    </property>
                    <property name="text">
                     <string>BSF</string>
@@ -1147,17 +1140,17 @@
            <widget class="QWidget" name="horizontalLayoutWidget">
             <property name="geometry">
              <rect>
-              <x>20</x>
+              <x>10</x>
               <y>20</y>
-              <width>291</width>
-              <height>101</height>
+              <width>371</width>
+              <height>121</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_26">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout">
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
+                <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="6,7">
                  <item>
                   <widget class="QLabel" name="label_2">
                    <property name="styleSheet">
@@ -1169,7 +1162,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLCDNumber" name="lcd_temperatura">
+                  <widget class="QLCDNumber" name="lcd_temp_ant">
                    <property name="font">
                     <font>
                      <family>MS Shell Dlg 2</family>
@@ -1186,7 +1179,7 @@
                     <bool>true</bool>
                    </property>
                    <property name="digitCount">
-                    <number>5</number>
+                    <number>6</number>
                    </property>
                    <property name="mode">
                     <enum>QLCDNumber::Dec</enum>
@@ -1205,7 +1198,7 @@
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1">
+                <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="6,7">
                  <item>
                   <widget class="QLabel" name="label_3">
                    <property name="styleSheet">
@@ -1217,12 +1210,12 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLCDNumber" name="lcd_vibra_axial">
+                  <widget class="QLCDNumber" name="lcd_axial_ant">
                    <property name="smallDecimalPoint">
                     <bool>true</bool>
                    </property>
                    <property name="digitCount">
-                    <number>5</number>
+                    <number>6</number>
                    </property>
                    <property name="segmentStyle">
                     <enum>QLCDNumber::Flat</enum>
@@ -1232,7 +1225,7 @@
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,1">
+                <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="6,7">
                  <item>
                   <widget class="QLabel" name="label_4">
                    <property name="styleSheet">
@@ -1244,12 +1237,12 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLCDNumber" name="lcd_vibra_longitudinal">
+                  <widget class="QLCDNumber" name="lcd_radial_ant">
                    <property name="smallDecimalPoint">
                     <bool>true</bool>
                    </property>
                    <property name="digitCount">
-                    <number>5</number>
+                    <number>6</number>
                    </property>
                    <property name="segmentStyle">
                     <enum>QLCDNumber::Flat</enum>
@@ -1270,7 +1263,7 @@
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_12">
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="1,1">
+                <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="6,7">
                  <item>
                   <widget class="QLabel" name="label_8">
                    <property name="styleSheet">
@@ -1282,12 +1275,12 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLCDNumber" name="lcd_temperatura_2">
+                  <widget class="QLCDNumber" name="lcd_temp_pos">
                    <property name="smallDecimalPoint">
                     <bool>true</bool>
                    </property>
                    <property name="digitCount">
-                    <number>5</number>
+                    <number>6</number>
                    </property>
                    <property name="mode">
                     <enum>QLCDNumber::Dec</enum>
@@ -1306,7 +1299,7 @@
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="1,1">
+                <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="6,7">
                  <item>
                   <widget class="QLabel" name="label_10">
                    <property name="styleSheet">
@@ -1318,12 +1311,12 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLCDNumber" name="lcd_vibra_axial_2">
+                  <widget class="QLCDNumber" name="lcd_axial_pos">
                    <property name="smallDecimalPoint">
                     <bool>true</bool>
                    </property>
                    <property name="digitCount">
-                    <number>5</number>
+                    <number>6</number>
                    </property>
                    <property name="segmentStyle">
                     <enum>QLCDNumber::Flat</enum>
@@ -1333,7 +1326,7 @@
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_25" stretch="1,1">
+                <layout class="QHBoxLayout" name="horizontalLayout_25" stretch="6,7">
                  <item>
                   <widget class="QLabel" name="label_13">
                    <property name="styleSheet">
@@ -1345,12 +1338,12 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLCDNumber" name="lcd_vibra_longitudinal_2">
+                  <widget class="QLCDNumber" name="lcd_radial_pos">
                    <property name="smallDecimalPoint">
                     <bool>true</bool>
                    </property>
                    <property name="digitCount">
-                    <number>5</number>
+                    <number>6</number>
                    </property>
                    <property name="segmentStyle">
                     <enum>QLCDNumber::Flat</enum>
