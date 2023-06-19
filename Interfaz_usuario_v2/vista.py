@@ -16,19 +16,21 @@ from modelo import *
 
 class Canvas_grafica(FigureCanvas):
     def __init__(self, ):
-        self.fig, self.ax = plt.subplots(1, dpi=80, figsize=(12,12), sharey=True, facecolor="none") 
+        self.fig, self.ax = plt.subplots(1, dpi=80, figsize=(12,12), sharey=True, facecolor="none")
+        self.fig.subplots_adjust(left=.12, bottom=.12, right=.98, top=.9) #Ajuste de escala de grafica
         super().__init__(self.fig)
-
+ 
         # Establecer límites del eje X e Y
         self.ax.set_xlim(-100, 19000)
         self.ax.set_ylim(-40, 60)
 
+        # Creo grilla
         for i in range(0, 19000, 1000):
             self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
         for j in range(-40, 60, 10):   
             self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
 
-        # Establecer estilo de fuente y tamaño
+        # Establece nombres de ejes y tamanio
         matplotlib.rcParams['font.size'] = 9
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
@@ -37,23 +39,24 @@ class Canvas_grafica(FigureCanvas):
         # Establecer límites del eje X e Y
         self.ax.set_xlim(-100, 19000)
         self.ax.set_ylim(-40, 60)
-
+        
+        # Creo grilla
         for i in range(0, 19000, 1000):
             self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
         for j in range(-40, 60, 10):   
             self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
             
-        # Establecer estilo de fuente y tamaño
+        # Establece nombres de ejes y tamanio
         matplotlib.rcParams['font.size'] = 9
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
 
+        # Convierto en lista, la fft en str recibido
         mag = mag_decode.split(',')
         self.mag = [float(value) for value in mag]
         self.ax.plot(freq, self.mag)
 
-        self.draw()  # Actualizar gráfico
-
+        self.draw()
 
 class Mainwindow(QMainWindow):
     def __init__(self, ):
@@ -65,6 +68,12 @@ class Mainwindow(QMainWindow):
 
         # Formato a qtimer
         self.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}")
+        self.ui.lcd_temp_ant.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_axial_ant.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_radial_ant.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_temp_pos.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_axial_pos.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_radial_pos.display(f"{0:02d}.{0:02d}")
 
         # Asigno rango default a qprogressbar
         self.ui.progress_bar_ensayo.setValue(0)
@@ -80,10 +89,19 @@ class Mainwindow(QMainWindow):
         self.grafica.ax.set_title("Rodamiento anterior")
         self.grafica2.ax.set_title("Rodamiento posterior")
 
-        # Deshabilito widgets que hasta que finalice configuracion
-        #self.ui.groupBox_time.setEnabled(False)
-        #self.ui.groupBox_leds.setEnabled(False)
-        #self.ui.groupBox_meas.setEnabled(False)
+        # Deshabilito widgets hasta que finalice configuracion
+        self.ui.btn_finish.setEnabled(False)
+        self.ui.led_ant.setEnabled(False)
+        self.ui.led_pos.setEnabled(False)
+        self.ui.lcd_time_ensayo.setEnabled(False)
+        self.ui.progress_bar_ensayo.setEnabled(False)
+        self.ui.btn_forzar.setEnabled(False)
+        self.ui.lcd_temp_ant.setEnabled(False)
+        self.ui.lcd_axial_ant.setEnabled(False)
+        self.ui.lcd_radial_ant.setEnabled(False)
+        self.ui.lcd_temp_pos.setEnabled(False)
+        self.ui.lcd_axial_pos.setEnabled(False)
+        self.ui.lcd_radial_pos.setEnabled(False)
 
         self.ui.notificacion.setText("Esperando configuracion")
 

@@ -11,8 +11,6 @@ class Mqtt:
         self.client = mqtt.Client()
         self.broker_host = broker_host
         self.broker_port = broker_port
-        self.topic = None
-        self.msg = None
         self.temp_obj = 0.0
         self.acel_axial = 0.0
         self.acel_radial = 0.0
@@ -20,7 +18,7 @@ class Mqtt:
         self.pres_bpfo = 0
         self.pres_bsf = 0
         self.pres_ftf = 0
-        self.fft = "0"
+        self.fft = False
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
@@ -41,13 +39,13 @@ class Mqtt:
         self.topic = msg.topic
         self.msg = msg.payload.decode()
 
-        # Verifico si hay datos recibidos por broker
+        # Verifico si hay datos recibidos por broker y doy formato
         if self.topic == "rodAnt/tempObj":
             self.temp_obj = "{:.2f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelAxial":
-            self.acel_axial = "{:.2f}".format(float(self.msg)) 
+            self.acel_axial = "{:.3f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelRadial":
-            self.acel_radial = "{:.2f}".format(float(self.msg)) 
+            self.acel_radial = "{:.3f}".format(float(self.msg)) 
         if self.topic == "rodAnt/presBPFO":
             self.pres_bpfo = self.msg
         if self.topic == "rodAnt/presBPFI":
@@ -71,8 +69,8 @@ class Measure():
     def __init__(self):
         super().__init__()
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        #self.mqtt_obj = Mqtt("192.168.1.108", 1883)
-        self.mqtt_obj = Mqtt("192.168.68.203", 1883)       
+        self.mqtt_obj = Mqtt("192.168.1.107", 1883)
+        #self.mqtt_obj = Mqtt("192.168.68.203", 1883)       
         self.cont_ensayos = 1
 
         self.freq = []
@@ -80,19 +78,29 @@ class Measure():
             self.freq.append(37*i)
 
     def init_conf(self, ):
-        #self.menu.ui.groupBox_time.setEnabled(False)
-        self.menu.ui.groupBox_leds.setEnabled(False)
-        self.menu.ui.groupBox_meas.setEnabled(False)
-
         self.menu.ui.time_ensayo.setEnabled(True)
-
+        self.menu.ui.time_standby.setEnabled(True)
+        self.menu.ui.btn_finish.setEnabled(False)
+        self.menu.ui.btn_init.setEnabled(True)
+        
         self.menu.ui.groupBox_freq.setEnabled(True)
         self.menu.ui.slider_bpfo.setEnabled(True)
         self.menu.ui.slider_bpfi.setEnabled(True)
         self.menu.ui.slider_ftf.setEnabled(True)
         self.menu.ui.slider_bsf.setEnabled(True)
 
-        self.menu.ui.btn_init.setEnabled(True)
+        self.menu.ui.led_ant.setEnabled(False)
+        self.menu.ui.led_pos.setEnabled(False)
+        self.menu.ui.lcd_time_ensayo.setEnabled(False)
+        self.menu.ui.progress_bar_ensayo.setEnabled(False)
+        self.menu.ui.btn_forzar.setEnabled(False)
+
+        self.menu.ui.lcd_temp_ant.setEnabled(False)
+        self.menu.ui.lcd_axial_ant.setEnabled(False)
+        self.menu.ui.lcd_radial_ant.setEnabled(False)
+        self.menu.ui.lcd_temp_pos.setEnabled(False)
+        self.menu.ui.lcd_axial_pos.setEnabled(False)
+        self.menu.ui.lcd_radial_pos.setEnabled(False)
 
         self.notificacion("Esperando configuracion")
         self.menu.ui.progress_bar_programa.setValue(0)
@@ -105,28 +113,29 @@ class Measure():
         self.menu = menu
         self.mqtt_obj.start()
 
-        # Obtener valor de tiempo de cada ensayo
-        self.selected_time = self.menu.ui.time_ensayo.time() # va a cambiar por addSecs()
-        # Se debe obtener los segundos totales para determinar el rango de la progressbar(valores fijos)
+        # Obtengo tiempo de cada ensayo
+        self.selected_time = self.menu.ui.time_ensayo.time()
         self.minutes = self.selected_time.minute()
         self.seconds = self.selected_time.second()
         self.seconds_total = (self.minutes * 60 + self.seconds)
         self.seconds_total_aux = self.seconds_total
 
-        self.seconds_standby = 10  # Valor ramdom de standby
-        self.seconds_standby_aux = self.seconds_standby  # Valor ramdom de standby
+        # Obtengo tiempo de intervalo entre ensayo
+        self.seconds_standby = self.menu.ui.time_standby.time().second()
+        self.seconds_standby_aux = self.seconds_standby
+        
         # Asigno rango dinamico a progressbar
         self.menu.ui.progress_bar_ensayo.setRange(0, int(self.seconds_total))
         self.menu.ui.progress_bar_programa.setRange(0, 5)
 
-        # Obtener configuracion de frecuencias a buscar
+        # Obtengo de frecuencias a buscar
         self.freq_bpfo = str(self.menu.ui.slider_bpfo.value())
         self.freq_bpfi = str(self.menu.ui.slider_bpfi.value())
         self.freq_ftf = str(self.menu.ui.slider_ftf.value())
         self.freq_bsf = str(self.menu.ui.slider_bsf.value())
         
-        print("Tiempo seleccionado:"+ str(self.seconds_total)+ "seg")
-        
+        print("Tiempo de ensayo:"+ str(self.seconds_total)+ "seg")
+        print("Tiempo de intervalo:"+ str(self.seconds_standby)+ "seg")
         print("Frecuencia BPFO: "+ self.freq_bpfo+ "Hz")
         print("Frecuencia BPFI: "+ self.freq_bpfi+ "Hz")
         print("Frecuencia FTF: "+ self.freq_ftf+ "Hz")
@@ -146,6 +155,7 @@ class Measure():
     def init_ensayos(self, ):
         # Bloquear acceso a ciertos widgets hasta que termine el sistema
         self.menu.ui.time_ensayo.setEnabled(False)
+        self.menu.ui.time_standby.setEnabled(False)
 
         self.menu.ui.groupBox_freq.setEnabled(False)
         self.menu.ui.slider_bpfo.setEnabled(False)
@@ -154,11 +164,20 @@ class Measure():
         self.menu.ui.slider_bsf.setEnabled(False)
 
         self.menu.ui.btn_init.setEnabled(False)
+        self.menu.ui.btn_finish.setEnabled(True)
 
         # Habilito widgets para ver datos
-        #self.menu.ui.groupBox_time.setEnabled(True)
-        self.menu.ui.groupBox_leds.setEnabled(True)
-        self.menu.ui.groupBox_meas.setEnabled(True)
+        self.menu.ui.led_ant.setEnabled(True)
+        self.menu.ui.led_pos.setEnabled(True)
+        self.menu.ui.lcd_time_ensayo.setEnabled(True)
+        self.menu.ui.progress_bar_ensayo.setEnabled(True)
+        self.menu.ui.btn_forzar.setEnabled(True)
+        self.menu.ui.lcd_temp_ant.setEnabled(True)
+        self.menu.ui.lcd_axial_ant.setEnabled(True)
+        self.menu.ui.lcd_radial_ant.setEnabled(True)
+        self.menu.ui.lcd_temp_pos.setEnabled(True)
+        self.menu.ui.lcd_axial_pos.setEnabled(True)
+        self.menu.ui.lcd_radial_pos.setEnabled(True)
 
         # Habilito suscripciones
         self.mqtt_obj.suscrip("rodAnt/fft")
@@ -191,14 +210,13 @@ class Measure():
         # Se detiene contador para que no siga con parte negativa
         if self.seconds_total<0 : 
             self.menu.timer1.stop()
-            print("Finalizo contador")
             # Cargo valor a progressbar cada vez que finaliza un ensayo
             self.menu.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
             # Reseteo 'leds'
-            self.menu.ui.led_bpfo.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-            self.menu.ui.led_bpfi.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-            self.menu.ui.led_bsf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-            self.menu.ui.led_ftf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_bpfo_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_bpfi_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_bsf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_ftf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
 
             # Desuscricpion cada vez que termine programa
             self.mqtt_obj.desuscrip("rodAnt/fft")
@@ -225,7 +243,6 @@ class Measure():
         # Se detiene contador para que no siga con parte negativa
         if self.seconds_standby<0 : 
             self.menu.timer2.stop()
-            print("Finalizo contador 2")
             # Habilito suscripciones
             self.mqtt_obj.suscrip("rodAnt/fft")
             self.mqtt_obj.suscrip("rodAnt/tempObj")
@@ -238,7 +255,6 @@ class Measure():
 
             self.menu.timer1.start(1000)
             self.seconds_standby = self.seconds_standby_aux
-
             self.cont_ensayos = self.cont_ensayos +1
 
     """
@@ -271,26 +287,26 @@ class Measure():
     """
     def data_recive(self, ):
         # Reseteo 'leds'
-        self.menu.ui.led_bpfo.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-        self.menu.ui.led_bpfi.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-        self.menu.ui.led_bsf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-        self.menu.ui.led_ftf.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.menu.ui.led_bpfo_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.menu.ui.led_bpfi_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.menu.ui.led_bsf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.menu.ui.led_ftf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
 
         # Muestro datos recibidos por qlcd
         if self.mqtt_obj.temp_obj:
-            self.menu.ui.lcd_temperatura.display(self.mqtt_obj.temp_obj)
+            self.menu.ui.lcd_temp_ant.display(self.mqtt_obj.temp_obj)
         if self.mqtt_obj.acel_axial:
-            self.menu.ui.lcd_vibra_axial.display(self.mqtt_obj.acel_axial)
+            self.menu.ui.lcd_axial_ant.display(self.mqtt_obj.acel_axial)
         if self.mqtt_obj.acel_radial:
-            self.menu.ui.lcd_vibra_radial.display(self.mqtt_obj.acel_radial)
+            self.menu.ui.lcd_radial_ant.display(self.mqtt_obj.acel_radial)
         if self.mqtt_obj.pres_bpfo == 1:
-            self.menu.ui.led_bpfo.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.menu.ui.led_bpfo_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_bpfi == 1:
-            self.menu.ui.led_bpfi.setStyleSheet("background-color: gree; border-radius: 10px; border: 2px solid darkgreen;")
+            self.menu.ui.led_bpfi_ant.setStyleSheet("background-color: gree; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_bsf == 1:
-            self.menu.ui.led_bsf.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.menu.ui.led_bsf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_ftf == 1:
-            self.menu.ui.led_ftf.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.menu.ui.led_ftf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.fft:
             self.menu.grafica.ax.clear()  # Borrar el contenido del subplot
             self.menu.grafica.ax.set_title("Rodamiento anterior")

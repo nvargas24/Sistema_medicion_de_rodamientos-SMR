@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1097, 699)
+        MainWindow.resize(1083, 699)
         MainWindow.setStyleSheet(u"background-color: rgb(234, 234, 234);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -75,6 +75,7 @@ class Ui_MainWindow(object):
         self.time_ensayo.setCurrentSection(QDateTimeEdit.SecondSection)
         self.time_ensayo.setCalendarPopup(False)
         self.time_ensayo.setCurrentSectionIndex(1)
+        self.time_ensayo.setTimeSpec(Qt.LocalTime)
         self.time_ensayo.setTime(QTime(0, 0, 30))
 
         self.horizontalLayout_10.addWidget(self.time_ensayo)
@@ -104,7 +105,7 @@ class Ui_MainWindow(object):
         self.time_standby.setCurrentSection(QDateTimeEdit.SecondSection)
         self.time_standby.setCalendarPopup(False)
         self.time_standby.setCurrentSectionIndex(1)
-        self.time_standby.setTime(QTime(0, 0, 30))
+        self.time_standby.setTime(QTime(0, 0, 10))
 
         self.horizontalLayout_19.addWidget(self.time_standby)
 
@@ -144,20 +145,20 @@ class Ui_MainWindow(object):
         self.groupBox_freq = QGroupBox(self.verticalLayoutWidget_2)
         self.groupBox_freq.setObjectName(u"groupBox_freq")
         self.groupBox_freq.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
-        self.widget = QWidget(self.groupBox_freq)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(20, 30, 261, 151))
-        self.verticalLayout_5 = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(self.groupBox_freq)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(20, 30, 261, 151))
+        self.verticalLayout_5 = QVBoxLayout(self.layoutWidget)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.label_12 = QLabel(self.widget)
+        self.label_12 = QLabel(self.layoutWidget)
         self.label_12.setObjectName(u"label_12")
 
         self.horizontalLayout_8.addWidget(self.label_12)
 
-        self.slider_ftf = QSlider(self.widget)
+        self.slider_ftf = QSlider(self.layoutWidget)
         self.slider_ftf.setObjectName(u"slider_ftf")
         self.slider_ftf.setMinimum(100)
         self.slider_ftf.setMaximum(19000)
@@ -169,7 +170,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_8.addWidget(self.slider_ftf)
 
-        self.label_slider_ftf = QLabel(self.widget)
+        self.label_slider_ftf = QLabel(self.layoutWidget)
         self.label_slider_ftf.setObjectName(u"label_slider_ftf")
 
         self.horizontalLayout_8.addWidget(self.label_slider_ftf)
@@ -181,12 +182,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_9 = QHBoxLayout()
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.label_14 = QLabel(self.widget)
+        self.label_14 = QLabel(self.layoutWidget)
         self.label_14.setObjectName(u"label_14")
 
         self.horizontalLayout_9.addWidget(self.label_14)
 
-        self.slider_bsf = QSlider(self.widget)
+        self.slider_bsf = QSlider(self.layoutWidget)
         self.slider_bsf.setObjectName(u"slider_bsf")
         self.slider_bsf.setMinimum(100)
         self.slider_bsf.setMaximum(19000)
@@ -198,7 +199,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_9.addWidget(self.slider_bsf)
 
-        self.label_slider_bsf = QLabel(self.widget)
+        self.label_slider_bsf = QLabel(self.layoutWidget)
         self.label_slider_bsf.setObjectName(u"label_slider_bsf")
 
         self.horizontalLayout_9.addWidget(self.label_slider_bsf)
@@ -210,12 +211,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.label_9 = QLabel(self.widget)
+        self.label_9 = QLabel(self.layoutWidget)
         self.label_9.setObjectName(u"label_9")
 
         self.horizontalLayout_6.addWidget(self.label_9)
 
-        self.slider_bpfo = QSlider(self.widget)
+        self.slider_bpfo = QSlider(self.layoutWidget)
         self.slider_bpfo.setObjectName(u"slider_bpfo")
         self.slider_bpfo.setMinimum(100)
         self.slider_bpfo.setMaximum(19000)
@@ -229,7 +230,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_6.addWidget(self.slider_bpfo)
 
-        self.label_slider_bpfo = QLabel(self.widget)
+        self.label_slider_bpfo = QLabel(self.layoutWidget)
         self.label_slider_bpfo.setObjectName(u"label_slider_bpfo")
 
         self.horizontalLayout_6.addWidget(self.label_slider_bpfo)
@@ -241,12 +242,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.label_11 = QLabel(self.widget)
+        self.label_11 = QLabel(self.layoutWidget)
         self.label_11.setObjectName(u"label_11")
 
         self.horizontalLayout_7.addWidget(self.label_11)
 
-        self.slider_bpfi = QSlider(self.widget)
+        self.slider_bpfi = QSlider(self.layoutWidget)
         self.slider_bpfi.setObjectName(u"slider_bpfi")
         self.slider_bpfi.setMinimum(100)
         self.slider_bpfi.setMaximum(19000)
@@ -258,7 +259,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_7.addWidget(self.slider_bpfi)
 
-        self.label_slider_bpfi = QLabel(self.widget)
+        self.label_slider_bpfi = QLabel(self.layoutWidget)
         self.label_slider_bpfi.setObjectName(u"label_slider_bpfi")
 
         self.horizontalLayout_7.addWidget(self.label_slider_bpfi)
@@ -671,6 +672,7 @@ class Ui_MainWindow(object):
         self.layout_pos.addLayout(self.fft_pos)
 
         self.fallas_pos = QVBoxLayout()
+        self.fallas_pos.setSpacing(7)
         self.fallas_pos.setObjectName(u"fallas_pos")
         self.fallas_pos.setContentsMargins(-1, 50, -1, 50)
         self.horizontalLayout_15 = QHBoxLayout()

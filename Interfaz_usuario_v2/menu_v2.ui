@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1097</width>
+    <width>1083</width>
     <height>699</height>
    </rect>
   </property>
@@ -124,6 +124,9 @@ background-color: rgb(255, 255, 255);</string>
                <property name="currentSectionIndex">
                 <number>1</number>
                </property>
+               <property name="timeSpec">
+                <enum>Qt::LocalTime</enum>
+               </property>
                <property name="time">
                 <time>
                  <hour>0</hour>
@@ -190,7 +193,7 @@ background-color: rgb(255, 255, 255);</string>
                 <time>
                  <hour>0</hour>
                  <minute>0</minute>
-                 <second>30</second>
+                 <second>10</second>
                 </time>
                </property>
               </widget>
@@ -252,7 +255,7 @@ background-color: rgb(255, 255, 255);</string>
            <property name="title">
             <string>Frecuencias a detectar</string>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
              <rect>
               <x>20</x>
@@ -1075,6 +1078,9 @@ background-color: rgb(255, 255, 255);</string>
            </item>
            <item>
             <layout class="QVBoxLayout" name="fallas_pos">
+             <property name="spacing">
+              <number>7</number>
+             </property>
              <property name="topMargin">
               <number>50</number>
              </property>
