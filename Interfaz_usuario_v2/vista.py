@@ -82,8 +82,8 @@ class Mainwindow(QMainWindow):
 
         # Deshabilito widgets que hasta que finalice configuracion
         #self.ui.groupBox_time.setEnabled(False)
-        self.ui.groupBox_leds.setEnabled(False)
-        self.ui.groupBox_meas.setEnabled(False)
+        #self.ui.groupBox_leds.setEnabled(False)
+        #self.ui.groupBox_meas.setEnabled(False)
 
         self.ui.notificacion.setText("Esperando configuracion")
 
