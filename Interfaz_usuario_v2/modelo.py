@@ -389,7 +389,7 @@ class Measure():
             self.mqtt_obj.pres_ftf_pos = False
         if self.mqtt_obj.fft_pos:
             self.menu.grafica2.ax.clear()  # Borrar el contenido del subplot
-            self.menu.grafica2.ax.set_title("Rodamiento Posterior")
+            self.menu.grafica2.ax.set_title("Rodamiento posterior")
             self.menu.grafica2.upgrade_fft(self.freq, self.mqtt_obj.fft_pos)
 
         # Reseteo buffer para topic y msg
