@@ -151,64 +151,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_5 = QVBoxLayout(self.layoutWidget)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_8 = QHBoxLayout()
-        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.label_12 = QLabel(self.layoutWidget)
-        self.label_12.setObjectName(u"label_12")
-
-        self.horizontalLayout_8.addWidget(self.label_12)
-
-        self.slider_ftf = QSlider(self.layoutWidget)
-        self.slider_ftf.setObjectName(u"slider_ftf")
-        self.slider_ftf.setMinimum(100)
-        self.slider_ftf.setMaximum(19000)
-        self.slider_ftf.setSingleStep(500)
-        self.slider_ftf.setPageStep(500)
-        self.slider_ftf.setValue(900)
-        self.slider_ftf.setOrientation(Qt.Horizontal)
-        self.slider_ftf.setTickInterval(500)
-
-        self.horizontalLayout_8.addWidget(self.slider_ftf)
-
-        self.label_slider_ftf = QLabel(self.layoutWidget)
-        self.label_slider_ftf.setObjectName(u"label_slider_ftf")
-
-        self.horizontalLayout_8.addWidget(self.label_slider_ftf)
-
-        self.horizontalLayout_8.setStretch(1, 6)
-        self.horizontalLayout_8.setStretch(2, 4)
-
-        self.verticalLayout_5.addLayout(self.horizontalLayout_8)
-
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.label_14 = QLabel(self.layoutWidget)
-        self.label_14.setObjectName(u"label_14")
-
-        self.horizontalLayout_9.addWidget(self.label_14)
-
-        self.slider_bsf = QSlider(self.layoutWidget)
-        self.slider_bsf.setObjectName(u"slider_bsf")
-        self.slider_bsf.setMinimum(100)
-        self.slider_bsf.setMaximum(19000)
-        self.slider_bsf.setSingleStep(500)
-        self.slider_bsf.setPageStep(500)
-        self.slider_bsf.setValue(500)
-        self.slider_bsf.setOrientation(Qt.Horizontal)
-        self.slider_bsf.setTickInterval(500)
-
-        self.horizontalLayout_9.addWidget(self.slider_bsf)
-
-        self.label_slider_bsf = QLabel(self.layoutWidget)
-        self.label_slider_bsf.setObjectName(u"label_slider_bsf")
-
-        self.horizontalLayout_9.addWidget(self.label_slider_bsf)
-
-        self.horizontalLayout_9.setStretch(1, 6)
-        self.horizontalLayout_9.setStretch(2, 4)
-
-        self.verticalLayout_5.addLayout(self.horizontalLayout_9)
-
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.label_9 = QLabel(self.layoutWidget)
@@ -268,6 +210,64 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.setStretch(2, 4)
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_7)
+
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.label_12 = QLabel(self.layoutWidget)
+        self.label_12.setObjectName(u"label_12")
+
+        self.horizontalLayout_8.addWidget(self.label_12)
+
+        self.slider_ftf = QSlider(self.layoutWidget)
+        self.slider_ftf.setObjectName(u"slider_ftf")
+        self.slider_ftf.setMinimum(100)
+        self.slider_ftf.setMaximum(19000)
+        self.slider_ftf.setSingleStep(500)
+        self.slider_ftf.setPageStep(500)
+        self.slider_ftf.setValue(900)
+        self.slider_ftf.setOrientation(Qt.Horizontal)
+        self.slider_ftf.setTickInterval(500)
+
+        self.horizontalLayout_8.addWidget(self.slider_ftf)
+
+        self.label_slider_ftf = QLabel(self.layoutWidget)
+        self.label_slider_ftf.setObjectName(u"label_slider_ftf")
+
+        self.horizontalLayout_8.addWidget(self.label_slider_ftf)
+
+        self.horizontalLayout_8.setStretch(1, 6)
+        self.horizontalLayout_8.setStretch(2, 4)
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_8)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.label_14 = QLabel(self.layoutWidget)
+        self.label_14.setObjectName(u"label_14")
+
+        self.horizontalLayout_9.addWidget(self.label_14)
+
+        self.slider_bsf = QSlider(self.layoutWidget)
+        self.slider_bsf.setObjectName(u"slider_bsf")
+        self.slider_bsf.setMinimum(100)
+        self.slider_bsf.setMaximum(19000)
+        self.slider_bsf.setSingleStep(500)
+        self.slider_bsf.setPageStep(500)
+        self.slider_bsf.setValue(500)
+        self.slider_bsf.setOrientation(Qt.Horizontal)
+        self.slider_bsf.setTickInterval(500)
+
+        self.horizontalLayout_9.addWidget(self.slider_bsf)
+
+        self.label_slider_bsf = QLabel(self.layoutWidget)
+        self.label_slider_bsf.setObjectName(u"label_slider_bsf")
+
+        self.horizontalLayout_9.addWidget(self.label_slider_bsf)
+
+        self.horizontalLayout_9.setStretch(1, 6)
+        self.horizontalLayout_9.setStretch(2, 4)
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_9)
 
 
         self.configuraciones.addWidget(self.groupBox_freq)
@@ -941,14 +941,14 @@ class Ui_MainWindow(object):
         self.btn_finish.setText(QCoreApplication.translate("MainWindow", u"Finalizar", None))
         self.btn_init.setText(QCoreApplication.translate("MainWindow", u"Iniciar", None))
         self.groupBox_freq.setTitle(QCoreApplication.translate("MainWindow", u"Frecuencias a detectar", None))
-        self.label_12.setText(QCoreApplication.translate("MainWindow", u"FTF", None))
-        self.label_slider_ftf.setText("")
-        self.label_14.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
-        self.label_slider_bsf.setText("")
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"BPFO", None))
         self.label_slider_bpfo.setText("")
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"BPFI", None))
         self.label_slider_bpfi.setText("")
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"FTF", None))
+        self.label_slider_ftf.setText("")
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
+        self.label_slider_bsf.setText("")
         self.notificacion.setText("")
         self.led_ant.setText("")
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Anterior", None))

@@ -272,92 +272,6 @@ background-color: rgb(255, 255, 255);</string>
               <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,6,4">
-               <item>
-                <widget class="QLabel" name="label_12">
-                 <property name="text">
-                  <string>FTF</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="slider_ftf">
-                 <property name="minimum">
-                  <number>100</number>
-                 </property>
-                 <property name="maximum">
-                  <number>19000</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>500</number>
-                 </property>
-                 <property name="pageStep">
-                  <number>500</number>
-                 </property>
-                 <property name="value">
-                  <number>900</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="tickInterval">
-                  <number>500</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_slider_ftf">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,6,4">
-               <item>
-                <widget class="QLabel" name="label_14">
-                 <property name="text">
-                  <string>BSF</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="slider_bsf">
-                 <property name="minimum">
-                  <number>100</number>
-                 </property>
-                 <property name="maximum">
-                  <number>19000</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>500</number>
-                 </property>
-                 <property name="pageStep">
-                  <number>500</number>
-                 </property>
-                 <property name="value">
-                  <number>500</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="tickInterval">
-                  <number>500</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_slider_bsf">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
               <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,6,4">
                <item>
                 <widget class="QLabel" name="label_9">
@@ -442,6 +356,92 @@ background-color: rgb(255, 255, 255);</string>
                </item>
                <item>
                 <widget class="QLabel" name="label_slider_bpfi">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,6,4">
+               <item>
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>FTF</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="slider_ftf">
+                 <property name="minimum">
+                  <number>100</number>
+                 </property>
+                 <property name="maximum">
+                  <number>19000</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>500</number>
+                 </property>
+                 <property name="pageStep">
+                  <number>500</number>
+                 </property>
+                 <property name="value">
+                  <number>900</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="tickInterval">
+                  <number>500</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_slider_ftf">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,6,4">
+               <item>
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>BSF</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="slider_bsf">
+                 <property name="minimum">
+                  <number>100</number>
+                 </property>
+                 <property name="maximum">
+                  <number>19000</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>500</number>
+                 </property>
+                 <property name="pageStep">
+                  <number>500</number>
+                 </property>
+                 <property name="value">
+                  <number>500</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="tickInterval">
+                  <number>500</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_slider_bsf">
                  <property name="text">
                   <string/>
                  </property>
