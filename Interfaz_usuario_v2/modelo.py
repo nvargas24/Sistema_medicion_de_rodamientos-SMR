@@ -156,10 +156,10 @@ class Measure():
         self.menu.ui.progress_bar_programa.setRange(0, 5)
 
         # Obtengo de frecuencias a buscar
-        self.freq_bpfo = str(self.menu.ui.slider_bpfo.value())
-        self.freq_bpfi = str(self.menu.ui.slider_bpfi.value())
-        self.freq_ftf = str(self.menu.ui.slider_ftf.value())
-        self.freq_bsf = str(self.menu.ui.slider_bsf.value())
+        self.freq_bpfo = str(round(self.menu.ui.slider_bpfo.value() / 500) * 500)
+        self.freq_bpfi = str(round(self.menu.ui.slider_bpfi.value() / 500) * 500)
+        self.freq_ftf = str(round(self.menu.ui.slider_ftf.value() / 500) * 500)
+        self.freq_bsf = str(round(self.menu.ui.slider_bsf.value() / 500) * 500)
         
         print("Tiempo de ensayo:"+ str(self.seconds_total)+ "seg")
         print("Tiempo de intervalo:"+ str(self.seconds_standby)+ "seg")

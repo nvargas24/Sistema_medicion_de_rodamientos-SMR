@@ -110,7 +110,7 @@ class Mainwindow(QMainWindow):
         self.ui.btn_finish.clicked.connect(self.close)
         self.ui.btn_init.clicked.connect(lambda: self.measure.finish_conf(self))
         self.ui.btn_forzar.clicked.connect(self.measure.finish_ensayo)
-        
+
         # Se obtiene valor default de slider para label
         self.ui.label_slider_bpfo.setText(f"{self.ui.slider_bpfo.value()}Hz")
         self.ui.label_slider_bpfi.setText(f"{self.ui.slider_bpfi.value()}Hz")
@@ -118,10 +118,10 @@ class Mainwindow(QMainWindow):
         self.ui.label_slider_bsf.setText(f"{self.ui.slider_bsf.value()}Hz")
 
         # Obtiene valor de slider al realizar un cambio y mostrar en label
-        self.ui.slider_bpfo.valueChanged.connect(self.on_slider_bpfo_value_changed)
-        self.ui.slider_bpfi.valueChanged.connect(self.on_slider_bpfi_value_changed)
-        self.ui.slider_ftf.valueChanged.connect(self.on_slider_ftf_value_changed)
-        self.ui.slider_bsf.valueChanged.connect(self.on_slider_bsf_value_changed)
+        self.ui.slider_bpfo.valueChanged.connect(self.on_slider_value_changed)
+        self.ui.slider_bpfi.valueChanged.connect(self.on_slider_value_changed)
+        self.ui.slider_ftf.valueChanged.connect(self.on_slider_value_changed)
+        self.ui.slider_bsf.valueChanged.connect(self.on_slider_value_changed)
 
         # Creo contador asociado a un metodo que inicia el conteo
         self.timer1 = QTimer(self)
@@ -130,14 +130,14 @@ class Mainwindow(QMainWindow):
         self.timer1.timeout.connect(self.measure.timer_ensayo)
         self.timer2.timeout.connect(self.measure.timer_standby)
 
-    def on_slider_bpfo_value_changed(self, value):
-        self.ui.label_slider_bpfo.setText(f"{value}Hz")
-
-    def on_slider_bpfi_value_changed(self, value):
-        self.ui.label_slider_bpfi.setText(f"{value}Hz")
-
-    def on_slider_ftf_value_changed(self, value):
-        self.ui.label_slider_ftf.setText(f"{value}Hz")
-    
-    def on_slider_bsf_value_changed(self, value):
-        self.ui.label_slider_bsf.setText(f"{value}Hz")
+    def on_slider_value_changed(self, value):
+        rounded_value = round(value / 500) * 500
+        sender = self.sender()
+        if sender == self.ui.slider_bpfo:
+            self.ui.label_slider_bpfo.setText(f"{rounded_value}Hz")
+        elif sender == self.ui.slider_bpfi:
+            self.ui.label_slider_bpfi.setText(f"{rounded_value}Hz")
+        elif sender == self.ui.slider_ftf:
+            self.ui.label_slider_ftf.setText(f"{rounded_value}Hz")
+        elif sender == self.ui.slider_bsf:
+            self.ui.label_slider_bsf.setText(f"{rounded_value}Hz")
