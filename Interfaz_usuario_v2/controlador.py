@@ -9,7 +9,8 @@ from vista import *
 
 class Controlador():
     def __init__(self, ):
-        self.menu = Mainwindow() 
+        self.menu = Mainwindow()
+        self.menu.setFixedSize(self.menu.size())  
         self.menu.show() 
         try:
             print("Abro menu de app_stock")            
