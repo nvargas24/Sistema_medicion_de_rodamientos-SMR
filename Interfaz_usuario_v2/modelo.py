@@ -11,14 +11,24 @@ class Mqtt:
         self.client = mqtt.Client()
         self.broker_host = broker_host
         self.broker_port = broker_port
-        self.temp_obj = 0.0
-        self.acel_axial = 0.0
-        self.acel_radial = 0.0
-        self.pres_bpfi = 0
-        self.pres_bpfo = 0
-        self.pres_bsf = 0
-        self.pres_ftf = 0
-        self.fft = False
+
+        self.temp_obj_ant = 0.0
+        self.acel_axial_ant = 0.0
+        self.acel_radial_ant = 0.0
+        self.pres_bpfi_ant = False
+        self.pres_bpfo_ant = False
+        self.pres_bsf_ant = False
+        self.pres_ftf_ant = False
+        self.fft_ant = False
+
+        self.temp_obj_pos = 0.0
+        self.acel_axial_pos = 0.0
+        self.acel_radial_pos = 0.0
+        self.pres_bpfi_pos = False
+        self.pres_bpfo_pos = False
+        self.pres_bsf_pos = False
+        self.pres_ftf_pos = False
+        self.fft_pos = False
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
@@ -35,27 +45,44 @@ class Mqtt:
         self.client.publish(topic, message)
 
     def on_message(self, client, userdata, msg):
-        print(f"Mensaje recibido en el tópico {msg.topic}: {msg.payload.decode()}")
+        #print(f"Mensaje recibido en el tópico {msg.topic}: {msg.payload.decode()}")
         self.topic = msg.topic
         self.msg = msg.payload.decode()
 
         # Verifico si hay datos recibidos por broker y doy formato
         if self.topic == "rodAnt/tempObj":
-            self.temp_obj = "{:.2f}".format(float(self.msg)) 
+            self.temp_obj_ant = "{:.2f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelAxial":
-            self.acel_axial = "{:.3f}".format(float(self.msg)) 
+            self.acel_axial_ant = "{:.3f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelRadial":
-            self.acel_radial = "{:.3f}".format(float(self.msg)) 
+            self.acel_radial_ant = "{:.3f}".format(float(self.msg)) 
         if self.topic == "rodAnt/presBPFO":
-            self.pres_bpfo = self.msg
+            self.pres_bpfo_ant = self.msg
         if self.topic == "rodAnt/presBPFI":
-            self.pres_bpfi = self.msg
+            self.pres_bpfi_ant = self.msg
         if self.topic == "rodAnt/presBSF":
-            self.pres_bsf = self.msg
+            self.pres_bsf_ant = self.msg
         if self.topic == "rodAnt/presFTF":
-            self.pres_ftf = self.msg
+            self.pres_ftf_ant = self.msg
         if self.topic == "rodAnt/fft":
-            self.fft = self.msg
+            self.fft_ant = self.msg
+
+        if self.topic == "rodPos/tempObj":
+            self.temp_obj_ant = "{:.2f}".format(float(self.msg)) 
+        if self.topic == "rodPos/acelAxial":
+            self.acel_axial_pos = "{:.3f}".format(float(self.msg)) 
+        if self.topic == "rodPos/acelRadial":
+            self.acel_radial_pos = "{:.3f}".format(float(self.msg)) 
+        if self.topic == "rodPos/presBPFO":
+            self.pres_bpfo_pos = self.msg
+        if self.topic == "rodPos/presBPFI":
+            self.pres_bpfi_pos = self.msg
+        if self.topic == "rodPos/presBSF":
+            self.pres_bsf_pos = self.msg
+        if self.topic == "rodPos/presFTF":
+            self.pres_ftf_pos = self.msg
+        if self.topic == "rodPos/fft":
+            self.fft_pos = self.msg
 
     def suscrip(self, topic):
         self.client.subscribe(topic)
@@ -149,6 +176,10 @@ class Measure():
         self.mqtt_obj.send("rodAnt/frecBPFI", int(self.freq_bpfi))
         self.mqtt_obj.send("rodAnt/frecBSF", int(self.freq_bsf))
         self.mqtt_obj.send("rodAnt/frecFTF", int(self.freq_ftf))
+        self.mqtt_obj.send("rodPos/frecBPFO", int(self.freq_bpfo))
+        self.mqtt_obj.send("rodPos/frecBPFI", int(self.freq_bpfi))
+        self.mqtt_obj.send("rodPos/frecBSF", int(self.freq_bsf))
+        self.mqtt_obj.send("rodPos/frecFTF", int(self.freq_ftf))
 
         self.init_ensayos()
 
@@ -188,6 +219,14 @@ class Measure():
         self.mqtt_obj.suscrip("rodAnt/presBPFI")
         self.mqtt_obj.suscrip("rodAnt/presBSF")
         self.mqtt_obj.suscrip("rodAnt/presFTF")
+        self.mqtt_obj.suscrip("rodPos/fft")
+        self.mqtt_obj.suscrip("rodPos/tempObj")
+        self.mqtt_obj.suscrip("rodPos/acelAxial")
+        self.mqtt_obj.suscrip("rodPos/acelRadial")
+        self.mqtt_obj.suscrip("rodPos/presBPFO")
+        self.mqtt_obj.suscrip("rodPos/presBPFI")
+        self.mqtt_obj.suscrip("rodPos/presBSF")
+        self.mqtt_obj.suscrip("rodPos/presFTF")
 
         # Temporizador de 1 segundo, cuando finaliza accede a metodo asociado
         self.menu.timer1.start(1000)
@@ -217,6 +256,10 @@ class Measure():
             self.menu.ui.led_bpfi_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
             self.menu.ui.led_bsf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
             self.menu.ui.led_ftf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_bpfo_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_bpfi_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_bsf_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+            self.menu.ui.led_ftf_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
 
             # Desuscricpion cada vez que termine programa
             self.mqtt_obj.desuscrip("rodAnt/fft")
@@ -227,6 +270,14 @@ class Measure():
             self.mqtt_obj.desuscrip("rodAnt/presBPFI")
             self.mqtt_obj.desuscrip("rodAnt/presBSF")
             self.mqtt_obj.desuscrip("rodAnt/presFTF")
+            self.mqtt_obj.desuscrip("rodPos/fft")
+            self.mqtt_obj.desuscrip("rodPos/tempObj")
+            self.mqtt_obj.desuscrip("rodPos/acelAxial")
+            self.mqtt_obj.desuscrip("rodPos/acelRadial")
+            self.mqtt_obj.desuscrip("rodPos/presBPFO")
+            self.mqtt_obj.desuscrip("rodPos/presBPFI")
+            self.mqtt_obj.desuscrip("rodPos/presBSF")
+            self.mqtt_obj.desuscrip("rodPos/presFTF")
             # Se vertfica si ya se cumplio el total de ensayos o no
             if self.cont_ensayos == 5:            
                 print("Ya se realizaron 5 ensayos")
@@ -252,7 +303,14 @@ class Measure():
             self.mqtt_obj.suscrip("rodAnt/presBPFI")
             self.mqtt_obj.suscrip("rodAnt/presBSF")
             self.mqtt_obj.suscrip("rodAnt/presFTF")
-
+            self.mqtt_obj.suscrip("rodPos/fft")
+            self.mqtt_obj.suscrip("rodPos/tempObj")
+            self.mqtt_obj.suscrip("rodPos/acelAxial")
+            self.mqtt_obj.suscrip("rodPos/acelRadial")
+            self.mqtt_obj.suscrip("rodPos/presBPFO")
+            self.mqtt_obj.suscrip("rodPos/presBPFI")
+            self.mqtt_obj.suscrip("rodPos/presBSF")
+            self.mqtt_obj.suscrip("rodPos/presFTF")
             self.menu.timer1.start(1000)
             self.seconds_standby = self.seconds_standby_aux
             self.cont_ensayos = self.cont_ensayos +1
@@ -286,31 +344,53 @@ class Measure():
     Muestra lecturas obtenidas de sensores en display
     """
     def data_recive(self, ):
-        # Reseteo 'leds'
-        self.menu.ui.led_bpfo_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-        self.menu.ui.led_bpfi_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-        self.menu.ui.led_bsf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-        self.menu.ui.led_ftf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
 
         # Muestro datos recibidos por qlcd
-        if self.mqtt_obj.temp_obj:
-            self.menu.ui.lcd_temp_ant.display(self.mqtt_obj.temp_obj)
-        if self.mqtt_obj.acel_axial:
-            self.menu.ui.lcd_axial_ant.display(self.mqtt_obj.acel_axial)
-        if self.mqtt_obj.acel_radial:
-            self.menu.ui.lcd_radial_ant.display(self.mqtt_obj.acel_radial)
-        if self.mqtt_obj.pres_bpfo == 1:
+        if self.mqtt_obj.temp_obj_ant:
+            self.menu.ui.lcd_temp_ant.display(self.mqtt_obj.temp_obj_ant)
+        if self.mqtt_obj.acel_axial_ant:
+            self.menu.ui.lcd_axial_ant.display(self.mqtt_obj.acel_axial_ant)
+        if self.mqtt_obj.acel_radial_ant:
+            self.menu.ui.lcd_radial_ant.display(self.mqtt_obj.acel_radial_ant)
+        if self.mqtt_obj.pres_bpfo_ant:
             self.menu.ui.led_bpfo_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.pres_bpfi == 1:
-            self.menu.ui.led_bpfi_ant.setStyleSheet("background-color: gree; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.pres_bsf == 1:
+            self.mqtt_obj.pres_bpfo_ant = False
+        if self.mqtt_obj.pres_bpfi_ant:
+            self.menu.ui.led_bpfi_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.mqtt_obj.pres_bpfi_ant = False
+        if self.mqtt_obj.pres_bsf_ant:
             self.menu.ui.led_bsf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.pres_ftf == 1:
+            self.mqtt_obj.pres_bsf_ant = False
+        if self.mqtt_obj.pres_ftf_ant:
             self.menu.ui.led_ftf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.fft:
+            self.mqtt_obj.pres_ftf_ant = False
+        if self.mqtt_obj.fft_ant:
             self.menu.grafica.ax.clear()  # Borrar el contenido del subplot
             self.menu.grafica.ax.set_title("Rodamiento anterior")
-            self.menu.grafica.upgrade_fft(self.freq, self.mqtt_obj.fft)
+            self.menu.grafica.upgrade_fft(self.freq, self.mqtt_obj.fft_ant)
+
+        if self.mqtt_obj.temp_obj_pos:
+            self.menu.ui.lcd_temp_pos.display(self.mqtt_obj.temp_obj_pos)
+        if self.mqtt_obj.acel_axial_pos:
+            self.menu.ui.lcd_axial_pos.display(self.mqtt_obj.acel_axial_pos)
+        if self.mqtt_obj.acel_radial_pos:
+            self.menu.ui.lcd_radial_pos.display(self.mqtt_obj.acel_radial_pos)
+        if self.mqtt_obj.pres_bpfo_pos:
+            self.menu.ui.led_bpfo_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.mqtt_obj.pres_bpfo_pos = False
+        if self.mqtt_obj.pres_bpfi_pos:
+            self.menu.ui.led_bpfi_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.mqtt_obj.pres_bpfi_pos = False
+        if self.mqtt_obj.pres_bsf_pos:
+            self.menu.ui.led_bsf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.mqtt_obj.pres_bsf_pos = False
+        if self.mqtt_obj.pres_ftf_pos:
+            self.menu.ui.led_ftf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.mqtt_obj.pres_ftf_pos = False
+        if self.mqtt_obj.fft_pos:
+            self.menu.grafica2.ax.clear()  # Borrar el contenido del subplot
+            self.menu.grafica2.ax.set_title("Rodamiento Posterior")
+            self.menu.grafica2.upgrade_fft(self.freq, self.mqtt_obj.fft_pos)
 
         # Reseteo buffer para topic y msg
         self.mqtt_obj.topic = None
