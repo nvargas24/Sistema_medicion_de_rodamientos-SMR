@@ -93,7 +93,7 @@ class BaseDatos:
 
         # Le asigno los valores ingresados a cada atributo(campo) del objeto.
         reg.N_ensayo = n_ensayo
-        reg_ant.Tiempo_de_ensayo = time_ensayo
+        reg.Tiempo_de_ensayo = time_ensayo
         #reg.Tiempo_real = time_real
         reg.BPFO = bpfo
         reg.BPFI = bpfi
@@ -104,7 +104,7 @@ class BaseDatos:
         reg.AcelRadial = acel_radial
 
         try:
-            reg_ant.save()  # Guardo el registro en la tabla.
+            reg.save()  # Guardo el registro en la tabla.
         except:
             print("No se pudo guardar el registro")
 
@@ -114,6 +114,7 @@ class Mqtt:
         self.broker_host = broker_host
         self.broker_port = broker_port
 
+        self.keepalive_ant = False
         self.temp_obj_ant = 0.0
         self.acel_axial_ant = 0.0
         self.acel_radial_ant = 0.0
@@ -139,19 +140,24 @@ class Mqtt:
             print(f"No se pudo conectar al broker. Código de retorno: {rc}")
 
     def start(self):
-        self.client.on_connect = self.on_connect
-        self.client.connect(self.broker_host, self.broker_port)
-        self.client.loop_start()
+        try:
+            self.client.on_connect = self.on_connect
+            self.client.connect(self.broker_host, self.broker_port)
+            self.client.loop_start()
+        except ConnectionError as err:
+            print(f"No se pudo conectar. ERROR: {str(err)}")
 
     def send(self, topic, message):
         self.client.publish(topic, message)
 
     def on_message(self, client, userdata, msg):
-        #print(f"Mensaje recibido en el tópico {msg.topic}: {msg.payload.decode()}")
+        print(f"Mensaje recibido en el tópico {msg.topic}: {msg.payload.decode()}")
         self.topic = msg.topic
         self.msg = msg.payload.decode()
 
         # Verifico si hay datos recibidos por broker y doy formato
+        if self.topic == "rodAnt/keepalive":
+            self.keepalive_ant = True
         if self.topic == "rodAnt/tempObj":
             self.temp_obj_ant = "{:.2f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelAxial":
@@ -159,13 +165,13 @@ class Mqtt:
         if self.topic == "rodAnt/acelRadial":
             self.acel_radial_ant = "{:.3f}".format(float(self.msg)) 
         if self.topic == "rodAnt/presBPFO":
-            self.pres_bpfo_ant = self.msg
+            self.pres_bpfo_ant = int(self.msg)
         if self.topic == "rodAnt/presBPFI":
-            self.pres_bpfi_ant = self.msg
+            self.pres_bpfi_ant = int(self.msg)
         if self.topic == "rodAnt/presBSF":
-            self.pres_bsf_ant = self.msg
+            self.pres_bsf_ant = int(self.msg)
         if self.topic == "rodAnt/presFTF":
-            self.pres_ftf_ant = self.msg
+            self.pres_ftf_ant = int(self.msg)
         if self.topic == "rodAnt/fft":
             self.fft_ant = self.msg
 
@@ -198,13 +204,18 @@ class Measure(BaseDatos):
     def __init__(self):
         super().__init__()
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        self.mqtt_obj = Mqtt("192.168.1.100", 1883)
-        #self.mqtt_obj = Mqtt("192.168.68.203", 1883)       
+        #self.mqtt_obj = Mqtt("192.168.1.100", 1883)
+        self.mqtt_obj = Mqtt("192.168.68.203", 1883)
+        #self.mqtt_obj.start()
+        self.mqtt_obj.suscrip("rodAnt/keepalive")
+
         self.cont_ensayos = 1
 
         self.freq = []
         for i in range(512): # Cantidad de muestras fft
             self.freq.append(37*i)
+        
+
 
     def init_conf(self, ):
         self.menu.ui.time_ensayo.setEnabled(True)
@@ -241,6 +252,11 @@ class Measure(BaseDatos):
     def finish_conf(self, menu):
         self.menu = menu
         self.mqtt_obj.start()
+
+        if self.mqtt_obj.keepalive_ant:
+            self.menu.ui.led_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+        else:
+            self.menu.ui.led_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
 
         # Obtengo tiempo de cada ensayo
         self.selected_time = self.menu.ui.time_ensayo.time()
@@ -384,6 +400,7 @@ class Measure(BaseDatos):
             if self.cont_ensayos == 5:            
                 print("Ya se realizaron 5 ensayos")
                 self.cont_ensayos = 1
+                self.mqtt_obj.send("smr/stop", True)
                 self.init_conf()
             else:
                 self.menu.timer2.start(1000)
