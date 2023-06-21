@@ -5,6 +5,108 @@ from PySide2 import QtCore as core
 import time
 
 import paho.mqtt.client as mqtt
+from peewee import *
+
+# ---------------------Clases que contienen métodos para base de datos--------------------------------
+try:
+    db = SqliteDatabase(
+        "registro_eventos.db"
+    )  # Creo el objeto que indica el tipo y nombre de bd a la cual me voy a conectar (si no existe la crea).
+except:
+    print("No se pudo crear la base de datos")
+
+class BaseModel(Model):
+    """
+    Clase que establece a que base de datos me conecto y su tipo.
+    """
+
+    class Meta:
+        database = db  # Indico a que base me conecto y su tipo.
+
+class RodAnterior(BaseModel):
+    N_ensayo = IntegerField()
+    Tiempo_de_ensayo = TimeField()
+    #Tiempo_real = TimeField()
+    BPFO = BooleanField()
+    BPFI = BooleanField()
+    FTF = BooleanField()
+    BSF = BooleanField()
+    Temp = FloatField()
+    AcelAxial = FloatField()
+    AcelRadial = FloatField()
+
+class RodPosterior(BaseModel):
+    N_ensayo = IntegerField()
+    Tiempo_de_ensayo = TimeField()
+    #Tiempo_real = TimeField()
+    BPFO = BooleanField()
+    BPFI = BooleanField()
+    FTF = BooleanField()
+    BSF = BooleanField()
+    Temp = FloatField()
+    AcelAxial = FloatField()
+    AcelRadial = FloatField()
+
+class BaseDatos:
+    """
+    Clase que contiene métodos para conectarme a la base de datos, y para manejar los registros de la misma.
+    """
+
+    def __init__(self):
+        """
+        Constructor para crear, conectarme, y agregar una tabla a la base de datos.
+        """
+        self.con = db
+        self.con.connect()
+        self.con.create_tables([RodAnterior()])
+        self.con.create_tables([RodPosterior()])
+
+    def agregar_db_ant(self, n_ensayo, time_ensayo, bpfo, bpfi, ftf, bsf, temp, acel_axial, acel_radial):
+
+        reg = RodAnterior()
+
+        time_ensayo_min = time_ensayo // 60
+        time_ensayo_seg = time_ensayo % 60
+        min_ensayo = str(time_ensayo_min).zfill(2)
+        seg_ensayo = str(time_ensayo_seg).zfill(2)
+
+        # Le asigno los valores ingresados a cada atributo(campo) del objeto.
+        reg.N_ensayo = n_ensayo
+        reg.Tiempo_de_ensayo = f"0:{min_ensayo}:{seg_ensayo}"
+        #reg.Tiempo_real = time_real
+        reg.BPFO = bpfo
+        reg.BPFI = bpfi
+        reg.FTF = ftf
+        reg.BSF = bsf
+        reg.Temp = temp
+        reg.AcelAxial = acel_axial
+        reg.AcelRadial = acel_radial
+
+        try:
+            reg.save()  # Guardo el registro en la tabla.
+        except:
+            print("No se pudo guardar el registro")
+
+    def agregar_db_pos(self, n_ensayo, time_ensayo, bpfo, bpfi, ftf, bsf, temp, acel_axial, acel_radial):
+
+        reg = RodPosterior()
+
+        # Le asigno los valores ingresados a cada atributo(campo) del objeto.
+        reg.N_ensayo = n_ensayo
+        reg_ant.Tiempo_de_ensayo = time_ensayo
+        #reg.Tiempo_real = time_real
+        reg.BPFO = bpfo
+        reg.BPFI = bpfi
+        reg.FTF = ftf
+        reg.BSF = bsf
+        reg.Temp = temp
+        reg.AcelAxial = acel_axial
+        reg.AcelRadial = acel_radial
+
+        try:
+            reg_ant.save()  # Guardo el registro en la tabla.
+        except:
+            print("No se pudo guardar el registro")
 
 class Mqtt:
     def __init__(self, broker_host, broker_port):
@@ -91,12 +193,12 @@ class Mqtt:
     def desuscrip(self, topic):
         self.client.unsubscribe(topic)
 
-class Measure():
+class Measure(BaseDatos):
     
     def __init__(self):
         super().__init__()
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        self.mqtt_obj = Mqtt("192.168.1.107", 1883)
+        self.mqtt_obj = Mqtt("192.168.1.100", 1883)
         #self.mqtt_obj = Mqtt("192.168.68.203", 1883)       
         self.cont_ensayos = 1
 
@@ -354,16 +456,12 @@ class Measure():
             self.menu.ui.lcd_radial_ant.display(self.mqtt_obj.acel_radial_ant)
         if self.mqtt_obj.pres_bpfo_ant:
             self.menu.ui.led_bpfo_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-            self.mqtt_obj.pres_bpfo_ant = False
         if self.mqtt_obj.pres_bpfi_ant:
             self.menu.ui.led_bpfi_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-            self.mqtt_obj.pres_bpfi_ant = False
         if self.mqtt_obj.pres_bsf_ant:
             self.menu.ui.led_bsf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-            self.mqtt_obj.pres_bsf_ant = False
         if self.mqtt_obj.pres_ftf_ant:
             self.menu.ui.led_ftf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-            self.mqtt_obj.pres_ftf_ant = False
         if self.mqtt_obj.fft_ant:
             self.menu.grafica.ax.clear()  # Borrar el contenido del subplot
             self.menu.grafica.ax.set_title("Rodamiento anterior")
@@ -377,20 +475,43 @@ class Measure():
             self.menu.ui.lcd_radial_pos.display(self.mqtt_obj.acel_radial_pos)
         if self.mqtt_obj.pres_bpfo_pos:
             self.menu.ui.led_bpfo_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-            self.mqtt_obj.pres_bpfo_pos = False
         if self.mqtt_obj.pres_bpfi_pos:
             self.menu.ui.led_bpfi_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-            self.mqtt_obj.pres_bpfi_pos = False
         if self.mqtt_obj.pres_bsf_pos:
             self.menu.ui.led_bsf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-            self.mqtt_obj.pres_bsf_pos = False
         if self.mqtt_obj.pres_ftf_pos:
             self.menu.ui.led_ftf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-            self.mqtt_obj.pres_ftf_pos = False
         if self.mqtt_obj.fft_pos:
             self.menu.grafica2.ax.clear()  # Borrar el contenido del subplot
             self.menu.grafica2.ax.set_title("Rodamiento posterior")
             self.menu.grafica2.upgrade_fft(self.freq, self.mqtt_obj.fft_pos)
+
+        if  self.mqtt_obj.pres_bpfo_ant or \
+            self.mqtt_obj.pres_bpfi_ant or \
+            self.mqtt_obj.pres_ftf_ant or \
+            self.mqtt_obj.pres_bsf_ant:
+                self.agregar_db_ant(
+                    self.cont_ensayos, 
+                    self.seconds_total, 
+                    self.mqtt_obj.pres_bpfo_ant, 
+                    self.mqtt_obj.pres_bpfi_ant, 
+                    self.mqtt_obj.pres_ftf_ant, 
+                    self.mqtt_obj.pres_bsf_ant, 
+                    self.mqtt_obj.temp_obj_ant, 
+                    self.mqtt_obj.acel_axial_ant, 
+                    self.mqtt_obj.acel_radial_ant
+                    )
+
+        # Reseto estado de leds
+        self.mqtt_obj.pres_bpfo_ant = False
+        self.mqtt_obj.pres_bpfi_ant = False
+        self.mqtt_obj.pres_bsf_ant = False
+        self.mqtt_obj.pres_ftf_ant = False
+
+        self.mqtt_obj.pres_bpfo_pos = False
+        self.mqtt_obj.pres_bpfi_pos = False
+        self.mqtt_obj.pres_bsf_pos = False
+        self.mqtt_obj.pres_ftf_pos = False
 
         # Reseteo buffer para topic y msg
         self.mqtt_obj.topic = None
