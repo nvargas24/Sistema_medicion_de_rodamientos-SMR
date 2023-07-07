@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib
+from matplotlib.animation import FuncAnimation
 
 from menu_v2 import *
 from modelo import *
