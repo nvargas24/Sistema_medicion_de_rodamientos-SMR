@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1083</width>
-    <height>699</height>
+    <height>682</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,7 +61,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="5,1,15">
        <item>
-        <layout class="QVBoxLayout" name="configuraciones" stretch="2,6,1,1,1,4,1">
+        <layout class="QVBoxLayout" name="configuraciones" stretch="3,8,1,2,1,5,1">
          <property name="spacing">
           <number>10</number>
          </property>
@@ -461,34 +461,23 @@ background-color: rgb(255, 255, 255);</string>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="notificacion">
-           <property name="font">
-            <font>
-             <pointsize>18</pointsize>
-             <weight>50</weight>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="leftMargin">
+            <number>10</number>
+           </property>
            <item>
             <layout class="QHBoxLayout" name="status_anterior" stretch="2,3">
              <property name="spacing">
               <number>5</number>
              </property>
+             <property name="leftMargin">
+              <number>10</number>
+             </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>10</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>10</number>
              </property>
              <item>
               <widget class="QLabel" name="led_ant">
@@ -545,16 +534,16 @@ background-color: rgb(255, 255, 255);</string>
               <number>5</number>
              </property>
              <property name="leftMargin">
-              <number>0</number>
+              <number>10</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>10</number>
              </property>
              <property name="rightMargin">
               <number>0</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>10</number>
              </property>
              <item>
               <widget class="QLabel" name="led_pos">
@@ -603,6 +592,23 @@ background-color: rgb(255, 255, 255);</string>
             </layout>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="notificacion">
+           <property name="font">
+            <font>
+             <pointsize>18</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
          </item>
          <item>
           <layout class="QVBoxLayout" name="ctrl_ensayo" stretch="2,6,2">
@@ -942,11 +948,23 @@ background-color: rgb(255, 255, 255);</string>
            <item>
             <layout class="QVBoxLayout" name="meas_ant">
              <property name="topMargin">
-              <number>90</number>
+              <number>60</number>
              </property>
              <property name="bottomMargin">
-              <number>90</number>
+              <number>80</number>
              </property>
+             <item>
+              <widget class="QLabel" name="value_fft_ant">
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="6,7">
                <property name="leftMargin">
@@ -1306,11 +1324,23 @@ background-color: rgb(255, 255, 255);</string>
            <item>
             <layout class="QVBoxLayout" name="meas_pos">
              <property name="topMargin">
-              <number>90</number>
+              <number>60</number>
              </property>
              <property name="bottomMargin">
-              <number>90</number>
+              <number>80</number>
              </property>
+             <item>
+              <widget class="QLabel" name="value_fft_pos">
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="6,7">
                <property name="leftMargin">

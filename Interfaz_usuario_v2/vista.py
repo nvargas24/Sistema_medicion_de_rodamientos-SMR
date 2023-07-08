@@ -53,15 +53,10 @@ class Canvas_grafica(FigureCanvas):
         self.ax.set_ylabel("Amplitud[dBV]")
         
         self.ax.plot(freq, mag)
-        # Registrar el manejador de eventos de clic del ratón en la subtrama
-        cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
+
         self.draw()
 
-    # Función para manejar los eventos de clic del ratón
-    def onclick(self, event):
-        if event.inaxes == self.ax:
-            x, y = event.xdata, event.ydata
-            print(f"Coordenadas del cursor: x={x}, y={y}")
+
 
 
 class Mainwindow(QMainWindow):
@@ -75,6 +70,11 @@ class Mainwindow(QMainWindow):
         self.grafica2 = Canvas_grafica()
 
         self.measure = Measure(self)
+
+        # Registrar el manejador de eventos de movimiento del ratón sonbre grafico
+        self.grafica.fig.canvas.mpl_connect('motion_notify_event', self.onmove)
+        # Registrar el manejador de eventos de movimiento del ratón sonbre grafico
+        self.grafica2.fig.canvas.mpl_connect('motion_notify_event', self.onmove)
 
         # Asigno rango default a qprogressbar
         self.ui.progress_bar_ensayo.setValue(0)
@@ -124,3 +124,15 @@ class Mainwindow(QMainWindow):
             self.ui.label_slider_ftf.setText(f"{rounded_value}Hz")
         elif sender == self.ui.slider_bsf:
             self.ui.label_slider_bsf.setText(f"{rounded_value}Hz")
+
+    # Función para manejar los eventos de movimiento del ratón sobre grafico
+    def onmove(self, event):
+        if event.inaxes == self.grafica.ax:
+            freq, mag = event.xdata, event.ydata 
+            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
+            self.ui.value_fft_ant.setText(msj)
+
+        if event.inaxes == self.grafica2.ax:
+            freq, mag = event.xdata, event.ydata 
+            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
+            self.ui.value_fft_pos.setText(msj)

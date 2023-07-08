@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1083, 699)
+        MainWindow.resize(1083, 682)
         MainWindow.setStyleSheet(u"background-color: rgb(234, 234, 234);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -279,23 +279,13 @@ class Ui_MainWindow(object):
 
         self.configuraciones.addWidget(self.line)
 
-        self.notificacion = QLabel(self.verticalLayoutWidget_2)
-        self.notificacion.setObjectName(u"notificacion")
-        font1 = QFont()
-        font1.setPointSize(18)
-        font1.setBold(False)
-        font1.setWeight(50)
-        self.notificacion.setFont(font1)
-        self.notificacion.setAlignment(Qt.AlignCenter)
-
-        self.configuraciones.addWidget(self.notificacion)
-
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(10, -1, -1, -1)
         self.status_anterior = QHBoxLayout()
         self.status_anterior.setSpacing(5)
         self.status_anterior.setObjectName(u"status_anterior")
-        self.status_anterior.setContentsMargins(-1, 5, -1, 5)
+        self.status_anterior.setContentsMargins(10, 10, -1, 10)
         self.led_ant = QLabel(self.verticalLayoutWidget_2)
         self.led_ant.setObjectName(u"led_ant")
         sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
@@ -316,9 +306,9 @@ class Ui_MainWindow(object):
 
         self.label_16 = QLabel(self.verticalLayoutWidget_2)
         self.label_16.setObjectName(u"label_16")
-        font2 = QFont()
-        font2.setPointSize(12)
-        self.label_16.setFont(font2)
+        font1 = QFont()
+        font1.setPointSize(12)
+        self.label_16.setFont(font1)
         self.label_16.setLayoutDirection(Qt.RightToLeft)
         self.label_16.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
@@ -332,7 +322,7 @@ class Ui_MainWindow(object):
         self.status_posterior = QHBoxLayout()
         self.status_posterior.setSpacing(5)
         self.status_posterior.setObjectName(u"status_posterior")
-        self.status_posterior.setContentsMargins(0, 5, 0, 5)
+        self.status_posterior.setContentsMargins(10, 10, 0, 10)
         self.led_pos = QLabel(self.verticalLayoutWidget_2)
         self.led_pos.setObjectName(u"led_pos")
         sizePolicy2.setHeightForWidth(self.led_pos.sizePolicy().hasHeightForWidth())
@@ -350,7 +340,7 @@ class Ui_MainWindow(object):
 
         self.label_17 = QLabel(self.verticalLayoutWidget_2)
         self.label_17.setObjectName(u"label_17")
-        self.label_17.setFont(font2)
+        self.label_17.setFont(font1)
         self.label_17.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.status_posterior.addWidget(self.label_17)
@@ -362,6 +352,17 @@ class Ui_MainWindow(object):
 
 
         self.configuraciones.addLayout(self.horizontalLayout)
+
+        self.notificacion = QLabel(self.verticalLayoutWidget_2)
+        self.notificacion.setObjectName(u"notificacion")
+        font2 = QFont()
+        font2.setPointSize(18)
+        font2.setBold(False)
+        font2.setWeight(50)
+        self.notificacion.setFont(font2)
+        self.notificacion.setAlignment(Qt.AlignCenter)
+
+        self.configuraciones.addWidget(self.notificacion)
 
         self.ctrl_ensayo = QVBoxLayout()
         self.ctrl_ensayo.setSpacing(4)
@@ -410,7 +411,7 @@ class Ui_MainWindow(object):
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.btn_forzar.sizePolicy().hasHeightForWidth())
         self.btn_forzar.setSizePolicy(sizePolicy4)
-        self.btn_forzar.setFont(font2)
+        self.btn_forzar.setFont(font1)
 
         self.ctrl_ensayo.addWidget(self.btn_forzar)
 
@@ -424,12 +425,12 @@ class Ui_MainWindow(object):
 
         self.configuraciones.addItem(self.verticalSpacer)
 
-        self.configuraciones.setStretch(0, 2)
-        self.configuraciones.setStretch(1, 6)
+        self.configuraciones.setStretch(0, 3)
+        self.configuraciones.setStretch(1, 8)
         self.configuraciones.setStretch(2, 1)
-        self.configuraciones.setStretch(3, 1)
+        self.configuraciones.setStretch(3, 2)
         self.configuraciones.setStretch(4, 1)
-        self.configuraciones.setStretch(5, 4)
+        self.configuraciones.setStretch(5, 5)
         self.configuraciones.setStretch(6, 1)
 
         self.horizontalLayout_20.addLayout(self.configuraciones)
@@ -574,7 +575,15 @@ class Ui_MainWindow(object):
 
         self.meas_ant = QVBoxLayout()
         self.meas_ant.setObjectName(u"meas_ant")
-        self.meas_ant.setContentsMargins(-1, 90, -1, 90)
+        self.meas_ant.setContentsMargins(-1, 60, -1, 80)
+        self.value_fft_ant = QLabel(self.verticalLayoutWidget_2)
+        self.value_fft_ant.setObjectName(u"value_fft_ant")
+        font5 = QFont()
+        font5.setPointSize(16)
+        self.value_fft_ant.setFont(font5)
+
+        self.meas_ant.addWidget(self.value_fft_ant)
+
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(10, -1, -1, -1)
@@ -586,13 +595,13 @@ class Ui_MainWindow(object):
 
         self.lcd_temp_ant = QLCDNumber(self.verticalLayoutWidget_2)
         self.lcd_temp_ant.setObjectName(u"lcd_temp_ant")
-        font5 = QFont()
-        font5.setFamily(u"MS Shell Dlg 2")
-        font5.setPointSize(10)
-        font5.setBold(False)
-        font5.setItalic(False)
-        font5.setWeight(50)
-        self.lcd_temp_ant.setFont(font5)
+        font6 = QFont()
+        font6.setFamily(u"MS Shell Dlg 2")
+        font6.setPointSize(10)
+        font6.setBold(False)
+        font6.setItalic(False)
+        font6.setWeight(50)
+        self.lcd_temp_ant.setFont(font6)
         self.lcd_temp_ant.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_temp_ant.setSmallDecimalPoint(True)
         self.lcd_temp_ant.setDigitCount(6)
@@ -794,7 +803,13 @@ class Ui_MainWindow(object):
 
         self.meas_pos = QVBoxLayout()
         self.meas_pos.setObjectName(u"meas_pos")
-        self.meas_pos.setContentsMargins(-1, 90, -1, 90)
+        self.meas_pos.setContentsMargins(-1, 60, -1, 80)
+        self.value_fft_pos = QLabel(self.verticalLayoutWidget_2)
+        self.value_fft_pos.setObjectName(u"value_fft_pos")
+        self.value_fft_pos.setFont(font5)
+
+        self.meas_pos.addWidget(self.value_fft_pos)
+
         self.horizontalLayout_12 = QHBoxLayout()
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.horizontalLayout_12.setContentsMargins(10, -1, 0, -1)
@@ -949,11 +964,11 @@ class Ui_MainWindow(object):
         self.label_slider_ftf.setText("")
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
         self.label_slider_bsf.setText("")
-        self.notificacion.setText("")
         self.led_ant.setText("")
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Anterior", None))
         self.led_pos.setText("")
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"Posterior", None))
+        self.notificacion.setText("")
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayo:", None))
         self.btn_forzar.setText(QCoreApplication.translate("MainWindow", u"Forzar", None))
         self.led_bpfo_ant.setText("")
@@ -964,6 +979,7 @@ class Ui_MainWindow(object):
         self.label_27.setText(QCoreApplication.translate("MainWindow", u"FTF", None))
         self.led_bsf_ant.setText("")
         self.label_29.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
+        self.value_fft_ant.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Temp.:", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.:", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.:", None))
@@ -975,6 +991,7 @@ class Ui_MainWindow(object):
         self.label_28.setText(QCoreApplication.translate("MainWindow", u"FTF", None))
         self.led_bsf_pos.setText("")
         self.label_30.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
+        self.value_fft_pos.setText("")
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Temp.:", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.:", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.:", None))
