@@ -211,20 +211,22 @@ class Measure(BaseDatos):
         self.widgets = widgets
         
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        self.mqtt_obj = Mqtt("192.168.1.108", 1883)
+        self.mqtt_obj = Mqtt("192.168.1.100", 1883)
         #self.mqtt_obj = Mqtt("192.168.68.203", 1883)
         #self.mqtt_obj.start()
         #self.mqtt_obj.suscrip("rodAnt/keepalive")
 
         self.cont_ensayos = 1
         self.freq = np.arange(0, 512*37, 37)
-        self.reset_widgets()
+        #self.reset_widgets()
+        self.widgets_config()
 
     def init_conf(self):
         """
         Modo configuracion - Usuario debe ingresar parametros de configuracion
         """
-        self.widgets_config()    
+        self.widgets_config()
+        self.reset_widgets()    
         self.notificacion("Esperando configuracion")
         self.widgets.ui.progress_bar_programa.setValue(0)
         self.widgets.ui.progress_bar_ensayo.setValue(0)

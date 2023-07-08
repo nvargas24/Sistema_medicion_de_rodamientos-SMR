@@ -17,17 +17,18 @@ ax.set_ylim(0, 60)
 line, = ax.plot(x_initial, y_initial)
 
 # Definir el número de pasos para la transición
-num_steps = 100
+num_steps = 50
+num_int = 1
+y_final = [50, 40, 30, 55, 20]
 
 # Función de actualización para la animación
-def update(frame):
-    y_final = [50, 40, 30, 55, 20]
+def update(frame, y_final):
     y_interp = np.linspace(y_initial, y_final, num_steps)
     line.set_ydata(y_interp[frame])
     return line,
 
 # Crear la animación
-animation = FuncAnimation(fig, update, frames=num_steps, interval=50, blit=True)
-
+animation = FuncAnimation(fig, update, frames=num_steps, fargs=(y_final,),interval=num_int, blit=True, repeat=False)
+# en fargs se agrega ','al final final para que lo tome como tupla
 # Mostrar la animación
 plt.show()

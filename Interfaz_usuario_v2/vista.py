@@ -12,6 +12,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib
 from matplotlib.animation import FuncAnimation
 
+import numpy as np
 from menu_v2 import *
 from modelo import *
 
@@ -20,7 +21,10 @@ class Canvas_grafica(FigureCanvas):
         self.fig, self.ax = plt.subplots(1, dpi=80, figsize=(12,12), sharey=True, facecolor="none")
         self.fig.subplots_adjust(left=.12, bottom=.12, right=.98, top=.9) #Ajuste de escala de grafica
         super().__init__(self.fig)
- 
+
+        self.freq_initial = np.arange(0, 512*37, 37)
+        self.mag_initial = np.zeros(512)
+
         # Establecer límites del eje X e Y
         self.ax.set_xlim(-100, 19000)
         self.ax.set_ylim(-40, 60)
@@ -36,7 +40,14 @@ class Canvas_grafica(FigureCanvas):
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
 
+        # Crear la línea inicial
+        self.line, = self.ax.plot(self.freq_initial, self.mag_initial)
+
+
     def upgrade_fft(self, freq, mag):
+        mag_initial = self.mag_initial
+        mag_final = mag
+
         # Establecer límites del eje X e Y
         self.ax.set_xlim(-100, 19000)
         self.ax.set_ylim(-40, 60)
@@ -51,12 +62,19 @@ class Canvas_grafica(FigureCanvas):
         matplotlib.rcParams['font.size'] = 9
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
-        
-        self.ax.plot(freq, mag)
+
+        # Asigno nuevos valores de punto para grafico
+        #self.ax.plot(freq, mag)
+        animation = FuncAnimation(self.fig, self.update_frame, frames=100, fargs=(mag_initial, mag_final),interval=1, blit=True, repeat=False)
 
         self.draw()
+        self.mag_initial = mag_final
 
-
+    # Metodo para agregar frames al cambiar de valor
+    def update_frame(self, frame, mag_initial, mag_final):
+        mag_interp = np.linspace(mag_initial, mag_final, 100)
+        self.line.set_ydata(mag_interp[frame])
+        return self.line,
 
 
 class Mainwindow(QMainWindow):
