@@ -36,7 +36,7 @@ class Canvas_grafica(FigureCanvas):
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
 
-    def upgrade_fft(self, freq, mag_decode):
+    def upgrade_fft(self, freq, mag):
         # Establecer límites del eje X e Y
         self.ax.set_xlim(-100, 19000)
         self.ax.set_ylim(-40, 60)
@@ -52,11 +52,7 @@ class Canvas_grafica(FigureCanvas):
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
 
-        # Convierto en lista, la fft en str recibido
-        mag = mag_decode.split(',')
-        self.mag = [float(value) for value in mag]
-        self.ax.plot(freq, self.mag)
-
+        self.ax.plot(freq, mag)
         self.draw()
 
 class Mainwindow(QMainWindow):
@@ -65,24 +61,15 @@ class Mainwindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self) 
 
-        self.measure = Measure()
+        # Para crear y actualizar grafico fft
+        self.grafica = Canvas_grafica()
+        self.grafica2 = Canvas_grafica()
 
-        # Formato a qtimer
-        self.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}")
-        self.ui.lcd_temp_ant.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_axial_ant.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_radial_ant.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_temp_pos.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_axial_pos.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_radial_pos.display(f"{0:02d}.{0:02d}")
+        self.measure = Measure(self)
 
         # Asigno rango default a qprogressbar
         self.ui.progress_bar_ensayo.setValue(0)
         self.ui.progress_bar_ensayo.setRange(0, 100)  # Asignar rango de 0 a 100
-
-        # Para crear y actualizar grafico fft
-        self.grafica = Canvas_grafica()
-        self.grafica2 = Canvas_grafica()
 
         self.ui.fft_ant.addWidget(self.grafica)
         self.ui.fft_pos.addWidget(self.grafica2)
@@ -90,27 +77,13 @@ class Mainwindow(QMainWindow):
         self.grafica.ax.set_title("Rodamiento anterior")
         self.grafica2.ax.set_title("Rodamiento posterior")
 
-        # Deshabilito widgets hasta que finalice configuracion
-        self.ui.btn_finish.setEnabled(False)
-        self.ui.led_ant.setEnabled(False)
-        self.ui.led_pos.setEnabled(False)
-        self.ui.lcd_time_ensayo.setEnabled(False)
-        self.ui.progress_bar_ensayo.setEnabled(False)
-        self.ui.btn_forzar.setEnabled(False)
-        self.ui.lcd_temp_ant.setEnabled(False)
-        self.ui.lcd_axial_ant.setEnabled(False)
-        self.ui.lcd_radial_ant.setEnabled(False)
-        self.ui.lcd_temp_pos.setEnabled(False)
-        self.ui.lcd_axial_pos.setEnabled(False)
-        self.ui.lcd_radial_pos.setEnabled(False)
-
         self.ui.notificacion.setText("Esperando configuracion")
 
         # Asigno metodos a cada boton
         ## Uso lambda para poder a acceder a ui desde el modelo
-        self.ui.btn_finish.clicked.connect(self.close)
-        self.ui.btn_init.clicked.connect(lambda: self.measure.finish_conf(self))
-        self.ui.btn_forzar.clicked.connect(self.measure.finish_ensayo)
+        self.ui.btn_finish.clicked.connect(self.measure.finish_test)
+        self.ui.btn_init.clicked.connect(self.measure.init_ensayo)
+        self.ui.btn_forzar.clicked.connect(self.measure.forzar_finish_ensayo)
 
         # Se obtiene valor default de slider para label
         self.ui.label_slider_bpfo.setText(f"{self.ui.slider_bpfo.value()}Hz")

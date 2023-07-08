@@ -8,6 +8,8 @@ import numpy as np
 import paho.mqtt.client as mqtt
 from peewee import *
 
+NUM_ENSAYOS = 2
+
 # ---------------------Clases que contienen métodos para base de datos--------------------------------
 try:
     db = SqliteDatabase(
@@ -123,8 +125,7 @@ class Mqtt:
         self.pres_bpfo_ant = False
         self.pres_bsf_ant = False
         self.pres_ftf_ant = False
-        self.fft_ant = np.zeros(512)
-
+        self.fft_ant = False
         self.temp_obj_pos = 0.0
         self.acel_axial_pos = 0.0
         self.acel_radial_pos = 0.0
@@ -132,7 +133,7 @@ class Mqtt:
         self.pres_bpfo_pos = False
         self.pres_bsf_pos = False
         self.pres_ftf_pos = False
-        self.fft_pos = np.zeros(512)
+        self.fft_pos = False
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
@@ -204,65 +205,56 @@ class Mqtt:
 
 class Measure(BaseDatos):
     
-    def __init__(self):
+    def __init__(self, widgets):
         super().__init__()
+        # Atributo para acceder a los widgets
+        self.widgets = widgets
+        
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        #self.mqtt_obj = Mqtt("192.168.1.100", 1883)
-        self.mqtt_obj = Mqtt("192.168.68.203", 1883)
+        self.mqtt_obj = Mqtt("192.168.1.108", 1883)
+        #self.mqtt_obj = Mqtt("192.168.68.203", 1883)
         #self.mqtt_obj.start()
-        self.mqtt_obj.suscrip("rodAnt/keepalive")
+        #self.mqtt_obj.suscrip("rodAnt/keepalive")
 
         self.cont_ensayos = 1
+        self.freq = np.arange(0, 512*37, 37)
+        self.reset_widgets()
 
-        self.freq = []
-        for i in range(512): # Cantidad de muestras fft
-            self.freq.append(37*i)        
-
-    def init_conf(self, ):
+    def init_conf(self):
         """
         Modo configuracion - Usuario debe ingresar parametros de configuracion
         """
         self.widgets_config()    
         self.notificacion("Esperando configuracion")
-        self.menu.ui.progress_bar_programa.setValue(0)
-        self.menu.ui.progress_bar_ensayo.setValue(0)
+        self.widgets.ui.progress_bar_programa.setValue(0)
+        self.widgets.ui.progress_bar_ensayo.setValue(0)
 
-    def finish_conf(self, menu):
+    def init_ensayo(self):
         """
         Callback de boton 'Iniciar' - Obtiene parametros del ui y los envia por mqtt
         """
-        self.menu = menu
-
         # Inicio conexion mqtt
         self.mqtt_obj.start()
-        print(self.mqtt_obj.fft_ant)
-
-        #if self.mqtt_obj.keepalive_ant:
-        #    self.menu.ui.led_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        #else:
-        #    self.menu.ui.led_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-
         # Obtengo tiempo de cada ensayo
-        self.selected_time = self.menu.ui.time_ensayo.time()
+        self.selected_time = self.widgets.ui.time_ensayo.time()
         self.minutes = self.selected_time.minute()
         self.seconds = self.selected_time.second()
+
+        # Obtengo tiempo total en segundos
         self.seconds_total = (self.minutes * 60 + self.seconds)
         self.seconds_total_aux = self.seconds_total
 
         # Obtengo tiempo de intervalo entre ensayo
-        self.seconds_standby = self.menu.ui.time_standby.time().second()
+        self.seconds_standby = self.widgets.ui.time_standby.time().second()
         self.seconds_standby_aux = self.seconds_standby
         
-        # Asigno rango dinamico a progressbar
-        self.menu.ui.progress_bar_ensayo.setRange(0, int(self.seconds_total))
-        self.menu.ui.progress_bar_programa.setRange(0, 5)
-
         # Obtengo de frecuencias a buscar
-        self.freq_bpfo = str(round(self.menu.ui.slider_bpfo.value() / 500) * 500)
-        self.freq_bpfi = str(round(self.menu.ui.slider_bpfi.value() / 500) * 500)
-        self.freq_ftf = str(round(self.menu.ui.slider_ftf.value() / 500) * 500)
-        self.freq_bsf = str(round(self.menu.ui.slider_bsf.value() / 500) * 500)
+        self.freq_bpfo = str(round(self.widgets.ui.slider_bpfo.value() / 500) * 500)
+        self.freq_bpfi = str(round(self.widgets.ui.slider_bpfi.value() / 500) * 500)
+        self.freq_ftf = str(round(self.widgets.ui.slider_ftf.value() / 500) * 500)
+        self.freq_bsf = str(round(self.widgets.ui.slider_bsf.value() / 500) * 500)
         
+        print("Configuracion realizada")
         print("Tiempo de ensayo:"+ str(self.seconds_total)+ "seg")
         print("Tiempo de intervalo:"+ str(self.seconds_standby)+ "seg")
         print("Frecuencia BPFO: "+ self.freq_bpfo+ "Hz")
@@ -270,7 +262,9 @@ class Measure(BaseDatos):
         print("Frecuencia FTF: "+ self.freq_ftf+ "Hz")
         print("Frecuencia BSF: "+ self.freq_bsf+ "Hz")
 
-        print("Configuracion realizada")
+        # Asigno rango dinamico a progressbar
+        self.widgets.ui.progress_bar_ensayo.setRange(0, int(self.seconds_total))
+        self.widgets.ui.progress_bar_programa.setRange(0, NUM_ENSAYOS)
 
         # Enviar por mqtt los datos de configuracion
         self.mqtt_obj.send("smr/start", True)
@@ -287,65 +281,102 @@ class Measure(BaseDatos):
         self.widgets_ensayo()
         self.suscrip_topics()
         # Temporizador de 1 segundo, cuando finaliza accede a metodo asociado
-        self.menu.timer1.start(1000)
+        self.widgets.timer1.start(1000)
+
+    def forzar_finish_ensayo(self):
+        """
+        Fuerza finalizacion de ensayo actual y arranca el siguiente (si es que lo hay)
+        """
+        print("Finaliza ensayo "+ str(self.cont_ensayos) +" - Forzado")
+        self.widgets.timer1.stop()
+
+        # Seteo widget como si hubiese terminado ensayo
+        #self.widgets.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}")
+        self.reset_widgets()
+        self.widgets.ui.progress_bar_ensayo.setValue(int(self.seconds_total_aux))
+        self.widgets.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
+        
+        # En el caso de que se cumplan los 5 ensayos pase a modo config
+        if self.cont_ensayos == NUM_ENSAYOS:
+            self.cont_ensayos = 1
+            self.mqtt_obj.send("smr/stop", True)
+            # Se vuelve a modo configuracion
+            self.init_conf()
+        else:
+            # Inicializo contador de modo stanby
+            self.widgets.timer2.start(1000)
+            self.seconds_total = self.seconds_total_aux
+    
+    def finish_test(self):
+        print("Finalizo test")
+        # Finalizo contadores
+        self.widgets.timer1.stop()
+        self.widgets.timer2.stop()
+        self.reset_widgets()
+        self.cont_ensayos = 1
+        self.mqtt_obj.send("smr/stop", True)
+        # Se vuelve a modo configuracion
+        self.init_conf()
 
     def widgets_config(self):
         """
         Des/habilita widgets en modo configuracion
         """
-        self.menu.ui.time_ensayo.setEnabled(True)
-        self.menu.ui.time_standby.setEnabled(True)
-        self.menu.ui.btn_finish.setEnabled(False)
-        self.menu.ui.btn_init.setEnabled(True)
+        self.widgets.ui.time_ensayo.setEnabled(True)
+        self.widgets.ui.time_standby.setEnabled(True)
+
+        self.widgets.ui.btn_finish.setEnabled(False)
+        self.widgets.ui.btn_init.setEnabled(True)
         
-        self.menu.ui.groupBox_freq.setEnabled(True)
-        self.menu.ui.slider_bpfo.setEnabled(True)
-        self.menu.ui.slider_bpfi.setEnabled(True)
-        self.menu.ui.slider_ftf.setEnabled(True)
-        self.menu.ui.slider_bsf.setEnabled(True)
+        self.widgets.ui.groupBox_freq.setEnabled(True)
+        self.widgets.ui.slider_bpfo.setEnabled(True)
+        self.widgets.ui.slider_bpfi.setEnabled(True)
+        self.widgets.ui.slider_ftf.setEnabled(True)
+        self.widgets.ui.slider_bsf.setEnabled(True)
 
-        self.menu.ui.led_ant.setEnabled(False)
-        self.menu.ui.led_pos.setEnabled(False)
-        self.menu.ui.lcd_time_ensayo.setEnabled(False)
-        self.menu.ui.progress_bar_ensayo.setEnabled(False)
-        self.menu.ui.btn_forzar.setEnabled(False)
+        self.widgets.ui.led_ant.setEnabled(False)
+        self.widgets.ui.led_pos.setEnabled(False)
+        self.widgets.ui.lcd_time_ensayo.setEnabled(False)
+        self.widgets.ui.progress_bar_ensayo.setEnabled(False)
+        self.widgets.ui.btn_forzar.setEnabled(False)
 
-        self.menu.ui.lcd_temp_ant.setEnabled(False)
-        self.menu.ui.lcd_axial_ant.setEnabled(False)
-        self.menu.ui.lcd_radial_ant.setEnabled(False)
-        self.menu.ui.lcd_temp_pos.setEnabled(False)
-        self.menu.ui.lcd_axial_pos.setEnabled(False)
-        self.menu.ui.lcd_radial_pos.setEnabled(False)
+        self.widgets.ui.lcd_temp_ant.setEnabled(False)
+        self.widgets.ui.lcd_axial_ant.setEnabled(False)
+        self.widgets.ui.lcd_radial_ant.setEnabled(False)
+        self.widgets.ui.lcd_temp_pos.setEnabled(False)
+        self.widgets.ui.lcd_axial_pos.setEnabled(False)
+        self.widgets.ui.lcd_radial_pos.setEnabled(False)
 
     def widgets_ensayo(self):
-        # Bloquear acceso a ciertos widgets hasta que termine el sistema
-        self.menu.ui.time_ensayo.setEnabled(False)
-        self.menu.ui.time_standby.setEnabled(False)
+        """
+        Des/habilita widgets en modo ensayo
+        """
+        self.widgets.ui.time_ensayo.setEnabled(False)
+        self.widgets.ui.time_standby.setEnabled(False)
 
-        self.menu.ui.groupBox_freq.setEnabled(False)
-        self.menu.ui.slider_bpfo.setEnabled(False)
-        self.menu.ui.slider_bpfi.setEnabled(False)
-        self.menu.ui.slider_ftf.setEnabled(False)
-        self.menu.ui.slider_bsf.setEnabled(False)
+        self.widgets.ui.btn_finish.setEnabled(True)
+        self.widgets.ui.btn_init.setEnabled(False)
 
-        self.menu.ui.btn_init.setEnabled(False)
-        self.menu.ui.btn_finish.setEnabled(True)
+        self.widgets.ui.groupBox_freq.setEnabled(False)
+        self.widgets.ui.slider_bpfo.setEnabled(False)
+        self.widgets.ui.slider_bpfi.setEnabled(False)
+        self.widgets.ui.slider_ftf.setEnabled(False)
+        self.widgets.ui.slider_bsf.setEnabled(False)
 
-        # Habilito widgets para ver datos
-        self.menu.ui.led_ant.setEnabled(True)
-        self.menu.ui.led_pos.setEnabled(True)
-        self.menu.ui.lcd_time_ensayo.setEnabled(True)
-        self.menu.ui.progress_bar_ensayo.setEnabled(True)
-        self.menu.ui.btn_forzar.setEnabled(True)
-        self.menu.ui.lcd_temp_ant.setEnabled(True)
-        self.menu.ui.lcd_axial_ant.setEnabled(True)
-        self.menu.ui.lcd_radial_ant.setEnabled(True)
-        self.menu.ui.lcd_temp_pos.setEnabled(True)
-        self.menu.ui.lcd_axial_pos.setEnabled(True)
-        self.menu.ui.lcd_radial_pos.setEnabled(True)
+        self.widgets.ui.led_ant.setEnabled(True)
+        self.widgets.ui.led_pos.setEnabled(True)
+        self.widgets.ui.lcd_time_ensayo.setEnabled(True)
+        self.widgets.ui.progress_bar_ensayo.setEnabled(True)
+        self.widgets.ui.btn_forzar.setEnabled(True)
+
+        self.widgets.ui.lcd_temp_ant.setEnabled(True)
+        self.widgets.ui.lcd_axial_ant.setEnabled(True)
+        self.widgets.ui.lcd_radial_ant.setEnabled(True)
+        self.widgets.ui.lcd_temp_pos.setEnabled(True)
+        self.widgets.ui.lcd_axial_pos.setEnabled(True)
+        self.widgets.ui.lcd_radial_pos.setEnabled(True)
 
     def suscrip_topics(self):
-        # Habilito suscripciones
         self.mqtt_obj.suscrip("rodAnt/fft")
         self.mqtt_obj.suscrip("rodAnt/tempObj")
         self.mqtt_obj.suscrip("rodAnt/acelAxial")
@@ -383,138 +414,163 @@ class Measure(BaseDatos):
         self.mqtt_obj.desuscrip("rodPos/presBSF")
         self.mqtt_obj.desuscrip("rodPos/presFTF")
 
-    # Cuando timer finalice entra a este metodo
     def timer_ensayo(self, ):
+        """
+        Timer de Modo ensayo - tiempo de contador asignado por usuario
+        """
         self.notificacion("Ensayo "+ str(self.cont_ensayos) + " en proceso")
-
         # Se obtiene minutos y segundos a mostrar en lcd
         self.minutes = self.seconds_total//60
         self.seconds = self.seconds_total%60
-        self.menu.ui.lcd_time_ensayo.display(f"{self.minutes:02d}:{self.seconds:02d}")
+        self.widgets.ui.lcd_time_ensayo.display(f"{self.minutes:02d}:{self.seconds:02d}")
         # Cargo valor a progressbar, segun avance el contador
-        self.menu.ui.progress_bar_ensayo.setValue(int(self.seconds_total_aux)-int(self.seconds_total))
+        self.widgets.ui.progress_bar_ensayo.setValue(int(self.seconds_total_aux)-int(self.seconds_total))
         # Cada vez que se cumpla un 1 seg resto un valor del total de segundos
         self.seconds_total = self.seconds_total-1
         # Se verifica si el dispositivo publico algo en un topic
         self.data_recive()
-
         # Se detiene contador para que no siga con parte negativa
         if self.seconds_total<0 : 
-            self.menu.timer1.stop()
+            self.widgets.timer1.stop()
             # Cargo valor a progressbar cada vez que finaliza un ensayo
-            self.menu.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
-            # Reseteo 'leds'
-            self.menu.ui.led_bpfo_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-            self.menu.ui.led_bpfi_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-            self.menu.ui.led_bsf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-            self.menu.ui.led_ftf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-            self.menu.ui.led_bpfo_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-            self.menu.ui.led_bpfi_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-            self.menu.ui.led_bsf_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-            self.menu.ui.led_ftf_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
-
-            # Desuscricpion cada vez que termine programa
+            self.widgets.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
+            self.reset_widgets()
             self.desuscrip_topics()
-
             # Se vertfica si ya se cumplio el total de ensayos o no
-            if self.cont_ensayos == 5:            
-                print("Ya se realizaron 5 ensayos")
+            if self.cont_ensayos == NUM_ENSAYOS:            
+                print("Ya se realizaron %d ensayos" %NUM_ENSAYOS)
                 self.cont_ensayos = 1
                 self.mqtt_obj.send("smr/stop", True)
+                # Se vuelve a modo configuracion
                 self.init_conf()
             else:
-                self.menu.timer2.start(1000)
+                # Inicializo contador de modo stanby
+                self.widgets.timer2.start(1000)
                 self.seconds_total = self.seconds_total_aux
 
     def timer_standby(self):
         """
-        Modo standby - tiempo de contador asignado por usuario
+        Timer de Modo standby - tiempo de contador asignado por usuario
         """
         self.notificacion("Nuevo ensayo en "+ str(self.seconds_standby))
         self.seconds_standby = self.seconds_standby-1
-
         # Se detiene contador para que no siga con parte negativa
         if self.seconds_standby<0 : 
-            self.menu.timer2.stop()
+            self.widgets.timer2.stop()
             self.suscrip_topics()
-
-            self.menu.timer1.start(1000)
+            # Se inicia contador de nuevo ensayo
+            self.widgets.timer1.start(1000)
             self.seconds_standby = self.seconds_standby_aux
             self.cont_ensayos = self.cont_ensayos +1
-
-    def finish_ensayo(self):
-        """
-        Fuerza finalizacion de ensayo actual y arranca el siguiente (si es que lo hay)
-        """
-        print("Finaliza ensayo "+ str(self.cont_ensayos) +" - Forzado")
-        self.menu.timer1.stop()
-
-        # Seteo widget como si hubiese terminado ensayo
-        self.menu.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}")
-        self.menu.ui.progress_bar_ensayo.setValue(int(self.seconds_total_aux))
-        self.menu.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
-        
-        # En el caso de que se cumplan los 5 ensayos pase a modo config
-        if self.cont_ensayos == 5:            
-            self.cont_ensayos = 1
-            self.init_conf()
-        else:
-            self.menu.timer2.start(1000)
-            self.seconds_total = self.seconds_total_aux
-
-    def reset_widgets(self): pass
-
+    
     def notificacion(self, msj):
         """
         Informa eventos
         """        
-        self.menu.ui.notificacion.setText(str(msj))
+        self.widgets.ui.notificacion.setText(str(msj))
     
+    def reset_widgets(self):
+        """
+        Reseteo estado de widgets
+        """
+        self.widgets.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}")
+
+        self.widgets.ui.lcd_temp_ant.display(f"{0:02d}.{0:02d}")
+        self.widgets.ui.lcd_axial_ant.display(f"{0:02d}.{0:02d}")
+        self.widgets.ui.lcd_radial_ant.display(f"{0:02d}.{0:02d}")
+
+        self.widgets.ui.lcd_temp_pos.display(f"{0:02d}.{0:02d}")
+        self.widgets.ui.lcd_axial_pos.display(f"{0:02d}.{0:02d}")
+        self.widgets.ui.lcd_radial_pos.display(f"{0:02d}.{0:02d}")
+
+        self.widgets.ui.led_bpfo_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.widgets.ui.led_bpfi_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.widgets.ui.led_bsf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.widgets.ui.led_ftf_ant.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+
+        self.widgets.ui.led_bpfo_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.widgets.ui.led_bpfi_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.widgets.ui.led_bsf_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+        self.widgets.ui.led_ftf_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
+
+        self.widgets.grafica.ax.clear()
+        self.widgets.grafica.ax.set_title("Rodamiento anterior")
+        self.widgets.grafica.upgrade_fft(self.freq, np.zeros(512))
+
+        self.widgets.grafica2.ax.clear()
+        self.widgets.grafica2.ax.set_title("Rodamiento posterior")
+        self.widgets.grafica2.upgrade_fft(self.freq, np.zeros(512))
+
     def data_recive(self):
         """
         Muestra lecturas obtenidas de sensores en display
         """
-        # Muestro datos recibidos por qlcd
+        # Muestro datos recibidos en ui - rodamiento anterior
         if self.mqtt_obj.temp_obj_ant:
-            self.menu.ui.lcd_temp_ant.display(self.mqtt_obj.temp_obj_ant)
+            self.widgets.ui.lcd_temp_ant.display(self.mqtt_obj.temp_obj_ant)
         if self.mqtt_obj.acel_axial_ant:
-            self.menu.ui.lcd_axial_ant.display(self.mqtt_obj.acel_axial_ant)
+            self.widgets.ui.lcd_axial_ant.display(self.mqtt_obj.acel_axial_ant)
         if self.mqtt_obj.acel_radial_ant:
-            self.menu.ui.lcd_radial_ant.display(self.mqtt_obj.acel_radial_ant)
+            self.widgets.ui.lcd_radial_ant.display(self.mqtt_obj.acel_radial_ant)
         if self.mqtt_obj.pres_bpfo_ant:
-            self.menu.ui.led_bpfo_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.widgets.ui.led_bpfo_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_bpfi_ant:
-            self.menu.ui.led_bpfi_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.widgets.ui.led_bpfi_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_bsf_ant:
-            self.menu.ui.led_bsf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.widgets.ui.led_bsf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_ftf_ant:
-            self.menu.ui.led_ftf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.widgets.ui.led_ftf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.fft_ant:
-            self.menu.grafica.ax.clear()  # Borrar el contenido del subplot
-            self.menu.grafica.ax.set_title("Rodamiento anterior")
-            self.menu.grafica.upgrade_fft(self.freq, self.mqtt_obj.fft_ant)
-
+            # paso de str a una lista numpy
+            self.fft_ant = np.fromstring(self.mqtt_obj.fft_ant, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
+            self.widgets.grafica.ax.clear()
+            self.widgets.grafica.ax.set_title("Rodamiento anterior")
+            self.widgets.grafica.upgrade_fft(self.freq, self.fft_ant)
+        
+        # Muestro datos recibidos en ui - rodamiento posterior
         if self.mqtt_obj.temp_obj_pos:
-            self.menu.ui.lcd_temp_pos.display(self.mqtt_obj.temp_obj_pos)
+            self.widgets.ui.lcd_temp_pos.display(self.mqtt_obj.temp_obj_pos)
         if self.mqtt_obj.acel_axial_pos:
-            self.menu.ui.lcd_axial_pos.display(self.mqtt_obj.acel_axial_pos)
+            self.widgets.ui.lcd_axial_pos.display(self.mqtt_obj.acel_axial_pos)
         if self.mqtt_obj.acel_radial_pos:
-            self.menu.ui.lcd_radial_pos.display(self.mqtt_obj.acel_radial_pos)
+            self.widgets.ui.lcd_radial_pos.display(self.mqtt_obj.acel_radial_pos)
         if self.mqtt_obj.pres_bpfo_pos:
-            self.menu.ui.led_bpfo_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.widgets.ui.led_bpfo_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_bpfi_pos:
-            self.menu.ui.led_bpfi_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.widgets.ui.led_bpfi_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_bsf_pos:
-            self.menu.ui.led_bsf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.widgets.ui.led_bsf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_ftf_pos:
-            self.menu.ui.led_ftf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+            self.widgets.ui.led_ftf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.fft_pos:
-            self.menu.grafica2.ax.clear()  # Borrar el contenido del subplot
-            self.menu.grafica2.ax.set_title("Rodamiento posterior")
-            self.menu.grafica2.upgrade_fft(self.freq, self.mqtt_obj.fft_pos)
+            # paso de str a una lista numpy
+            self.fft_pos = np.fromstring(self.mqtt_obj.fft_pos, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
+            self.widgets.grafica2.ax.clear()
+            self.widgets.grafica2.ax.set_title("Rodamiento posterior")
+            self.widgets.grafica2.upgrade_fft(self.freq, self.fft_pos)
 
         # Si se registra alguna freq se guarda datos en base de datos
-        if  self.mqtt_obj.pres_bpfo_ant or \
+        self.upgrade_db()
+
+        self.mqtt_obj.pres_bpfo_ant = False
+        self.mqtt_obj.pres_bpfi_ant = False
+        self.mqtt_obj.pres_bsf_ant = False
+        self.mqtt_obj.pres_ftf_ant = False
+
+        self.mqtt_obj.pres_bpfo_pos = False
+        self.mqtt_obj.pres_bpfi_pos = False
+        self.mqtt_obj.pres_bsf_pos = False
+        self.mqtt_obj.pres_ftf_pos = False
+
+        # Reseteo buffer para topic y msg
+        self.mqtt_obj.topic = None
+        self.mqtt_obj.msg = None        
+
+    def upgrade_db(self):
+        """
+        Carga nuevo frame a base de datos
+        """
+        if self.mqtt_obj.pres_bpfo_ant or \
             self.mqtt_obj.pres_bpfi_ant or \
             self.mqtt_obj.pres_ftf_ant or \
             self.mqtt_obj.pres_bsf_ant:
@@ -530,17 +586,18 @@ class Measure(BaseDatos):
                     self.mqtt_obj.acel_radial_ant
                     )
 
-        # Reseto estado de leds
-        self.mqtt_obj.pres_bpfo_ant = False
-        self.mqtt_obj.pres_bpfi_ant = False
-        self.mqtt_obj.pres_bsf_ant = False
-        self.mqtt_obj.pres_ftf_ant = False
-
-        self.mqtt_obj.pres_bpfo_pos = False
-        self.mqtt_obj.pres_bpfi_pos = False
-        self.mqtt_obj.pres_bsf_pos = False
-        self.mqtt_obj.pres_ftf_pos = False
-
-        # Reseteo buffer para topic y msg
-        self.mqtt_obj.topic = None
-        self.mqtt_obj.msg = None        
+        if self.mqtt_obj.pres_bpfo_pos or \
+            self.mqtt_obj.pres_bpfi_pos or \
+            self.mqtt_obj.pres_ftf_pos or \
+            self.mqtt_obj.pres_bsf_pos:
+                self.agregar_db_pos(
+                    self.cont_ensayos, 
+                    self.seconds_total, 
+                    self.mqtt_obj.pres_bpfo_pos, 
+                    self.mqtt_obj.pres_bpfi_pos, 
+                    self.mqtt_obj.pres_ftf_pos, 
+                    self.mqtt_obj.pres_bsf_pos, 
+                    self.mqtt_obj.temp_obj_pos, 
+                    self.mqtt_obj.acel_axial_pos, 
+                    self.mqtt_obj.acel_radial_pos
+                    )
