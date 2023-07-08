@@ -51,9 +51,18 @@ class Canvas_grafica(FigureCanvas):
         matplotlib.rcParams['font.size'] = 9
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
-
+        
         self.ax.plot(freq, mag)
+        # Registrar el manejador de eventos de clic del ratón en la subtrama
+        cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
         self.draw()
+
+    # Función para manejar los eventos de clic del ratón
+    def onclick(self, event):
+        if event.inaxes == self.ax:
+            x, y = event.xdata, event.ydata
+            print(f"Coordenadas del cursor: x={x}, y={y}")
+
 
 class Mainwindow(QMainWindow):
     def __init__(self, ):
