@@ -41,7 +41,7 @@ class Canvas_grafica(FigureCanvas):
         self.ax.set_ylabel("Amplitud[dBV]")
 
         # Crear la línea inicial
-        self.line, = self.ax.plot(self.freq_initial, self.mag_initial)
+        self.line, = self.ax.plot(self.freq_initial, self.mag_initial, picker=5)
 
 
     def upgrade_fft(self, freq, mag):
@@ -90,7 +90,7 @@ class Mainwindow(QMainWindow):
         self.measure = Measure(self)
 
         # Registrar el manejador de eventos de movimiento del ratón sonbre grafico
-        self.grafica.fig.canvas.mpl_connect('motion_notify_event', self.onmove)
+        self.grafica.fig.canvas.mpl_connect('pick_event', self.onpick)
         # Registrar el manejador de eventos de movimiento del ratón sonbre grafico
         self.grafica2.fig.canvas.mpl_connect('motion_notify_event', self.onmove)
 
@@ -154,3 +154,13 @@ class Mainwindow(QMainWindow):
             freq, mag = event.xdata, event.ydata 
             msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
             self.ui.value_fft_pos.setText(msj)
+    
+    def onpick(self, event):
+        self.grafica.line = event.artist  # Obtener el objeto artista (en este caso, la línea)
+        xdata = self.grafica.line.get_xdata()
+        ydata = self.grafica.line.get_ydata()
+        index = event.ind[0]  # Obtener el índice del punto seleccionado
+
+        x = xdata[index]
+        y = ydata[index]
+        print(f"Coordenadas: x={x}, y={y}")
