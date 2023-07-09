@@ -111,6 +111,42 @@ class BaseDatos:
         except:
             print("No se pudo guardar el registro")
 
+    def upgrade_db(self):
+        """
+        Carga nuevo frame a base de datos
+        """
+        if self.mqtt_obj.pres_bpfo_ant or \
+            self.mqtt_obj.pres_bpfi_ant or \
+            self.mqtt_obj.pres_ftf_ant or \
+            self.mqtt_obj.pres_bsf_ant:
+                self.agregar_db_ant(
+                    self.cont_ensayos, 
+                    self.seconds_total, 
+                    self.mqtt_obj.pres_bpfo_ant, 
+                    self.mqtt_obj.pres_bpfi_ant, 
+                    self.mqtt_obj.pres_ftf_ant, 
+                    self.mqtt_obj.pres_bsf_ant, 
+                    self.mqtt_obj.temp_obj_ant, 
+                    self.mqtt_obj.acel_axial_ant, 
+                    self.mqtt_obj.acel_radial_ant
+                    )
+
+        if self.mqtt_obj.pres_bpfo_pos or \
+            self.mqtt_obj.pres_bpfi_pos or \
+            self.mqtt_obj.pres_ftf_pos or \
+            self.mqtt_obj.pres_bsf_pos:
+                self.agregar_db_pos(
+                    self.cont_ensayos, 
+                    self.seconds_total, 
+                    self.mqtt_obj.pres_bpfo_pos, 
+                    self.mqtt_obj.pres_bpfi_pos, 
+                    self.mqtt_obj.pres_ftf_pos, 
+                    self.mqtt_obj.pres_bsf_pos, 
+                    self.mqtt_obj.temp_obj_pos, 
+                    self.mqtt_obj.acel_axial_pos, 
+                    self.mqtt_obj.acel_radial_pos
+                    )
+
 class Mqtt:
     def __init__(self, broker_host, broker_port):
         self.client = mqtt.Client()
@@ -203,6 +239,44 @@ class Mqtt:
         if self.topic == "rodPos/fft":
             self.fft_pos = self.msg
 
+    def suscrip_topics(self):
+        self.suscrip("rodAnt/fft")
+        self.suscrip("rodAnt/tempObj")
+        self.suscrip("rodAnt/acelAxial")
+        self.suscrip("rodAnt/acelRadial")
+        self.suscrip("rodAnt/presBPFO")
+        self.suscrip("rodAnt/presBPFI")
+        self.suscrip("rodAnt/presBSF")
+        self.suscrip("rodAnt/presFTF")
+
+        self.suscrip("rodPos/fft")
+        self.suscrip("rodPos/tempObj")
+        self.suscrip("rodPos/acelAxial")
+        self.suscrip("rodPos/acelRadial")
+        self.suscrip("rodPos/presBPFO")
+        self.suscrip("rodPos/presBPFI")
+        self.suscrip("rodPos/presBSF")
+        self.suscrip("rodPos/presFTF")
+
+    def desuscrip_topics(self):
+        self.desuscrip("rodAnt/fft")
+        self.desuscrip("rodAnt/tempObj")
+        self.desuscrip("rodAnt/acelAxial")
+        self.desuscrip("rodAnt/acelRadial")
+        self.desuscrip("rodAnt/presBPFO")
+        self.desuscrip("rodAnt/presBPFI")
+        self.desuscrip("rodAnt/presBSF")
+        self.desuscrip("rodAnt/presFTF")
+
+        self.desuscrip("rodPos/fft")
+        self.desuscrip("rodPos/tempObj")
+        self.desuscrip("rodPos/acelAxial")
+        self.desuscrip("rodPos/acelRadial")
+        self.desuscrip("rodPos/presBPFO")
+        self.desuscrip("rodPos/presBPFI")
+        self.desuscrip("rodPos/presBSF")
+        self.desuscrip("rodPos/presFTF")
+
 class Measure(BaseDatos):
     
     def __init__(self, widgets):
@@ -281,7 +355,7 @@ class Measure(BaseDatos):
 
         # Des/habilito widget para modo ensayo
         self.widgets_ensayo()
-        self.suscrip_topics()
+        self.mqtt_obj.suscrip_topics()
         # Temporizador de 1 segundo, cuando finaliza accede a metodo asociado
         self.widgets.timer1.start(1000)
 
@@ -378,44 +452,6 @@ class Measure(BaseDatos):
         self.widgets.ui.lcd_axial_pos.setEnabled(True)
         self.widgets.ui.lcd_radial_pos.setEnabled(True)
 
-    def suscrip_topics(self):
-        self.mqtt_obj.suscrip("rodAnt/fft")
-        self.mqtt_obj.suscrip("rodAnt/tempObj")
-        self.mqtt_obj.suscrip("rodAnt/acelAxial")
-        self.mqtt_obj.suscrip("rodAnt/acelRadial")
-        self.mqtt_obj.suscrip("rodAnt/presBPFO")
-        self.mqtt_obj.suscrip("rodAnt/presBPFI")
-        self.mqtt_obj.suscrip("rodAnt/presBSF")
-        self.mqtt_obj.suscrip("rodAnt/presFTF")
-
-        self.mqtt_obj.suscrip("rodPos/fft")
-        self.mqtt_obj.suscrip("rodPos/tempObj")
-        self.mqtt_obj.suscrip("rodPos/acelAxial")
-        self.mqtt_obj.suscrip("rodPos/acelRadial")
-        self.mqtt_obj.suscrip("rodPos/presBPFO")
-        self.mqtt_obj.suscrip("rodPos/presBPFI")
-        self.mqtt_obj.suscrip("rodPos/presBSF")
-        self.mqtt_obj.suscrip("rodPos/presFTF")
-
-    def desuscrip_topics(self):
-        self.mqtt_obj.desuscrip("rodAnt/fft")
-        self.mqtt_obj.desuscrip("rodAnt/tempObj")
-        self.mqtt_obj.desuscrip("rodAnt/acelAxial")
-        self.mqtt_obj.desuscrip("rodAnt/acelRadial")
-        self.mqtt_obj.desuscrip("rodAnt/presBPFO")
-        self.mqtt_obj.desuscrip("rodAnt/presBPFI")
-        self.mqtt_obj.desuscrip("rodAnt/presBSF")
-        self.mqtt_obj.desuscrip("rodAnt/presFTF")
-
-        self.mqtt_obj.desuscrip("rodPos/fft")
-        self.mqtt_obj.desuscrip("rodPos/tempObj")
-        self.mqtt_obj.desuscrip("rodPos/acelAxial")
-        self.mqtt_obj.desuscrip("rodPos/acelRadial")
-        self.mqtt_obj.desuscrip("rodPos/presBPFO")
-        self.mqtt_obj.desuscrip("rodPos/presBPFI")
-        self.mqtt_obj.desuscrip("rodPos/presBSF")
-        self.mqtt_obj.desuscrip("rodPos/presFTF")
-
     def timer_ensayo(self, ):
         """
         Timer de Modo ensayo - tiempo de contador asignado por usuario
@@ -437,7 +473,7 @@ class Measure(BaseDatos):
             # Cargo valor a progressbar cada vez que finaliza un ensayo
             self.widgets.ui.progress_bar_programa.setValue(int(self.cont_ensayos))
             self.reset_widgets()
-            self.desuscrip_topics()
+            self.mqtt_obj.desuscrip_topics()
             # Se vertfica si ya se cumplio el total de ensayos o no
             if self.cont_ensayos == NUM_ENSAYOS:            
                 print("Ya se realizaron %d ensayos" %NUM_ENSAYOS)
@@ -459,7 +495,7 @@ class Measure(BaseDatos):
         # Se detiene contador para que no siga con parte negativa
         if self.seconds_standby<0 : 
             self.widgets.timer2.stop()
-            self.suscrip_topics()
+            self.mqtt_obj.suscrip_topics()
             # Se inicia contador de nuevo ensayo
             self.widgets.timer1.start(1000)
             self.seconds_standby = self.seconds_standby_aux
@@ -567,39 +603,3 @@ class Measure(BaseDatos):
         # Reseteo buffer para topic y msg
         self.mqtt_obj.topic = None
         self.mqtt_obj.msg = None        
-
-    def upgrade_db(self):
-        """
-        Carga nuevo frame a base de datos
-        """
-        if self.mqtt_obj.pres_bpfo_ant or \
-            self.mqtt_obj.pres_bpfi_ant or \
-            self.mqtt_obj.pres_ftf_ant or \
-            self.mqtt_obj.pres_bsf_ant:
-                self.agregar_db_ant(
-                    self.cont_ensayos, 
-                    self.seconds_total, 
-                    self.mqtt_obj.pres_bpfo_ant, 
-                    self.mqtt_obj.pres_bpfi_ant, 
-                    self.mqtt_obj.pres_ftf_ant, 
-                    self.mqtt_obj.pres_bsf_ant, 
-                    self.mqtt_obj.temp_obj_ant, 
-                    self.mqtt_obj.acel_axial_ant, 
-                    self.mqtt_obj.acel_radial_ant
-                    )
-
-        if self.mqtt_obj.pres_bpfo_pos or \
-            self.mqtt_obj.pres_bpfi_pos or \
-            self.mqtt_obj.pres_ftf_pos or \
-            self.mqtt_obj.pres_bsf_pos:
-                self.agregar_db_pos(
-                    self.cont_ensayos, 
-                    self.seconds_total, 
-                    self.mqtt_obj.pres_bpfo_pos, 
-                    self.mqtt_obj.pres_bpfi_pos, 
-                    self.mqtt_obj.pres_ftf_pos, 
-                    self.mqtt_obj.pres_bsf_pos, 
-                    self.mqtt_obj.temp_obj_pos, 
-                    self.mqtt_obj.acel_axial_pos, 
-                    self.mqtt_obj.acel_radial_pos
-                    )

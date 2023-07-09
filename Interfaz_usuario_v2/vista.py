@@ -17,7 +17,13 @@ from menu_v2 import *
 from modelo import *
 
 class Canvas_grafica(FigureCanvas):
+    """
+    Clase para dibujar grafico de fft - plots
+    """
     def __init__(self, ):
+        """
+        Constructor de grafica fft - parametros iniciales
+        """
         self.fig, self.ax = plt.subplots(1, dpi=80, figsize=(12,12), sharey=True, facecolor="none")
         self.fig.subplots_adjust(left=.12, bottom=.12, right=.98, top=.9) #Ajuste de escala de grafica
         super().__init__(self.fig)
@@ -25,46 +31,47 @@ class Canvas_grafica(FigureCanvas):
         self.freq_initial = np.arange(0, 512*37, 37)
         self.mag_initial = np.zeros(512)
 
-        # Establecer límites del eje X e Y
-        self.ax.set_xlim(-100, 19000)
-        self.ax.set_ylim(-40, 60)
-
-        # Creo grilla
-        for i in range(0, 19000, 1000):
-            self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
-        for j in range(-40, 60, 10):   
-            self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
-
-        # Establece nombres de ejes y tamanio
-        matplotlib.rcParams['font.size'] = 9
-        self.ax.set_xlabel("Frecuencia[Hz]")
-        self.ax.set_ylabel("Amplitud[dBV]")
+        self.set_graph_style()
         # Crear la línea inicial
         self.line, = self.ax.plot(self.freq_initial, self.mag_initial, picker=5)
 
-
     def upgrade_fft(self, freq, mag):
-        # Establecer límites del eje X e Y
-        self.ax.set_xlim(-100, 19000)
-        self.ax.set_ylim(-40, 60)
-        
-        # Creo grilla
-        for i in range(0, 19000, 1000):
-            self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
-        for j in range(-40, 60, 10):   
-            self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
-            
-        # Establece nombres de ejes y tamanio
-        matplotlib.rcParams['font.size'] = 9
-        self.ax.set_xlabel("Frecuencia[Hz]")
-        self.ax.set_ylabel("Amplitud[dBV]")
+        """
+        Metodo para actualizar listas de puntos para grafico fft
+        """
+        self.set_graph_style()
 
         self.line, = self.ax.plot(freq, mag, picker=5)
         self.draw()
 
+    def set_graph_style(self):
+        """
+        Metodo que asigna estilo al grafico
+        """
+        # Establecer límites del eje X e Y
+        self.ax.set_xlim(-100, 19000)
+        self.ax.set_ylim(-40, 60)
+
+        # Creo grilla
+        for i in range(0, 19000, 1000):
+            self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
+        for j in range(-40, 60, 10):   
+            self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
+
+        # Establece nombres de ejes y tamanio
+        matplotlib.rcParams['font.size'] = 9
+        self.ax.set_xlabel("Frecuencia[Hz]")
+        self.ax.set_ylabel("Amplitud[dBV]")
+
 
 class Mainwindow(QMainWindow):
+    """
+    Clase que interactua con .py de de qt
+    """
     def __init__(self, ):
+        """
+        Constructor para crear objetos, asignar callback y eventos asociados a widgets
+        """
         super().__init__() 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self) 
@@ -118,6 +125,9 @@ class Mainwindow(QMainWindow):
         self.timer2.timeout.connect(self.measure.timer_standby)
 
     def on_slider_value_changed(self, value):
+        """
+        Metodo para redondear valores tomados de slider en qt
+        """
         rounded_value = round(value / 500) * 500
         sender = self.sender()
         if sender == self.ui.slider_bpfo:
@@ -142,8 +152,11 @@ class Mainwindow(QMainWindow):
             self.ui.value_fft_pos.setText(msj)
     """
     def onpick(self, event):
+        """
+        Metodo asociado a evento de click sobre grafico
+        """
         if self.grafica.line == event.artist:
-            # Lógica para grafica1
+            # Lógica para grafico
             xdata = self.grafica.line.get_xdata()
             ydata = self.grafica.line.get_ydata()
             index = event.ind[0]
@@ -154,7 +167,7 @@ class Mainwindow(QMainWindow):
             self.ui.value_fft_ant.setText(msj)
 
         elif self.grafica2.line == event.artist:
-            # Lógica para grafica2
+            # Lógica para grafico2
             xdata = self.grafica2.line.get_xdata()
             ydata = self.grafica2.line.get_ydata()
             index = event.ind[0]
