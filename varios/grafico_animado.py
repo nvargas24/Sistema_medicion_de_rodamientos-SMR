@@ -18,7 +18,7 @@ line, = ax.plot(x_initial, y_initial)
 
 # Definir el número de pasos para la transición
 num_steps = 50
-num_int = 1
+num_int = 10
 y_final = [50, 40, 30, 55, 20]
 
 # Función de actualización para la animación

@@ -226,7 +226,7 @@ class Measure(BaseDatos):
         Modo configuracion - Usuario debe ingresar parametros de configuracion
         """
         self.widgets_config()
-        self.reset_widgets()    
+        #self.reset_widgets()    
         self.notificacion("Esperando configuracion")
         self.widgets.ui.progress_bar_programa.setValue(0)
         self.widgets.ui.progress_bar_ensayo.setValue(0)
@@ -495,13 +495,13 @@ class Measure(BaseDatos):
         self.widgets.ui.led_bsf_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
         self.widgets.ui.led_ftf_pos.setStyleSheet("background-color: red; border-radius: 10px; border: 2px solid darkred;")
 
-        self.widgets.grafica.ax.clear()
-        self.widgets.grafica.ax.set_title("Rodamiento anterior")
-        self.widgets.grafica.upgrade_fft(self.freq, np.zeros(512))
+        #self.widgets.grafica.ax.clear()
+        #self.widgets.grafica.ax.set_title("Rodamiento anterior")
+        #self.widgets.grafica.upgrade_fft(self.freq, np.zeros(512))
 
-        self.widgets.grafica2.ax.clear()
-        self.widgets.grafica2.ax.set_title("Rodamiento posterior")
-        self.widgets.grafica2.upgrade_fft(self.freq, np.zeros(512))
+        #self.widgets.grafica2.ax.clear()
+        #self.widgets.grafica2.ax.set_title("Rodamiento posterior")
+        #self.widgets.grafica2.upgrade_fft(self.freq, np.zeros(512))
 
     def data_recive(self):
         """
@@ -525,8 +525,8 @@ class Measure(BaseDatos):
         if self.mqtt_obj.fft_ant:
             # paso de str a una lista numpy
             self.fft_ant = np.fromstring(self.mqtt_obj.fft_ant, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
-            self.widgets.grafica.ax.clear()
-            self.widgets.grafica.ax.set_title("Rodamiento anterior")
+            #self.widgets.grafica.ax.clear()
+            #self.widgets.grafica.ax.set_title("Rodamiento anterior")
             self.widgets.grafica.upgrade_fft(self.freq, self.fft_ant)
         
         # Muestro datos recibidos en ui - rodamiento posterior
@@ -547,8 +547,8 @@ class Measure(BaseDatos):
         if self.mqtt_obj.fft_pos:
             # paso de str a una lista numpy
             self.fft_pos = np.fromstring(self.mqtt_obj.fft_pos, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
-            self.widgets.grafica2.ax.clear()
-            self.widgets.grafica2.ax.set_title("Rodamiento posterior")
+            #self.widgets.grafica2.ax.clear()
+            #self.widgets.grafica2.ax.set_title("Rodamiento posterior")
             self.widgets.grafica2.upgrade_fft(self.freq, self.fft_pos)
 
         # Si se registra alguna freq se guarda datos en base de datos

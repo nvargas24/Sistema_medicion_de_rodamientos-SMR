@@ -49,19 +49,19 @@ class Canvas_grafica(FigureCanvas):
         mag_final = mag
 
         # Establecer límites del eje X e Y
-        self.ax.set_xlim(-100, 19000)
-        self.ax.set_ylim(-40, 60)
+        #self.ax.set_xlim(-100, 19000)
+        #self.ax.set_ylim(-40, 60)
         
         # Creo grilla
-        for i in range(0, 19000, 1000):
-            self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
-        for j in range(-40, 60, 10):   
-            self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
+        #for i in range(0, 19000, 1000):
+        #    self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
+        #for j in range(-40, 60, 10):   
+        #    self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
             
         # Establece nombres de ejes y tamanio
-        matplotlib.rcParams['font.size'] = 9
-        self.ax.set_xlabel("Frecuencia[Hz]")
-        self.ax.set_ylabel("Amplitud[dBV]")
+        #matplotlib.rcParams['font.size'] = 9
+        #self.ax.set_xlabel("Frecuencia[Hz]")
+        #self.ax.set_ylabel("Amplitud[dBV]")
 
         # Asigno nuevos valores de punto para grafico
         #self.ax.plot(freq, mag)
