@@ -39,42 +39,28 @@ class Canvas_grafica(FigureCanvas):
         matplotlib.rcParams['font.size'] = 9
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
-
         # Crear la línea inicial
         self.line, = self.ax.plot(self.freq_initial, self.mag_initial, picker=5)
 
 
     def upgrade_fft(self, freq, mag):
-        mag_initial = self.mag_initial
-        mag_final = mag
-
         # Establecer límites del eje X e Y
-        #self.ax.set_xlim(-100, 19000)
-        #self.ax.set_ylim(-40, 60)
+        self.ax.set_xlim(-100, 19000)
+        self.ax.set_ylim(-40, 60)
         
         # Creo grilla
-        #for i in range(0, 19000, 1000):
-        #    self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
-        #for j in range(-40, 60, 10):   
-        #    self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
+        for i in range(0, 19000, 1000):
+            self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
+        for j in range(-40, 60, 10):   
+            self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
             
         # Establece nombres de ejes y tamanio
-        #matplotlib.rcParams['font.size'] = 9
-        #self.ax.set_xlabel("Frecuencia[Hz]")
-        #self.ax.set_ylabel("Amplitud[dBV]")
+        matplotlib.rcParams['font.size'] = 9
+        self.ax.set_xlabel("Frecuencia[Hz]")
+        self.ax.set_ylabel("Amplitud[dBV]")
 
-        # Asigno nuevos valores de punto para grafico
-        #self.ax.plot(freq, mag)
-        animation = FuncAnimation(self.fig, self.update_frame, frames=100, fargs=(mag_initial, mag_final),interval=1, blit=True, repeat=False)
-
+        self.line, = self.ax.plot(freq, mag, picker=5)
         self.draw()
-        self.mag_initial = mag_final
-
-    # Metodo para agregar frames al cambiar de valor
-    def update_frame(self, frame, mag_initial, mag_final):
-        mag_interp = np.linspace(mag_initial, mag_final, 100)
-        self.line.set_ydata(mag_interp[frame])
-        return self.line,
 
 
 class Mainwindow(QMainWindow):
@@ -89,10 +75,10 @@ class Mainwindow(QMainWindow):
 
         self.measure = Measure(self)
 
-        # Registrar el manejador de eventos de movimiento del ratón sonbre grafico
+        # Registrar el manejador de eventos de click del ratón sobre grafico
         self.grafica.fig.canvas.mpl_connect('pick_event', self.onpick)
-        # Registrar el manejador de eventos de movimiento del ratón sonbre grafico
-        self.grafica2.fig.canvas.mpl_connect('motion_notify_event', self.onmove)
+        # Registrar el manejador de eventos de click del ratón sobre grafico
+        self.grafica2.fig.canvas.mpl_connect('pick_event', self.onpick)
 
         # Asigno rango default a qprogressbar
         self.ui.progress_bar_ensayo.setValue(0)
@@ -142,7 +128,7 @@ class Mainwindow(QMainWindow):
             self.ui.label_slider_ftf.setText(f"{rounded_value}Hz")
         elif sender == self.ui.slider_bsf:
             self.ui.label_slider_bsf.setText(f"{rounded_value}Hz")
-
+    """
     # Función para manejar los eventos de movimiento del ratón sobre grafico
     def onmove(self, event):
         if event.inaxes == self.grafica.ax:
@@ -154,13 +140,26 @@ class Mainwindow(QMainWindow):
             freq, mag = event.xdata, event.ydata 
             msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
             self.ui.value_fft_pos.setText(msj)
-    
+    """
     def onpick(self, event):
-        self.grafica.line = event.artist  # Obtener el objeto artista (en este caso, la línea)
-        xdata = self.grafica.line.get_xdata()
-        ydata = self.grafica.line.get_ydata()
-        index = event.ind[0]  # Obtener el índice del punto seleccionado
+        if self.grafica.line == event.artist:
+            # Lógica para grafica1
+            xdata = self.grafica.line.get_xdata()
+            ydata = self.grafica.line.get_ydata()
+            index = event.ind[0]
 
-        x = xdata[index]
-        y = ydata[index]
-        print(f"Coordenadas: x={x}, y={y}")
+            freq = xdata[index]
+            mag = ydata[index]
+            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
+            self.ui.value_fft_ant.setText(msj)
+
+        elif self.grafica2.line == event.artist:
+            # Lógica para grafica2
+            xdata = self.grafica2.line.get_xdata()
+            ydata = self.grafica2.line.get_ydata()
+            index = event.ind[0]
+
+            freq = xdata[index]
+            mag = ydata[index]
+            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
+            self.ui.value_fft_pos.setText(msj)
