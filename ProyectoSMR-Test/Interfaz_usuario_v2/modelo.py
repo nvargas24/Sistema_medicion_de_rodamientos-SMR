@@ -184,6 +184,10 @@ class Mqtt:
             self.client.loop_start()
         except ConnectionError as err:
             print(f"No se pudo conectar. ERROR: {str(err)}")
+    
+    def stop(self):
+        self.client.loop_stop()
+        self.client.disconnect()
 
     def send(self, topic, message):
         self.client.publish(topic, message)
@@ -285,8 +289,8 @@ class Measure(BaseDatos):
         self.widgets = widgets
         
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        self.mqtt_obj = Mqtt("192.168.1.103", 1883)
-        #self.mqtt_obj = Mqtt("192.168.68.203", 1883)
+        #self.mqtt_obj = Mqtt("192.168.1.103", 1883)
+        self.mqtt_obj = Mqtt("192.168.68.203", 1883)
         #self.mqtt_obj.start()
         #self.mqtt_obj.suscrip("rodAnt/keepalive")
 
@@ -377,6 +381,7 @@ class Measure(BaseDatos):
             self.cont_ensayos = 1
             self.mqtt_obj.send("smr/stop", True)
             # Se vuelve a modo configuracion
+            self.mqtt_obj.stop()
             self.init_conf()
         else:
             # Inicializo contador de modo stanby
@@ -392,6 +397,7 @@ class Measure(BaseDatos):
         self.cont_ensayos = 1
         self.mqtt_obj.send("smr/stop", True)
         # Se vuelve a modo configuracion
+        self.mqtt_obj.stop()
         self.init_conf()
 
     def widgets_config(self):
@@ -480,6 +486,7 @@ class Measure(BaseDatos):
                 self.cont_ensayos = 1
                 self.mqtt_obj.send("smr/stop", True)
                 # Se vuelve a modo configuracion
+                self.mqtt_obj.stop()
                 self.init_conf()
             else:
                 # Inicializo contador de modo stanby
