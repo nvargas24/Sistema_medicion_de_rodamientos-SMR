@@ -3,18 +3,14 @@
 # tener en cuenta:
 # se debe pasar ubicacion relativa de archivo (depende la ubicacion desde se ejecuta el programa - ver terminal)
 
+# IMPORTANTE: se debe conocer las dimensiones del archivo excel
 import pandas as pd
 import numpy as np
 
-import pandas as pd
-import numpy as np
-import os
-
-import pandas as pd
-import numpy as np
-
-# Leer datos desde el archivo Excel (test.xlsx en la misma carpeta)
-df = pd.read_excel('control_reparaciones\dataframe\data.xlsx')
+# Leer datos
+# skiprow y header hacen lo mismo
+# usecols indica las columnas a leer, si se pone muy grande leera todo aunque no haya nada escrito en el excel
+df = pd.read_excel('control_reparaciones\dataframe\data.xlsx', header=3, usecols="B:D")
 
 # Mostrar los datos del archivo Excel por consola
 print("Datos del archivo Excel:")
