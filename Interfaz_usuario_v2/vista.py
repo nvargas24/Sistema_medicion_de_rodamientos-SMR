@@ -104,6 +104,7 @@ class Mainwindow(QMainWindow):
         self.ui.btn_finish.clicked.connect(self.measure.finish_test)
         self.ui.btn_init.clicked.connect(self.measure.init_ensayo)
         self.ui.btn_forzar.clicked.connect(self.measure.forzar_finish_ensayo)
+        self.ui.captureFFT.clicked.connect(self.measure.save_image)
 
         # Se obtiene valor default de slider para label
         self.ui.label_slider_bpfo.setText(f"{self.ui.slider_bpfo.value()}Hz")
@@ -123,6 +124,14 @@ class Mainwindow(QMainWindow):
         
         self.timer1.timeout.connect(self.measure.timer_ensayo)
         self.timer2.timeout.connect(self.measure.timer_standby)
+
+        self.ui.lcd_time_ensayo.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_temp_ant.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_axial_ant.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_radial_ant.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_temp_pos.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_axial_pos.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_radial_pos.display(f"{0:02d}.{0:02d}")
 
     def on_slider_value_changed(self, value):
         """

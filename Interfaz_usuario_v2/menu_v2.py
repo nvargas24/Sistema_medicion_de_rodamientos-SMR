@@ -17,13 +17,13 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1083, 682)
+        MainWindow.resize(1124, 741)
         MainWindow.setStyleSheet(u"background-color: rgb(234, 234, 234);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(30, 20, 1031, 643))
+        self.verticalLayoutWidget_2.setGeometry(QRect(30, 20, 1071, 681))
         self.verticalLayout_9 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
@@ -364,6 +364,8 @@ class Ui_MainWindow(object):
 
         self.configuraciones.addWidget(self.notificacion)
 
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.ctrl_ensayo = QVBoxLayout()
         self.ctrl_ensayo.setSpacing(4)
         self.ctrl_ensayo.setObjectName(u"ctrl_ensayo")
@@ -372,7 +374,14 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.label_7 = QLabel(self.verticalLayoutWidget_2)
         self.label_7.setObjectName(u"label_7")
-        self.label_7.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+        font3 = QFont()
+        font3.setFamily(u"MS Shell Dlg 2")
+        font3.setPointSize(11)
+        font3.setBold(False)
+        font3.setItalic(False)
+        font3.setWeight(50)
+        self.label_7.setFont(font3)
+        self.label_7.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_11.addWidget(self.label_7)
 
@@ -395,14 +404,19 @@ class Ui_MainWindow(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.progress_bar_ensayo.sizePolicy().hasHeightForWidth())
         self.progress_bar_ensayo.setSizePolicy(sizePolicy3)
-        font3 = QFont()
-        font3.setPointSize(9)
-        self.progress_bar_ensayo.setFont(font3)
+        font4 = QFont()
+        font4.setPointSize(9)
+        self.progress_bar_ensayo.setFont(font4)
         self.progress_bar_ensayo.setValue(50)
         self.progress_bar_ensayo.setInvertedAppearance(False)
         self.progress_bar_ensayo.setTextDirection(QProgressBar.TopToBottom)
 
         self.ctrl_ensayo.addWidget(self.progress_bar_ensayo)
+
+        self.ctrl_ensayo.setStretch(0, 2)
+        self.ctrl_ensayo.setStretch(1, 6)
+
+        self.horizontalLayout_5.addLayout(self.ctrl_ensayo)
 
         self.btn_forzar = QPushButton(self.verticalLayoutWidget_2)
         self.btn_forzar.setObjectName(u"btn_forzar")
@@ -413,24 +427,27 @@ class Ui_MainWindow(object):
         self.btn_forzar.setSizePolicy(sizePolicy4)
         self.btn_forzar.setFont(font1)
 
-        self.ctrl_ensayo.addWidget(self.btn_forzar)
+        self.horizontalLayout_5.addWidget(self.btn_forzar)
 
-        self.ctrl_ensayo.setStretch(0, 2)
-        self.ctrl_ensayo.setStretch(1, 6)
-        self.ctrl_ensayo.setStretch(2, 2)
+        self.horizontalLayout_5.setStretch(0, 6)
+        self.horizontalLayout_5.setStretch(1, 1)
 
-        self.configuraciones.addLayout(self.ctrl_ensayo)
+        self.configuraciones.addLayout(self.horizontalLayout_5)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.captureFFT = QPushButton(self.verticalLayoutWidget_2)
+        self.captureFFT.setObjectName(u"captureFFT")
+        sizePolicy4.setHeightForWidth(self.captureFFT.sizePolicy().hasHeightForWidth())
+        self.captureFFT.setSizePolicy(sizePolicy4)
+        self.captureFFT.setFont(font1)
 
-        self.configuraciones.addItem(self.verticalSpacer)
+        self.configuraciones.addWidget(self.captureFFT)
 
         self.configuraciones.setStretch(0, 3)
-        self.configuraciones.setStretch(1, 8)
+        self.configuraciones.setStretch(1, 4)
         self.configuraciones.setStretch(2, 1)
-        self.configuraciones.setStretch(3, 2)
+        self.configuraciones.setStretch(3, 1)
         self.configuraciones.setStretch(4, 1)
-        self.configuraciones.setStretch(5, 5)
+        self.configuraciones.setStretch(5, 2)
         self.configuraciones.setStretch(6, 1)
 
         self.horizontalLayout_20.addLayout(self.configuraciones)
@@ -478,13 +495,7 @@ class Ui_MainWindow(object):
 
         self.label_18 = QLabel(self.verticalLayoutWidget_2)
         self.label_18.setObjectName(u"label_18")
-        font4 = QFont()
-        font4.setFamily(u"MS Shell Dlg 2")
-        font4.setPointSize(11)
-        font4.setBold(False)
-        font4.setItalic(False)
-        font4.setWeight(50)
-        self.label_18.setFont(font4)
+        self.label_18.setFont(font3)
         self.label_18.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_13.addWidget(self.label_18)
@@ -510,7 +521,7 @@ class Ui_MainWindow(object):
 
         self.label_20 = QLabel(self.verticalLayoutWidget_2)
         self.label_20.setObjectName(u"label_20")
-        self.label_20.setFont(font4)
+        self.label_20.setFont(font3)
         self.label_20.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_14.addWidget(self.label_20)
@@ -575,21 +586,26 @@ class Ui_MainWindow(object):
 
         self.meas_ant = QVBoxLayout()
         self.meas_ant.setObjectName(u"meas_ant")
-        self.meas_ant.setContentsMargins(-1, 60, -1, 80)
+        self.meas_ant.setContentsMargins(5, 50, 0, 70)
         self.value_fft_ant = QLabel(self.verticalLayoutWidget_2)
         self.value_fft_ant.setObjectName(u"value_fft_ant")
         font5 = QFont()
-        font5.setPointSize(16)
+        font5.setPointSize(14)
         self.value_fft_ant.setFont(font5)
+        self.value_fft_ant.setLineWidth(2)
 
         self.meas_ant.addWidget(self.value_fft_ant)
 
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(10, -1, -1, -1)
         self.label_2 = QLabel(self.verticalLayoutWidget_2)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+        self.label_2.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_2.addWidget(self.label_2)
 
@@ -612,17 +628,18 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.lcd_temp_ant)
 
-        self.horizontalLayout_2.setStretch(0, 6)
-        self.horizontalLayout_2.setStretch(1, 7)
+        self.horizontalLayout_2.setStretch(0, 8)
+        self.horizontalLayout_2.setStretch(1, 6)
 
-        self.meas_ant.addLayout(self.horizontalLayout_2)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(10, -1, -1, -1)
         self.label_3 = QLabel(self.verticalLayoutWidget_2)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+        self.label_3.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_3.addWidget(self.label_3)
 
@@ -635,17 +652,18 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.lcd_axial_ant)
 
-        self.horizontalLayout_3.setStretch(0, 6)
-        self.horizontalLayout_3.setStretch(1, 7)
+        self.horizontalLayout_3.setStretch(0, 8)
+        self.horizontalLayout_3.setStretch(1, 6)
 
-        self.meas_ant.addLayout(self.horizontalLayout_3)
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
 
         self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.horizontalLayout_4.setContentsMargins(10, -1, -1, -1)
         self.label_4 = QLabel(self.verticalLayoutWidget_2)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+        self.label_4.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_4.addWidget(self.label_4)
 
@@ -658,17 +676,20 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.lcd_radial_ant)
 
-        self.horizontalLayout_4.setStretch(0, 6)
-        self.horizontalLayout_4.setStretch(1, 7)
+        self.horizontalLayout_4.setStretch(0, 8)
+        self.horizontalLayout_4.setStretch(1, 6)
 
-        self.meas_ant.addLayout(self.horizontalLayout_4)
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
+
+
+        self.meas_ant.addLayout(self.verticalLayout)
 
 
         self.layout_ant.addLayout(self.meas_ant)
 
         self.layout_ant.setStretch(0, 20)
         self.layout_ant.setStretch(1, 4)
-        self.layout_ant.setStretch(2, 8)
+        self.layout_ant.setStretch(2, 9)
 
         self.mediciones.addLayout(self.layout_ant)
 
@@ -803,19 +824,23 @@ class Ui_MainWindow(object):
 
         self.meas_pos = QVBoxLayout()
         self.meas_pos.setObjectName(u"meas_pos")
-        self.meas_pos.setContentsMargins(-1, 60, -1, 80)
+        self.meas_pos.setContentsMargins(5, 50, -1, 70)
         self.value_fft_pos = QLabel(self.verticalLayoutWidget_2)
         self.value_fft_pos.setObjectName(u"value_fft_pos")
         self.value_fft_pos.setFont(font5)
 
         self.meas_pos.addWidget(self.value_fft_pos)
 
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setSpacing(0)
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.horizontalLayout_12.setContentsMargins(10, -1, 0, -1)
         self.label_8 = QLabel(self.verticalLayoutWidget_2)
         self.label_8.setObjectName(u"label_8")
-        self.label_8.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+        self.label_8.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_12.addWidget(self.label_8)
 
@@ -831,17 +856,18 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_12.addWidget(self.lcd_temp_pos)
 
-        self.horizontalLayout_12.setStretch(0, 6)
-        self.horizontalLayout_12.setStretch(1, 7)
+        self.horizontalLayout_12.setStretch(0, 8)
+        self.horizontalLayout_12.setStretch(1, 6)
 
-        self.meas_pos.addLayout(self.horizontalLayout_12)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_12)
 
         self.horizontalLayout_24 = QHBoxLayout()
+        self.horizontalLayout_24.setSpacing(0)
         self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
         self.horizontalLayout_24.setContentsMargins(10, -1, 0, -1)
         self.label_10 = QLabel(self.verticalLayoutWidget_2)
         self.label_10.setObjectName(u"label_10")
-        self.label_10.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+        self.label_10.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_24.addWidget(self.label_10)
 
@@ -854,17 +880,18 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_24.addWidget(self.lcd_axial_pos)
 
-        self.horizontalLayout_24.setStretch(0, 6)
-        self.horizontalLayout_24.setStretch(1, 7)
+        self.horizontalLayout_24.setStretch(0, 8)
+        self.horizontalLayout_24.setStretch(1, 6)
 
-        self.meas_pos.addLayout(self.horizontalLayout_24)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_24)
 
         self.horizontalLayout_25 = QHBoxLayout()
+        self.horizontalLayout_25.setSpacing(0)
         self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
         self.horizontalLayout_25.setContentsMargins(10, -1, -1, -1)
         self.label_13 = QLabel(self.verticalLayoutWidget_2)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
+        self.label_13.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_25.addWidget(self.label_13)
 
@@ -877,17 +904,20 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_25.addWidget(self.lcd_radial_pos)
 
-        self.horizontalLayout_25.setStretch(0, 6)
-        self.horizontalLayout_25.setStretch(1, 7)
+        self.horizontalLayout_25.setStretch(0, 8)
+        self.horizontalLayout_25.setStretch(1, 6)
 
-        self.meas_pos.addLayout(self.horizontalLayout_25)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_25)
+
+
+        self.meas_pos.addLayout(self.verticalLayout_2)
 
 
         self.layout_pos.addLayout(self.meas_pos)
 
         self.layout_pos.setStretch(0, 20)
         self.layout_pos.setStretch(1, 4)
-        self.layout_pos.setStretch(2, 8)
+        self.layout_pos.setStretch(2, 9)
 
         self.mediciones.addLayout(self.layout_pos)
 
@@ -971,6 +1001,7 @@ class Ui_MainWindow(object):
         self.notificacion.setText("")
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayo:", None))
         self.btn_forzar.setText(QCoreApplication.translate("MainWindow", u"Forzar", None))
+        self.captureFFT.setText(QCoreApplication.translate("MainWindow", u"Capture", None))
         self.led_bpfo_ant.setText("")
         self.label_18.setText(QCoreApplication.translate("MainWindow", u"BPFO", None))
         self.led_bpfi_ant.setText("")
@@ -979,10 +1010,11 @@ class Ui_MainWindow(object):
         self.label_27.setText(QCoreApplication.translate("MainWindow", u"FTF", None))
         self.led_bsf_ant.setText("")
         self.label_29.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
-        self.value_fft_ant.setText("")
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Temp.:", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.:", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.:", None))
+        self.value_fft_ant.setText(QCoreApplication.translate("MainWindow", u"  Freq.: 0 Hz \n"
+"  Mag.: 0dBV", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Temp.(\u00b0C):", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.(m/s2):", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.(m/s2):", None))
         self.led_bpfo_pos.setText("")
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"BPFO", None))
         self.led_bpfi_pos.setText("")
@@ -991,10 +1023,11 @@ class Ui_MainWindow(object):
         self.label_28.setText(QCoreApplication.translate("MainWindow", u"FTF", None))
         self.led_bsf_pos.setText("")
         self.label_30.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
-        self.value_fft_pos.setText("")
-        self.label_8.setText(QCoreApplication.translate("MainWindow", u"Temp.:", None))
-        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.:", None))
-        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.:", None))
+        self.value_fft_pos.setText(QCoreApplication.translate("MainWindow", u"  Freq.: 0 Hz \n"
+"  Mag.: 0dBV", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"Temp.(\u00b0C):", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.(m/s2):", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.(m/s2):", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Progreso:", None))
     # retranslateUi
 

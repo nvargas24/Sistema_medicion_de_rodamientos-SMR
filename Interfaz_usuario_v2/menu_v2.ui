@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1083</width>
-    <height>682</height>
+    <width>1124</width>
+    <height>741</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,8 +22,8 @@
      <rect>
       <x>30</x>
       <y>20</y>
-      <width>1031</width>
-      <height>643</height>
+      <width>1071</width>
+      <height>681</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_9" stretch="1,18">
@@ -61,7 +61,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="5,1,15">
        <item>
-        <layout class="QVBoxLayout" name="configuraciones" stretch="3,8,1,2,1,5,1">
+        <layout class="QVBoxLayout" name="configuraciones" stretch="3,4,1,1,1,2,1">
          <property name="spacing">
           <number>10</number>
          </property>
@@ -611,63 +611,76 @@ background-color: rgb(255, 255, 255);</string>
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="ctrl_ensayo" stretch="2,6,2">
-           <property name="spacing">
-            <number>4</number>
-           </property>
-           <property name="topMargin">
-            <number>10</number>
-           </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="6,1">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0,5">
+            <layout class="QVBoxLayout" name="ctrl_ensayo" stretch="2,6">
+             <property name="spacing">
+              <number>4</number>
+             </property>
+             <property name="topMargin">
+              <number>10</number>
+             </property>
              <item>
-              <widget class="QLabel" name="label_7">
-               <property name="styleSheet">
-                <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
-               </property>
-               <property name="text">
-                <string>Tiempo de ensayo:</string>
-               </property>
-              </widget>
+              <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0,5">
+               <item>
+                <widget class="QLabel" name="label_7">
+                 <property name="font">
+                  <font>
+                   <family>MS Shell Dlg 2</family>
+                   <pointsize>11</pointsize>
+                   <weight>50</weight>
+                   <italic>false</italic>
+                   <bold>false</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
+                 </property>
+                 <property name="text">
+                  <string>Tiempo de ensayo:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLCDNumber" name="lcd_time_ensayo">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 255, 255);</string>
+                 </property>
+                 <property name="smallDecimalPoint">
+                  <bool>true</bool>
+                 </property>
+                 <property name="segmentStyle">
+                  <enum>QLCDNumber::Flat</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
-              <widget class="QLCDNumber" name="lcd_time_ensayo">
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(255, 255, 255);</string>
+              <widget class="QProgressBar" name="progress_bar_ensayo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
-               <property name="smallDecimalPoint">
-                <bool>true</bool>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
-               <property name="segmentStyle">
-                <enum>QLCDNumber::Flat</enum>
+               <property name="value">
+                <number>50</number>
+               </property>
+               <property name="invertedAppearance">
+                <bool>false</bool>
+               </property>
+               <property name="textDirection">
+                <enum>QProgressBar::TopToBottom</enum>
                </property>
               </widget>
              </item>
             </layout>
-           </item>
-           <item>
-            <widget class="QProgressBar" name="progress_bar_ensayo">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>9</pointsize>
-              </font>
-             </property>
-             <property name="value">
-              <number>50</number>
-             </property>
-             <property name="invertedAppearance">
-              <bool>false</bool>
-             </property>
-             <property name="textDirection">
-              <enum>QProgressBar::TopToBottom</enum>
-             </property>
-            </widget>
            </item>
            <item>
             <widget class="QPushButton" name="btn_forzar">
@@ -690,17 +703,22 @@ background-color: rgb(255, 255, 255);</string>
           </layout>
          </item>
          <item>
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QPushButton" name="captureFFT">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
            </property>
-          </spacer>
+           <property name="text">
+            <string>Capture</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -717,7 +735,7 @@ background-color: rgb(255, 255, 255);</string>
           <number>0</number>
          </property>
          <item>
-          <layout class="QHBoxLayout" name="layout_ant" stretch="20,4,8">
+          <layout class="QHBoxLayout" name="layout_ant" stretch="20,4,9">
            <property name="spacing">
             <number>0</number>
            </property>
@@ -947,138 +965,164 @@ background-color: rgb(255, 255, 255);</string>
            </item>
            <item>
             <layout class="QVBoxLayout" name="meas_ant">
+             <property name="leftMargin">
+              <number>5</number>
+             </property>
              <property name="topMargin">
-              <number>60</number>
+              <number>50</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
              </property>
              <property name="bottomMargin">
-              <number>80</number>
+              <number>70</number>
              </property>
              <item>
               <widget class="QLabel" name="value_fft_ant">
                <property name="font">
                 <font>
-                 <pointsize>16</pointsize>
+                 <pointsize>14</pointsize>
                 </font>
                </property>
+               <property name="lineWidth">
+                <number>2</number>
+               </property>
                <property name="text">
-                <string/>
+                <string>  Freq.: 0 Hz 
+  Mag.: 0dBV</string>
                </property>
               </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="6,7">
-               <property name="leftMargin">
-                <number>10</number>
+              <layout class="QVBoxLayout" name="verticalLayout">
+               <property name="spacing">
+                <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_2">
-                 <property name="styleSheet">
-                  <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
-                 </property>
-                 <property name="text">
-                  <string>Temp.:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcd_temp_ant">
-                 <property name="font">
-                  <font>
-                   <family>MS Shell Dlg 2</family>
-                   <pointsize>10</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);</string>
-                 </property>
-                 <property name="smallDecimalPoint">
-                  <bool>true</bool>
-                 </property>
-                 <property name="digitCount">
-                  <number>6</number>
-                 </property>
-                 <property name="mode">
-                  <enum>QLCDNumber::Dec</enum>
-                 </property>
-                 <property name="segmentStyle">
-                  <enum>QLCDNumber::Flat</enum>
-                 </property>
-                 <property name="value" stdset="0">
-                  <double>0.000000000000000</double>
-                 </property>
-                 <property name="intValue" stdset="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="8,6">
+                 <property name="spacing">
                   <number>0</number>
                  </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="6,7">
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_3">
-                 <property name="styleSheet">
-                  <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                 <property name="leftMargin">
+                  <number>10</number>
                  </property>
-                 <property name="text">
-                  <string>Vib.ax.:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcd_axial_ant">
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);</string>
-                 </property>
-                 <property name="smallDecimalPoint">
-                  <bool>true</bool>
-                 </property>
-                 <property name="digitCount">
-                  <number>6</number>
-                 </property>
-                 <property name="segmentStyle">
-                  <enum>QLCDNumber::Flat</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="6,7">
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_4">
-                 <property name="styleSheet">
-                  <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
-                 </property>
-                 <property name="text">
-                  <string>Vib.rad.:</string>
-                 </property>
-                </widget>
+                 <item>
+                  <widget class="QLabel" name="label_2">
+                   <property name="styleSheet">
+                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                   </property>
+                   <property name="text">
+                    <string>Temp.(°C):</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLCDNumber" name="lcd_temp_ant">
+                   <property name="font">
+                    <font>
+                     <family>MS Shell Dlg 2</family>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);</string>
+                   </property>
+                   <property name="smallDecimalPoint">
+                    <bool>true</bool>
+                   </property>
+                   <property name="digitCount">
+                    <number>6</number>
+                   </property>
+                   <property name="mode">
+                    <enum>QLCDNumber::Dec</enum>
+                   </property>
+                   <property name="segmentStyle">
+                    <enum>QLCDNumber::Flat</enum>
+                   </property>
+                   <property name="value" stdset="0">
+                    <double>0.000000000000000</double>
+                   </property>
+                   <property name="intValue" stdset="0">
+                    <number>0</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
-                <widget class="QLCDNumber" name="lcd_radial_ant">
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);</string>
+                <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="8,6">
+                 <property name="spacing">
+                  <number>0</number>
                  </property>
-                 <property name="smallDecimalPoint">
-                  <bool>true</bool>
+                 <property name="leftMargin">
+                  <number>10</number>
                  </property>
-                 <property name="digitCount">
-                  <number>6</number>
+                 <item>
+                  <widget class="QLabel" name="label_3">
+                   <property name="styleSheet">
+                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                   </property>
+                   <property name="text">
+                    <string>Vib.ax.(m/s2):</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLCDNumber" name="lcd_axial_ant">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);</string>
+                   </property>
+                   <property name="smallDecimalPoint">
+                    <bool>true</bool>
+                   </property>
+                   <property name="digitCount">
+                    <number>6</number>
+                   </property>
+                   <property name="segmentStyle">
+                    <enum>QLCDNumber::Flat</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="8,6">
+                 <property name="spacing">
+                  <number>0</number>
                  </property>
-                 <property name="segmentStyle">
-                  <enum>QLCDNumber::Flat</enum>
+                 <property name="leftMargin">
+                  <number>10</number>
                  </property>
-                </widget>
+                 <item>
+                  <widget class="QLabel" name="label_4">
+                   <property name="styleSheet">
+                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                   </property>
+                   <property name="text">
+                    <string>Vib.rad.(m/s2):</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLCDNumber" name="lcd_radial_ant">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);</string>
+                   </property>
+                   <property name="smallDecimalPoint">
+                    <bool>true</bool>
+                   </property>
+                   <property name="digitCount">
+                    <number>6</number>
+                   </property>
+                   <property name="segmentStyle">
+                    <enum>QLCDNumber::Flat</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </item>
@@ -1087,7 +1131,7 @@ background-color: rgb(255, 255, 255);</string>
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="layout_pos" stretch="20,4,8">
+          <layout class="QHBoxLayout" name="layout_pos" stretch="20,4,9">
            <property name="spacing">
             <number>0</number>
            </property>
@@ -1323,135 +1367,155 @@ background-color: rgb(255, 255, 255);</string>
            </item>
            <item>
             <layout class="QVBoxLayout" name="meas_pos">
+             <property name="leftMargin">
+              <number>5</number>
+             </property>
              <property name="topMargin">
-              <number>60</number>
+              <number>50</number>
              </property>
              <property name="bottomMargin">
-              <number>80</number>
+              <number>70</number>
              </property>
              <item>
               <widget class="QLabel" name="value_fft_pos">
                <property name="font">
                 <font>
-                 <pointsize>16</pointsize>
+                 <pointsize>14</pointsize>
                 </font>
                </property>
                <property name="text">
-                <string/>
+                <string>  Freq.: 0 Hz 
+  Mag.: 0dBV</string>
                </property>
               </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="6,7">
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <property name="rightMargin">
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <property name="spacing">
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_8">
-                 <property name="styleSheet">
-                  <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
-                 </property>
-                 <property name="text">
-                  <string>Temp.:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcd_temp_pos">
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);</string>
-                 </property>
-                 <property name="smallDecimalPoint">
-                  <bool>true</bool>
-                 </property>
-                 <property name="digitCount">
-                  <number>6</number>
-                 </property>
-                 <property name="mode">
-                  <enum>QLCDNumber::Dec</enum>
-                 </property>
-                 <property name="segmentStyle">
-                  <enum>QLCDNumber::Flat</enum>
-                 </property>
-                 <property name="value" stdset="0">
-                  <double>0.000000000000000</double>
-                 </property>
-                 <property name="intValue" stdset="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="8,6">
+                 <property name="spacing">
                   <number>0</number>
                  </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="6,7">
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_10">
-                 <property name="styleSheet">
-                  <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                 <property name="leftMargin">
+                  <number>10</number>
                  </property>
-                 <property name="text">
-                  <string>Vib.ax.:</string>
+                 <property name="rightMargin">
+                  <number>0</number>
                  </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcd_axial_pos">
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);</string>
-                 </property>
-                 <property name="smallDecimalPoint">
-                  <bool>true</bool>
-                 </property>
-                 <property name="digitCount">
-                  <number>6</number>
-                 </property>
-                 <property name="segmentStyle">
-                  <enum>QLCDNumber::Flat</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_25" stretch="6,7">
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_13">
-                 <property name="styleSheet">
-                  <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
-                 </property>
-                 <property name="text">
-                  <string>Vib.rad.:</string>
-                 </property>
-                </widget>
+                 <item>
+                  <widget class="QLabel" name="label_8">
+                   <property name="styleSheet">
+                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                   </property>
+                   <property name="text">
+                    <string>Temp.(°C):</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLCDNumber" name="lcd_temp_pos">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);</string>
+                   </property>
+                   <property name="smallDecimalPoint">
+                    <bool>true</bool>
+                   </property>
+                   <property name="digitCount">
+                    <number>6</number>
+                   </property>
+                   <property name="mode">
+                    <enum>QLCDNumber::Dec</enum>
+                   </property>
+                   <property name="segmentStyle">
+                    <enum>QLCDNumber::Flat</enum>
+                   </property>
+                   <property name="value" stdset="0">
+                    <double>0.000000000000000</double>
+                   </property>
+                   <property name="intValue" stdset="0">
+                    <number>0</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
-                <widget class="QLCDNumber" name="lcd_radial_pos">
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(255, 255, 255);</string>
+                <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="8,6">
+                 <property name="spacing">
+                  <number>0</number>
                  </property>
-                 <property name="smallDecimalPoint">
-                  <bool>true</bool>
+                 <property name="leftMargin">
+                  <number>10</number>
                  </property>
-                 <property name="digitCount">
-                  <number>6</number>
+                 <property name="rightMargin">
+                  <number>0</number>
                  </property>
-                 <property name="segmentStyle">
-                  <enum>QLCDNumber::Flat</enum>
+                 <item>
+                  <widget class="QLabel" name="label_10">
+                   <property name="styleSheet">
+                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                   </property>
+                   <property name="text">
+                    <string>Vib.ax.(m/s2):</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLCDNumber" name="lcd_axial_pos">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);</string>
+                   </property>
+                   <property name="smallDecimalPoint">
+                    <bool>true</bool>
+                   </property>
+                   <property name="digitCount">
+                    <number>6</number>
+                   </property>
+                   <property name="segmentStyle">
+                    <enum>QLCDNumber::Flat</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_25" stretch="8,6">
+                 <property name="spacing">
+                  <number>0</number>
                  </property>
-                </widget>
+                 <property name="leftMargin">
+                  <number>10</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_13">
+                   <property name="styleSheet">
+                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                   </property>
+                   <property name="text">
+                    <string>Vib.rad.(m/s2):</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLCDNumber" name="lcd_radial_pos">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);</string>
+                   </property>
+                   <property name="smallDecimalPoint">
+                    <bool>true</bool>
+                   </property>
+                   <property name="digitCount">
+                    <number>6</number>
+                   </property>
+                   <property name="segmentStyle">
+                    <enum>QLCDNumber::Flat</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </item>

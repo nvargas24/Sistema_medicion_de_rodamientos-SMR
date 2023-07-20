@@ -4,6 +4,7 @@ from PySide2.QtWidgets import *
 from PySide2 import QtCore as core
 import time
 import numpy as np
+import os
 
 import paho.mqtt.client as mqtt
 from peewee import *
@@ -290,10 +291,11 @@ class Measure(BaseDatos):
         
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
         #self.mqtt_obj = Mqtt("192.168.1.103", 1883)
-        self.mqtt_obj = Mqtt("192.168.68.203", 1883)
+        #self.mqtt_obj = Mqtt("192.168.68.203", 1883)
+        self.mqtt_obj = Mqtt("192.168.149.203", 1883)
         #self.mqtt_obj.start()
         #self.mqtt_obj.suscrip("rodAnt/keepalive")
-
+        self.num_fft = 1
         self.cont_ensayos = 1
         self.freq = np.arange(0, 512*37, 37)
         #self.reset_widgets()
@@ -399,6 +401,18 @@ class Measure(BaseDatos):
         # Se vuelve a modo configuracion
         self.mqtt_obj.stop()
         self.init_conf()
+
+    def save_image(self):
+        """
+        Metodo para capturar grafico fft en tiempo real
+        """
+        name_fft_ant = os.path.join("capture", f"FFT_ant_{self.num_fft}.tiff")
+        name_fft_pos = os.path.join("capture", f"FFT_pos_{self.num_fft}.tiff")
+
+        self.widgets.grafica.fig.savefig(name_fft_ant)
+        self.widgets.grafica2.fig.savefig(name_fft_pos)
+
+        self.num_fft += self.num_fft
 
     def widgets_config(self):
         """
