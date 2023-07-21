@@ -16,32 +16,33 @@ import numpy as np
 from menu_v2 import *
 from modelo import *
 
-class Grafica_fft(FigureCanvas):
+class Grafica_samples(FigureCanvas):
     """
-    Clase para dibujar grafico de fft - plots
+    Clase para dibujar grafico - plots
     """
     def __init__(self, ):
         """
-        Constructor de grafica fft - parametros iniciales
+        Constructor de grafica - parametros iniciales
         """
         self.fig, self.ax = plt.subplots(1, dpi=80, figsize=(12,12), sharey=True, facecolor="none")
         self.fig.subplots_adjust(left=.12, bottom=.12, right=.98, top=.9) #Ajuste de escala de grafica
         super().__init__(self.fig)
 
-        self.freq_initial = np.arange(0, 512*37, 37)
-        self.mag_initial = np.zeros(512)
+        # ver en programa de sensor, num de muestrar para realizar grafico y num de data 
+        self.samples_initial = np.arange(0, 1024, 1)
+        self.volt_initial = np.zeros(10*5) # ver resolucion de adc 
 
         self.set_graph_style()
         # Crear la línea inicial
-        self.line, = self.ax.plot(self.freq_initial, self.mag_initial, picker=5)
+        self.line, = self.ax.plot(self.samples_initial, self.volt_initial, picker=5)
 
-    def upgrade_fft(self, freq, mag):
+    def upgrade_graph(self, samples, volt):
         """
-        Metodo para actualizar listas de puntos para grafico fft
+        Metodo para actualizar listas de puntos para grafico
         """
         self.set_graph_style()
 
-        self.line, = self.ax.plot(freq, mag, picker=5)
+        self.line, = self.ax.plot(samples, volt, picker=5)
         self.draw()
 
     def set_graph_style(self):
@@ -49,24 +50,24 @@ class Grafica_fft(FigureCanvas):
         Metodo que asigna estilo al grafico
         """
         # Establecer límites del eje X e Y
-        self.ax.set_xlim(-100, 19000)
-        self.ax.set_ylim(-40, 60)
+        self.ax.set_xlim(-16, 1024)
+        self.ax.set_ylim(-5, 10)
 
         # Creo grilla
-        for i in range(0, 19000, 1000):
+        for i in range(0, 1024, 64):
             self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
-        for j in range(-40, 60, 10):   
+        for j in range(-5, 10, 1):   
             self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
 
         # Establece nombres de ejes y tamanio
         matplotlib.rcParams['font.size'] = 9
-        self.ax.set_xlabel("Frecuencia[Hz]")
-        self.ax.set_ylabel("Amplitud[dBV]")
+        self.ax.set_xlabel("Samples[#]")
+        self.ax.set_ylabel("Volt[V]")
 
 
 class Mainwindow(QMainWindow):
     """
-    Clase que interactua con .py de de qt
+    Clase que interactua con .py de qt
     """
     def __init__(self, ):
         """
@@ -76,9 +77,9 @@ class Mainwindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self) 
 
-        # Para crear y actualizar grafico fft
-        self.grafica = Grafica_fft()
-        self.grafica2 = Grafica_fft()
+        # Para crear y actualizar grafico
+        self.grafica = Grafica_samples()
+        self.grafica2 = Grafica_samples()
 
         self.measure = Measure(self)
 
@@ -91,8 +92,8 @@ class Mainwindow(QMainWindow):
         self.ui.progress_bar_ensayo.setValue(0)
         self.ui.progress_bar_ensayo.setRange(0, 100)  # Asignar rango de 0 a 100
 
-        self.ui.fft_ant.addWidget(self.grafica)
-        self.ui.fft_pos.addWidget(self.grafica2)
+        self.ui.samples_ant.addWidget(self.grafica)
+        self.ui.samples_pos.addWidget(self.grafica2)
 
         self.grafica.ax.set_title("Rodamiento anterior")
         self.grafica2.ax.set_title("Rodamiento posterior")
@@ -104,19 +105,7 @@ class Mainwindow(QMainWindow):
         self.ui.btn_finish.clicked.connect(self.measure.finish_test)
         self.ui.btn_init.clicked.connect(self.measure.init_ensayo)
         self.ui.btn_forzar.clicked.connect(self.measure.forzar_finish_ensayo)
-        self.ui.captureFFT.clicked.connect(self.measure.save_image)
-
-        # Se obtiene valor default de slider para label
-        self.ui.label_slider_bpfo.setText(f"{self.ui.slider_bpfo.value()}Hz")
-        self.ui.label_slider_bpfi.setText(f"{self.ui.slider_bpfi.value()}Hz")
-        self.ui.label_slider_ftf.setText(f"{self.ui.slider_ftf.value()}Hz")
-        self.ui.label_slider_bsf.setText(f"{self.ui.slider_bsf.value()}Hz")
-
-        # Obtiene valor de slider al realizar un cambio y mostrar en label
-        self.ui.slider_bpfo.valueChanged.connect(self.on_slider_value_changed)
-        self.ui.slider_bpfi.valueChanged.connect(self.on_slider_value_changed)
-        self.ui.slider_ftf.valueChanged.connect(self.on_slider_value_changed)
-        self.ui.slider_bsf.valueChanged.connect(self.on_slider_value_changed)
+        self.ui.capture.clicked.connect(self.measure.save_image)
 
         # Creo contador asociado a un metodo que inicia el conteo
         self.timer1 = QTimer(self)
@@ -133,33 +122,6 @@ class Mainwindow(QMainWindow):
         self.ui.lcd_axial_pos.display(f"{0:02d}.{0:02d}")
         self.ui.lcd_radial_pos.display(f"{0:02d}.{0:02d}")
 
-    def on_slider_value_changed(self, value):
-        """
-        Metodo para redondear valores tomados de slider en qt
-        """
-        rounded_value = round(value / 500) * 500
-        sender = self.sender()
-        if sender == self.ui.slider_bpfo:
-            self.ui.label_slider_bpfo.setText(f"{rounded_value}Hz")
-        elif sender == self.ui.slider_bpfi:
-            self.ui.label_slider_bpfi.setText(f"{rounded_value}Hz")
-        elif sender == self.ui.slider_ftf:
-            self.ui.label_slider_ftf.setText(f"{rounded_value}Hz")
-        elif sender == self.ui.slider_bsf:
-            self.ui.label_slider_bsf.setText(f"{rounded_value}Hz")
-    """
-    # Función para manejar los eventos de movimiento del ratón sobre grafico
-    def onmove(self, event):
-        if event.inaxes == self.grafica.ax:
-            freq, mag = event.xdata, event.ydata 
-            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
-            self.ui.value_fft_ant.setText(msj)
-
-        if event.inaxes == self.grafica2.ax:
-            freq, mag = event.xdata, event.ydata 
-            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
-            self.ui.value_fft_pos.setText(msj)
-    """
     def onpick(self, event):
         """
         Metodo asociado a evento de click sobre grafico
@@ -170,10 +132,10 @@ class Mainwindow(QMainWindow):
             ydata = self.grafica.line.get_ydata()
             index = event.ind[0]
 
-            freq = xdata[index]
-            mag = ydata[index]
-            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
-            self.ui.value_fft_ant.setText(msj)
+            volt = xdata[index]
+            sample = ydata[index]
+            msj = "  Volt:{:.2f}V\n  Sample:{:.2f}".format(volt, data)
+            self.ui.value_samples_ant.setText(msj)
 
         elif self.grafica2.line == event.artist:
             # Lógica para grafico2
@@ -181,7 +143,7 @@ class Mainwindow(QMainWindow):
             ydata = self.grafica2.line.get_ydata()
             index = event.ind[0]
 
-            freq = xdata[index]
-            mag = ydata[index]
-            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
-            self.ui.value_fft_pos.setText(msj)
+            volt = xdata[index]
+            sample = ydata[index]
+            msj = "  Volt:{:.2f}V\n  Sample:{:.2f}".format(volt, data)
+            self.ui.value_samples_pos.setText(msj)
