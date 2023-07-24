@@ -17,12 +17,16 @@ class Mqtt:
         self.broker_host = broker_host
         self.broker_port = broker_port
 
-        self.volt_ant = False
+        self.mcp_ant = False
+        self.mag_mcp_ant = False
+        self.freq_mcp_ant = False
         self.temp_obj_ant = 0.0
         self.acel_axial_ant = 0.0
         self.acel_radial_ant = 0.0
 
-        self.volt_pos = False
+        self.mcp_pos = False
+        self.mag_mcp_pos = False
+        self.freq_mcp_pos = False
         self.temp_obj_pos = 0.0
         self.acel_axial_pos = 0.0
         self.acel_radial_pos = 0.0
@@ -70,6 +74,12 @@ class Mqtt:
             self.acel_axial_ant = "{:.3f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelRadial":
             self.acel_radial_ant = "{:.3f}".format(float(self.msg)) 
+        if self.topic == "rodAnt/mcp":
+            self.mcp_ant = self.msg
+        if self.topic == "rodAnt/mcpMag":
+            self.mag_mcp_ant = self.msg
+        if self.topic == "rodAnt/mcpFreq":
+            self.freq_mcp_ant = self.msg
 
         if self.topic == "rodPos/tempObj":
             self.temp_obj_pos = "{:.2f}".format(float(self.msg)) 
@@ -77,37 +87,50 @@ class Mqtt:
             self.acel_axial_pos = "{:.3f}".format(float(self.msg)) 
         if self.topic == "rodPos/acelRadial":
             self.acel_radial_pos = "{:.3f}".format(float(self.msg)) 
+        if self.topic == "rodPos/mcp":
+            self.mcp_pos = self.msg
+        if self.topic == "rodPos/mcpMag":
+            self.mag_mcp_pos = self.msg
+        if self.topic == "rodPos/mcpFreq":
+            self.freq_mcp_pos = self.msg
 
     def suscrip_topics(self):
         self.suscrip("rodAnt/tempObj")
         self.suscrip("rodAnt/acelAxial")
         self.suscrip("rodAnt/acelRadial")
+        self.suscrip("rodAnt/mcp")
+        self.suscrip("rodAnt/mcpMag")
 
         self.suscrip("rodPos/tempObj")
         self.suscrip("rodPos/acelAxial")
         self.suscrip("rodPos/acelRadial")
+        self.suscrip("rodPos/mcp")
+        self.suscrip("rodPos/mcpMag")
 
     def desuscrip_topics(self):
         self.desuscrip("rodAnt/tempObj")
         self.desuscrip("rodAnt/acelAxial")
         self.desuscrip("rodAnt/acelRadial")
+        self.desuscrip("rodAnt/mcp")
+        self.desuscrip("rodAnt/mcpMag")
 
         self.desuscrip("rodPos/tempObj")
         self.desuscrip("rodPos/acelAxial")
         self.desuscrip("rodPos/acelRadial")
+        self.desuscrip("rodPos/mcp")
+        self.desuscrip("rodPos/mcpMag")
 
-
-class Measure(BaseDatos):
+class Measure():
     
     def __init__(self, widgets):
         super().__init__()
         # Atributo para acceder a los widgets
         self.widgets = widgets
         
-        #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
+        self.mqtt_obj = Mqtt("192.168.51.203", 1883)
         #self.mqtt_obj = Mqtt("192.168.1.103", 1883)
         #self.mqtt_obj = Mqtt("192.168.68.203", 1883)
-        self.mqtt_obj = Mqtt("192.168.149.203", 1883)
+        #self.mqtt_obj = Mqtt("192.168.149.203", 1883)
         #self.mqtt_obj.start()
         #self.mqtt_obj.suscrip("rodAnt/keepalive")
         self.num_temporal = 1
@@ -330,11 +353,11 @@ class Measure(BaseDatos):
         #   MODIFICAR PARAMETROS  A PASAR PARA GRAFICO TEMPORAL
         self.widgets.grafica.ax.clear()
         self.widgets.grafica.ax.set_title("Rodamiento anterior")
-        self.widgets.grafica.upgrade_graph(self.samples, np.zeros(512))
+        self.widgets.grafica.upgrade_graph(self.samples, np.zeros(1024))
 
         self.widgets.grafica2.ax.clear()
         self.widgets.grafica2.ax.set_title("Rodamiento posterior")
-        self.widgets.grafica2.upgrade_graph(self.samples, np.zeros(512))
+        self.widgets.grafica2.upgrade_graph(self.samples, np.zeros(1024))
 
     def data_recive(self):
         """
@@ -347,13 +370,15 @@ class Measure(BaseDatos):
             self.widgets.ui.lcd_axial_ant.display(self.mqtt_obj.acel_axial_ant)
         if self.mqtt_obj.acel_radial_ant:
             self.widgets.ui.lcd_radial_ant.display(self.mqtt_obj.acel_radial_ant)
-        if self.mqtt_obj.volt_ant:
+        if self.mqtt_obj.mag_mcp_ant:
+            self.widgets.ui.mag_ant.setText("   Mag:"+str(self.mqtt_obj.mag_mcp_ant)+"    Freq: "+str(self.mqtt_obj.freq_mcp_ant))
+        if self.mqtt_obj.mcp_ant:
             # paso de str a una lista numpy
-            self.volt_ant = np.fromstring(self.mqtt_obj.volt_ant, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
+            self.mcp_ant = np.fromstring(self.mqtt_obj.mcp_ant, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
             self.widgets.grafica.ax.clear()
             self.widgets.grafica.ax.set_title("Rodamiento anterior")
             #   MODIFICAR PARAMETROS  A PASAR PARA GRAFICO TEMPORAL
-            self.widgets.grafica.upgrade_graph(self.samples, self.volt_ant)
+            self.widgets.grafica.upgrade_graph(self.samples, self.mcp_ant)
         
         # Muestro datos recibidos en ui - rodamiento posterior
         if self.mqtt_obj.temp_obj_pos:
@@ -362,13 +387,15 @@ class Measure(BaseDatos):
             self.widgets.ui.lcd_axial_pos.display(self.mqtt_obj.acel_axial_pos)
         if self.mqtt_obj.acel_radial_pos:
             self.widgets.ui.lcd_radial_pos.display(self.mqtt_obj.acel_radial_pos)
-        if self.mqtt_obj.volt_pos:
+        if self.mqtt_obj.mag_mcp_pos:
+            self.widgets.ui.mag_pos.setText("   Mag:"+str(self.mqtt_obj.mag_mcp_pos)+"    Freq: "+str(self.mqtt_obj.freq_mcp_pos))
+        if self.mqtt_obj.mcp_pos:
             # paso de str a una lista numpy
-            self.volt_pos = np.fromstring(self.mqtt_obj.volt_pos, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
+            self.mcp_pos = np.fromstring(self.mqtt_obj.mcp_pos, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
             self.widgets.grafica2.ax.clear()
             self.widgets.grafica2.ax.set_title("Rodamiento posterior")
             #   MODIFICAR PARAMETROS  A PASAR PARA GRAFICO TEMPORAL
-            self.widgets.grafica2.upgrade_graph(self.samples, self.volt_pos)
+            self.widgets.grafica2.upgrade_graph(self.samples, self.mcp_pos)
 
         # Reseteo buffer para topic y msg
         self.mqtt_obj.topic = None

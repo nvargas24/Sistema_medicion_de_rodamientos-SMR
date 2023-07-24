@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1078</width>
-    <height>722</height>
+    <height>739</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       <x>30</x>
       <y>20</y>
       <width>1031</width>
-      <height>671</height>
+      <height>682</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_9" stretch="1,18">
@@ -550,21 +550,21 @@ background-color: rgb(255, 255, 255);</string>
             <layout class="QVBoxLayout" name="samples_ant"/>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="meas_ant">
+            <layout class="QVBoxLayout" name="meas_ant" stretch="2,2,0">
              <property name="leftMargin">
               <number>5</number>
              </property>
              <property name="topMargin">
-              <number>50</number>
+              <number>30</number>
              </property>
              <property name="rightMargin">
               <number>0</number>
              </property>
              <property name="bottomMargin">
-              <number>70</number>
+              <number>50</number>
              </property>
              <item>
-              <widget class="QLabel" name="value_volt_ant">
+              <widget class="QLabel" name="value_sample_ant">
                <property name="font">
                 <font>
                  <pointsize>14</pointsize>
@@ -712,6 +712,22 @@ background-color: rgb(255, 255, 255);</string>
                </item>
               </layout>
              </item>
+             <item>
+              <widget class="QLabel" name="mag_ant">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
+               </property>
+               <property name="text">
+                <string>    Mag.:</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
           </layout>
@@ -725,18 +741,18 @@ background-color: rgb(255, 255, 255);</string>
             <layout class="QVBoxLayout" name="samples_pos"/>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="meas_pos">
+            <layout class="QVBoxLayout" name="meas_pos" stretch="2,2,0">
              <property name="leftMargin">
               <number>5</number>
              </property>
              <property name="topMargin">
-              <number>50</number>
+              <number>30</number>
              </property>
              <property name="bottomMargin">
-              <number>70</number>
+              <number>50</number>
              </property>
              <item>
-              <widget class="QLabel" name="value_volt_pos">
+              <widget class="QLabel" name="value_sample_pos">
                <property name="font">
                 <font>
                  <pointsize>14</pointsize>
@@ -877,6 +893,22 @@ background-color: rgb(255, 255, 255);</string>
                 </layout>
                </item>
               </layout>
+             </item>
+             <item>
+              <widget class="QLabel" name="mag_pos">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
+               </property>
+               <property name="text">
+                <string>    Mag.:</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>

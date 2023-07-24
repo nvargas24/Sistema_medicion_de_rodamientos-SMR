@@ -30,7 +30,7 @@ class Grafica_samples(FigureCanvas):
 
         # ver en programa de sensor, num de muestrar para realizar grafico y num de data 
         self.samples_initial = np.arange(0, 1024, 1)
-        self.volt_initial = np.zeros(10*5) # ver resolucion de adc 
+        self.volt_initial = np.zeros(1024) # ver resolucion de adc 
 
         self.set_graph_style()
         # Crear la línea inicial
@@ -50,14 +50,14 @@ class Grafica_samples(FigureCanvas):
         Metodo que asigna estilo al grafico
         """
         # Establecer límites del eje X e Y
-        self.ax.set_xlim(-16, 1024)
-        self.ax.set_ylim(-5, 10)
+        self.ax.set_xlim(-1, 1025)
+        self.ax.set_ylim(-.1, 1)
 
         # Creo grilla
         for i in range(0, 1024, 64):
             self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
-        for j in range(-5, 10, 1):   
-            self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
+        for j in range(-1, 10, 1):   
+            self.ax.axhline(j*0.1, color='grey', linestyle='--', linewidth=0.25)
 
         # Establece nombres de ejes y tamanio
         matplotlib.rcParams['font.size'] = 9
@@ -132,10 +132,10 @@ class Mainwindow(QMainWindow):
             ydata = self.grafica.line.get_ydata()
             index = event.ind[0]
 
-            volt = xdata[index]
-            sample = ydata[index]
-            msj = "  Volt:{:.2f}V\n  Sample:{:.2f}".format(volt, data)
-            self.ui.value_samples_ant.setText(msj)
+            sample = xdata[index]
+            volt = ydata[index]
+            msj = "  Volt:{:.5f} V\n  Sample:{:.0f}".format(volt, sample)
+            self.ui.value_sample_ant.setText(msj)
 
         elif self.grafica2.line == event.artist:
             # Lógica para grafico2
@@ -143,7 +143,7 @@ class Mainwindow(QMainWindow):
             ydata = self.grafica2.line.get_ydata()
             index = event.ind[0]
 
-            volt = xdata[index]
-            sample = ydata[index]
-            msj = "  Volt:{:.2f}V\n  Sample:{:.2f}".format(volt, data)
-            self.ui.value_samples_pos.setText(msj)
+            sample = xdata[index]
+            volt = ydata[index]
+            msj = "  Volt:{:.5f} V\n  Sample:{:.0f}".format(volt, sample)
+            self.ui.value_sample_pos.setText(msj)
