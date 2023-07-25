@@ -54,7 +54,7 @@ class Mqtt:
         self.client.publish(topic, message)
 
     def on_message(self, client, userdata, msg):
-        print(f"Mensaje recibido en el tópico {msg.topic}: {msg.payload.decode()}")
+        #print(f"Mensaje recibido en el tópico {msg.topic}: {msg.payload.decode()}")
         self.topic = msg.topic
         self.msg = msg.payload.decode()
         self.qualify_data_bytopic()
@@ -153,6 +153,8 @@ class Measure():
         """
         Callback de boton 'Iniciar' - Obtiene parametros del ui y los envia por mqtt
         """
+        # Cierro conexiones previas
+        self.mqtt_obj.stop()
         # Inicio conexion mqtt
         self.mqtt_obj.start()
         # Obtengo tiempo de cada ensayo
