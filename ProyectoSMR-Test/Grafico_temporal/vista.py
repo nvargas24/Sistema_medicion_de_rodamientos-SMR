@@ -50,11 +50,11 @@ class Grafica_samples(FigureCanvas):
         Metodo que asigna estilo al grafico
         """
         # Establecer límites del eje X e Y
-        self.ax.set_xlim(-1, 1024)
+        self.ax.set_xlim(-1, 128)
         self.ax.set_ylim(-1, 6)
 
         # Creo grilla
-        for i in range(0, 1024, 64):
+        for i in range(0, 128, 4):
             self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
         for j in range(-1, 6, 1):   
             self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)

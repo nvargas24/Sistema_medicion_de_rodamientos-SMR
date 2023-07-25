@@ -100,12 +100,14 @@ class Mqtt:
         self.suscrip("rodAnt/acelRadial")
         self.suscrip("rodAnt/mcp")
         self.suscrip("rodAnt/mcpMag")
+        self.suscrip("rodAnt/mcpFreq")
 
         self.suscrip("rodPos/tempObj")
         self.suscrip("rodPos/acelAxial")
         self.suscrip("rodPos/acelRadial")
         self.suscrip("rodPos/mcp")
         self.suscrip("rodPos/mcpMag")
+        self.suscrip("rodPos/mcpFreq")
 
     def desuscrip_topics(self):
         self.desuscrip("rodAnt/tempObj")
@@ -113,12 +115,14 @@ class Mqtt:
         self.desuscrip("rodAnt/acelRadial")
         self.desuscrip("rodAnt/mcp")
         self.desuscrip("rodAnt/mcpMag")
+        self.desuscrip("rodAnt/mcpFreq")
 
         self.desuscrip("rodPos/tempObj")
         self.desuscrip("rodPos/acelAxial")
         self.desuscrip("rodPos/acelRadial")
         self.desuscrip("rodPos/mcp")
         self.desuscrip("rodPos/mcpMag")
+        self.desuscrip("rodPos/mcpFreq")
 
 class Measure():
     
