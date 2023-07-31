@@ -75,7 +75,7 @@ esp_err_t DS3231_GetTimeStamp(char *timestamp)
     if(ret == ESP_OK)
     {
         /* AA_MM_DD_HH_MM_SS */
-        sprintf(timestamp, "%d%d%d_%d%d%d", time[7], time[6], time[5], time[3], time[2],time[1]);
+        sprintf(timestamp, "20%d:%d:%d %d:%d:%d", time[7], time[6], time[5], time[3], time[2],time[1]);
     }
 
     return ret;

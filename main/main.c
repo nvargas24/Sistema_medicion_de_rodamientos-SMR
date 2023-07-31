@@ -420,17 +420,17 @@ static void smr_mqtt_event_handler(void *handler_args, esp_event_base_t base, in
         {
             run = false;
         }
-        else if (strcmp(aux, "tempThreshold") == 0)
+        else if (strcmp(aux, "alarmas/temperatura") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             tempThreshold = strtof(aux, NULL);
         }
-        else if (strcmp(aux, "axialThreshold") == 0)
+        else if (strcmp(aux, "alarmas/acelAxial") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             axialThreshold = strtof(aux, NULL);
         }
-        else if (strcmp(aux, "radialThreshold") == 0)
+        else if (strcmp(aux, "alarmas/acelRadial") == 0)
         {
             sprintf(aux, "%.*s", event->data_len, event->data);
             radialThreshold = strtof(aux, NULL);
@@ -682,7 +682,7 @@ smr_errorCtrl_t smr_measure_sensors(void)
         }
     }
 
-    /* Battery level measurement
+    /* Battery level measurement */
     errorCtrl = smr_adc_read(&batteryLevel);
 
     if (errorCtrl != SMR_OK)
@@ -711,7 +711,8 @@ smr_errorCtrl_t smr_measure_sensors(void)
                 ESP_LOGI(TAG, "BATERIA BAJA ---- %lu", batteryLevel);
             #endif
         }
-    }*/
+    }
+
 /* Medicion  de MCP3008 */
     int16_t meas_mcp[ADC_SAMPLES];
 
