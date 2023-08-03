@@ -43,14 +43,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QTabWidget" name="tabWidget">
+      <widget class="QTabWidget" name="tab_rodamiento">
        <property name="font">
         <font>
          <pointsize>14</pointsize>
         </font>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
@@ -61,7 +61,7 @@
           <rect>
            <x>20</x>
            <y>20</y>
-           <width>461</width>
+           <width>529</width>
            <height>441</height>
           </rect>
          </property>
@@ -79,7 +79,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="comboBox_2"/>
+             <widget class="QComboBox" name="cbox_modelo_rod_ant"/>
             </item>
            </layout>
           </item>
@@ -98,14 +98,14 @@
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_3">
+               <widget class="QRadioButton" name="rad_btn_h_ant">
                 <property name="text">
                  <string>Horario</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_7">
+               <widget class="QRadioButton" name="rad_btn_a_ant">
                 <property name="text">
                  <string>Antiorario</string>
                 </property>
@@ -136,21 +136,21 @@
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_8">
+               <widget class="QRadioButton" name="rad_btn_v300_ant">
                 <property name="text">
                  <string>300 RPM</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_9">
+               <widget class="QRadioButton" name="rad_btn_v1500_ant">
                 <property name="text">
                  <string>1500 RPM</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_10">
+               <widget class="QRadioButton" name="rad_btn_v1800_ant">
                 <property name="text">
                  <string>1800 RPM</string>
                 </property>
@@ -203,7 +203,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSpinBox" name="spinBox_5">
+                   <widget class="QSpinBox" name="sbox_bpfo_ant">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -237,7 +237,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSpinBox" name="spinBox_6">
+                   <widget class="QSpinBox" name="sbox_bpfi_ant">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -288,7 +288,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSpinBox" name="spinBox_7">
+                   <widget class="QSpinBox" name="sbox_ftf_ant">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -316,7 +316,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSpinBox" name="spinBox_8">
+                   <widget class="QSpinBox" name="sbox_bsf_ant">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -349,7 +349,7 @@
              <number>10</number>
             </property>
             <item>
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="btn_guardar_ant">
               <property name="text">
                <string>Guardar 
  configuracion</string>
@@ -372,7 +372,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_5">
+             <widget class="QPushButton" name="btn_reset_ant">
               <property name="text">
                <string>Restablecer valores 
 predeterminados</string>
@@ -380,7 +380,7 @@ predeterminados</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_6">
+             <widget class="QPushButton" name="btn_new_rod_ant">
               <property name="text">
                <string>Guardar
  nuevo modelo</string>
@@ -401,7 +401,7 @@ predeterminados</string>
           <rect>
            <x>20</x>
            <y>20</y>
-           <width>461</width>
+           <width>529</width>
            <height>441</height>
           </rect>
          </property>
@@ -419,7 +419,7 @@ predeterminados</string>
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="comboBox"/>
+             <widget class="QComboBox" name="cbox_modelo_rod_pos"/>
             </item>
            </layout>
           </item>
@@ -438,14 +438,14 @@ predeterminados</string>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton">
+               <widget class="QRadioButton" name="rad_btn_h_pos">
                 <property name="text">
                  <string>Horario</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_2">
+               <widget class="QRadioButton" name="rad_btn_a_pos">
                 <property name="text">
                  <string>Antiorario</string>
                 </property>
@@ -476,21 +476,21 @@ predeterminados</string>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_4">
+               <widget class="QRadioButton" name="rad_btn_v300_pos">
                 <property name="text">
                  <string>300 RPM</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_5">
+               <widget class="QRadioButton" name="rad_btn_v1500_pos">
                 <property name="text">
                  <string>1500 RPM</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_6">
+               <widget class="QRadioButton" name="rad_btn_v1800_pos">
                 <property name="text">
                  <string>1800 RPM</string>
                 </property>
@@ -543,7 +543,7 @@ predeterminados</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSpinBox" name="spinBox">
+                   <widget class="QSpinBox" name="sbox_bpfo_pos">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -577,7 +577,7 @@ predeterminados</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSpinBox" name="spinBox_2">
+                   <widget class="QSpinBox" name="sbox_bpfi_pos">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -628,7 +628,7 @@ predeterminados</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSpinBox" name="spinBox_3">
+                   <widget class="QSpinBox" name="sbox_bsf_pos">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -656,7 +656,7 @@ predeterminados</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSpinBox" name="spinBox_4">
+                   <widget class="QSpinBox" name="sbox_ftf_pos">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -689,7 +689,7 @@ predeterminados</string>
              <number>10</number>
             </property>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="btn_guardar_pos">
               <property name="text">
                <string>Guardar 
  configuracion</string>
@@ -712,7 +712,7 @@ predeterminados</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="btn_reset_pos">
               <property name="text">
                <string>Restablecer valores 
 predeterminados</string>
@@ -720,7 +720,7 @@ predeterminados</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_3">
+             <widget class="QPushButton" name="btn_new_rod_pos">
               <property name="text">
                <string>Guardar
  nuevo modelo</string>
