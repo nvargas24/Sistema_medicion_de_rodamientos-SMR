@@ -11,7 +11,7 @@ from modelo import *
 class Controlador():
     def __init__(self, ):
         # se deben crear las clases que interactuan con los .ui en vista.py
-        self.option = Option()
+        #self.option = Option()
         # Creo ventanas
 
         self.window_login = WindowLogin(self) # Esta ventana es secundaria por lo tanto se debe decir cuando se muestra
