@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>958</width>
-    <height>727</height>
+    <height>774</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>40</x>
       <y>20</y>
       <width>881</width>
-      <height>691</height>
+      <height>742</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0,0,2,1,2,1,12,1,12">
@@ -50,7 +50,7 @@
           <number>20</number>
          </property>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="btn_iniciar">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -68,7 +68,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="btn_finalizar">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -108,7 +108,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_2">
+                <widget class="QLabel" name="label_operario">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -136,7 +136,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_4">
+                <widget class="QLabel" name="label_legajo">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -168,7 +168,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_6">
+                <widget class="QLabel" name="label_formacion">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -196,7 +196,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_9">
+                <widget class="QLabel" name="label_coche">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -228,7 +228,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_11">
+                <widget class="QLabel" name="label_boguie">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -256,7 +256,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_13">
+                <widget class="QLabel" name="label_motor">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -292,7 +292,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_15">
+                <widget class="QLabel" name="label_modelo_rod_ant">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -320,7 +320,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_17">
+                <widget class="QLabel" name="label_modelo_rod_pos">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -352,7 +352,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_19">
+                <widget class="QLabel" name="label_fase_tierra">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -380,7 +380,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_21">
+                <widget class="QLabel" name="label_fase_rod">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -409,7 +409,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_22">
+      <widget class="QLabel" name="label_notificacion">
        <property name="font">
         <font>
          <pointsize>16</pointsize>
@@ -460,7 +460,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="lcdNumber"/>
+          <widget class="QLCDNumber" name="lcd_temp_amb"/>
          </item>
         </layout>
        </item>
@@ -492,7 +492,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="lcdNumber_2"/>
+          <widget class="QLCDNumber" name="lcd_time_ensayo"/>
          </item>
         </layout>
        </item>
@@ -553,7 +553,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLCDNumber" name="lcdNumber_3"/>
+            <widget class="QLCDNumber" name="lcd_temp_ant"/>
            </item>
           </layout>
          </item>
@@ -572,7 +572,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLCDNumber" name="lcdNumber_4"/>
+            <widget class="QLCDNumber" name="lcd_axial_ant"/>
            </item>
           </layout>
          </item>
@@ -591,7 +591,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLCDNumber" name="lcdNumber_5"/>
+            <widget class="QLCDNumber" name="lcd_radial_ant"/>
            </item>
           </layout>
          </item>
@@ -611,7 +611,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_20">
+        <layout class="QHBoxLayout" name="fft_ant">
          <item>
           <widget class="QGroupBox" name="groupBox">
            <property name="title">
@@ -831,7 +831,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLCDNumber" name="lcdNumber_6"/>
+            <widget class="QLCDNumber" name="lcd_temp_pos"/>
            </item>
           </layout>
          </item>
@@ -850,7 +850,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLCDNumber" name="lcdNumber_7"/>
+            <widget class="QLCDNumber" name="lcd_axial_pos"/>
            </item>
           </layout>
          </item>
@@ -869,7 +869,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLCDNumber" name="lcdNumber_8"/>
+            <widget class="QLCDNumber" name="lcd_radial_pos"/>
            </item>
           </layout>
          </item>
@@ -889,7 +889,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_78">
+        <layout class="QHBoxLayout" name="fft_pos">
          <item>
           <widget class="QGroupBox" name="groupBox_2">
            <property name="title">
