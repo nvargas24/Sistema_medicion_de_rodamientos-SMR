@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>958</width>
-    <height>774</height>
+    <height>816</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,15 +20,25 @@
       <x>40</x>
       <y>20</y>
       <width>881</width>
-      <height>742</height>
+      <height>786</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI Semibold</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0,0,2,1,2,1,12,1,12">
      <item>
       <widget class="QLabel" name="label_7">
        <property name="font">
         <font>
+         <family>Segoe UI Semibold</family>
          <pointsize>18</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -59,8 +69,37 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>14</pointsize>
+             <pointsize>-1</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: #F2F2F2; /* Color de fondo */
+    border: 2px solid #D9D9D9; /* Borde gris claro */
+    border-radius: 15px; /* Bordes curvos */
+    padding: 5px 10px; /* Espacio interno para texto */
+    font-weight: bold; /* Texto en negrita */
+    font-size: 18px; /* Tamaño de fuente */
+    color: #444444; /* Color de texto */
+}
+
+QPushButton:hover {
+    background-color: #88AEF1; /* Color celeste */
+    border-color: #0078D7; /* Borde celeste */
+    color: #FFFFFF; /* Color de texto blanco */
+}
+
+QPushButton:focus {
+    background-color: #88AEF1; /* Color celeste */
+    border-color: #0078D7; /* Borde celeste */
+    color: #FFFFFF; /* Color de texto blanco */
+	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */
+}</string>
            </property>
            <property name="text">
             <string>Iniciar</string>
@@ -77,8 +116,37 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>14</pointsize>
+             <pointsize>-1</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: #F2F2F2; /* Color de fondo */
+    border: 2px solid #D9D9D9; /* Borde gris claro */
+    border-radius: 15px; /* Bordes curvos */
+    padding: 5px 10px; /* Espacio interno para texto */
+    font-weight: bold; /* Texto en negrita */
+    font-size: 18px; /* Tamaño de fuente */
+    color: #444444; /* Color de texto */
+}
+
+QPushButton:hover {
+    background-color: #88AEF1; /* Color celeste */
+    border-color: #0078D7; /* Borde celeste */
+    color: #FFFFFF; /* Color de texto blanco */
+}
+
+QPushButton:focus {
+    background-color: #88AEF1; /* Color celeste */
+    border-color: #0078D7; /* Borde celeste */
+    color: #FFFFFF; /* Color de texto blanco */
+	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */
+}</string>
            </property>
            <property name="text">
             <string>Finalizar</string>
@@ -99,7 +167,10 @@
                 <widget class="QLabel" name="label">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Semibold</family>
                    <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -111,7 +182,10 @@
                 <widget class="QLabel" name="label_operario">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Light</family>
                    <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -127,7 +201,10 @@
                 <widget class="QLabel" name="label_3">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Semibold</family>
                    <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -139,7 +216,10 @@
                 <widget class="QLabel" name="label_legajo">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Light</family>
                    <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -159,7 +239,10 @@
                 <widget class="QLabel" name="label_5">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Semibold</family>
                    <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -171,7 +254,10 @@
                 <widget class="QLabel" name="label_formacion">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Light</family>
                    <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -187,7 +273,10 @@
                 <widget class="QLabel" name="label_8">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Semibold</family>
                    <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -199,7 +288,10 @@
                 <widget class="QLabel" name="label_coche">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Light</family>
                    <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -219,7 +311,10 @@
                 <widget class="QLabel" name="label_10">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Semibold</family>
                    <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -231,7 +326,10 @@
                 <widget class="QLabel" name="label_boguie">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Light</family>
                    <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -247,7 +345,10 @@
                 <widget class="QLabel" name="label_12">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Semibold</family>
                    <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -259,7 +360,10 @@
                 <widget class="QLabel" name="label_motor">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Light</family>
                    <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -283,7 +387,10 @@
                 <widget class="QLabel" name="label_14">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Semibold</family>
                    <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -295,7 +402,10 @@
                 <widget class="QLabel" name="label_modelo_rod_ant">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Light</family>
                    <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -311,7 +421,10 @@
                 <widget class="QLabel" name="label_16">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Semibold</family>
                    <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -323,7 +436,10 @@
                 <widget class="QLabel" name="label_modelo_rod_pos">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Light</family>
                    <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -343,7 +459,10 @@
                 <widget class="QLabel" name="label_18">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Semibold</family>
                    <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -355,7 +474,10 @@
                 <widget class="QLabel" name="label_fase_tierra">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Light</family>
                    <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -371,7 +493,10 @@
                 <widget class="QLabel" name="label_20">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Semibold</family>
                    <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -383,7 +508,10 @@
                 <widget class="QLabel" name="label_fase_rod">
                  <property name="font">
                   <font>
+                   <family>Segoe UI Light</family>
                    <pointsize>10</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -412,7 +540,10 @@
       <widget class="QLabel" name="label_notificacion">
        <property name="font">
         <font>
+         <family>Segoe UI Semibold</family>
          <pointsize>16</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -451,7 +582,10 @@
           <widget class="QLabel" name="label_23">
            <property name="font">
             <font>
+             <family>Segoe UI Semibold</family>
              <pointsize>14</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
@@ -483,7 +617,10 @@
           <widget class="QLabel" name="label_24">
            <property name="font">
             <font>
+             <family>Segoe UI Semibold</family>
              <pointsize>14</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
@@ -544,7 +681,10 @@
             <widget class="QLabel" name="label_26">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -563,7 +703,10 @@
             <widget class="QLabel" name="label_27">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -582,7 +725,10 @@
             <widget class="QLabel" name="label_28">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -661,7 +807,10 @@
             <widget class="QLabel" name="label_78">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -700,7 +849,10 @@
             <widget class="QLabel" name="label_80">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -739,7 +891,10 @@
             <widget class="QLabel" name="label_82">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -778,7 +933,10 @@
             <widget class="QLabel" name="label_84">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -822,7 +980,10 @@
             <widget class="QLabel" name="label_85">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -841,7 +1002,10 @@
             <widget class="QLabel" name="label_86">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -860,7 +1024,10 @@
             <widget class="QLabel" name="label_87">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -942,7 +1109,10 @@
             <widget class="QLabel" name="label_93">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -981,7 +1151,10 @@
             <widget class="QLabel" name="label_91">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -1020,7 +1193,10 @@
             <widget class="QLabel" name="label_89">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -1059,7 +1235,10 @@
             <widget class="QLabel" name="label_95">
              <property name="font">
               <font>
+               <family>Segoe UI Semibold</family>
                <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">

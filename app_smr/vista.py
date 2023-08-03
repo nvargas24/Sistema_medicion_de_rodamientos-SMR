@@ -5,27 +5,14 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 from PySide2 import QtCore as core
 
-# Se importa libreria de archivos .py creados con pyside2 de un .ui
-# Necesario para acceder a las clases y metodos de cada widget en .ui
-from Qt.window_main import *
 from Qt.window_login import *
 
-# Para agregar imagenes en un label de Qt:
-# 1: Crear archivo .qrc donde se indique el nombre del archivo
-# 2: Pasar archivo .qrc a .py con pyrcc5 -o [].py [].qrc
-# 3: Importar los archivos .py generados al archivo donde se utilizaran las imagenes
-# 4: Usar : self.ui.image.setPixmap(QPixmap("caballeros_zodiaco.jpeg")) por ejemplos,para cargar la imagen al label
-
-# Hay que tener en cuenta la clase definida en el qtdesigner de cada ventana
-# Para la ventana principal siempre es QMainWindow, esto se asigna cuando se crea la ventana en QtDesigner
 class Mainwindow(QMainWindow):
     def __init__(self, windows):
         super().__init__() # Accedo constructor de QMainWindwow, por si se cambia de nombre es mejor utilizar super()
         self.ui = Ui_MainWindow() # Instancio la ventana main esta clase esta defnida en .py del .ui
         self.ui.setupUi(self) # Se pasa objeto de la clase MainWindow asi se
-                              # se identifica el espacio de trabajo
-                              # En el archivo window_main.py se puede ver el nombre que se lo 
-                              # identifica al objeto, esto se puede modificar en QtDesigner
+
         self.windows = windows # Parametro para acceder a los metodos del modelo, en este caso de la clase Option
         #self.ui.usuario.setText("Lab")  # se debe utilizar un observador para no tener problemas al cerrar la ventana login y quede registrado el nomnbre
         # Ahora puedo acceder a los metodos de cada widget
