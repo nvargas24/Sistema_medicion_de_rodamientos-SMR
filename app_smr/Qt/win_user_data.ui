@@ -81,12 +81,12 @@
              </font>
             </property>
             <property name="text">
-             <string>Apellido</string>
+             <string>Operario</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit"/>
+           <widget class="QLineEdit" name="input_operario"/>
           </item>
          </layout>
         </item>
@@ -105,7 +105,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_2"/>
+           <widget class="QLineEdit" name="input_legajo"/>
           </item>
          </layout>
         </item>
@@ -148,7 +148,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_5"/>
+           <widget class="QLineEdit" name="input_formacion"/>
           </item>
          </layout>
         </item>
@@ -167,7 +167,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_6"/>
+           <widget class="QLineEdit" name="input_coche"/>
           </item>
          </layout>
         </item>
@@ -210,7 +210,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_7"/>
+           <widget class="QLineEdit" name="input_boguie"/>
           </item>
          </layout>
         </item>
@@ -229,7 +229,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_8"/>
+           <widget class="QLineEdit" name="input_motor"/>
           </item>
          </layout>
         </item>
@@ -272,7 +272,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_9"/>
+           <widget class="QLineEdit" name="input_fase_tierra"/>
           </item>
          </layout>
         </item>
@@ -291,7 +291,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_10"/>
+           <widget class="QLineEdit" name="input_rod_tierra"/>
           </item>
          </layout>
         </item>
@@ -305,7 +305,7 @@
        <number>20</number>
       </property>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="btn_volver">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -323,7 +323,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="btn_reset">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -341,7 +341,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="btn_ingresar">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
