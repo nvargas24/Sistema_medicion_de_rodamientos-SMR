@@ -56,6 +56,8 @@ class WindowAdmin(QMainWindow):
         self.ui.setupUi(self)
         self.windows = windows
 
+        self.file_cfg = CfgFileManager()
+
         self.ui.cbox_modelo_rod_ant.activated.connect(self.select_rod)
         self.ui.cbox_modelo_rod_pos.activated.connect(self.select_rod)
 
@@ -63,7 +65,10 @@ class WindowAdmin(QMainWindow):
         self.ui.btn_reset.clicked.connect(self.reset_config)
         self.ui.btn_edit_rod.clicked.connect(self.edit_rod)
 
-    def save_config(self): pass
+    def save_config(self):
+        self.file_cfg.new_file_config()
+        print("se crea nuevo archivo cfg")
+        
     def reset_config(self): pass
     def edit_rod(self):
         self.windows.win_rod.show()
