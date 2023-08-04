@@ -65,7 +65,7 @@ background-color: #EAEAEA;
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="usuario">
+       <widget class="QLineEdit" name="input_usuario">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -133,7 +133,7 @@ QLineEdit:focus {
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="contrasenia">
+       <widget class="QLineEdit" name="input_contrasenia">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>

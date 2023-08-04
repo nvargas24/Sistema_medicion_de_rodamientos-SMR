@@ -49,14 +49,14 @@ class Ui_LoginWindow(object):
 
         self.horizontalLayout.addWidget(self.label_usuario)
 
-        self.usuario = QLineEdit(self.verticalLayoutWidget)
-        self.usuario.setObjectName(u"usuario")
+        self.input_usuario = QLineEdit(self.verticalLayoutWidget)
+        self.input_usuario.setObjectName(u"input_usuario")
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.usuario.sizePolicy().hasHeightForWidth())
-        self.usuario.setSizePolicy(sizePolicy1)
-        self.usuario.setStyleSheet(u"QLineEdit {\n"
+        sizePolicy1.setHeightForWidth(self.input_usuario.sizePolicy().hasHeightForWidth())
+        self.input_usuario.setSizePolicy(sizePolicy1)
+        self.input_usuario.setStyleSheet(u"QLineEdit {\n"
 "    background-color: #F7F7F7; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
 "    border-radius: 17px; /* Bordes curvos */\n"
@@ -69,9 +69,9 @@ class Ui_LoginWindow(object):
 "    outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}\n"
 "")
-        self.usuario.setClearButtonEnabled(True)
+        self.input_usuario.setClearButtonEnabled(True)
 
-        self.horizontalLayout.addWidget(self.usuario)
+        self.horizontalLayout.addWidget(self.input_usuario)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -87,11 +87,11 @@ class Ui_LoginWindow(object):
 
         self.horizontalLayout_2.addWidget(self.label_contra)
 
-        self.contrasenia = QLineEdit(self.verticalLayoutWidget)
-        self.contrasenia.setObjectName(u"contrasenia")
-        sizePolicy1.setHeightForWidth(self.contrasenia.sizePolicy().hasHeightForWidth())
-        self.contrasenia.setSizePolicy(sizePolicy1)
-        self.contrasenia.setStyleSheet(u"QLineEdit {\n"
+        self.input_contrasenia = QLineEdit(self.verticalLayoutWidget)
+        self.input_contrasenia.setObjectName(u"input_contrasenia")
+        sizePolicy1.setHeightForWidth(self.input_contrasenia.sizePolicy().hasHeightForWidth())
+        self.input_contrasenia.setSizePolicy(sizePolicy1)
+        self.input_contrasenia.setStyleSheet(u"QLineEdit {\n"
 "    background-color: #F7F7F7; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
 "    border-radius: 17px; /* Bordes curvos */\n"
@@ -104,10 +104,10 @@ class Ui_LoginWindow(object):
 "    outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}\n"
 "")
-        self.contrasenia.setEchoMode(QLineEdit.Password)
-        self.contrasenia.setClearButtonEnabled(True)
+        self.input_contrasenia.setEchoMode(QLineEdit.Password)
+        self.input_contrasenia.setClearButtonEnabled(True)
 
-        self.horizontalLayout_2.addWidget(self.contrasenia)
+        self.horizontalLayout_2.addWidget(self.input_contrasenia)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -199,11 +199,11 @@ class Ui_LoginWindow(object):
     def retranslateUi(self, LoginWindow):
         LoginWindow.setWindowTitle(QCoreApplication.translate("LoginWindow", u"Form", None))
         self.label_usuario.setText(QCoreApplication.translate("LoginWindow", u"Usuario:", None))
-        self.usuario.setInputMask("")
-        self.usuario.setText("")
-        self.usuario.setPlaceholderText(QCoreApplication.translate("LoginWindow", u"Ingrese nombre de usuario en minuscula", None))
+        self.input_usuario.setInputMask("")
+        self.input_usuario.setText("")
+        self.input_usuario.setPlaceholderText(QCoreApplication.translate("LoginWindow", u"Ingrese nombre de usuario en minuscula", None))
         self.label_contra.setText(QCoreApplication.translate("LoginWindow", u"Contrase\u00f1a:", None))
-        self.contrasenia.setPlaceholderText(QCoreApplication.translate("LoginWindow", u"Ingrese contrase\u00f1a en minuscula", None))
+        self.input_contrasenia.setPlaceholderText(QCoreApplication.translate("LoginWindow", u"Ingrese contrase\u00f1a en minuscula", None))
         self.btn_aceptar.setText(QCoreApplication.translate("LoginWindow", u"Ingresar", None))
         self.btn_salir.setText(QCoreApplication.translate("LoginWindow", u"Salir", None))
     # retranslateUi
