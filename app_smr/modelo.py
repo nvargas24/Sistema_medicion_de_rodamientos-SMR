@@ -53,8 +53,11 @@ class CfgFileManager():
                         file.write('\n') 
 
 
-    def upgrade_file_config(self, modelo, config_freq):
+    def add_model_config(self, modelo, config_freq):
         self.config[modelo] = config_freq
+
+    def update_config_value(self, rodamiento, sentido, velocidad, freq, new_value):
+        self.config[rodamiento][sentido][velocidad][freq] = new_value 
 
     def read_file_config(self):
         pass
