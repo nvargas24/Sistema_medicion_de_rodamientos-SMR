@@ -17,7 +17,7 @@ class Ui_UserWindow(object):
     def setupUi(self, UserWindow):
         if not UserWindow.objectName():
             UserWindow.setObjectName(u"UserWindow")
-        UserWindow.resize(1245, 750)
+        UserWindow.resize(1245, 763)
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -30,7 +30,7 @@ class Ui_UserWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget_3 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_3.setObjectName(u"verticalLayoutWidget_3")
-        self.verticalLayoutWidget_3.setGeometry(QRect(20, 10, 1211, 711))
+        self.verticalLayoutWidget_3.setGeometry(QRect(20, 10, 1211, 740))
         self.verticalLayout_9 = QVBoxLayout(self.verticalLayoutWidget_3)
         self.verticalLayout_9.setSpacing(20)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
@@ -350,6 +350,37 @@ class Ui_UserWindow(object):
 
 
         self.verticalLayout_7.addLayout(self.verticalLayout_6)
+
+        self.btn_config_data = QPushButton(self.verticalLayoutWidget_3)
+        self.btn_config_data.setObjectName(u"btn_config_data")
+        sizePolicy1.setHeightForWidth(self.btn_config_data.sizePolicy().hasHeightForWidth())
+        self.btn_config_data.setSizePolicy(sizePolicy1)
+        self.btn_config_data.setFont(font2)
+        self.btn_config_data.setFocusPolicy(Qt.NoFocus)
+        self.btn_config_data.setStyleSheet(u"QPushButton {\n"
+"    background-color: #F2F2F2; /* Color de fondo */\n"
+"    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
+"    border-radius: 15px; /* Bordes curvos */\n"
+"    padding: 5px 10px; /* Espacio interno para texto */\n"
+"    font-weight: bold; /* Texto en negrita */\n"
+"    font-size: 18px; /* Tama\u00f1o de fuente */\n"
+"    color: #444444; /* Color de texto */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #88AEF1; /* Color celeste */\n"
+"    border-color: #0078D7; /* Borde celeste */\n"
+"    color: #FFFFFF; /* Color de texto blanco */\n"
+"}\n"
+"\n"
+"QPushButton:focus {\n"
+"    background-color: #88AEF1; /* Color celeste */\n"
+"    border-color: #0078D7; /* Borde celeste */\n"
+"    color: #FFFFFF; /* Color de texto blanco */\n"
+"	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
+"}")
+
+        self.verticalLayout_7.addWidget(self.btn_config_data)
 
         self.verticalLayout_7.setStretch(0, 4)
         self.verticalLayout_7.setStretch(1, 2)
@@ -843,8 +874,10 @@ class Ui_UserWindow(object):
     def retranslateUi(self, UserWindow):
         UserWindow.setWindowTitle(QCoreApplication.translate("UserWindow", u"MainWindow", None))
         self.label_7.setText(QCoreApplication.translate("UserWindow", u"SMR - Menu de usuario", None))
-        self.btn_iniciar.setText(QCoreApplication.translate("UserWindow", u"Iniciar", None))
-        self.btn_finalizar.setText(QCoreApplication.translate("UserWindow", u"Finalizar", None))
+        self.btn_iniciar.setText(QCoreApplication.translate("UserWindow", u"Iniciar \n"
+"ensayo", None))
+        self.btn_finalizar.setText(QCoreApplication.translate("UserWindow", u"Finalizar \n"
+"ensayo", None))
         self.label.setText(QCoreApplication.translate("UserWindow", u"Operario:", None))
         self.label_operario.setText("")
         self.label_3.setText(QCoreApplication.translate("UserWindow", u"Legajo:", None))
@@ -865,6 +898,7 @@ class Ui_UserWindow(object):
         self.label_fase_tierra.setText("")
         self.label_20.setText(QCoreApplication.translate("UserWindow", u"Fase a rodamiento:", None))
         self.label_fase_rod.setText("")
+        self.btn_config_data.setText(QCoreApplication.translate("UserWindow", u"Configurar datos", None))
         self.label_notificacion.setText(QCoreApplication.translate("UserWindow", u"NOTIFICACION", None))
         self.label_23.setText(QCoreApplication.translate("UserWindow", u"Temperatura ambiente: ", None))
         self.label_24.setText(QCoreApplication.translate("UserWindow", u"Tiempo de ensayo: ", None))

@@ -9,6 +9,7 @@ from modelo import *
 
 from Qt.win_login import *
 from Qt.win_admin import *
+from Qt.win_admin_rod import *
 from Qt.win_user import *
 from Qt.win_user_form import *
 from Qt.popup_agregar_rod import *
@@ -35,6 +36,8 @@ class WindowLogin(QWidget):
         pswd = self.ui.input_contrasenia.text()
         
         type = self.data_input.user_type(name, pswd)
+        self.ui.input_usuario.clear()
+        self.ui.input_contrasenia.clear()
 
         if type == "admin":
             self.windows.win_admin.show()
@@ -43,8 +46,7 @@ class WindowLogin(QWidget):
             self.windows.win_user_form.show()
             self.close()
         else:
-            self.ui.input_usuario.clear()
-            self.ui.input_contrasenia.clear()
+            print("No existe el usuario")
             # MOstrar anuncio de usuario no valido, capaz como popup
 
 class WindowAdmin(QMainWindow):
@@ -57,19 +59,44 @@ class WindowAdmin(QMainWindow):
         self.ui.cbox_modelo_rod_ant.activated.connect(self.select_rod)
         self.ui.cbox_modelo_rod_pos.activated.connect(self.select_rod)
 
-        self.ui.btn_guardar_ant.clicked.connect(self.save_config_rod)
-        self.ui.btn_guardar_pos.clicked.connect(self.save_config_rod)
+        self.ui.btn_guardar.clicked.connect(self.save_config)
+        self.ui.btn_reset.clicked.connect(self.reset_config)
+        self.ui.btn_edit_rod.clicked.connect(self.edit_rod)
 
-        self.ui.btn_reset_ant.clicked.connect(self.reset_config)
-        self.ui.btn_reset_pos.clicked.connect(self.reset_config)
+    def save_config(self): pass
+    def reset_config(self): pass
+    def edit_rod(self):
+        self.windows.win_rod.show()
+        self.hide()
 
-        self.ui.btn_new_rod_ant.clicked.connect(self.save_new_rod)
-        self.ui.btn_new_rod_pos.clicked.connect(self.save_new_rod)
+    def select_rod(self): pass
+    def closeEvent(self, event):
+        """
+        Evento cierre window de barra default qt
+        """
+        self.windows.win_login.show()
+
+class WindowRod(QMainWindow):
+    def __init__(self, windows):
+        super().__init__() 
+        self.ui = Ui_RodWindow()
+        self.ui.setupUi(self)
+        self.windows = windows
+
+        self.ui.btn_guardar.clicked.connect(self.save_config_rod)
+        self.ui.btn_reset.clicked.connect(self.reset_config)
+        self.ui.btn_new_rod.clicked.connect(self.save_new_rod)
 
     def save_config_rod(self): pass
     def reset_config(self): pass
     def save_new_rod(self): pass
-    def select_rod(self): pass
+
+    def closeEvent(self, event):
+        """
+        Evento cierre window de barra default qt
+        """
+        self.windows.win_admin.show()
+
 
 class WindowUserForm(QDialog):
     def __init__(self, windows):
@@ -80,14 +107,21 @@ class WindowUserForm(QDialog):
     
         self.data_input = InputData()
 
-        self.ui.btn_volver.clicked.connect(self.volver_login)
         self.ui.btn_reset.clicked.connect(self.clear_data)
-        self.ui.btn_ingresar.clicked.connect(self.show_win_user)
+        self.ui.btn_ingresar.clicked.connect(self.ingresar)
 
-    def volver_login(self): pass
     def clear_data(self): pass
-    def show_win_user(self): pass
+    def ingresar(self):
     # se deberia crear archivo temporal para guardar datos de operario y motor
+        self.windows.win_user.show()
+        self.hide()
+
+    def closeEvent(self, event):
+        """
+        Evento cierre window de barra default qt
+        """
+        if not self.windows.win_user.isVisible():
+            self.windows.win_login.show()
 
 class WindowUser(QMainWindow):
     def __init__(self, windows):
@@ -98,9 +132,18 @@ class WindowUser(QMainWindow):
 
         self.ui.btn_iniciar.clicked.connect(self.init_ensayo)
         self.ui.btn_finalizar.clicked.connect(self.stop_ensayo)
+        self.ui.btn_config_data.clicked.connect(self.config_data)
 
     def init_ensayo(self): pass
     def stop_ensayo(self): pass
+    def config_data(self):
+        self.windows.win_user_form.show()
+
+    def closeEvent(self, event):
+        """
+        Evento cierre window de barra default qt
+        """
+        self.windows.win_login.show()
 
 class PopupAgregarRod(QDialog):
     def __init__(self, windows):

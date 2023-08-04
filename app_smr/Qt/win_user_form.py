@@ -17,10 +17,10 @@ class Ui_FormUserWindow(object):
     def setupUi(self, FormUserWindow):
         if not FormUserWindow.objectName():
             FormUserWindow.setObjectName(u"FormUserWindow")
-        FormUserWindow.resize(394, 584)
+        FormUserWindow.resize(455, 649)
         self.verticalLayoutWidget = QWidget(FormUserWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(30, 20, 331, 541))
+        self.verticalLayoutWidget.setGeometry(QRect(30, 20, 411, 611))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -50,7 +50,7 @@ class Ui_FormUserWindow(object):
         self.groupBox.setFont(font1)
         self.verticalLayoutWidget_2 = QWidget(self.groupBox)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(20, 20, 291, 82))
+        self.verticalLayoutWidget_2.setGeometry(QRect(20, 20, 361, 83))
         self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -129,7 +129,7 @@ class Ui_FormUserWindow(object):
         self.groupBox_2.setFont(font1)
         self.verticalLayoutWidget_4 = QWidget(self.groupBox_2)
         self.verticalLayoutWidget_4.setObjectName(u"verticalLayoutWidget_4")
-        self.verticalLayoutWidget_4.setGeometry(QRect(20, 20, 291, 82))
+        self.verticalLayoutWidget_4.setGeometry(QRect(20, 20, 361, 83))
         self.verticalLayout_4 = QVBoxLayout(self.verticalLayoutWidget_4)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -203,7 +203,7 @@ class Ui_FormUserWindow(object):
         self.groupBox_3.setFont(font1)
         self.verticalLayoutWidget_5 = QWidget(self.groupBox_3)
         self.verticalLayoutWidget_5.setObjectName(u"verticalLayoutWidget_5")
-        self.verticalLayoutWidget_5.setGeometry(QRect(20, 20, 291, 82))
+        self.verticalLayoutWidget_5.setGeometry(QRect(20, 20, 361, 83))
         self.verticalLayout_5 = QVBoxLayout(self.verticalLayoutWidget_5)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
@@ -277,7 +277,7 @@ class Ui_FormUserWindow(object):
         self.groupBox_4.setFont(font1)
         self.verticalLayoutWidget_6 = QWidget(self.groupBox_4)
         self.verticalLayoutWidget_6.setObjectName(u"verticalLayoutWidget_6")
-        self.verticalLayoutWidget_6.setGeometry(QRect(20, 20, 291, 82))
+        self.verticalLayoutWidget_6.setGeometry(QRect(20, 20, 361, 83))
         self.verticalLayout_6 = QVBoxLayout(self.verticalLayoutWidget_6)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -349,47 +349,18 @@ class Ui_FormUserWindow(object):
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.horizontalLayout_11.setContentsMargins(-1, 20, -1, -1)
-        self.btn_volver = QPushButton(self.verticalLayoutWidget)
-        self.btn_volver.setObjectName(u"btn_volver")
+        self.btn_reset = QPushButton(self.verticalLayoutWidget)
+        self.btn_reset.setObjectName(u"btn_reset")
         sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.btn_volver.sizePolicy().hasHeightForWidth())
-        self.btn_volver.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.btn_reset.sizePolicy().hasHeightForWidth())
+        self.btn_reset.setSizePolicy(sizePolicy)
         font3 = QFont()
         font3.setBold(True)
         font3.setWeight(75)
-        self.btn_volver.setFont(font3)
-        self.btn_volver.setStyleSheet(u"QPushButton {\n"
-"    background-color: #F2F2F2; /* Color de fondo */\n"
-"    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
-"    border-radius: 15px; /* Bordes curvos */\n"
-"    padding: 5px 10px; /* Espacio interno para texto */\n"
-"    font-weight: bold; /* Texto en negrita */\n"
-"    font-size: 14px; /* Tama\u00f1o de fuente */\n"
-"    color: #444444; /* Color de texto */\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: #88AEF1; /* Color celeste */\n"
-"    border-color: #0078D7; /* Borde celeste */\n"
-"    color: #FFFFFF; /* Color de texto blanco */\n"
-"}\n"
-"\n"
-"QPushButton:focus {\n"
-"    background-color: #88AEF1; /* Color celeste */\n"
-"    border-color: #0078D7; /* Borde celeste */\n"
-"    color: #FFFFFF; /* Color de texto blanco */\n"
-"	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
-"}")
-
-        self.horizontalLayout_11.addWidget(self.btn_volver)
-
-        self.btn_reset = QPushButton(self.verticalLayoutWidget)
-        self.btn_reset.setObjectName(u"btn_reset")
-        sizePolicy.setHeightForWidth(self.btn_reset.sizePolicy().hasHeightForWidth())
-        self.btn_reset.setSizePolicy(sizePolicy)
         self.btn_reset.setFont(font3)
+        self.btn_reset.setFocusPolicy(Qt.NoFocus)
         self.btn_reset.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
@@ -420,6 +391,7 @@ class Ui_FormUserWindow(object):
         sizePolicy.setHeightForWidth(self.btn_ingresar.sizePolicy().hasHeightForWidth())
         self.btn_ingresar.setSizePolicy(sizePolicy)
         self.btn_ingresar.setFont(font3)
+        self.btn_ingresar.setFocusPolicy(Qt.NoFocus)
         self.btn_ingresar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
@@ -484,7 +456,6 @@ class Ui_FormUserWindow(object):
         self.input_fase_tierra.setPlaceholderText(QCoreApplication.translate("FormUserWindow", u"Ingrese conexi\u00f3n", None))
         self.label_11.setText(QCoreApplication.translate("FormUserWindow", u"Rodamiento a tierra", None))
         self.input_rod_tierra.setPlaceholderText(QCoreApplication.translate("FormUserWindow", u"Ingrese conexi\u00f3n", None))
-        self.btn_volver.setText(QCoreApplication.translate("FormUserWindow", u"Volver", None))
         self.btn_reset.setText(QCoreApplication.translate("FormUserWindow", u"Reset", None))
         self.btn_ingresar.setText(QCoreApplication.translate("FormUserWindow", u"Ingresar", None))
     # retranslateUi

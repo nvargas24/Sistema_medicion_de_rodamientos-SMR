@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>394</width>
-    <height>584</height>
+    <width>455</width>
+    <height>649</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>30</x>
      <y>20</y>
-     <width>331</width>
-     <height>541</height>
+     <width>411</width>
+     <height>611</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1,6,6,6,6,4">
@@ -72,8 +72,8 @@
         <rect>
          <x>20</x>
          <y>20</y>
-         <width>291</width>
-         <height>82</height>
+         <width>361</width>
+         <height>83</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
@@ -181,8 +181,8 @@ QLineEdit:focus {
         <rect>
          <x>20</x>
          <y>20</y>
-         <width>291</width>
-         <height>82</height>
+         <width>361</width>
+         <height>83</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0">
@@ -290,8 +290,8 @@ QLineEdit:focus {
         <rect>
          <x>20</x>
          <y>20</y>
-         <width>291</width>
-         <height>82</height>
+         <width>361</width>
+         <height>83</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -399,8 +399,8 @@ QLineEdit:focus {
         <rect>
          <x>20</x>
          <y>20</y>
-         <width>291</width>
-         <height>82</height>
+         <width>361</width>
+         <height>83</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -496,50 +496,6 @@ QLineEdit:focus {
        <number>20</number>
       </property>
       <item>
-       <widget class="QPushButton" name="btn_volver">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>-1</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton {
-    background-color: #F2F2F2; /* Color de fondo */
-    border: 2px solid #D9D9D9; /* Borde gris claro */
-    border-radius: 15px; /* Bordes curvos */
-    padding: 5px 10px; /* Espacio interno para texto */
-    font-weight: bold; /* Texto en negrita */
-    font-size: 14px; /* Tamaño de fuente */
-    color: #444444; /* Color de texto */
-}
-
-QPushButton:hover {
-    background-color: #88AEF1; /* Color celeste */
-    border-color: #0078D7; /* Borde celeste */
-    color: #FFFFFF; /* Color de texto blanco */
-}
-
-QPushButton:focus {
-    background-color: #88AEF1; /* Color celeste */
-    border-color: #0078D7; /* Borde celeste */
-    color: #FFFFFF; /* Color de texto blanco */
-	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */
-}</string>
-        </property>
-        <property name="text">
-         <string>Volver</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="btn_reset">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
@@ -553,6 +509,9 @@ QPushButton:focus {
           <weight>75</weight>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
@@ -597,6 +556,9 @@ QPushButton:focus {
           <weight>75</weight>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {

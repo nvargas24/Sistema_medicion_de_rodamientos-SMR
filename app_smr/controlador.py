@@ -13,6 +13,7 @@ class Controlador():
         # Creo ventanas
         self.win_login = WindowLogin(self)
         self.win_admin = WindowAdmin(self)
+        self.win_rod = WindowRod(self)
         self.win_user = WindowUser(self)
         self.win_user_form = WindowUserForm(self)
         self.popup_agregar_rod = PopupAgregarRod(self)
