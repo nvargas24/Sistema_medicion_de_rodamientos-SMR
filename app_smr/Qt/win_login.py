@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'window_login.ui'
+## Form generated from reading UI file 'win_login.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -122,6 +122,7 @@ class Ui_LoginWindow(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.btn_aceptar.sizePolicy().hasHeightForWidth())
         self.btn_aceptar.setSizePolicy(sizePolicy2)
+        self.btn_aceptar.setFocusPolicy(Qt.NoFocus)
         self.btn_aceptar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
@@ -156,6 +157,7 @@ class Ui_LoginWindow(object):
         self.btn_salir.setObjectName(u"btn_salir")
         sizePolicy2.setHeightForWidth(self.btn_salir.sizePolicy().hasHeightForWidth())
         self.btn_salir.setSizePolicy(sizePolicy2)
+        self.btn_salir.setFocusPolicy(Qt.NoFocus)
         self.btn_salir.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"

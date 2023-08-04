@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>FormUserWindow</class>
+ <widget class="QDialog" name="FormUserWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -73,7 +73,7 @@
          <x>20</x>
          <y>20</y>
          <width>291</width>
-         <height>81</height>
+         <height>82</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
@@ -182,7 +182,7 @@ QLineEdit:focus {
          <x>20</x>
          <y>20</y>
          <width>291</width>
-         <height>81</height>
+         <height>82</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0">
@@ -291,7 +291,7 @@ QLineEdit:focus {
          <x>20</x>
          <y>20</y>
          <width>291</width>
-         <height>81</height>
+         <height>82</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -400,7 +400,7 @@ QLineEdit:focus {
          <x>20</x>
          <y>20</y>
          <width>291</width>
-         <height>81</height>
+         <height>82</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
