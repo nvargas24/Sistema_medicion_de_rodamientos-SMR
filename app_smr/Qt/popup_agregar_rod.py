@@ -55,16 +55,16 @@ class Ui_NewRodWindow(object):
 
         self.horizontalLayout.addWidget(self.label_2)
 
-        self.lineEdit = QLineEdit(self.verticalLayoutWidget)
-        self.lineEdit.setObjectName(u"lineEdit")
+        self.input_model_rod = QLineEdit(self.verticalLayoutWidget)
+        self.input_model_rod.setObjectName(u"input_model_rod")
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.lineEdit.sizePolicy().hasHeightForWidth())
-        self.lineEdit.setSizePolicy(sizePolicy1)
+        sizePolicy1.setHeightForWidth(self.input_model_rod.sizePolicy().hasHeightForWidth())
+        self.input_model_rod.setSizePolicy(sizePolicy1)
         font2 = QFont()
-        self.lineEdit.setFont(font2)
-        self.lineEdit.setStyleSheet(u"QLineEdit {\n"
+        self.input_model_rod.setFont(font2)
+        self.input_model_rod.setStyleSheet(u"QLineEdit {\n"
 "    background-color: #F7F7F7; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
 "    border-radius: 17px; /* Bordes curvos */\n"
@@ -78,7 +78,7 @@ class Ui_NewRodWindow(object):
 "}\n"
 "")
 
-        self.horizontalLayout.addWidget(self.lineEdit)
+        self.horizontalLayout.addWidget(self.input_model_rod)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -90,14 +90,14 @@ class Ui_NewRodWindow(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
-        self.pushButton = QPushButton(self.verticalLayoutWidget)
-        self.pushButton.setObjectName(u"pushButton")
+        self.btn_aceptar = QPushButton(self.verticalLayoutWidget)
+        self.btn_aceptar.setObjectName(u"btn_aceptar")
         font3 = QFont()
         font3.setBold(True)
         font3.setWeight(75)
-        self.pushButton.setFont(font3)
-        self.pushButton.setFocusPolicy(Qt.NoFocus)
-        self.pushButton.setStyleSheet(u"QPushButton {\n"
+        self.btn_aceptar.setFont(font3)
+        self.btn_aceptar.setFocusPolicy(Qt.NoFocus)
+        self.btn_aceptar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
 "    border-radius: 15px; /* Bordes curvos */\n"
@@ -120,7 +120,7 @@ class Ui_NewRodWindow(object):
 "	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}")
 
-        self.horizontalLayout_2.addWidget(self.pushButton)
+        self.horizontalLayout_2.addWidget(self.btn_aceptar)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -145,7 +145,7 @@ class Ui_NewRodWindow(object):
         NewRodWindow.setWindowTitle(QCoreApplication.translate("NewRodWindow", u"Dialog", None))
         self.label.setText(QCoreApplication.translate("NewRodWindow", u"Nuevo rodamiento", None))
         self.label_2.setText(QCoreApplication.translate("NewRodWindow", u"Modelo:", None))
-        self.lineEdit.setPlaceholderText(QCoreApplication.translate("NewRodWindow", u"Ingrese nombre de nuevo modelo", None))
-        self.pushButton.setText(QCoreApplication.translate("NewRodWindow", u"Aceptar", None))
+        self.input_model_rod.setPlaceholderText(QCoreApplication.translate("NewRodWindow", u"Ingrese nombre de nuevo modelo", None))
+        self.btn_aceptar.setText(QCoreApplication.translate("NewRodWindow", u"Aceptar", None))
     # retranslateUi
 
