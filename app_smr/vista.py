@@ -57,6 +57,8 @@ class WindowLogin(QWidget):
         """
         Metodo para setear valores de formulario
         """
+        self.windows.win_admin.ui.cbox_modelo_rod_ant.setCurrentText(self.data_ensayo["RodamientoAnterior"])
+        self.windows.win_admin.ui.cbox_modelo_rod_pos.setCurrentText(self.data_ensayo["RodamientoPosterior"])
         self.windows.win_admin.ui.sbox_temp_max.setValue(int(self.data_ensayo["TemperaturaMax"]))
         self.windows.win_admin.ui.sbox_temp_min.setValue(int(self.data_ensayo["TemperaturaMin"]))
         self.windows.win_admin.ui.sbox_axial_max.setValue(float(self.data_ensayo["VibracionAxialMax"]))

@@ -86,18 +86,24 @@ class CfgFileManager():
     
     # CONFIG ENSAYO
     def new_file_config_ensayo(self):
+        list_rod = self.read_list_rod()
+
         self.config_ensayo= {
             "EnsayoDefault": {
+                "RodamientoAnterior": list_rod[0],
+                "RodamientoPosterior": list_rod[0],
                 "TemperaturaMax": 30,
                 "TemperaturaMin": 12,
                 "VibracionAxialMax": 0.05,
                 "VibracionRadialMax": 0.1
             },
             "UltimoEnsayo": {
-                "TemperaturaMax": 30,
-                "TemperaturaMin": 12,
-                "VibracionAxialMax": 0.05,
-                "VibracionRadialMax": 0.1
+                "RodamientoAnterior": list_rod[1],
+                "RodamientoPosterior": list_rod[1],
+                "TemperaturaMax": 35,
+                "TemperaturaMin": 10,
+                "VibracionAxialMax": 0.55,
+                "VibracionRadialMax": 0.4
             },
         }
 
