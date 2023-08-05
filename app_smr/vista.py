@@ -22,7 +22,7 @@ class WindowLogin(QWidget):
         self.windows = windows
     
         self.data_input = InputData()
-        self.file_cfg = CfgFileManager()
+        self.file_cfg = CfgFileManager() # VER SI SE BORRA
 
         self.ui.btn_aceptar.clicked.connect(self.read_data)
         self.ui.btn_salir.clicked.connect(self.exit)
@@ -41,10 +41,7 @@ class WindowLogin(QWidget):
         self.ui.input_contrasenia.clear()
 
         if type == "admin":
-            # lectura de archivo cfg de ensayo
-            self.data_ensayo=self.file_cfg.read_file_config_ensayo("UltimoEnsayo")
             self.windows.win_admin.show()
-            self.set_param_win_admin()
             self.close()
         elif type == "user":
             self.windows.win_user_form.show()
@@ -53,16 +50,6 @@ class WindowLogin(QWidget):
             print("No existe el usuario")
             # MOstrar anuncio de usuario no valido, capaz como popup
 
-    def set_param_win_admin(self):
-        """
-        Metodo para setear valores de formulario
-        """
-        self.windows.win_admin.ui.cbox_modelo_rod_ant.setCurrentText(self.data_ensayo["RodamientoAnterior"])
-        self.windows.win_admin.ui.cbox_modelo_rod_pos.setCurrentText(self.data_ensayo["RodamientoPosterior"])
-        self.windows.win_admin.ui.sbox_temp_max.setValue(int(self.data_ensayo["TemperaturaMax"]))
-        self.windows.win_admin.ui.sbox_temp_min.setValue(int(self.data_ensayo["TemperaturaMin"]))
-        self.windows.win_admin.ui.sbox_axial_max.setValue(float(self.data_ensayo["VibracionAxialMax"]))
-        self.windows.win_admin.ui.sbox_radial_max.setValue(float(self.data_ensayo["VibracionRadialMax"]))
 
 class WindowAdmin(QMainWindow):
     def __init__(self, windows):
@@ -84,8 +71,24 @@ class WindowAdmin(QMainWindow):
         self.ui.btn_reset.clicked.connect(self.reset_config)
         self.ui.btn_edit_rod.clicked.connect(self.edit_rod)
 
+        self.set_param_win_admin("UltimoEnsayo")
+
+    def set_param_win_admin(self, ensayo):
+        """
+        Metodo para setear valores de formulario
+        """
+        self.data_ensayo=self.file_cfg.read_file_config_ensayo(ensayo)
+
+        self.ui.cbox_modelo_rod_ant.setCurrentText(self.data_ensayo["RodamientoAnterior"])
+        self.ui.cbox_modelo_rod_pos.setCurrentText(self.data_ensayo["RodamientoPosterior"])
+        self.ui.sbox_temp_max.setValue(int(self.data_ensayo["TemperaturaMax"]))
+        self.ui.sbox_temp_min.setValue(int(self.data_ensayo["TemperaturaMin"]))
+        self.ui.sbox_axial_max.setValue(float(self.data_ensayo["VibracionAxialMax"]))
+        self.ui.sbox_radial_max.setValue(float(self.data_ensayo["VibracionRadialMax"]))
+
+
     def save_config(self):
-        self.file_cfg.new_file_config_ensayo() # debe quitarse luego
+        #self.file_cfg.new_file_config_ensayo() # debe quitarse luego
         #print("se crea nuevo archivo cfg")
         rod_ant = self.ui.cbox_modelo_rod_ant.currentText()
         rod_pos = self.ui.cbox_modelo_rod_pos.currentText()
@@ -102,7 +105,9 @@ class WindowAdmin(QMainWindow):
         print(radial_max)
 
 
-    def reset_config(self): pass
+    def reset_config(self):
+        self.set_param_win_admin("EnsayoDefault")
+
     def edit_rod(self):
         self.file_cfg.read_list_rod()
         self.windows.win_rod.show()
