@@ -71,6 +71,7 @@ class WindowAdmin(QMainWindow):
         
     def reset_config(self): pass
     def edit_rod(self):
+        self.file_cfg.read_list_rod()
         self.windows.win_rod.show()
         self.hide()
 

@@ -14,6 +14,9 @@ class InputData():
             print("Usuario no valido")
             return "no existe" 
     
+    def data_test(self):
+        pass
+
 class CfgFileManager():
     def new_file_config(self):
         self.config={
@@ -43,15 +46,14 @@ class CfgFileManager():
 
         with open('config_rod.cfg', 'w') as file:
             for rodamiento, sentidos in self.config.items():
-                file.write(f'[{rodamiento}]\n')
+                file.write(f'[[{rodamiento}]]\n')
                 for sentido, velocidades in sentidos.items():
-                    file.write(f'   [{sentido}]\n')
+                    file.write(f'    [{sentido}]\n')
                     for velocidad, freqs in velocidades.items():
-                        file.write(f'       [{velocidad}]\n')
+                        file.write(f'        [{velocidad}]\n')
                         for freq, value in freqs.items():
-                            file.write(f'               {freq}={value}\n')
+                            file.write(f'            {freq}={value}\n')
                         file.write('\n') 
-
 
     def add_model_config(self, modelo, config_freq):
         self.config[modelo] = config_freq
@@ -59,8 +61,25 @@ class CfgFileManager():
     def update_config_value(self, rodamiento, sentido, velocidad, freq, new_value):
         self.config[rodamiento][sentido][velocidad][freq] = new_value 
 
-    def read_file_config(self):
-        pass
+    def read_list_rod(self):
+        self.rodamientos = []
 
+        with open('config_rod.cfg', 'r') as file:
+            lines = file.readlines()
+
+        for line in lines:
+            line = line.strip()
+
+            if  line.startswith('[[') and \
+                line.endswith(']]'):
+                rodamiento = line[2:-2]
+                self.rodamientos.append(rodamiento)
+        
+        print("Lista de rodamientos")
+        print(self.rodamientos)
+
+    def read_file_config(self, rodamiento, sentido, velocidad): pass
+
+        
     def delete_file_config(self):
         pass
