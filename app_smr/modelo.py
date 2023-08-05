@@ -80,7 +80,6 @@ class CfgFileManager():
 
     def read_file_config(self, rodamiento, sentido, velocidad): pass
 
-        
     def delete_file_config(self):
         pass
     
@@ -129,3 +128,18 @@ class CfgFileManager():
                     config_data[ensayo_actual][clave.strip()] = valor.strip()
 
         return config_data.get(ensayo, {})
+
+    def update_config_ensayo(self, parametro, new_value):
+        with open('config_ensayo.cfg', "r") as file:
+            lines = file.readlines()
+
+        with open('config_ensayo.cfg', "w") as file:
+            modificar = False
+            for i, line in enumerate(lines):
+                if modificar and parametro in lines[i]:
+                    lines[i] = f"{parametro} = {new_value}\n"
+                    modificar = False
+                file.write(lines[i])
+
+                if "[UltimoEnsayo]" in line:
+                    modificar = True

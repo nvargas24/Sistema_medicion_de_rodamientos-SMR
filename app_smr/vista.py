@@ -27,6 +27,8 @@ class WindowLogin(QWidget):
         self.ui.btn_aceptar.clicked.connect(self.read_data)
         self.ui.btn_salir.clicked.connect(self.exit)
 
+        #self.file_cfg.new_file_config_ensayo() #####
+
     def exit(self):
         self.ui.input_usuario.clear()
         self.ui.input_contrasenia.clear()
@@ -97,13 +99,13 @@ class WindowAdmin(QMainWindow):
         axial_max = self.ui.sbox_axial_max.value()
         radial_max = self.ui.sbox_radial_max.value()
         
-        print(rod_ant)
-        print(rod_pos)
-        print(temp_max)
-        print(temp_min)
-        print(axial_max)
-        print(radial_max)
-
+        self.file_cfg.update_config_ensayo("RodamientoAnterior", rod_ant)
+        self.file_cfg.update_config_ensayo("RodamientoPosterior", rod_pos)
+        self.file_cfg.update_config_ensayo("TemperaturaMax", temp_max)
+        self.file_cfg.update_config_ensayo("TemperaturaMin", temp_min)
+        self.file_cfg.update_config_ensayo("VibracionAxialMax", axial_max)
+        self.file_cfg.update_config_ensayo("VibracionRadialMax", radial_max)
+        print("Se modifica configuracion de ensayo")
 
     def reset_config(self):
         self.set_param_win_admin("EnsayoDefault")

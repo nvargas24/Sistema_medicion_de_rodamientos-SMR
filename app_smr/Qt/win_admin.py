@@ -145,6 +145,7 @@ class Ui_AdminWindow(object):
         self.sbox_axial_max.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
         self.sbox_axial_max.setMinimum(-20.000000000000000)
         self.sbox_axial_max.setMaximum(20.000000000000000)
+        self.sbox_axial_max.setSingleStep(0.010000000000000)
 
         self.horizontalLayout_3.addWidget(self.sbox_axial_max)
 
