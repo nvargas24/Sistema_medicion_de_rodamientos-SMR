@@ -17,7 +17,7 @@ class Ui_AdminWindow(object):
     def setupUi(self, AdminWindow):
         if not AdminWindow.objectName():
             AdminWindow.setObjectName(u"AdminWindow")
-        AdminWindow.resize(588, 532)
+        AdminWindow.resize(596, 532)
         self.verticalLayoutWidget = QWidget(AdminWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(50, 40, 491, 454))
@@ -135,10 +135,16 @@ class Ui_AdminWindow(object):
 
         self.horizontalLayout_3.addWidget(self.label_4)
 
-        self.sbox_axial_max = QSpinBox(self.verticalLayoutWidget)
+        self.sbox_axial_max = QDoubleSpinBox(self.verticalLayoutWidget)
         self.sbox_axial_max.setObjectName(u"sbox_axial_max")
-        self.sbox_axial_max.setFocusPolicy(Qt.ClickFocus)
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.sbox_axial_max.sizePolicy().hasHeightForWidth())
+        self.sbox_axial_max.setSizePolicy(sizePolicy)
         self.sbox_axial_max.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.sbox_axial_max.setMinimum(-20.000000000000000)
+        self.sbox_axial_max.setMaximum(20.000000000000000)
 
         self.horizontalLayout_3.addWidget(self.sbox_axial_max)
 
@@ -154,10 +160,14 @@ class Ui_AdminWindow(object):
 
         self.horizontalLayout_4.addWidget(self.label_5)
 
-        self.sbox_radial_max = QSpinBox(self.verticalLayoutWidget)
+        self.sbox_radial_max = QDoubleSpinBox(self.verticalLayoutWidget)
         self.sbox_radial_max.setObjectName(u"sbox_radial_max")
-        self.sbox_radial_max.setFocusPolicy(Qt.ClickFocus)
+        sizePolicy.setHeightForWidth(self.sbox_radial_max.sizePolicy().hasHeightForWidth())
+        self.sbox_radial_max.setSizePolicy(sizePolicy)
         self.sbox_radial_max.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.sbox_radial_max.setMinimum(-20.000000000000000)
+        self.sbox_radial_max.setMaximum(20.000000000000000)
+        self.sbox_radial_max.setSingleStep(0.010000000000000)
 
         self.horizontalLayout_4.addWidget(self.sbox_radial_max)
 
@@ -171,11 +181,11 @@ class Ui_AdminWindow(object):
         self.horizontalLayout_16.setContentsMargins(-1, 10, -1, 10)
         self.btn_guardar = QPushButton(self.verticalLayoutWidget)
         self.btn_guardar.setObjectName(u"btn_guardar")
-        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.btn_guardar.sizePolicy().hasHeightForWidth())
-        self.btn_guardar.setSizePolicy(sizePolicy)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.btn_guardar.sizePolicy().hasHeightForWidth())
+        self.btn_guardar.setSizePolicy(sizePolicy1)
         self.btn_guardar.setFocusPolicy(Qt.NoFocus)
         self.btn_guardar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
@@ -208,8 +218,8 @@ class Ui_AdminWindow(object):
 
         self.btn_reset = QPushButton(self.verticalLayoutWidget)
         self.btn_reset.setObjectName(u"btn_reset")
-        sizePolicy.setHeightForWidth(self.btn_reset.sizePolicy().hasHeightForWidth())
-        self.btn_reset.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.btn_reset.sizePolicy().hasHeightForWidth())
+        self.btn_reset.setSizePolicy(sizePolicy1)
         self.btn_reset.setFocusPolicy(Qt.NoFocus)
         self.btn_reset.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
@@ -238,8 +248,8 @@ class Ui_AdminWindow(object):
 
         self.btn_edit_rod = QPushButton(self.verticalLayoutWidget)
         self.btn_edit_rod.setObjectName(u"btn_edit_rod")
-        sizePolicy.setHeightForWidth(self.btn_edit_rod.sizePolicy().hasHeightForWidth())
-        self.btn_edit_rod.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.btn_edit_rod.sizePolicy().hasHeightForWidth())
+        self.btn_edit_rod.setSizePolicy(sizePolicy1)
         self.btn_edit_rod.setFocusPolicy(Qt.NoFocus)
         self.btn_edit_rod.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"

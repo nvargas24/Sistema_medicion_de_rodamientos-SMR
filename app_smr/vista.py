@@ -22,6 +22,7 @@ class WindowLogin(QWidget):
         self.windows = windows
     
         self.data_input = InputData()
+        self.file_cfg = CfgFileManager()
 
         self.ui.btn_aceptar.clicked.connect(self.read_data)
         self.ui.btn_salir.clicked.connect(self.exit)
@@ -40,7 +41,10 @@ class WindowLogin(QWidget):
         self.ui.input_contrasenia.clear()
 
         if type == "admin":
+            # lectura de archivo cfg de ensayo
+            self.data_ensayo=self.file_cfg.read_file_config_ensayo("UltimoEnsayo")
             self.windows.win_admin.show()
+            self.set_param_win_admin()
             self.close()
         elif type == "user":
             self.windows.win_user_form.show()
@@ -48,6 +52,15 @@ class WindowLogin(QWidget):
         else:
             print("No existe el usuario")
             # MOstrar anuncio de usuario no valido, capaz como popup
+
+    def set_param_win_admin(self):
+        """
+        Metodo para setear valores de formulario
+        """
+        self.windows.win_admin.ui.sbox_temp_max.setValue(int(self.data_ensayo["TemperaturaMax"]))
+        self.windows.win_admin.ui.sbox_temp_min.setValue(int(self.data_ensayo["TemperaturaMin"]))
+        self.windows.win_admin.ui.sbox_axial_max.setValue(float(self.data_ensayo["VibracionAxialMax"]))
+        self.windows.win_admin.ui.sbox_radial_max.setValue(float(self.data_ensayo["VibracionRadialMax"]))
 
 class WindowAdmin(QMainWindow):
     def __init__(self, windows):
@@ -58,6 +71,10 @@ class WindowAdmin(QMainWindow):
 
         self.file_cfg = CfgFileManager()
 
+        # lee y cargo rodamientos disponibles en combobox
+        self.ui.cbox_modelo_rod_ant.addItems(self.file_cfg.read_list_rod())
+        self.ui.cbox_modelo_rod_pos.addItems(self.file_cfg.read_list_rod())
+
         self.ui.cbox_modelo_rod_ant.activated.connect(self.select_rod)
         self.ui.cbox_modelo_rod_pos.activated.connect(self.select_rod)
 
@@ -66,9 +83,23 @@ class WindowAdmin(QMainWindow):
         self.ui.btn_edit_rod.clicked.connect(self.edit_rod)
 
     def save_config(self):
-        self.file_cfg.new_file_config()
-        print("se crea nuevo archivo cfg")
+        self.file_cfg.new_file_config_ensayo() # debe quitarse luego
+        #print("se crea nuevo archivo cfg")
+        rod_ant = self.ui.cbox_modelo_rod_ant.currentText()
+        rod_pos = self.ui.cbox_modelo_rod_pos.currentText()
+        temp_max = self.ui.sbox_temp_max.value()
+        temp_min = self.ui.sbox_temp_min.value()
+        axial_max = self.ui.sbox_axial_max.value()
+        radial_max = self.ui.sbox_radial_max.value()
         
+        print(rod_ant)
+        print(rod_pos)
+        print(temp_max)
+        print(temp_min)
+        print(axial_max)
+        print(radial_max)
+
+
     def reset_config(self): pass
     def edit_rod(self):
         self.file_cfg.read_list_rod()
@@ -88,10 +119,14 @@ class WindowRod(QMainWindow):
         self.ui = Ui_RodWindow()
         self.ui.setupUi(self)
         self.windows = windows
+        self.file_cfg = CfgFileManager()
 
         self.ui.btn_guardar.clicked.connect(self.save_config_rod)
         self.ui.btn_reset.clicked.connect(self.reset_config)
         self.ui.btn_new_rod.clicked.connect(self.save_new_rod)
+
+        # lee y cargo rodamientos disponibles en combobox
+        self.ui.cbox_modelo_rod.addItems(self.file_cfg.read_list_rod())
 
     def save_config_rod(self): pass
     def reset_config(self): pass

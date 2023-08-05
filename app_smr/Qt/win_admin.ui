@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>588</width>
+    <width>596</width>
     <height>532</height>
    </rect>
   </property>
@@ -193,12 +193,21 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="sbox_axial_max">
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
+       <widget class="QDoubleSpinBox" name="sbox_axial_max">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="minimum">
+         <double>-20.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>20.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -214,12 +223,24 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="sbox_radial_max">
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
+       <widget class="QDoubleSpinBox" name="sbox_radial_max">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="minimum">
+         <double>-20.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>20.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
         </property>
        </widget>
       </item>

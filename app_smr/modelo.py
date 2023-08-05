@@ -18,7 +18,8 @@ class InputData():
         pass
 
 class CfgFileManager():
-    def new_file_config(self):
+    # CONFIG RODAMIENTOS
+    def new_file_config_rod(self):
         self.config={
             'SKF1':{
                 'horario':{
@@ -75,11 +76,50 @@ class CfgFileManager():
                 rodamiento = line[2:-2]
                 self.rodamientos.append(rodamiento)
         
-        print("Lista de rodamientos")
-        print(self.rodamientos)
+        return self.rodamientos
 
     def read_file_config(self, rodamiento, sentido, velocidad): pass
 
         
     def delete_file_config(self):
         pass
+    
+    # CONFIG ENSAYO
+    def new_file_config_ensayo(self):
+        self.config_ensayo= {
+            "EnsayoDefault": {
+                "TemperaturaMax": 30,
+                "TemperaturaMin": 12,
+                "VibracionAxialMax": 0.05,
+                "VibracionRadialMax": 0.1
+            },
+            "UltimoEnsayo": {
+                "TemperaturaMax": 30,
+                "TemperaturaMin": 12,
+                "VibracionAxialMax": 0.05,
+                "VibracionRadialMax": 0.1
+            },
+        }
+
+        with open('config_ensayo.cfg', 'w') as file:
+            for ensayo, parametros in self.config_ensayo.items():
+                file.write(f"[{ensayo}]\n")
+                for parametro, value in parametros.items():
+                    file.write(f"{parametro} = {value}\n")
+                file.write("\n")
+
+    def read_file_config_ensayo(self, ensayo):
+        config_data = {}
+        ensayo_actual = None
+
+        with open('config_ensayo.cfg', "r") as file:
+            for line in file:
+                line = line.strip()
+                if line.startswith("[") and line.endswith("]"):
+                    ensayo_actual = line[1:-1]
+                    config_data[ensayo_actual] = {}
+                elif ensayo_actual and "=" in line:
+                    clave, valor = line.split("=")
+                    config_data[ensayo_actual][clave.strip()] = valor.strip()
+
+        return config_data.get(ensayo, {})
