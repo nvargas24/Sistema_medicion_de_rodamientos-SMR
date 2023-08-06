@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>726</width>
+    <width>723</width>
     <height>600</height>
    </rect>
   </property>
@@ -96,21 +96,6 @@
            </property>
            <property name="styleSheet">
             <string notr="true">background-color: rgb(255, 255, 255);</string>
-           </property>
-           <property name="editable">
-            <bool>false</bool>
-           </property>
-           <property name="currentText">
-            <string/>
-           </property>
-           <property name="insertPolicy">
-            <enum>QComboBox::NoInsert</enum>
-           </property>
-           <property name="sizeAdjustPolicy">
-            <enum>QComboBox::AdjustToContents</enum>
-           </property>
-           <property name="placeholderText">
-            <string>Seleccione rodamiento</string>
            </property>
           </widget>
          </item>

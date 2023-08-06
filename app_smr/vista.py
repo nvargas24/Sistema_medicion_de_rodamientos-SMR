@@ -66,9 +66,6 @@ class WindowAdmin(QMainWindow):
         self.ui.cbox_modelo_rod_ant.addItems(self.file_cfg.read_list_rod())
         self.ui.cbox_modelo_rod_pos.addItems(self.file_cfg.read_list_rod())
 
-        self.ui.cbox_modelo_rod_ant.activated.connect(self.select_rod)
-        self.ui.cbox_modelo_rod_pos.activated.connect(self.select_rod)
-
         self.ui.btn_guardar.clicked.connect(self.save_config)
         self.ui.btn_reset.clicked.connect(self.reset_config)
         self.ui.btn_edit_rod.clicked.connect(self.edit_rod)
@@ -90,8 +87,6 @@ class WindowAdmin(QMainWindow):
 
 
     def save_config(self):
-        #self.file_cfg.new_file_config_ensayo() # debe quitarse luego
-        #print("se crea nuevo archivo cfg")
         rod_ant = self.ui.cbox_modelo_rod_ant.currentText()
         rod_pos = self.ui.cbox_modelo_rod_pos.currentText()
         temp_max = self.ui.sbox_temp_max.value()
@@ -115,7 +110,6 @@ class WindowAdmin(QMainWindow):
         self.windows.win_rod.show()
         self.hide()
 
-    def select_rod(self): pass
     def closeEvent(self, event):
         """
         Evento cierre window de barra default qt
@@ -130,14 +124,48 @@ class WindowRod(QMainWindow):
         self.windows = windows
         self.file_cfg = CfgFileManager()
 
+        self.ui.cbox_modelo_rod.currentIndexChanged.connect(self.obtener_parametros)
+        self.ui.rbtn_horario.clicked.connect(self.obtener_parametros)
+        self.ui.rbtn_antihorario.clicked.connect(self.obtener_parametros)
+        self.ui.rbtn_v300.clicked.connect(self.obtener_parametros)
+        self.ui.rbtn_v1500.clicked.connect(self.obtener_parametros)
+        self.ui.rbtn_v1800.clicked.connect(self.obtener_parametros)
+
         self.ui.btn_guardar.clicked.connect(self.save_config_rod)
         self.ui.btn_reset.clicked.connect(self.reset_config)
         self.ui.btn_new_rod.clicked.connect(self.save_new_rod)
 
         # lee y cargo rodamientos disponibles en combobox
         self.ui.cbox_modelo_rod.addItems(self.file_cfg.read_list_rod())
+        self.obtener_parametros()
 
-    def save_config_rod(self): pass
+    def obtener_parametros(self):
+        model_rod = self.ui.cbox_modelo_rod.currentText()
+        
+        if self.ui.rbtn_horario.isChecked():
+            self.ui.rbtn_v300.setEnabled(True)
+            sentido_giro = self.ui.rbtn_horario.text()
+        elif self.ui.rbtn_antihorario.isChecked():
+            self.ui.rbtn_v300.setEnabled(False)
+            sentido_giro = self.ui.rbtn_antihorario.text()
+            if self.ui.rbtn_v300.isChecked():
+                self.ui.rbtn_v1500.setChecked(True)
+
+        if self.ui.rbtn_v300.isChecked():
+            velocidad = self.ui.rbtn_v300.text()
+        elif self.ui.rbtn_v1500.isChecked():
+            velocidad = self.ui.rbtn_v1500.text()
+        elif self.ui.rbtn_v1800.isChecked():
+            velocidad = self.ui.rbtn_v1800.text()
+
+
+        print(model_rod)
+        print(sentido_giro)        
+        print(velocidad)
+
+
+    def save_config_rod(self):
+        self.obtener_parametros()
     def reset_config(self): pass
     def save_new_rod(self): pass
 

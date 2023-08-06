@@ -17,7 +17,7 @@ class Ui_RodWindow(object):
     def setupUi(self, RodWindow):
         if not RodWindow.objectName():
             RodWindow.setObjectName(u"RodWindow")
-        RodWindow.resize(726, 601)
+        RodWindow.resize(723, 600)
         RodWindow.setFocusPolicy(Qt.ClickFocus)
         RodWindow.setStyleSheet(u"background-color: rgb(240, 240, 240);")
         self.centralwidget = QWidget(RodWindow)
@@ -63,9 +63,6 @@ class Ui_RodWindow(object):
         self.cbox_modelo_rod.setFont(font)
         self.cbox_modelo_rod.setFocusPolicy(Qt.ClickFocus)
         self.cbox_modelo_rod.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.cbox_modelo_rod.setEditable(False)
-        self.cbox_modelo_rod.setInsertPolicy(QComboBox.NoInsert)
-        self.cbox_modelo_rod.setSizeAdjustPolicy(QComboBox.AdjustToContents)
 
         self.horizontalLayout_9.addWidget(self.cbox_modelo_rod)
 
@@ -421,8 +418,6 @@ class Ui_RodWindow(object):
         RodWindow.setWindowTitle(QCoreApplication.translate("RodWindow", u"MainWindow", None))
         self.label.setText(QCoreApplication.translate("RodWindow", u"SMR-Menu Administrador", None))
         self.label_13.setText(QCoreApplication.translate("RodWindow", u"Modelo de rodamiento:", None))
-        self.cbox_modelo_rod.setCurrentText("")
-        self.cbox_modelo_rod.setPlaceholderText(QCoreApplication.translate("RodWindow", u"Seleccione rodamiento", None))
         self.label_14.setText(QCoreApplication.translate("RodWindow", u"Sentido de rotacion:", None))
         self.rbtn_horario.setText(QCoreApplication.translate("RodWindow", u"Horario", None))
         self.rbtn_antihorario.setText(QCoreApplication.translate("RodWindow", u"Antiorario", None))
