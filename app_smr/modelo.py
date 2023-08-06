@@ -78,7 +78,21 @@ class CfgFileManager():
         
         return self.rodamientos
 
-    def read_file_config(self, rodamiento, sentido, velocidad): pass
+    def read_file_config(self, rodamiento, sentido, velocidad):
+        config_data = {}
+        ensayo_actual = None
+
+        with open('config_rod.cfg', "r") as file:
+            for line in file:
+                line = line.strip()
+                if line.startswith("[[") and line.endswith("]]"):
+                    ensayo_actual = line[2:-2]
+                    config_data[ensayo_actual] = {}
+                elif ensayo_actual and "=" in line:
+                    clave, valor = line.split("=")
+                    config_data[ensayo_actual][clave.strip()] = valor.strip()
+
+        return config_data.get(rodamiento, {})
 
     def delete_file_config(self):
         pass

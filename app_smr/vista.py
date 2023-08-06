@@ -163,6 +163,9 @@ class WindowRod(QMainWindow):
         print(sentido_giro)        
         print(velocidad)
 
+        value = self.file_cfg.read_file_config(model_rod, sentido_giro, velocidad)
+        print("FRECUENCIA:")
+        print(value)
 
     def save_config_rod(self):
         self.obtener_parametros()
