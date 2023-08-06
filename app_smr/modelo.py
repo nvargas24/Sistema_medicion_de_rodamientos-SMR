@@ -47,9 +47,9 @@ class CfgFileManager():
 
         with open('config_rod.cfg', 'w') as file:
             for rodamiento, sentidos in self.config.items():
-                file.write(f'[[{rodamiento}]]\n')
+                file.write(f'[[[{rodamiento}]]]\n')
                 for sentido, velocidades in sentidos.items():
-                    file.write(f'    [{sentido}]\n')
+                    file.write(f'    [[{sentido}]]\n')
                     for velocidad, freqs in velocidades.items():
                         file.write(f'        [{velocidad}]\n')
                         for freq, value in freqs.items():
@@ -71,28 +71,41 @@ class CfgFileManager():
         for line in lines:
             line = line.strip()
 
-            if  line.startswith('[[') and \
-                line.endswith(']]'):
-                rodamiento = line[2:-2]
+            if  line.startswith('[[[') and \
+                line.endswith(']]]'):
+                rodamiento = line[3:-3]
                 self.rodamientos.append(rodamiento)
         
         return self.rodamientos
 
-    def read_file_config(self, rodamiento, sentido, velocidad):
-        config_data = {}
-        ensayo_actual = None
-
-        with open('config_rod.cfg', "r") as file:
-            for line in file:
+    def read_file_config(self):
+        config_dict = {}
+        
+        categoria = None
+        subcategoria = None
+        subsubcategoria = None
+        
+        with open("config_rod.cfg", 'r') as f:
+            for line in f:
                 line = line.strip()
-                if line.startswith("[[") and line.endswith("]]"):
-                    ensayo_actual = line[2:-2]
-                    config_data[ensayo_actual] = {}
-                elif ensayo_actual and "=" in line:
-                    clave, valor = line.split("=")
-                    config_data[ensayo_actual][clave.strip()] = valor.strip()
+                #print(line)
+                ## se lee el archivo tal cual borrando los espacio al comienzo
+                ## por cada vuelta lee una linea
+                if line.startswith("[[[") and line.endswith("]]]"):
+                    categoria = line[3:-3]
+                    config_dict[categoria] = {} # creo diccionario vacio solo con categoria
+                    print(categoria)
+                elif categoria and line.startswith("[[") and line.endswith("]]"):
+                    subcategoria = line[2:-2]
+                    config_dict[categoria][subcategoria] = {}
+                    print(subcategoria)
+                elif subcategoria and line.startswith("[") and line.endswith("]"):
+                    subsubcategoria = line[1:-1]
+                    config_dict[categoria][subcategoria][subsubcategoria] = None
+                    print(subsubcategoria)
 
-        return config_data.get(rodamiento, {})
+        print(config_dict)
+
 
     def delete_file_config(self):
         pass

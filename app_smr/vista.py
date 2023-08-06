@@ -28,7 +28,7 @@ class WindowLogin(QWidget):
         self.ui.btn_salir.clicked.connect(self.exit)
 
         #self.file_cfg.new_file_config_ensayo() #####
-
+        #self.file_cfg.new_file_config_rod()
     def exit(self):
         self.ui.input_usuario.clear()
         self.ui.input_contrasenia.clear()
@@ -163,9 +163,11 @@ class WindowRod(QMainWindow):
         print(sentido_giro)        
         print(velocidad)
 
-        value = self.file_cfg.read_file_config(model_rod, sentido_giro, velocidad)
+        value = self.file_cfg.read_file_config()
+        #print(value)        
         print("FRECUENCIA:")
-        print(value)
+        #print(value["SKF2"]["horario"]["v1500"]["bpfo"])
+
 
     def save_config_rod(self):
         self.obtener_parametros()
