@@ -152,22 +152,18 @@ class WindowRod(QMainWindow):
                 self.ui.rbtn_v1500.setChecked(True)
 
         if self.ui.rbtn_v300.isChecked():
-            velocidad = self.ui.rbtn_v300.text()
+            velocidad = "v300"
         elif self.ui.rbtn_v1500.isChecked():
-            velocidad = self.ui.rbtn_v1500.text()
+            velocidad = "v1500"
         elif self.ui.rbtn_v1800.isChecked():
-            velocidad = self.ui.rbtn_v1800.text()
+            velocidad = "v1800"
 
+        data_rod = self.file_cfg.read_file_config(model_rod, sentido_giro,velocidad)
 
-        print(model_rod)
-        print(sentido_giro)        
-        print(velocidad)
-
-        value = self.file_cfg.read_file_config()
-        #print(value)        
-        print("FRECUENCIA:")
-        #print(value["SKF2"]["horario"]["v1500"]["bpfo"])
-
+        self.ui.sbox_bpfo.setValue(int(data_rod["bpfo"]))
+        self.ui.sbox_bpfi.setValue(int(data_rod["bpfi"]))
+        self.ui.sbox_ftf.setValue(int(data_rod["ftf"]))
+        self.ui.sbox_bsf.setValue(int(data_rod["bsf"]))
 
     def save_config_rod(self):
         self.obtener_parametros()

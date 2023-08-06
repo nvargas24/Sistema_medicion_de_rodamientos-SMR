@@ -22,25 +22,25 @@ class CfgFileManager():
     def new_file_config_rod(self):
         self.config={
             'SKF1':{
-                'horario':{
-                    'v300':{'bpfo': 12000, 'bpfi': 15000, 'ftf': 600, 'bsf': 800},
-                    'v1500':{'bpfo': 12000, 'bpfi': 15000, 'ftf': 600, 'bsf': 800},
-                    'v1800':{'bpfo': 12000, 'bpfi': 15000, 'ftf': 600, 'bsf': 800},
+                'Horario':{
+                    'v300':{'bpfo': 920, 'bpfi': 1480, 'ftf': 115, 'bsf': 615},
+                    'v1500':{'bpfo': 4620, 'bpfi': 7420, 'ftf': 570, 'bsf': 3070},
+                    'v1800':{'bpfo': 5520, 'bpfi': 8870, 'ftf': 685, 'bsf': 3670},
                 },
-                'antihorario':{
-                    'v1500':{'bpfo': 12000, 'bpfi': 15000, 'ftf': 600, 'bsf': 800},
-                    'v1800':{'bpfo': 12000, 'bpfi': 15000, 'ftf': 600, 'bsf': 800},
+                'Antihorario':{
+                    'v1500':{'bpfo': 4620, 'bpfi': 7420, 'ftf': 570, 'bsf': 3070},
+                    'v1800':{'bpfo': 5520, 'bpfi': 8875, 'ftf': 685, 'bsf': 3670},
                 },               
             },
             'SKF2':{
-                'horario':{
-                    'v300':{'bpfo': 12000, 'bpfi': 15000, 'ftf': 600, 'bsf': 800},
-                    'v1500':{'bpfo': 12000, 'bpfi': 15000, 'ftf': 600, 'bsf': 800},
-                    'v1800':{'bpfo': 12000, 'bpfi': 15000, 'ftf': 600, 'bsf': 800},
+                'Horario':{
+                    'v300':{'bpfo': 2211, 'bpfi': 2890, 'ftf': 130, 'bsf': 1110},
+                    'v1500':{'bpfo': 11090, 'bpfi': 14500, 'ftf': 650, 'bsf': 5550},
+                    'v1800':{'bpfo': 13260, 'bpfi': 17325, 'ftf': 775, 'bsf': 6640},
                 },
-                'antihorario':{
-                    'v1500':{'bpfo': 12000, 'bpfi': 15000, 'ftf': 600, 'bsf': 800},
-                    'v1800':{'bpfo': 12000, 'bpfi': 15000, 'ftf': 600, 'bsf': 800},
+                'Antihorario':{
+                    'v1500':{'bpfo': 11090, 'bpfi': 14495, 'ftf': 650, 'bsf': 5550},
+                    'v1800':{'bpfo': 13260, 'bpfi': 17335, 'ftf': 775, 'bsf': 6645},
                 },               
             }
         }
@@ -71,15 +71,17 @@ class CfgFileManager():
         for line in lines:
             line = line.strip()
 
-            if  line.startswith('[[[') and \
-                line.endswith(']]]'):
+            if  line.startswith('[[[') and line.endswith(']]]'):
                 rodamiento = line[3:-3]
                 self.rodamientos.append(rodamiento)
         
         return self.rodamientos
 
-    def read_file_config(self):
-        config_dict = {}
+    def read_file_config(self, rodamiento, sentido, velocidad):
+        """
+        Metodo para obtener diccionario de config_rod.cfg
+        """
+        config_data = {}
         
         categoria = None
         subcategoria = None
@@ -88,24 +90,21 @@ class CfgFileManager():
         with open("config_rod.cfg", 'r') as f:
             for line in f:
                 line = line.strip()
-                #print(line)
-                ## se lee el archivo tal cual borrando los espacio al comienzo
-                ## por cada vuelta lee una linea
                 if line.startswith("[[[") and line.endswith("]]]"):
                     categoria = line[3:-3]
-                    config_dict[categoria] = {} # creo diccionario vacio solo con categoria
-                    print(categoria)
+                    config_data[categoria] = {} # creo diccionario vacio solo con categoria
                 elif categoria and line.startswith("[[") and line.endswith("]]"):
                     subcategoria = line[2:-2]
-                    config_dict[categoria][subcategoria] = {}
-                    print(subcategoria)
+                    config_data[categoria][subcategoria] = {}
                 elif subcategoria and line.startswith("[") and line.endswith("]"):
                     subsubcategoria = line[1:-1]
-                    config_dict[categoria][subcategoria][subsubcategoria] = None
-                    print(subsubcategoria)
-
-        print(config_dict)
-
+                    config_data[categoria][subcategoria][subsubcategoria] = {}
+                elif subsubcategoria and "=" in line:
+                    clave, valor = line.split("=")
+                    config_data[categoria][subcategoria][subsubcategoria][clave.strip()] = valor.strip()
+        # se accede a hasta diccionario de velocidad por clave
+        # para acceder a la frecuencia indicar clave en parametro
+        return config_data.get(rodamiento, {}).get(sentido, {}).get(velocidad,{})
 
     def delete_file_config(self):
         pass
@@ -153,7 +152,7 @@ class CfgFileManager():
                 elif ensayo_actual and "=" in line:
                     clave, valor = line.split("=")
                     config_data[ensayo_actual][clave.strip()] = valor.strip()
-
+        # con get se especifica el diccionario a acceder
         return config_data.get(ensayo, {})
 
     def update_config_ensayo(self, parametro, new_value):

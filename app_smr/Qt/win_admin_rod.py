@@ -420,7 +420,7 @@ class Ui_RodWindow(object):
         self.label_13.setText(QCoreApplication.translate("RodWindow", u"Modelo de rodamiento:", None))
         self.label_14.setText(QCoreApplication.translate("RodWindow", u"Sentido de rotacion:", None))
         self.rbtn_horario.setText(QCoreApplication.translate("RodWindow", u"Horario", None))
-        self.rbtn_antihorario.setText(QCoreApplication.translate("RodWindow", u"Antiorario", None))
+        self.rbtn_antihorario.setText(QCoreApplication.translate("RodWindow", u"Antihorario", None))
         self.label_15.setText(QCoreApplication.translate("RodWindow", u"Velocidad de motor:", None))
         self.rbtn_v300.setText(QCoreApplication.translate("RodWindow", u"300 RPM", None))
         self.rbtn_v1500.setText(QCoreApplication.translate("RodWindow", u"1500 RPM", None))
