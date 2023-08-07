@@ -21,7 +21,7 @@ class CfgFileManager():
     # CONFIG RODAMIENTOS
     def new_file_config_rod(self):
         self.config={
-            'SKF1':{
+            'SKF6311Default':{
                 'Horario':{
                     'v300':{'bpfo': 920, 'bpfi': 1480, 'ftf': 115, 'bsf': 615},
                     'v1500':{'bpfo': 4620, 'bpfi': 7420, 'ftf': 570, 'bsf': 3070},
@@ -32,7 +32,29 @@ class CfgFileManager():
                     'v1800':{'bpfo': 5520, 'bpfi': 8875, 'ftf': 685, 'bsf': 3670},
                 },               
             },
-            'SKF2':{
+            'SKF214Default':{
+                'Horario':{
+                    'v300':{'bpfo': 2211, 'bpfi': 2890, 'ftf': 130, 'bsf': 1110},
+                    'v1500':{'bpfo': 11090, 'bpfi': 14500, 'ftf': 650, 'bsf': 5550},
+                    'v1800':{'bpfo': 13260, 'bpfi': 17325, 'ftf': 775, 'bsf': 6640},
+                },
+                'Antihorario':{
+                    'v1500':{'bpfo': 11090, 'bpfi': 14495, 'ftf': 650, 'bsf': 5550},
+                    'v1800':{'bpfo': 13260, 'bpfi': 17335, 'ftf': 775, 'bsf': 6645},
+                },               
+            },
+            'SKF6311':{
+                'Horario':{
+                    'v300':{'bpfo': 920, 'bpfi': 1480, 'ftf': 115, 'bsf': 615},
+                    'v1500':{'bpfo': 4620, 'bpfi': 7420, 'ftf': 570, 'bsf': 3070},
+                    'v1800':{'bpfo': 5520, 'bpfi': 8870, 'ftf': 685, 'bsf': 3670},
+                },
+                'Antihorario':{
+                    'v1500':{'bpfo': 4620, 'bpfi': 7420, 'ftf': 570, 'bsf': 3070},
+                    'v1800':{'bpfo': 5520, 'bpfi': 8875, 'ftf': 685, 'bsf': 3670},
+                },               
+            },
+            'SKF214':{
                 'Horario':{
                     'v300':{'bpfo': 2211, 'bpfi': 2890, 'ftf': 130, 'bsf': 1110},
                     'v1500':{'bpfo': 11090, 'bpfi': 14500, 'ftf': 650, 'bsf': 5550},
@@ -59,8 +81,33 @@ class CfgFileManager():
     def add_model_config(self, modelo, config_freq):
         self.config[modelo] = config_freq
 
-    def update_config_value(self, rodamiento, sentido, velocidad, freq, new_value):
-        self.config[rodamiento][sentido][velocidad][freq] = new_value 
+    def update_config_rod(self, rodamiento, sentido, velocidad, freq, new_value):
+        with open('config_rod.cfg', "r") as file:
+            lines = file.readlines()
+
+        with open('config_rod.cfg', "w") as file:
+            modificar = False
+            found_rod = False
+            found_sentido = False
+
+            for i, line in enumerate(lines):
+                line = line.strip()
+                if modificar and freq in lines[i]:
+                    lines[i] = f"            {freq}={new_value}\n"
+                    modificar = False
+                    found_rod = False
+                    found_sentido = False
+                file.write(lines[i])
+
+                if line.startswith("[[[") and line.endswith("]]]"):
+                    if line[3:-3] == rodamiento:
+                        found_rod = True
+                elif found_rod and line.startswith("[[") and line.endswith("]]"):
+                    if line[2:-2] == sentido:
+                        found_sentido = True
+                elif found_sentido and  line.startswith("[") and line.endswith("]"):
+                    if line[1:-1] == velocidad:
+                        modificar = True
 
     def read_list_rod(self):
         self.rodamientos = []
@@ -73,7 +120,8 @@ class CfgFileManager():
 
             if  line.startswith('[[[') and line.endswith(']]]'):
                 rodamiento = line[3:-3]
-                self.rodamientos.append(rodamiento)
+                if rodamiento.find("Default") == -1:
+                    self.rodamientos.append(rodamiento)
         
         return self.rodamientos
 

@@ -28,7 +28,7 @@ class WindowLogin(QWidget):
         self.ui.btn_salir.clicked.connect(self.exit)
 
         #self.file_cfg.new_file_config_ensayo() #####
-        #self.file_cfg.new_file_config_rod()
+        self.file_cfg.new_file_config_rod()
     def exit(self):
         self.ui.input_usuario.clear()
         self.ui.input_contrasenia.clear()
@@ -85,7 +85,6 @@ class WindowAdmin(QMainWindow):
         self.ui.sbox_axial_max.setValue(float(self.data_ensayo["VibracionAxialMax"]))
         self.ui.sbox_radial_max.setValue(float(self.data_ensayo["VibracionRadialMax"]))
 
-
     def save_config(self):
         rod_ant = self.ui.cbox_modelo_rod_ant.currentText()
         rod_pos = self.ui.cbox_modelo_rod_pos.currentText()
@@ -124,12 +123,12 @@ class WindowRod(QMainWindow):
         self.windows = windows
         self.file_cfg = CfgFileManager()
 
-        self.ui.cbox_modelo_rod.currentIndexChanged.connect(self.obtener_parametros)
-        self.ui.rbtn_horario.clicked.connect(self.obtener_parametros)
-        self.ui.rbtn_antihorario.clicked.connect(self.obtener_parametros)
-        self.ui.rbtn_v300.clicked.connect(self.obtener_parametros)
-        self.ui.rbtn_v1500.clicked.connect(self.obtener_parametros)
-        self.ui.rbtn_v1800.clicked.connect(self.obtener_parametros)
+        self.ui.cbox_modelo_rod.currentIndexChanged.connect(self.set_parama_win_admin_rod)
+        self.ui.rbtn_horario.clicked.connect(self.set_parama_win_admin_rod)
+        self.ui.rbtn_antihorario.clicked.connect(self.set_parama_win_admin_rod)
+        self.ui.rbtn_v300.clicked.connect(self.set_parama_win_admin_rod)
+        self.ui.rbtn_v1500.clicked.connect(self.set_parama_win_admin_rod)
+        self.ui.rbtn_v1800.clicked.connect(self.set_parama_win_admin_rod)
 
         self.ui.btn_guardar.clicked.connect(self.save_config_rod)
         self.ui.btn_reset.clicked.connect(self.reset_config)
@@ -137,9 +136,9 @@ class WindowRod(QMainWindow):
 
         # lee y cargo rodamientos disponibles en combobox
         self.ui.cbox_modelo_rod.addItems(self.file_cfg.read_list_rod())
-        self.obtener_parametros()
+        self.set_parama_win_admin_rod()
 
-    def obtener_parametros(self):
+    def set_parama_win_admin_rod(self):
         model_rod = self.ui.cbox_modelo_rod.currentText()
         
         if self.ui.rbtn_horario.isChecked():
@@ -166,8 +165,36 @@ class WindowRod(QMainWindow):
         self.ui.sbox_bsf.setValue(int(data_rod["bsf"]))
 
     def save_config_rod(self):
-        self.obtener_parametros()
+        model_rod = self.ui.cbox_modelo_rod.currentText()
+        
+        if self.ui.rbtn_horario.isChecked():
+            self.ui.rbtn_v300.setEnabled(True)
+            sentido_giro = self.ui.rbtn_horario.text()
+        elif self.ui.rbtn_antihorario.isChecked():
+            self.ui.rbtn_v300.setEnabled(False)
+            sentido_giro = self.ui.rbtn_antihorario.text()
+            if self.ui.rbtn_v300.isChecked():
+                self.ui.rbtn_v1500.setChecked(True)
+
+        if self.ui.rbtn_v300.isChecked():
+            velocidad = "v300"
+        elif self.ui.rbtn_v1500.isChecked():
+            velocidad = "v1500"
+        elif self.ui.rbtn_v1800.isChecked():
+            velocidad = "v1800"
+
+        new_freq_bpfo = self.ui.sbox_bpfo.value()
+        new_freq_bpfi = self.ui.sbox_bpfi.value()
+        new_freq_ftf = self.ui.sbox_ftf.value()
+        new_freq_bsf = self.ui.sbox_bsf.value()
+
+        self.file_cfg.update_config_rod(model_rod, sentido_giro, velocidad, "bpfo", new_freq_bpfo)
+        self.file_cfg.update_config_rod(model_rod, sentido_giro, velocidad, "bpfi", new_freq_bpfi)
+        self.file_cfg.update_config_rod(model_rod, sentido_giro, velocidad, "ftf", new_freq_ftf)
+        self.file_cfg.update_config_rod(model_rod, sentido_giro, velocidad, "bsf", new_freq_bsf)
+    
     def reset_config(self): pass
+    
     def save_new_rod(self): pass
 
     def closeEvent(self, event):
