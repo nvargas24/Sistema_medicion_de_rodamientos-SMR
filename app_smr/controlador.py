@@ -17,6 +17,9 @@ class Controlador():
         self.win_user_form = WindowUserForm(self)        
         self.win_user = WindowUser(self)
         self.popup_agregar_rod = PopupAgregarRod(self)
+        self.popup_meas_corrientes = PopupMeasCorrientes(self)
+        self.popup_time_ensayos = PopupTimeEnsayos(self)
+        self.popup_advertencia_campos = PopupAdvCampos(self)
         
         self.win_login.show()
         try:

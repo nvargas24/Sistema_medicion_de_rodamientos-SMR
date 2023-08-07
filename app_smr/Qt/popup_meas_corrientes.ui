@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>MeasCorrienteWindow</class>
+ <widget class="QDialog" name="MeasCorrienteWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -225,10 +225,10 @@ QLineEdit:focus {
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="leftMargin">
-       <number>70</number>
+       <number>90</number>
       </property>
       <property name="rightMargin">
-       <number>70</number>
+       <number>90</number>
       </property>
       <item>
        <widget class="QPushButton" name="pushButton">

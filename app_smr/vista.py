@@ -21,6 +21,9 @@ from Qt.win_admin_rod import *
 from Qt.win_user import *
 from Qt.win_user_form import *
 from Qt.popup_agregar_rod import *
+from Qt.popup_meas_corrientes import *
+from Qt.popup_time_ensayos import *
+from Qt.popup_advertencia_campos import *
 
 SAMPLES_FFT = 512
 
@@ -372,6 +375,28 @@ class WindowUser(QMainWindow):
         """
         self.windows.win_login.show()
 
+class PopupMeasCorrientes(QDialog):
+    def __init__(self, windows):
+        super().__init__() 
+        self.ui = Ui_MeasCorrienteWindow()
+        self.ui.setupUi(self)
+        self.windows = windows
 
+        #self.ui.btn_aceptar.clicked.connect(self.new_model_rod)
+
+class PopupTimeEnsayos(QDialog):
+    def __init__(self, windows):
+        super().__init__() 
+        self.ui = Ui_TimeEnsayosWindow()
+        self.ui.setupUi(self)
+        self.windows = windows
+
+class PopupAdvCampos(QDialog):
+    def __init__(self, windows):
+        super().__init__() 
+        self.ui = Ui_AdvCamposWindow()
+        self.ui.setupUi(self)
+        self.windows = windows
+    
 
 

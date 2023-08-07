@@ -17,7 +17,7 @@ class Ui_UserWindow(object):
     def setupUi(self, UserWindow):
         if not UserWindow.objectName():
             UserWindow.setObjectName(u"UserWindow")
-        UserWindow.resize(1258, 774)
+        UserWindow.resize(1258, 746)
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -31,7 +31,7 @@ class Ui_UserWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget_3 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_3.setObjectName(u"verticalLayoutWidget_3")
-        self.verticalLayoutWidget_3.setGeometry(QRect(20, 10, 1211, 740))
+        self.verticalLayoutWidget_3.setGeometry(QRect(20, 10, 1211, 721))
         self.verticalLayout_9 = QVBoxLayout(self.verticalLayoutWidget_3)
         self.verticalLayout_9.setSpacing(20)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
@@ -362,6 +362,90 @@ class Ui_UserWindow(object):
 
         self.verticalLayout_7.addWidget(self.btn_config_data)
 
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setSpacing(1)
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.label_24 = QLabel(self.verticalLayoutWidget_3)
+        self.label_24.setObjectName(u"label_24")
+        font5 = QFont()
+        font5.setFamily(u"Segoe UI Semibold")
+        font5.setPointSize(14)
+        font5.setBold(True)
+        font5.setWeight(75)
+        self.label_24.setFont(font5)
+        self.label_24.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_15.addWidget(self.label_24)
+
+        self.lcd_time_ensayo = QLCDNumber(self.verticalLayoutWidget_3)
+        self.lcd_time_ensayo.setObjectName(u"lcd_time_ensayo")
+        sizePolicy.setHeightForWidth(self.lcd_time_ensayo.sizePolicy().hasHeightForWidth())
+        self.lcd_time_ensayo.setSizePolicy(sizePolicy)
+
+        self.horizontalLayout_15.addWidget(self.lcd_time_ensayo)
+
+        self.horizontalLayout_15.setStretch(0, 1)
+        self.horizontalLayout_15.setStretch(1, 1)
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_15)
+
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setSpacing(1)
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.label_23 = QLabel(self.verticalLayoutWidget_3)
+        self.label_23.setObjectName(u"label_23")
+        self.label_23.setFont(font5)
+        self.label_23.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_16.addWidget(self.label_23)
+
+        self.lcd_temp_amb = QLCDNumber(self.verticalLayoutWidget_3)
+        self.lcd_temp_amb.setObjectName(u"lcd_temp_amb")
+        sizePolicy.setHeightForWidth(self.lcd_temp_amb.sizePolicy().hasHeightForWidth())
+        self.lcd_temp_amb.setSizePolicy(sizePolicy)
+
+        self.horizontalLayout_16.addWidget(self.lcd_temp_amb)
+
+        self.horizontalLayout_16.setStretch(0, 1)
+        self.horizontalLayout_16.setStretch(1, 1)
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_16)
+
+
+        self.verticalLayout_7.addLayout(self.verticalLayout_3)
+
+        self.btn_finalizar_2 = QPushButton(self.verticalLayoutWidget_3)
+        self.btn_finalizar_2.setObjectName(u"btn_finalizar_2")
+        sizePolicy1.setHeightForWidth(self.btn_finalizar_2.sizePolicy().hasHeightForWidth())
+        self.btn_finalizar_2.setSizePolicy(sizePolicy1)
+        self.btn_finalizar_2.setFocusPolicy(Qt.NoFocus)
+        self.btn_finalizar_2.setStyleSheet(u"QPushButton {\n"
+"    background-color: #F2F2F2; /* Color de fondo */\n"
+"    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
+"    border-radius: 15px; /* Bordes curvos */\n"
+"    padding: 5px 10px; /* Espacio interno para texto */\n"
+"    font-weight: bold; /* Texto en negrita */\n"
+"    font-size: 18px; /* Tama\u00f1o de fuente */\n"
+"    color: #444444; /* Color de texto */\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: #88AEF1; /* Color celeste */\n"
+"    border-color: #0078D7; /* Borde celeste */\n"
+"    color: #FFFFFF; /* Color de texto blanco */\n"
+"}\n"
+"\n"
+"QPushButton:focus {\n"
+"    background-color: #88AEF1; /* Color celeste */\n"
+"    border-color: #0078D7; /* Borde celeste */\n"
+"    color: #FFFFFF; /* Color de texto blanco */\n"
+"	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
+"}")
+
+        self.verticalLayout_7.addWidget(self.btn_finalizar_2)
+
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_7.addItem(self.verticalSpacer)
@@ -387,7 +471,7 @@ class Ui_UserWindow(object):
         self.verticalLayout_7.setStretch(0, 2)
         self.verticalLayout_7.setStretch(1, 6)
         self.verticalLayout_7.setStretch(2, 1)
-        self.verticalLayout_7.setStretch(3, 6)
+        self.verticalLayout_7.setStretch(5, 6)
 
         self.horizontalLayout_11.addLayout(self.verticalLayout_7)
 
@@ -402,85 +486,15 @@ class Ui_UserWindow(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label_notificacion = QLabel(self.verticalLayoutWidget_3)
         self.label_notificacion.setObjectName(u"label_notificacion")
-        font5 = QFont()
-        font5.setFamily(u"Segoe UI Semibold")
-        font5.setPointSize(16)
-        font5.setBold(True)
-        font5.setWeight(75)
-        self.label_notificacion.setFont(font5)
+        font6 = QFont()
+        font6.setFamily(u"Segoe UI Semibold")
+        font6.setPointSize(16)
+        font6.setBold(True)
+        font6.setWeight(75)
+        self.label_notificacion.setFont(font6)
         self.label_notificacion.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.label_notificacion)
-
-        self.horizontalLayout_14 = QHBoxLayout()
-        self.horizontalLayout_14.setSpacing(1)
-        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.horizontalLayout_14.setContentsMargins(0, -1, 0, -1)
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_14.addItem(self.horizontalSpacer_2)
-
-        self.horizontalLayout_15 = QHBoxLayout()
-        self.horizontalLayout_15.setSpacing(1)
-        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
-        self.label_24 = QLabel(self.verticalLayoutWidget_3)
-        self.label_24.setObjectName(u"label_24")
-        font6 = QFont()
-        font6.setFamily(u"Segoe UI Semibold")
-        font6.setPointSize(14)
-        font6.setBold(True)
-        font6.setWeight(75)
-        self.label_24.setFont(font6)
-
-        self.horizontalLayout_15.addWidget(self.label_24)
-
-        self.lcd_time_ensayo = QLCDNumber(self.verticalLayoutWidget_3)
-        self.lcd_time_ensayo.setObjectName(u"lcd_time_ensayo")
-        sizePolicy.setHeightForWidth(self.lcd_time_ensayo.sizePolicy().hasHeightForWidth())
-        self.lcd_time_ensayo.setSizePolicy(sizePolicy)
-
-        self.horizontalLayout_15.addWidget(self.lcd_time_ensayo)
-
-        self.horizontalLayout_15.setStretch(0, 7)
-        self.horizontalLayout_15.setStretch(1, 4)
-
-        self.horizontalLayout_14.addLayout(self.horizontalLayout_15)
-
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_14.addItem(self.horizontalSpacer_3)
-
-        self.horizontalLayout_16 = QHBoxLayout()
-        self.horizontalLayout_16.setSpacing(1)
-        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
-        self.label_23 = QLabel(self.verticalLayoutWidget_3)
-        self.label_23.setObjectName(u"label_23")
-        self.label_23.setFont(font6)
-
-        self.horizontalLayout_16.addWidget(self.label_23)
-
-        self.lcd_temp_amb = QLCDNumber(self.verticalLayoutWidget_3)
-        self.lcd_temp_amb.setObjectName(u"lcd_temp_amb")
-        sizePolicy.setHeightForWidth(self.lcd_temp_amb.sizePolicy().hasHeightForWidth())
-        self.lcd_temp_amb.setSizePolicy(sizePolicy)
-
-        self.horizontalLayout_16.addWidget(self.lcd_temp_amb)
-
-        self.horizontalLayout_16.setStretch(0, 7)
-        self.horizontalLayout_16.setStretch(1, 4)
-
-        self.horizontalLayout_14.addLayout(self.horizontalLayout_16)
-
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_14.addItem(self.horizontalSpacer)
-
-        self.horizontalLayout_14.setStretch(0, 4)
-        self.horizontalLayout_14.setStretch(1, 7)
-        self.horizontalLayout_14.setStretch(3, 8)
-        self.horizontalLayout_14.setStretch(4, 4)
-
-        self.verticalLayout.addLayout(self.horizontalLayout_14)
 
         self.horizontalLayout_73 = QHBoxLayout()
         self.horizontalLayout_73.setObjectName(u"horizontalLayout_73")
@@ -579,7 +593,7 @@ class Ui_UserWindow(object):
 
         self.label_94 = QLabel(self.verticalLayoutWidget_3)
         self.label_94.setObjectName(u"label_94")
-        self.label_94.setFont(font6)
+        self.label_94.setFont(font5)
 
         self.horizontalLayout_83.addWidget(self.label_94)
 
@@ -604,7 +618,7 @@ class Ui_UserWindow(object):
 
         self.label_92 = QLabel(self.verticalLayoutWidget_3)
         self.label_92.setObjectName(u"label_92")
-        self.label_92.setFont(font6)
+        self.label_92.setFont(font5)
 
         self.horizontalLayout_84.addWidget(self.label_92)
 
@@ -629,7 +643,7 @@ class Ui_UserWindow(object):
 
         self.label_90 = QLabel(self.verticalLayoutWidget_3)
         self.label_90.setObjectName(u"label_90")
-        self.label_90.setFont(font6)
+        self.label_90.setFont(font5)
 
         self.horizontalLayout_85.addWidget(self.label_90)
 
@@ -654,7 +668,7 @@ class Ui_UserWindow(object):
 
         self.label_96 = QLabel(self.verticalLayoutWidget_3)
         self.label_96.setObjectName(u"label_96")
-        self.label_96.setFont(font6)
+        self.label_96.setFont(font5)
 
         self.horizontalLayout_86.addWidget(self.label_96)
 
@@ -767,7 +781,7 @@ class Ui_UserWindow(object):
 
         self.label_93 = QLabel(self.verticalLayoutWidget_3)
         self.label_93.setObjectName(u"label_93")
-        self.label_93.setFont(font6)
+        self.label_93.setFont(font5)
 
         self.horizontalLayout_81.addWidget(self.label_93)
 
@@ -792,7 +806,7 @@ class Ui_UserWindow(object):
 
         self.label_91 = QLabel(self.verticalLayoutWidget_3)
         self.label_91.setObjectName(u"label_91")
-        self.label_91.setFont(font6)
+        self.label_91.setFont(font5)
 
         self.horizontalLayout_80.addWidget(self.label_91)
 
@@ -817,7 +831,7 @@ class Ui_UserWindow(object):
 
         self.label_89 = QLabel(self.verticalLayoutWidget_3)
         self.label_89.setObjectName(u"label_89")
-        self.label_89.setFont(font6)
+        self.label_89.setFont(font5)
 
         self.horizontalLayout_79.addWidget(self.label_89)
 
@@ -842,7 +856,7 @@ class Ui_UserWindow(object):
 
         self.label_95 = QLabel(self.verticalLayoutWidget_3)
         self.label_95.setObjectName(u"label_95")
-        self.label_95.setFont(font6)
+        self.label_95.setFont(font5)
 
         self.horizontalLayout_82.addWidget(self.label_95)
 
@@ -865,9 +879,8 @@ class Ui_UserWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_74)
 
         self.verticalLayout.setStretch(0, 4)
-        self.verticalLayout.setStretch(1, 3)
+        self.verticalLayout.setStretch(1, 18)
         self.verticalLayout.setStretch(2, 18)
-        self.verticalLayout.setStretch(3, 18)
 
         self.horizontalLayout_11.addLayout(self.verticalLayout)
 
@@ -911,10 +924,13 @@ class Ui_UserWindow(object):
         self.label_20.setText(QCoreApplication.translate("UserWindow", u"Fase a rodamiento:", None))
         self.label_rod_tierra.setText("")
         self.btn_config_data.setText(QCoreApplication.translate("UserWindow", u"Configurar datos", None))
+        self.label_24.setText(QCoreApplication.translate("UserWindow", u"Tiempo de\n"
+"ensayo actual: ", None))
+        self.label_23.setText(QCoreApplication.translate("UserWindow", u"Temp. ambiente: ", None))
+        self.btn_finalizar_2.setText(QCoreApplication.translate("UserWindow", u"Ver tiempos de \n"
+"ensayos", None))
         self.label_2.setText(QCoreApplication.translate("UserWindow", u"Progreso", None))
         self.label_notificacion.setText(QCoreApplication.translate("UserWindow", u"NOTIFICACION", None))
-        self.label_24.setText(QCoreApplication.translate("UserWindow", u"Tiempo de ensayo: ", None))
-        self.label_23.setText(QCoreApplication.translate("UserWindow", u"Temperatura ambiente: ", None))
         self.label_26.setText(QCoreApplication.translate("UserWindow", u"Temperatura(\u00b0C): ", None))
         self.label_27.setText(QCoreApplication.translate("UserWindow", u"Vib. axial(mm/s2): ", None))
         self.label_28.setText(QCoreApplication.translate("UserWindow", u"Vib. radial(mm/s2): ", None))
