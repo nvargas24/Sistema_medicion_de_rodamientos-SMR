@@ -385,7 +385,10 @@ class Measure():
 
         self.mqtt_obj.suscrip_topics()
         # Temporizador de 1 segundo, cuando finaliza accede a metodo asociado
+        self.seconds = 0
+        self.minutes = 0
         self.widgets.timer1.start(1000)
+        self.notificacion("Ensayo "+ str(self.cont_ensayos) + " en proceso")
 
     def param_ensayo_send_mqtt(self):
         self.mqtt_obj.send("rodAnt/frecBPFO", int(self.freq_bpfo_ant))
@@ -411,20 +414,20 @@ class Measure():
 
         ## LER DE ARCHIVO .CFG PARAMETRO SEGUN RODAMIENTOS
         if ensayo=="1":
-            self.data_rod_ant = self.file_cfg.read_file_config(rod_ant, "Horario", "v300")
-            self.data_rod_pos = self.file_cfg.read_file_config(rod_pos, "Horario", "v300")
+            self.data_rod_ant = self.file_cfg.read_file_config(self.rod_ant, "Horario", "v300")
+            self.data_rod_pos = self.file_cfg.read_file_config(self.rod_pos, "Horario", "v300")
         elif ensayo=="2":
-            self.data_rod_ant = self.file_cfg.read_file_config(rod_ant, "Horario", "v1500")
-            self.data_rod_pos = self.file_cfg.read_file_config(rod_pos, "Horario", "v1500")
+            self.data_rod_ant = self.file_cfg.read_file_config(self.rod_ant, "Horario", "v1500")
+            self.data_rod_pos = self.file_cfg.read_file_config(self.rod_pos, "Horario", "v1500")
         elif ensayo=="3":
-            self.data_rod_ant = self.file_cfg.read_file_config(rod_ant, "Horario", "v1800")
-            self.data_rod_pos = self.file_cfg.read_file_config(rod_pos, "Horario", "v1800")
+            self.data_rod_ant = self.file_cfg.read_file_config(self.rod_ant, "Horario", "v1800")
+            self.data_rod_pos = self.file_cfg.read_file_config(self.rod_pos, "Horario", "v1800")
         elif ensayo=="4":
-            self.data_rod_ant = self.file_cfg.read_file_config(rod_ant, "Antihorario", "v1500")
-            self.data_rod_pos = self.file_cfg.read_file_config(rod_pos, "Antihorario", "v1500")
+            self.data_rod_ant = self.file_cfg.read_file_config(self.rod_ant, "Antihorario", "v1500")
+            self.data_rod_pos = self.file_cfg.read_file_config(self.rod_pos, "Antihorario", "v1500")
         elif ensayo=="5":
-            self.data_rod_ant = self.file_cfg.read_file_config(rod_ant, "Antihorario", "v1800")
-            self.data_rod_pos = self.file_cfg.read_file_config(rod_pos, "Antihorario", "v1800")
+            self.data_rod_ant = self.file_cfg.read_file_config(self.rod_ant, "Antihorario", "v1800")
+            self.data_rod_pos = self.file_cfg.read_file_config(self.rod_pos, "Antihorario", "v1800")
         
         ### YA SE PUEDE ACCEDER A LAS FRECUENCIAS
         self.freq_bpfo_ant = self.data_rod_ant["bpfo"]
@@ -443,8 +446,17 @@ class Measure():
         """
         Timer de Modo ensayo - tiempo de contador asignado por usuario
         """
-        
+        self.seconds += 1
+        if self.seconds == 60:
+            self.seconds = 0
+            self.minutes += 1
 
+        if self.minutes == 60 and self.seconds == 60:
+            self.notificacion("Tiempo máximo permitido superado")
+            self.seconds = 0
+            self.minutes = 0
+
+        self.widgets.ui.lcd_time_ensayo.display(f"{self.minutes:02d}:{self.seconds:02d}")
 
     def notificacion(self, msj):
         """

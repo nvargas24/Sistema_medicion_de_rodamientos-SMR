@@ -330,7 +330,7 @@ class WindowUser(QMainWindow):
     def init_ensayo(self): pass
     def stop_ensayo(self): pass
     def config_data(self):
-        self.windows.win_user_form.show()
+        self.windows.win_user_form.exec_()
 
     def closeEvent(self, event):
         """
