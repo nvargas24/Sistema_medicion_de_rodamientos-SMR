@@ -263,8 +263,8 @@ class Ui_UserWindow(object):
 
         self.horizontalLayout_7.addWidget(self.label_modelo_rod_ant)
 
-        self.horizontalLayout_7.setStretch(0, 1)
-        self.horizontalLayout_7.setStretch(1, 2)
+        self.horizontalLayout_7.setStretch(0, 2)
+        self.horizontalLayout_7.setStretch(1, 1)
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_7)
 
@@ -282,8 +282,8 @@ class Ui_UserWindow(object):
 
         self.horizontalLayout_8.addWidget(self.label_modelo_rod_pos)
 
-        self.horizontalLayout_8.setStretch(0, 1)
-        self.horizontalLayout_8.setStretch(1, 2)
+        self.horizontalLayout_8.setStretch(0, 2)
+        self.horizontalLayout_8.setStretch(1, 1)
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_8)
 
@@ -301,8 +301,8 @@ class Ui_UserWindow(object):
 
         self.horizontalLayout_9.addWidget(self.label_fase_tierra)
 
-        self.horizontalLayout_9.setStretch(0, 1)
-        self.horizontalLayout_9.setStretch(1, 2)
+        self.horizontalLayout_9.setStretch(0, 2)
+        self.horizontalLayout_9.setStretch(1, 1)
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_9)
 
@@ -314,14 +314,14 @@ class Ui_UserWindow(object):
 
         self.horizontalLayout_10.addWidget(self.label_20)
 
-        self.label_fase_rod = QLabel(self.verticalLayoutWidget_3)
-        self.label_fase_rod.setObjectName(u"label_fase_rod")
-        self.label_fase_rod.setFont(font3)
+        self.label_rod_tierra = QLabel(self.verticalLayoutWidget_3)
+        self.label_rod_tierra.setObjectName(u"label_rod_tierra")
+        self.label_rod_tierra.setFont(font3)
 
-        self.horizontalLayout_10.addWidget(self.label_fase_rod)
+        self.horizontalLayout_10.addWidget(self.label_rod_tierra)
 
-        self.horizontalLayout_10.setStretch(0, 1)
-        self.horizontalLayout_10.setStretch(1, 2)
+        self.horizontalLayout_10.setStretch(0, 2)
+        self.horizontalLayout_10.setStretch(1, 1)
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_10)
 
@@ -909,7 +909,7 @@ class Ui_UserWindow(object):
         self.label_18.setText(QCoreApplication.translate("UserWindow", u"Fase a tierra:", None))
         self.label_fase_tierra.setText("")
         self.label_20.setText(QCoreApplication.translate("UserWindow", u"Fase a rodamiento:", None))
-        self.label_fase_rod.setText("")
+        self.label_rod_tierra.setText("")
         self.btn_config_data.setText(QCoreApplication.translate("UserWindow", u"Configurar datos", None))
         self.label_2.setText(QCoreApplication.translate("UserWindow", u"Progreso", None))
         self.label_notificacion.setText(QCoreApplication.translate("UserWindow", u"NOTIFICACION", None))

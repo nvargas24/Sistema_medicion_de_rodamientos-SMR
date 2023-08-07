@@ -275,13 +275,47 @@ class WindowUserForm(QDialog):
         self.windows = windows
     
         self.data_input = InputData()
+        self.file_cfg = CfgFileManager()
 
         self.ui.btn_reset.clicked.connect(self.clear_data)
         self.ui.btn_ingresar.clicked.connect(self.ingresar)
 
-    def clear_data(self): pass
+    def clear_data(self):
+        self.ui.input_operario.clear()
+        self.ui.input_legajo.clear()
+        self.ui.input_formacion.clear()
+        self.ui.input_coche.clear()
+        self.ui.input_boguie.clear()
+        self.ui.input_motor.clear()  
+        self.ui.input_fase_tierra.clear()
+        self.ui.input_rod_tierra.clear()
+
     def ingresar(self):
-    # se deberia crear archivo temporal para guardar datos de operario y motor
+        # SUGERENCIA: se deberia crear archivo temporal para guardar datos de operario y motor
+        self.data_ensayo = self.file_cfg.read_file_config_ensayo("UltimoEnsayo")        
+        self.operario = self.ui.input_operario.text()
+        self.legajo = self.ui.input_legajo.text()
+        self.formacion = self.ui.input_formacion.text()
+        self.coche = self.ui.input_coche.text()
+        self.boguie = self.ui.input_boguie.text()
+        self.motor = self.ui.input_motor.text()
+        self.rod_ant = self.data_ensayo["RodamientoAnterior"]
+        self.rod_pos = self.data_ensayo["RodamientoPosterior"]
+        self.fase_tierra = self.ui.input_fase_tierra.text()
+        self.rod_tierra = self.ui.input_rod_tierra.text()
+
+        self.windows.win_user.ui.label_operario.setText(self.operario)
+        self.windows.win_user.ui.label_legajo.setText(self.legajo)
+        self.windows.win_user.ui.label_formacion.setText(self.formacion)
+        self.windows.win_user.ui.label_coche.setText(self.coche)
+        self.windows.win_user.ui.label_boguie.setText(self.boguie)
+        self.windows.win_user.ui.label_motor.setText(self.motor)
+        self.windows.win_user.ui.label_modelo_rod_ant.setText(self.rod_ant)
+        self.windows.win_user.ui.label_modelo_rod_pos.setText(self.rod_pos)       
+        self.windows.win_user.ui.label_fase_tierra.setText(self.fase_tierra)
+        self.windows.win_user.ui.label_rod_tierra.setText(self.rod_tierra)
+
+
         self.windows.win_user.show()
         self.hide()
 
@@ -326,6 +360,7 @@ class WindowUser(QMainWindow):
         self.ui.lcd_temp_pos.display(f"{0:02d}.{0:02d}")
         self.ui.lcd_axial_pos.display(f"{0:02d}.{0:02d}")
         self.ui.lcd_radial_pos.display(f"{0:02d}.{0:02d}")
+
 
     def init_ensayo(self): pass
     def stop_ensayo(self): pass
