@@ -24,6 +24,7 @@ from Qt.popup_agregar_rod import *
 from Qt.popup_meas_corrientes import *
 from Qt.popup_time_ensayos import *
 from Qt.popup_advertencia_campos import *
+from Qt.popup_error_campos_obligatorios import *
 
 SAMPLES_FFT = 512
 
@@ -297,13 +298,13 @@ class WindowUserForm(QDialog):
         state_entries = self.obtener_param_form()
         self.update_data_form()
 
-        if state_entries == "Todo compelto":
+        if state_entries == "Todo completo":
             self.windows.win_user.show()
             self.hide()
         elif state_entries == "No completo algunos campos":
             self.windows.popup_advertencia_campos.exec_()
         elif state_entries == "No completo campos operario, ni legajo":
-            print("HACER POPUP")
+            self.windows.popup_error_campos_obligatorios.exec_()
 
     def obtener_param_form(self):
         # SUGERENCIA: se deberia crear archivo temporal para guardar datos de operario y motor
@@ -319,19 +320,18 @@ class WindowUserForm(QDialog):
         self.fase_tierra = self.ui.cbox_fase_tierra.currentText()
         self.rod_tierra = self.ui.cbox_rod_tierra.currentText()
 
-        if  self.check_entry_empty(self.operario) and \
+        if  self.check_entry_empty(self.operario) or \
             self.check_entry_empty(self.legajo):
-
             return "No completo campos operario, ni legajo"
         
-        elif self.check_entry_empty(self.formacion) and \
-            self.check_entry_empty(self.coche) and \
-            self.check_entry_empty(self.boguie) and \
-            self.check_entry_empty(self.motor) and \
-            self.check_entry_empty(self.fase_tierra) and \
+        elif self.check_entry_empty(self.formacion) or \
+            self.check_entry_empty(self.coche) or \
+            self.check_entry_empty(self.boguie) or \
+            self.check_entry_empty(self.motor) or \
+            self.check_entry_empty(self.fase_tierra) or \
             self.check_entry_empty(self.rod_tierra):
-            
             return "No completo algunos campos"
+        
         else:
             return "Todo completo"
 
@@ -360,6 +360,8 @@ class WindowUserForm(QDialog):
         """
         if not self.windows.win_user.isVisible():
             self.windows.win_login.show()
+        else:
+            event.ignore()
 
 class WindowUser(QMainWindow):
     def __init__(self, windows):
@@ -441,5 +443,19 @@ class PopupAdvCampos(QDialog):
 
     def return_form_user(self):
         self.close()
+
+class PopupErrorCamposObligatorios(QDialog):
+    def __init__(self, windows):
+        super().__init__() 
+        self.ui = Ui_ErrorCamposObligatorioWindow()
+        self.ui.setupUi(self)
+        self.windows = windows
+
+        self.ui.btn_ok.clicked.connect(self.return_form_user)
+
+    def return_form_user(self):
+        self.windows.win_user_form.show()
+        self.close()
+
 
 

@@ -20,7 +20,8 @@ class Controlador():
         self.popup_meas_corrientes = PopupMeasCorrientes(self)
         self.popup_time_ensayos = PopupTimeEnsayos(self)
         self.popup_advertencia_campos = PopupAdvCampos(self)
-        
+        self.popup_error_campos_obligatorios = PopupErrorCamposObligatorios(self)
+
         self.win_login.show()
         try:
             print("Abro menu de app_stock")            

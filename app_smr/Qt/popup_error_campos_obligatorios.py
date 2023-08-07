@@ -66,15 +66,15 @@ class Ui_ErrorCamposObligatorioWindow(object):
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(200, -1, 200, -1)
-        self.pushButton_2 = QPushButton(self.verticalLayoutWidget)
-        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.btn_ok = QPushButton(self.verticalLayoutWidget)
+        self.btn_ok.setObjectName(u"btn_ok")
         sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
-        self.pushButton_2.setSizePolicy(sizePolicy2)
-        self.pushButton_2.setFocusPolicy(Qt.NoFocus)
-        self.pushButton_2.setStyleSheet(u"QPushButton {\n"
+        sizePolicy2.setHeightForWidth(self.btn_ok.sizePolicy().hasHeightForWidth())
+        self.btn_ok.setSizePolicy(sizePolicy2)
+        self.btn_ok.setFocusPolicy(Qt.NoFocus)
+        self.btn_ok.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
 "    border-radius: 15px; /* Bordes curvos */\n"
@@ -97,7 +97,7 @@ class Ui_ErrorCamposObligatorioWindow(object):
 "	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}")
 
-        self.horizontalLayout_3.addWidget(self.pushButton_2)
+        self.horizontalLayout_3.addWidget(self.btn_ok)
 
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
@@ -115,6 +115,6 @@ class Ui_ErrorCamposObligatorioWindow(object):
         self.label_2.setText("")
         self.label.setText(QCoreApplication.translate("ErrorCamposObligatorioWindow", u"Los siguientes campos son obligatorios:\n"
 "Operario y Legajo", None))
-        self.pushButton_2.setText(QCoreApplication.translate("ErrorCamposObligatorioWindow", u"OK", None))
+        self.btn_ok.setText(QCoreApplication.translate("ErrorCamposObligatorioWindow", u"OK", None))
     # retranslateUi
 
