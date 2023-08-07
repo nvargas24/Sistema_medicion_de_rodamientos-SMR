@@ -1,5 +1,13 @@
 # No es el metodo mas apropiado, deberia usarse un observador para los cambios realizados
 from PySide2.QtGui import *
+import numpy as np
+import os
+
+import paho.mqtt.client as mqtt
+
+IP_BROKER = "192.168.149.203"
+PORT_MQTT = 1833
+SAMPLES_FFT = 512
 
 class InputData():
     # Se puede implementar una lista de usuario para validar su rol, o desde una base de datos
@@ -16,6 +24,140 @@ class InputData():
     
     def data_test(self):
         pass
+
+class Mqtt():
+    def __init__(self, broker_host, broker_port):
+        self.client = mqtt.Client()
+        self.broker_host = broker_host
+        self.broker_port = broker_port
+
+        self.keepalive_ant = False
+        self.temp_obj_ant = 0.0
+        self.acel_axial_ant = 0.0
+        self.acel_radial_ant = 0.0
+        self.pres_bpfi_ant = False
+        self.pres_bpfo_ant = False
+        self.pres_bsf_ant = False
+        self.pres_ftf_ant = False
+        self.fft_ant = False
+        self.temp_obj_pos = 0.0
+        self.acel_axial_pos = 0.0
+        self.acel_radial_pos = 0.0
+        self.pres_bpfi_pos = False
+        self.pres_bpfo_pos = False
+        self.pres_bsf_pos = False
+        self.pres_ftf_pos = False
+        self.fft_pos = False
+
+    def on_connect(self, client, userdata, flags, rc):
+        if rc == 0:
+            print("Conexión exitosa al broker")
+        else:
+            print(f"No se pudo conectar al broker. Código de retorno: {rc}")
+
+    def start(self):
+        try:
+            self.client.on_connect = self.on_connect
+            self.client.connect(self.broker_host, self.broker_port)
+            self.client.loop_start()
+        except ConnectionError as err:
+            print(f"No se pudo conectar. ERROR: {str(err)}")
+    
+    def stop(self):
+        self.client.loop_stop()
+        self.client.disconnect()
+
+    def send(self, topic, message):
+        self.client.publish(topic, message)
+
+    def on_message(self, client, userdata, msg):
+        print(f"Mensaje recibido en el tópico {msg.topic}: {msg.payload.decode()}")
+        self.topic = msg.topic
+        self.msg = msg.payload.decode()
+        self.qualify_data_bytopic()
+
+    def suscrip(self, topic):
+        self.client.subscribe(topic)
+        self.client.on_message = self.on_message 
+
+    def desuscrip(self, topic):
+        self.client.unsubscribe(topic)
+
+    def qualify_data_bytopic(self):
+        # Verifico si hay datos recibidos por broker y doy formato
+        if self.topic == "rodAnt/keepalive":
+            self.keepalive_ant = True
+        if self.topic == "rodAnt/tempObj":
+            self.temp_obj_ant = "{:.2f}".format(float(self.msg)) 
+        if self.topic == "rodAnt/acelAxial":
+            self.acel_axial_ant = "{:.3f}".format(float(self.msg)) 
+        if self.topic == "rodAnt/acelRadial":
+            self.acel_radial_ant = "{:.3f}".format(float(self.msg)) 
+        if self.topic == "rodAnt/presBPFO":
+            self.pres_bpfo_ant = int(self.msg)
+        if self.topic == "rodAnt/presBPFI":
+            self.pres_bpfi_ant = int(self.msg)
+        if self.topic == "rodAnt/presBSF":
+            self.pres_bsf_ant = int(self.msg)
+        if self.topic == "rodAnt/presFTF":
+            self.pres_ftf_ant = int(self.msg)
+        if self.topic == "rodAnt/fft":
+            self.fft_ant = self.msg
+
+        if self.topic == "rodPos/tempObj":
+            self.temp_obj_pos = "{:.2f}".format(float(self.msg)) 
+        if self.topic == "rodPos/acelAxial":
+            self.acel_axial_pos = "{:.3f}".format(float(self.msg)) 
+        if self.topic == "rodPos/acelRadial":
+            self.acel_radial_pos = "{:.3f}".format(float(self.msg)) 
+        if self.topic == "rodPos/presBPFO":
+            self.pres_bpfo_pos = self.msg
+        if self.topic == "rodPos/presBPFI":
+            self.pres_bpfi_pos = self.msg
+        if self.topic == "rodPos/presBSF":
+            self.pres_bsf_pos = self.msg
+        if self.topic == "rodPos/presFTF":
+            self.pres_ftf_pos = self.msg
+        if self.topic == "rodPos/fft":
+            self.fft_pos = self.msg
+
+    def suscrip_topics(self):
+        self.suscrip("rodAnt/fft")
+        self.suscrip("rodAnt/tempObj")
+        self.suscrip("rodAnt/acelAxial")
+        self.suscrip("rodAnt/acelRadial")
+        self.suscrip("rodAnt/presBPFO")
+        self.suscrip("rodAnt/presBPFI")
+        self.suscrip("rodAnt/presBSF")
+        self.suscrip("rodAnt/presFTF")
+
+        self.suscrip("rodPos/fft")
+        self.suscrip("rodPos/tempObj")
+        self.suscrip("rodPos/acelAxial")
+        self.suscrip("rodPos/acelRadial")
+        self.suscrip("rodPos/presBPFO")
+        self.suscrip("rodPos/presBPFI")
+        self.suscrip("rodPos/presBSF")
+        self.suscrip("rodPos/presFTF")
+
+    def desuscrip_topics(self):
+        self.desuscrip("rodAnt/fft")
+        self.desuscrip("rodAnt/tempObj")
+        self.desuscrip("rodAnt/acelAxial")
+        self.desuscrip("rodAnt/acelRadial")
+        self.desuscrip("rodAnt/presBPFO")
+        self.desuscrip("rodAnt/presBPFI")
+        self.desuscrip("rodAnt/presBSF")
+        self.desuscrip("rodAnt/presFTF")
+
+        self.desuscrip("rodPos/fft")
+        self.desuscrip("rodPos/tempObj")
+        self.desuscrip("rodPos/acelAxial")
+        self.desuscrip("rodPos/acelRadial")
+        self.desuscrip("rodPos/presBPFO")
+        self.desuscrip("rodPos/presBPFI")
+        self.desuscrip("rodPos/presBSF")
+        self.desuscrip("rodPos/presFTF")
 
 class CfgFileManager():
     # CONFIG RODAMIENTOS
@@ -217,3 +359,95 @@ class CfgFileManager():
 
                 if "[UltimoEnsayo]" in line:
                     modificar = True
+
+class Measure():
+    def __init__(self, widgets):
+        super().__init__()
+        # Atributo para acceder a los widgets
+        self.widgets = widgets
+        self.file_cfg = CfgFileManager()
+        self.mqtt_obj = Mqtt(IP_BROKER, PORT_MQTT)
+
+        self.num_fft = 1
+        self.cont_ensayos = 1
+        self.freq = np.arange(0, SAMPLES_FFT*37, 37)
+        self.cont_ensayo = 1
+
+    def init_ensayo(self):
+        # Cierro conexiones previas
+        self.mqtt_obj.stop()
+        # Inicio conexion mqtt
+        self.mqtt_obj.start()
+        self.param_ensayo(str(self.cont_ensayo))
+        # Enviar por mqtt los datos de configuracion
+        self.mqtt_obj.send("smr/start", True)
+        self.param_ensayo_send_mqtt()
+
+        self.mqtt_obj.suscrip_topics()
+        # Temporizador de 1 segundo, cuando finaliza accede a metodo asociado
+        self.widgets.timer1.start(1000)
+
+    def param_ensayo_send_mqtt(self):
+        self.mqtt_obj.send("rodAnt/frecBPFO", int(self.freq_bpfo_ant))
+        self.mqtt_obj.send("rodAnt/frecBPFI", int(self.freq_bpfi_ant))
+        self.mqtt_obj.send("rodAnt/frecFTF", int(self.freq_ftf_ant))
+        self.mqtt_obj.send("rodAnt/frecBSF", int(self.freq_bsf_ant))
+
+        self.mqtt_obj.send("rodPos/frecBPFO", int(self.freq_bpfo_pos))
+        self.mqtt_obj.send("rodPos/frecBPFI", int(self.freq_bpfi_pos))
+        self.mqtt_obj.send("rodPos/frecFTF", int(self.freq_ftf_pos))
+        self.mqtt_obj.send("rodPos/frecBSF", int(self.freq_bsf_pos))
+
+    def param_ensayo(self, ensayo):
+        # el ensayo depende del sentido y la velocidad
+
+        self.data_ensayo = self.file_cfg.read_file_config_ensayo("UltimoEnsayo")
+        self.rod_ant = self.data_ensayo["RodamientoAnterior"]
+        self.rod_pos = self.data_ensayo["RodamientoPosterior"]
+        self.temp_max = self.data_ensayo["TemperaturaMax"]
+        self.temp_min = self.data_ensayo["TemperaturaMin"]
+        self.axial_max = self.data_ensayo["VibracionAxialMax"]
+        self.radial_max = self.data_ensayo["VibracionRadialMax"]
+
+        ## LER DE ARCHIVO .CFG PARAMETRO SEGUN RODAMIENTOS
+        if ensayo=="1":
+            self.data_rod_ant = self.file_cfg.read_file_config(rod_ant, "Horario", "v300")
+            self.data_rod_pos = self.file_cfg.read_file_config(rod_pos, "Horario", "v300")
+        elif ensayo=="2":
+            self.data_rod_ant = self.file_cfg.read_file_config(rod_ant, "Horario", "v1500")
+            self.data_rod_pos = self.file_cfg.read_file_config(rod_pos, "Horario", "v1500")
+        elif ensayo=="3":
+            self.data_rod_ant = self.file_cfg.read_file_config(rod_ant, "Horario", "v1800")
+            self.data_rod_pos = self.file_cfg.read_file_config(rod_pos, "Horario", "v1800")
+        elif ensayo=="4":
+            self.data_rod_ant = self.file_cfg.read_file_config(rod_ant, "Antihorario", "v1500")
+            self.data_rod_pos = self.file_cfg.read_file_config(rod_pos, "Antihorario", "v1500")
+        elif ensayo=="5":
+            self.data_rod_ant = self.file_cfg.read_file_config(rod_ant, "Antihorario", "v1800")
+            self.data_rod_pos = self.file_cfg.read_file_config(rod_pos, "Antihorario", "v1800")
+        
+        ### YA SE PUEDE ACCEDER A LAS FRECUENCIAS
+        self.freq_bpfo_ant = self.data_rod_ant["bpfo"]
+        self.freq_bpfi_ant = self.data_rod_ant["bpfi"]
+        self.freq_ftf_ant = self.data_rod_ant["ftf"]
+        self.freq_bsf_ant = self.data_rod_ant["bsf"]
+
+        self.freq_bpfo_pos = self.data_rod_pos["bpfo"]
+        self.freq_bpfi_pos = self.data_rod_pos["bpfi"]
+        self.freq_ftf_pos = self.data_rod_pos["ftf"]
+        self.freq_bsf_pos = self.data_rod_pos["bsf"]
+
+    def stop_ensayo(self): pass
+
+    def timer_ensayo(self, ):
+        """
+        Timer de Modo ensayo - tiempo de contador asignado por usuario
+        """
+        
+
+
+    def notificacion(self, msj):
+        """
+        Informa eventos
+        """        
+        self.widgets.ui.label_notificacion.setText(str(msj))

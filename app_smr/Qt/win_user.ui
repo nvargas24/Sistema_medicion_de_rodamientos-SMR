@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1258</width>
-    <height>764</height>
+    <height>774</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -62,7 +62,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,0,3">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_7" stretch="2,6,1,6">
+        <layout class="QVBoxLayout" name="verticalLayout_7" stretch="2,6,1,6,0">
          <property name="leftMargin">
           <number>20</number>
          </property>
@@ -564,6 +564,38 @@ QPushButton:focus {
             </size>
            </property>
           </spacer>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="font">
+              <font>
+               <family>Segoe UI Semibold</family>
+               <pointsize>10</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Progreso</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QProgressBar" name="progress_bar">
+             <property name="sizeIncrement">
+              <size>
+               <width>0</width>
+               <height>1</height>
+              </size>
+             </property>
+             <property name="value">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>

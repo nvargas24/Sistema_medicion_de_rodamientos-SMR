@@ -17,7 +17,7 @@ class Ui_UserWindow(object):
     def setupUi(self, UserWindow):
         if not UserWindow.objectName():
             UserWindow.setObjectName(u"UserWindow")
-        UserWindow.resize(1258, 764)
+        UserWindow.resize(1258, 774)
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -365,6 +365,24 @@ class Ui_UserWindow(object):
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_7.addItem(self.verticalSpacer)
+
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.label_2 = QLabel(self.verticalLayoutWidget_3)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setFont(font2)
+
+        self.horizontalLayout_12.addWidget(self.label_2)
+
+        self.progress_bar = QProgressBar(self.verticalLayoutWidget_3)
+        self.progress_bar.setObjectName(u"progress_bar")
+        self.progress_bar.setSizeIncrement(QSize(0, 1))
+        self.progress_bar.setValue(0)
+
+        self.horizontalLayout_12.addWidget(self.progress_bar)
+
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_12)
 
         self.verticalLayout_7.setStretch(0, 2)
         self.verticalLayout_7.setStretch(1, 6)
@@ -893,6 +911,7 @@ class Ui_UserWindow(object):
         self.label_20.setText(QCoreApplication.translate("UserWindow", u"Fase a rodamiento:", None))
         self.label_fase_rod.setText("")
         self.btn_config_data.setText(QCoreApplication.translate("UserWindow", u"Configurar datos", None))
+        self.label_2.setText(QCoreApplication.translate("UserWindow", u"Progreso", None))
         self.label_notificacion.setText(QCoreApplication.translate("UserWindow", u"NOTIFICACION", None))
         self.label_24.setText(QCoreApplication.translate("UserWindow", u"Tiempo de ensayo: ", None))
         self.label_23.setText(QCoreApplication.translate("UserWindow", u"Temperatura ambiente: ", None))

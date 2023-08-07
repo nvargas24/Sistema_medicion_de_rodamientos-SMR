@@ -302,15 +302,30 @@ class WindowUser(QMainWindow):
         self.grafica = Grafica_fft()
         self.grafica2 = Grafica_fft()
 
+        self.measure = Measure(self)
+
         self.ui.fft_ant.addWidget(self.grafica)
         self.ui.fft_pos.addWidget(self.grafica2)
 
         self.grafica.ax.set_title("Grafico Rodamiento Anterior")
         self.grafica2.ax.set_title("Grafico Rodamiento Posterior")
 
-        self.ui.btn_iniciar.clicked.connect(self.init_ensayo)
-        self.ui.btn_finalizar.clicked.connect(self.stop_ensayo)
+        self.ui.btn_iniciar.clicked.connect(self.measure.init_ensayo)
+        self.ui.btn_finalizar.clicked.connect(self.measure.stop_ensayo)
         self.ui.btn_config_data.clicked.connect(self.config_data)
+
+        # Creo contador asociado a un metodo que inicia el conteo
+        self.timer1 = QTimer(self)
+        self.timer1.timeout.connect(self.measure.timer_ensayo)
+
+        self.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}")
+        self.ui.lcd_temp_amb.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_temp_ant.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_axial_ant.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_radial_ant.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_temp_pos.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_axial_pos.display(f"{0:02d}.{0:02d}")
+        self.ui.lcd_radial_pos.display(f"{0:02d}.{0:02d}")
 
     def init_ensayo(self): pass
     def stop_ensayo(self): pass
