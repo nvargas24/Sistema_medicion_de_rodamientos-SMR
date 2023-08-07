@@ -17,52 +17,52 @@ class Ui_AdvCamposWindow(object):
     def setupUi(self, AdvCamposWindow):
         if not AdvCamposWindow.objectName():
             AdvCamposWindow.setObjectName(u"AdvCamposWindow")
-        AdvCamposWindow.resize(508, 183)
+        AdvCamposWindow.resize(535, 182)
         self.verticalLayoutWidget = QWidget(AdvCamposWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(20, 20, 471, 141))
+        self.verticalLayoutWidget.setGeometry(QRect(30, 20, 471, 141))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(10, -1, 30, -1)
-        self.label_2 = QLabel(self.verticalLayoutWidget)
-        self.label_2.setObjectName(u"label_2")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(10, -1, 30, -1)
+        self.label_3 = QLabel(self.verticalLayoutWidget)
+        self.label_3.setObjectName(u"label_3")
         sizePolicy = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setPixmap(QPixmap(u"../iconos/advertencia.png"))
-        self.label_2.setScaledContents(True)
-        self.label_2.setMargin(10)
+        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy)
+        self.label_3.setPixmap(QPixmap(u"../iconos/advertencia.png"))
+        self.label_3.setScaledContents(True)
+        self.label_3.setMargin(10)
 
-        self.horizontalLayout.addWidget(self.label_2)
+        self.horizontalLayout_2.addWidget(self.label_3)
 
-        self.label = QLabel(self.verticalLayoutWidget)
-        self.label.setObjectName(u"label")
+        self.label_4 = QLabel(self.verticalLayoutWidget)
+        self.label_4.setObjectName(u"label_4")
         font = QFont()
         font.setFamily(u"Segoe UI Semibold")
         font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
-        self.label.setFont(font)
-        self.label.setAlignment(Qt.AlignCenter)
+        self.label_4.setFont(font)
+        self.label_4.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout.addWidget(self.label)
+        self.horizontalLayout_2.addWidget(self.label_4)
 
-        self.horizontalLayout.setStretch(0, 1)
-        self.horizontalLayout.setStretch(1, 3)
+        self.horizontalLayout_2.setStretch(0, 1)
+        self.horizontalLayout_2.setStretch(1, 3)
 
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(-1, 10, -1, -1)
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(-1, 10, -1, -1)
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.horizontalLayout_2.addItem(self.horizontalSpacer)
+        self.horizontalLayout_3.addItem(self.horizontalSpacer)
 
         self.btn_aceptar = QPushButton(self.verticalLayoutWidget)
         self.btn_aceptar.setObjectName(u"btn_aceptar")
@@ -99,7 +99,7 @@ class Ui_AdvCamposWindow(object):
 "	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}")
 
-        self.horizontalLayout_2.addWidget(self.btn_aceptar)
+        self.horizontalLayout_3.addWidget(self.btn_aceptar)
 
         self.btn_cancelar = QPushButton(self.verticalLayoutWidget)
         self.btn_cancelar.setObjectName(u"btn_cancelar")
@@ -130,18 +130,18 @@ class Ui_AdvCamposWindow(object):
 "	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}")
 
-        self.horizontalLayout_2.addWidget(self.btn_cancelar)
+        self.horizontalLayout_3.addWidget(self.btn_cancelar)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_2)
 
-        self.horizontalLayout_2.setStretch(0, 1)
-        self.horizontalLayout_2.setStretch(1, 2)
-        self.horizontalLayout_2.setStretch(2, 2)
-        self.horizontalLayout_2.setStretch(3, 1)
+        self.horizontalLayout_3.setStretch(0, 1)
+        self.horizontalLayout_3.setStretch(1, 2)
+        self.horizontalLayout_3.setStretch(2, 2)
+        self.horizontalLayout_3.setStretch(3, 1)
 
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
 
         self.verticalLayout.setStretch(0, 9)
         self.verticalLayout.setStretch(1, 6)
@@ -153,8 +153,8 @@ class Ui_AdvCamposWindow(object):
 
     def retranslateUi(self, AdvCamposWindow):
         AdvCamposWindow.setWindowTitle(QCoreApplication.translate("AdvCamposWindow", u"Dialog", None))
-        self.label_2.setText("")
-        self.label.setText(QCoreApplication.translate("AdvCamposWindow", u"No completo todos los campos, \n"
+        self.label_3.setText("")
+        self.label_4.setText(QCoreApplication.translate("AdvCamposWindow", u"No completo todos los campos, \n"
 "\u00bfDesea continuar?", None))
         self.btn_aceptar.setText(QCoreApplication.translate("AdvCamposWindow", u"Aceptar", None))
         self.btn_cancelar.setText(QCoreApplication.translate("AdvCamposWindow", u"Cancelar", None))

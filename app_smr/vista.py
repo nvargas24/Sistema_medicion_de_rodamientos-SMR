@@ -294,6 +294,18 @@ class WindowUserForm(QDialog):
         self.ui.cbox_rod_tierra.setCurrentIndex(-1)
 
     def ingresar(self):
+        state_entries = self.obtener_param_form()
+        self.update_data_form()
+
+        if state_entries == "Todo compelto":
+            self.windows.win_user.show()
+            self.hide()
+        elif state_entries == "No completo algunos campos":
+            self.windows.popup_advertencia_campos.exec_()
+        elif state_entries == "No completo campos operario, ni legajo":
+            print("HACER POPUP")
+
+    def obtener_param_form(self):
         # SUGERENCIA: se deberia crear archivo temporal para guardar datos de operario y motor
         self.data_ensayo = self.file_cfg.read_file_config_ensayo("UltimoEnsayo")        
         self.operario = self.ui.input_operario.text()
@@ -307,6 +319,29 @@ class WindowUserForm(QDialog):
         self.fase_tierra = self.ui.cbox_fase_tierra.currentText()
         self.rod_tierra = self.ui.cbox_rod_tierra.currentText()
 
+        if  self.check_entry_empty(self.operario) and \
+            self.check_entry_empty(self.legajo):
+
+            return "No completo campos operario, ni legajo"
+        
+        elif self.check_entry_empty(self.formacion) and \
+            self.check_entry_empty(self.coche) and \
+            self.check_entry_empty(self.boguie) and \
+            self.check_entry_empty(self.motor) and \
+            self.check_entry_empty(self.fase_tierra) and \
+            self.check_entry_empty(self.rod_tierra):
+            
+            return "No completo algunos campos"
+        else:
+            return "Todo completo"
+
+    def check_entry_empty(self, entry):
+        if entry == "":
+            return 1
+        else:
+            return 0
+    
+    def update_data_form(self):
         self.windows.win_user.ui.label_operario.setText(self.operario)
         self.windows.win_user.ui.label_legajo.setText(self.legajo)
         self.windows.win_user.ui.label_formacion.setText(self.formacion)
@@ -318,8 +353,6 @@ class WindowUserForm(QDialog):
         self.windows.win_user.ui.label_fase_tierra.setText(self.fase_tierra)
         self.windows.win_user.ui.label_rod_tierra.setText(self.rod_tierra)
 
-        self.windows.win_user.show()
-        self.hide()
 
     def closeEvent(self, event):
         """
@@ -398,5 +431,15 @@ class PopupAdvCampos(QDialog):
         self.ui.setupUi(self)
         self.windows = windows
     
+        self.ui.btn_aceptar.clicked.connect(self.continuar)
+        self.ui.btn_cancelar.clicked.connect(self.return_form_user)
+    
+    def continuar(self):
+        self.windows.win_user.show()
+        self.windows.win_user_form.hide()
+        self.close()
+
+    def return_form_user(self):
+        self.close()
 
 
