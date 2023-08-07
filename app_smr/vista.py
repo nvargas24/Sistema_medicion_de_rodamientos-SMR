@@ -5,6 +5,14 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 from PySide2 import QtCore as core
 
+import matplotlib.pyplot as plt
+from matplotlib import style
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import matplotlib
+from matplotlib.animation import FuncAnimation
+
+import numpy as np
+
 from modelo import *
 
 from Qt.win_login import *
@@ -13,6 +21,62 @@ from Qt.win_admin_rod import *
 from Qt.win_user import *
 from Qt.win_user_form import *
 from Qt.popup_agregar_rod import *
+
+SAMPLES_FFT = 512
+
+class Grafica_fft(FigureCanvas):
+    """
+    Clase para dibujar grafico de fft - plots
+    """
+    def __init__(self, ):
+        """
+        Constructor de grafica fft - parametros iniciales
+        """
+        self.xlim_freq_initial = -1
+        self.xlim_freq_finish = 19000
+        self.ylim_amp_initial = -100
+        self.ylim_amp_finish = 10
+
+        self.fig, self.ax = plt.subplots(1, dpi=80, figsize=(12,12), sharey=True, facecolor="none")
+        self.fig.subplots_adjust(left=.12, bottom=.12, right=.98, top=.9) #Ajuste de escala de grafica
+        super().__init__(self.fig)
+
+        self.freq_initial = np.arange(0, SAMPLES_FFT*37, 37)
+        self.mag_initial = np.zeros(SAMPLES_FFT)
+        
+        self.set_graph_fft_style()
+        # Crear la línea inicial
+        self.line, = self.ax.plot(self.freq_initial, self.mag_initial, picker=5)
+
+    def upgrade_graph_fft(self, freq, mag):
+        """
+        Metodo para actualizar listas de puntos para grafico fft
+        """
+        self.set_graph_fft_style()
+
+        self.line, = self.ax.plot(freq, mag, picker=5)
+        self.draw()
+
+    def set_graph_fft_style(self):
+        """
+        Metodo que asigna estilo al grafico
+        """
+        # Establecer límites del eje X e Y
+        self.ax.set_xlim(self.xlim_freq_initial, self.xlim_freq_finish)
+        self.ax.set_ylim(self.ylim_amp_initial, self.ylim_amp_finish)
+
+        # Creo grilla
+        step_value_fft_x = round((self.xlim_freq_finish-self.xlim_freq_initial)/20)
+        step_value_fft_y = round((self.ylim_amp_finish-self.ylim_amp_initial)/10)
+        for i in range(self.xlim_freq_initial, self.xlim_freq_finish, step_value_fft_x):
+            self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
+        for j in range(self.ylim_amp_initial, self.ylim_amp_finish, step_value_fft_y):   
+            self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
+
+        # Establece nombres de ejes y tamanio
+        matplotlib.rcParams['font.size'] = 9
+        self.ax.set_xlabel("Frecuencia[Hz]")
+        self.ax.set_ylabel("Amplitud[dBV]")
 
 class WindowLogin(QWidget):
     def __init__(self, windows):
@@ -51,7 +115,6 @@ class WindowLogin(QWidget):
         else:
             print("No existe el usuario")
             # MOstrar anuncio de usuario no valido, capaz como popup
-
 
 class WindowAdmin(QMainWindow):
     def __init__(self, windows):
@@ -138,26 +201,29 @@ class WindowRod(QMainWindow):
         self.ui.cbox_modelo_rod.addItems(self.file_cfg.read_list_rod())
         self.set_parama_win_admin_rod()
 
-    def set_parama_win_admin_rod(self):
-        model_rod = self.ui.cbox_modelo_rod.currentText()
+    def obtener_param_win_admin_rod(self):
+        self.model_rod = self.ui.cbox_modelo_rod.currentText()
         
         if self.ui.rbtn_horario.isChecked():
             self.ui.rbtn_v300.setEnabled(True)
-            sentido_giro = self.ui.rbtn_horario.text()
+            self.sentido_giro = self.ui.rbtn_horario.text()
         elif self.ui.rbtn_antihorario.isChecked():
             self.ui.rbtn_v300.setEnabled(False)
-            sentido_giro = self.ui.rbtn_antihorario.text()
+            self.sentido_giro = self.ui.rbtn_antihorario.text()
             if self.ui.rbtn_v300.isChecked():
                 self.ui.rbtn_v1500.setChecked(True)
 
         if self.ui.rbtn_v300.isChecked():
-            velocidad = "v300"
+            self.velocidad = "v300"
         elif self.ui.rbtn_v1500.isChecked():
-            velocidad = "v1500"
+            self.velocidad = "v1500"
         elif self.ui.rbtn_v1800.isChecked():
-            velocidad = "v1800"
+            self.velocidad = "v1800"        
 
-        data_rod = self.file_cfg.read_file_config(model_rod, sentido_giro,velocidad)
+    def set_parama_win_admin_rod(self):
+        self.obtener_param_win_admin_rod()
+
+        data_rod = self.file_cfg.read_file_config(self.model_rod, self.sentido_giro, self.velocidad)
 
         self.ui.sbox_bpfo.setValue(int(data_rod["bpfo"]))
         self.ui.sbox_bpfi.setValue(int(data_rod["bpfi"]))
@@ -165,37 +231,23 @@ class WindowRod(QMainWindow):
         self.ui.sbox_bsf.setValue(int(data_rod["bsf"]))
 
     def save_config_rod(self):
-        model_rod = self.ui.cbox_modelo_rod.currentText()
-        
-        if self.ui.rbtn_horario.isChecked():
-            self.ui.rbtn_v300.setEnabled(True)
-            sentido_giro = self.ui.rbtn_horario.text()
-        elif self.ui.rbtn_antihorario.isChecked():
-            self.ui.rbtn_v300.setEnabled(False)
-            sentido_giro = self.ui.rbtn_antihorario.text()
-            if self.ui.rbtn_v300.isChecked():
-                self.ui.rbtn_v1500.setChecked(True)
-
-        if self.ui.rbtn_v300.isChecked():
-            velocidad = "v300"
-        elif self.ui.rbtn_v1500.isChecked():
-            velocidad = "v1500"
-        elif self.ui.rbtn_v1800.isChecked():
-            velocidad = "v1800"
+        self.obtener_param_win_admin_rod()
 
         new_freq_bpfo = self.ui.sbox_bpfo.value()
         new_freq_bpfi = self.ui.sbox_bpfi.value()
         new_freq_ftf = self.ui.sbox_ftf.value()
         new_freq_bsf = self.ui.sbox_bsf.value()
 
-        self.file_cfg.update_config_rod(model_rod, sentido_giro, velocidad, "bpfo", new_freq_bpfo)
-        self.file_cfg.update_config_rod(model_rod, sentido_giro, velocidad, "bpfi", new_freq_bpfi)
-        self.file_cfg.update_config_rod(model_rod, sentido_giro, velocidad, "ftf", new_freq_ftf)
-        self.file_cfg.update_config_rod(model_rod, sentido_giro, velocidad, "bsf", new_freq_bsf)
+        self.file_cfg.update_config_rod(self.model_rod, self.sentido_giro, self.velocidad, "bpfo", new_freq_bpfo)
+        self.file_cfg.update_config_rod(self.model_rod, self.sentido_giro, self.velocidad, "bpfi", new_freq_bpfi)
+        self.file_cfg.update_config_rod(self.model_rod, self.sentido_giro, self.velocidad, "ftf", new_freq_ftf)
+        self.file_cfg.update_config_rod(self.model_rod, self.sentido_giro, self.velocidad, "bsf", new_freq_bsf)
     
     def reset_config(self): pass
     
-    def save_new_rod(self): pass
+    def save_new_rod(self):
+        self.windows.popup_agregar_rod.exec_()
+        
 
     def closeEvent(self, event):
         """
@@ -203,6 +255,17 @@ class WindowRod(QMainWindow):
         """
         self.windows.win_admin.show()
 
+class PopupAgregarRod(QDialog):
+    def __init__(self, windows):
+        super().__init__() 
+        self.ui = Ui_NewRodWindow()
+        self.ui.setupUi(self)
+        self.windows = windows
+
+        self.ui.btn_aceptar.clicked.connect(self.new_model_rod)
+    
+    def new_model_rod(self):
+        return "Aceptar"
 
 class WindowUserForm(QDialog):
     def __init__(self, windows):
@@ -236,6 +299,15 @@ class WindowUser(QMainWindow):
         self.ui.setupUi(self)
         self.windows = windows
 
+        self.grafica = Grafica_fft()
+        self.grafica2 = Grafica_fft()
+
+        self.ui.fft_ant.addWidget(self.grafica)
+        self.ui.fft_pos.addWidget(self.grafica2)
+
+        self.grafica.ax.set_title("Grafico Rodamiento Anterior")
+        self.grafica2.ax.set_title("Grafico Rodamiento Posterior")
+
         self.ui.btn_iniciar.clicked.connect(self.init_ensayo)
         self.ui.btn_finalizar.clicked.connect(self.stop_ensayo)
         self.ui.btn_config_data.clicked.connect(self.config_data)
@@ -251,15 +323,6 @@ class WindowUser(QMainWindow):
         """
         self.windows.win_login.show()
 
-class PopupAgregarRod(QDialog):
-    def __init__(self, windows):
-        super().__init__() 
-        self.ui = Ui_NewRodWindow()
-        self.ui.setupUi(self)
-        self.windows = windows
 
-        self.ui.btn_aceptar.clicked.connect(self.new_model_rod)
-    
-    def new_model_rod(self): pass
 
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1245</width>
-    <height>763</height>
+    <width>1258</width>
+    <height>764</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,6 +23,9 @@
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(240, 240, 240);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget_3">
@@ -59,17 +62,17 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,0,3">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_7" stretch="4,2,2,2,2,2,0">
+        <layout class="QVBoxLayout" name="verticalLayout_7" stretch="2,6,1,6">
          <property name="leftMargin">
           <number>20</number>
          </property>
          <property name="bottomMargin">
-          <number>200</number>
+          <number>0</number>
          </property>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_12">
-           <property name="bottomMargin">
-            <number>20</number>
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <property name="spacing">
+            <number>1</number>
            </property>
            <item>
             <widget class="QPushButton" name="btn_iniciar">
@@ -78,13 +81,6 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>-1</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
              </property>
              <property name="focusPolicy">
               <enum>Qt::NoFocus</enum>
@@ -127,13 +123,6 @@ ensayo</string>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="font">
-              <font>
-               <pointsize>-1</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
              <property name="focusPolicy">
               <enum>Qt::NoFocus</enum>
              </property>
@@ -171,6 +160,9 @@ ensayo</string>
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="spacing">
+            <number>2</number>
+           </property>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
              <item>
@@ -239,10 +231,6 @@ ensayo</string>
              </item>
             </layout>
            </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
              <item>
@@ -311,10 +299,6 @@ ensayo</string>
              </item>
             </layout>
            </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,2">
              <item>
@@ -383,10 +367,6 @@ ensayo</string>
              </item>
             </layout>
            </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,2">
              <item>
@@ -455,10 +435,6 @@ ensayo</string>
              </item>
             </layout>
            </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="1,2">
              <item>
@@ -576,6 +552,19 @@ QPushButton:focus {
            </property>
           </widget>
          </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
        </item>
        <item>
@@ -586,7 +575,7 @@ QPushButton:focus {
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout" stretch="4,1,4,1,18,1,18">
+        <layout class="QVBoxLayout" name="verticalLayout" stretch="4,3,18,18">
          <item>
           <widget class="QLabel" name="label_notificacion">
            <property name="font">
@@ -606,22 +595,79 @@ QPushButton:focus {
           </widget>
          </item>
          <item>
-          <widget class="Line" name="line">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+          <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="4,7,0,8,4">
+           <property name="spacing">
+            <number>1</number>
            </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="8,8">
            <property name="leftMargin">
-            <number>80</number>
+            <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>80</number>
+            <number>0</number>
            </property>
            <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="7,4">
+             <property name="spacing">
+              <number>1</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_24">
+               <property name="font">
+                <font>
+                 <family>Segoe UI Semibold</family>
+                 <pointsize>14</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Tiempo de ensayo: </string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="lcd_time_ensayo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="7,4">
+             <property name="spacing">
+              <number>1</number>
+             </property>
              <item>
               <widget class="QLabel" name="label_23">
                <property name="font">
@@ -650,58 +696,38 @@ QPushButton:focus {
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="7,4">
-             <item>
-              <widget class="QLabel" name="label_24">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>14</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Tiempo de ensayo: </string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLCDNumber" name="lcd_time_ensayo">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </item>
          <item>
-          <widget class="Line" name="line_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_73" stretch="5,9,3">
+          <layout class="QHBoxLayout" name="horizontalLayout_73" stretch="4,9,3">
            <property name="bottomMargin">
             <number>0</number>
            </property>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_8" stretch="2,2,2">
+             <property name="spacing">
+              <number>1</number>
+             </property>
              <property name="topMargin">
-              <number>60</number>
+              <number>80</number>
              </property>
              <property name="bottomMargin">
-              <number>60</number>
+              <number>80</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_17" stretch="7,4">
+              <layout class="QHBoxLayout" name="horizontalLayout_17" stretch="9,5">
                <item>
                 <widget class="QLabel" name="label_26">
                  <property name="font">
@@ -723,7 +749,7 @@ QPushButton:focus {
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="7,4">
+              <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="9,5">
                <item>
                 <widget class="QLabel" name="label_27">
                  <property name="font">
@@ -745,7 +771,7 @@ QPushButton:focus {
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="7,4">
+              <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="9,5">
                <item>
                 <widget class="QLabel" name="label_28">
                  <property name="font">
@@ -772,18 +798,24 @@ QPushButton:focus {
             <layout class="QHBoxLayout" name="fft_ant"/>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_17">
+            <layout class="QVBoxLayout" name="verticalLayout_20" stretch="1,1,1,1">
+             <property name="spacing">
+              <number>2</number>
+             </property>
              <property name="topMargin">
-              <number>10</number>
+              <number>30</number>
              </property>
              <property name="rightMargin">
               <number>20</number>
              </property>
              <property name="bottomMargin">
-              <number>10</number>
+              <number>30</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_69" stretch="2,3">
+              <layout class="QHBoxLayout" name="horizontalLayout_83" stretch="2,3">
+               <property name="spacing">
+                <number>15</number>
+               </property>
                <property name="leftMargin">
                 <number>5</number>
                </property>
@@ -808,7 +840,7 @@ QPushButton:focus {
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_78">
+                <widget class="QLabel" name="label_94">
                  <property name="font">
                   <font>
                    <family>Segoe UI Semibold</family>
@@ -825,7 +857,10 @@ QPushButton:focus {
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_70" stretch="2,3">
+              <layout class="QHBoxLayout" name="horizontalLayout_84" stretch="2,3">
+               <property name="spacing">
+                <number>15</number>
+               </property>
                <property name="leftMargin">
                 <number>5</number>
                </property>
@@ -850,7 +885,7 @@ QPushButton:focus {
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_80">
+                <widget class="QLabel" name="label_92">
                  <property name="font">
                   <font>
                    <family>Segoe UI Semibold</family>
@@ -867,7 +902,10 @@ QPushButton:focus {
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_71" stretch="2,3">
+              <layout class="QHBoxLayout" name="horizontalLayout_85" stretch="2,3">
+               <property name="spacing">
+                <number>15</number>
+               </property>
                <property name="leftMargin">
                 <number>5</number>
                </property>
@@ -892,7 +930,7 @@ QPushButton:focus {
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_82">
+                <widget class="QLabel" name="label_90">
                  <property name="font">
                   <font>
                    <family>Segoe UI Semibold</family>
@@ -909,7 +947,10 @@ QPushButton:focus {
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_72" stretch="2,3">
+              <layout class="QHBoxLayout" name="horizontalLayout_86" stretch="2,3">
+               <property name="spacing">
+                <number>15</number>
+               </property>
                <property name="leftMargin">
                 <number>5</number>
                </property>
@@ -917,7 +958,7 @@ QPushButton:focus {
                 <number>8</number>
                </property>
                <property name="bottomMargin">
-                <number>8</number>
+                <number>5</number>
                </property>
                <item>
                 <widget class="QLabel" name="state_bsf_ant">
@@ -934,7 +975,7 @@ QPushButton:focus {
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_84">
+                <widget class="QLabel" name="label_96">
                  <property name="font">
                   <font>
                    <family>Segoe UI Semibold</family>
@@ -955,24 +996,20 @@ QPushButton:focus {
           </layout>
          </item>
          <item>
-          <widget class="Line" name="line_7">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="5,9,3">
+          <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="4,9,3">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_18" stretch="2,2,2">
+             <property name="spacing">
+              <number>1</number>
+             </property>
              <property name="topMargin">
-              <number>60</number>
+              <number>80</number>
              </property>
              <property name="bottomMargin">
-              <number>60</number>
+              <number>80</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_75" stretch="7,4">
+              <layout class="QHBoxLayout" name="horizontalLayout_75" stretch="9,5">
                <item>
                 <widget class="QLabel" name="label_85">
                  <property name="font">
@@ -994,7 +1031,7 @@ QPushButton:focus {
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_76" stretch="7,4">
+              <layout class="QHBoxLayout" name="horizontalLayout_76" stretch="9,5">
                <item>
                 <widget class="QLabel" name="label_86">
                  <property name="font">
@@ -1016,7 +1053,7 @@ QPushButton:focus {
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_77" stretch="7,4">
+              <layout class="QHBoxLayout" name="horizontalLayout_77" stretch="9,5">
                <item>
                 <widget class="QLabel" name="label_87">
                  <property name="font">
@@ -1043,21 +1080,24 @@ QPushButton:focus {
             <layout class="QHBoxLayout" name="fft_pos"/>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_19">
+            <layout class="QVBoxLayout" name="verticalLayout_19" stretch="1,1,1,1">
              <property name="spacing">
               <number>2</number>
              </property>
              <property name="topMargin">
-              <number>10</number>
+              <number>30</number>
              </property>
              <property name="rightMargin">
               <number>20</number>
              </property>
              <property name="bottomMargin">
-              <number>10</number>
+              <number>30</number>
              </property>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_81" stretch="2,3">
+               <property name="spacing">
+                <number>15</number>
+               </property>
                <property name="leftMargin">
                 <number>5</number>
                </property>
@@ -1100,6 +1140,9 @@ QPushButton:focus {
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_80" stretch="2,3">
+               <property name="spacing">
+                <number>15</number>
+               </property>
                <property name="leftMargin">
                 <number>5</number>
                </property>
@@ -1142,6 +1185,9 @@ QPushButton:focus {
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_79" stretch="2,3">
+               <property name="spacing">
+                <number>15</number>
+               </property>
                <property name="leftMargin">
                 <number>5</number>
                </property>
@@ -1184,6 +1230,9 @@ QPushButton:focus {
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_82" stretch="2,3">
+               <property name="spacing">
+                <number>15</number>
+               </property>
                <property name="leftMargin">
                 <number>5</number>
                </property>
