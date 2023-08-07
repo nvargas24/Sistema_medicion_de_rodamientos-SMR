@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
+    <width>431</width>
     <height>649</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>30</x>
      <y>20</y>
-     <width>411</width>
+     <width>371</width>
      <height>611</height>
     </rect>
    </property>
@@ -72,7 +72,7 @@
         <rect>
          <x>20</x>
          <y>20</y>
-         <width>361</width>
+         <width>331</width>
          <height>83</height>
         </rect>
        </property>
@@ -181,7 +181,7 @@ QLineEdit:focus {
         <rect>
          <x>20</x>
          <y>20</y>
-         <width>361</width>
+         <width>331</width>
          <height>83</height>
         </rect>
        </property>
@@ -290,7 +290,7 @@ QLineEdit:focus {
         <rect>
          <x>20</x>
          <y>20</y>
-         <width>361</width>
+         <width>331</width>
          <height>83</height>
         </rect>
        </property>
@@ -399,13 +399,16 @@ QLineEdit:focus {
         <rect>
          <x>20</x>
          <y>20</y>
-         <width>361</width>
+         <width>331</width>
          <height>83</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="3,2">
+         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="6,3">
+          <property name="spacing">
+           <number>11</number>
+          </property>
           <item>
            <widget class="QLabel" name="label_10">
             <property name="font">
@@ -422,31 +425,49 @@ QLineEdit:focus {
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="input_fase_tierra">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
-    background-color: #F7F7F7; /* Color de fondo */
-    border: 2px solid #D9D9D9; /* Borde gris claro */
-    border-radius: 17px; /* Bordes curvos */
-    padding: 5px 10px; /* Espacio interno para texto */
-    font-size: 14px; /* Tamaño de fuente */
-    color: #444444; /* Color de texto */
-}
-QLineEdit:focus {
-    border-color: #0078d7; /* Cambia el color del borde cuando se selecciona el QLineEdit */
-    outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */
-}
-</string>
+           <widget class="QComboBox" name="cbox_fase_tierra">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="currentIndex">
+             <number>-1</number>
             </property>
             <property name="placeholderText">
-             <string>Ingrese conexión</string>
+             <string>Seleccione rodamiento</string>
             </property>
+            <property name="duplicatesEnabled">
+             <bool>false</bool>
+            </property>
+            <item>
+             <property name="text">
+              <string>U</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>V</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>W</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="3,2">
+         <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="6,3">
+          <property name="spacing">
+           <number>8</number>
+          </property>
           <item>
            <widget class="QLabel" name="label_11">
             <property name="font">
@@ -463,25 +484,35 @@ QLineEdit:focus {
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="input_rod_tierra">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
-    background-color: #F7F7F7; /* Color de fondo */
-    border: 2px solid #D9D9D9; /* Borde gris claro */
-    border-radius: 17px; /* Bordes curvos */
-    padding: 5px 10px; /* Espacio interno para texto */
-    font-size: 14px; /* Tamaño de fuente */
-    color: #444444; /* Color de texto */
-}
-QLineEdit:focus {
-    border-color: #0078d7; /* Cambia el color del borde cuando se selecciona el QLineEdit */
-    outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */
-}
-</string>
+           <widget class="QComboBox" name="cbox_rod_tierra">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="currentIndex">
+             <number>-1</number>
             </property>
             <property name="placeholderText">
-             <string>Ingrese conexión</string>
+             <string>Seleccione rodamiento</string>
             </property>
+            <property name="duplicatesEnabled">
+             <bool>false</bool>
+            </property>
+            <item>
+             <property name="text">
+              <string>Anterior</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Posterior</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>

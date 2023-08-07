@@ -287,8 +287,8 @@ class WindowUserForm(QDialog):
         self.ui.input_coche.clear()
         self.ui.input_boguie.clear()
         self.ui.input_motor.clear()  
-        self.ui.input_fase_tierra.clear()
-        self.ui.input_rod_tierra.clear()
+        self.ui.cbox_fase_tierra.setCurrentIndex(-1)
+        self.ui.cbox_rod_tierra.setCurrentIndex(-1)
 
     def ingresar(self):
         # SUGERENCIA: se deberia crear archivo temporal para guardar datos de operario y motor
@@ -301,8 +301,8 @@ class WindowUserForm(QDialog):
         self.motor = self.ui.input_motor.text()
         self.rod_ant = self.data_ensayo["RodamientoAnterior"]
         self.rod_pos = self.data_ensayo["RodamientoPosterior"]
-        self.fase_tierra = self.ui.input_fase_tierra.text()
-        self.rod_tierra = self.ui.input_rod_tierra.text()
+        self.fase_tierra = self.ui.cbox_fase_tierra.currentText()
+        self.rod_tierra = self.ui.cbox_rod_tierra.currentText()
 
         self.windows.win_user.ui.label_operario.setText(self.operario)
         self.windows.win_user.ui.label_legajo.setText(self.legajo)
@@ -314,7 +314,6 @@ class WindowUserForm(QDialog):
         self.windows.win_user.ui.label_modelo_rod_pos.setText(self.rod_pos)       
         self.windows.win_user.ui.label_fase_tierra.setText(self.fase_tierra)
         self.windows.win_user.ui.label_rod_tierra.setText(self.rod_tierra)
-
 
         self.windows.win_user.show()
         self.hide()
