@@ -52,7 +52,7 @@ class Grafica_fft(FigureCanvas):
         # Crear la línea inicial
         self.line, = self.ax.plot(self.freq_initial, self.mag_initial, picker=5)
 
-    def upgrade_graph_fft(self, freq, mag):
+    def update_graph_fft(self, freq, mag):
         """
         Metodo para actualizar listas de puntos para grafico fft
         """
@@ -94,6 +94,9 @@ class WindowLogin(QWidget):
 
         self.ui.btn_aceptar.clicked.connect(self.read_data)
         self.ui.btn_salir.clicked.connect(self.exit)
+
+        self.ui.input_usuario.returnPressed.connect(self.read_data)
+        self.ui.input_contrasenia.returnPressed.connect(self.read_data)
 
         #self.file_cfg.new_file_config_ensayo() #####
         self.file_cfg.new_file_config_rod()

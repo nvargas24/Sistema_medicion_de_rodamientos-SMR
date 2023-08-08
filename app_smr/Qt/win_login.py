@@ -17,7 +17,7 @@ class Ui_LoginWindow(object):
     def setupUi(self, LoginWindow):
         if not LoginWindow.objectName():
             LoginWindow.setObjectName(u"LoginWindow")
-        LoginWindow.resize(567, 236)
+        LoginWindow.resize(567, 233)
         LoginWindow.setStyleSheet(u"/*QApplication::setStyle(\"fusion\");*/\n"
 "\n"
 "background-color: #EAEAEA;\n"
@@ -30,12 +30,12 @@ class Ui_LoginWindow(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setSpacing(45)
+        self.horizontalLayout.setSpacing(10)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(-1, 10, -1, 0)
         self.label_usuario = QLabel(self.verticalLayoutWidget)
         self.label_usuario.setObjectName(u"label_usuario")
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_usuario.sizePolicy().hasHeightForWidth())
@@ -51,7 +51,7 @@ class Ui_LoginWindow(object):
 
         self.input_usuario = QLineEdit(self.verticalLayoutWidget)
         self.input_usuario.setObjectName(u"input_usuario")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.input_usuario.sizePolicy().hasHeightForWidth())
@@ -73,6 +73,8 @@ class Ui_LoginWindow(object):
 
         self.horizontalLayout.addWidget(self.input_usuario)
 
+        self.horizontalLayout.setStretch(0, 1)
+        self.horizontalLayout.setStretch(1, 2)
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
@@ -109,12 +111,14 @@ class Ui_LoginWindow(object):
 
         self.horizontalLayout_2.addWidget(self.input_contrasenia)
 
+        self.horizontalLayout_2.setStretch(0, 1)
+        self.horizontalLayout_2.setStretch(1, 2)
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(50, 7, 50, 5)
+        self.horizontalLayout_3.setContentsMargins(50, 0, 50, 0)
         self.btn_aceptar = QPushButton(self.verticalLayoutWidget)
         self.btn_aceptar.setObjectName(u"btn_aceptar")
         sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -122,7 +126,7 @@ class Ui_LoginWindow(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.btn_aceptar.sizePolicy().hasHeightForWidth())
         self.btn_aceptar.setSizePolicy(sizePolicy2)
-        self.btn_aceptar.setFocusPolicy(Qt.NoFocus)
+        self.btn_aceptar.setFocusPolicy(Qt.StrongFocus)
         self.btn_aceptar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
@@ -187,7 +191,6 @@ class Ui_LoginWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
-        self.verticalLayout.setStretch(0, 1)
         self.verticalLayout.setStretch(1, 1)
         self.verticalLayout.setStretch(2, 1)
 

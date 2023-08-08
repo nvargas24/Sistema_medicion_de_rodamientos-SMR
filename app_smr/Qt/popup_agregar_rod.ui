@@ -122,6 +122,12 @@ QLineEdit:focus {
       </item>
       <item>
        <widget class="QPushButton" name="btn_aceptar">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="font">
          <font>
           <pointsize>-1</pointsize>
@@ -130,7 +136,7 @@ QLineEdit:focus {
          </font>
         </property>
         <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
+         <enum>Qt::StrongFocus</enum>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {

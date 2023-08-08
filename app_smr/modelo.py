@@ -29,7 +29,6 @@ class Mqtt():
         self.broker_host = broker_host
         self.broker_port = broker_port
 
-        self.keepalive_ant = False
         self.temp_obj_ant = 0.0
         self.acel_axial_ant = 0.0
         self.acel_radial_ant = 0.0
@@ -38,6 +37,7 @@ class Mqtt():
         self.pres_bsf_ant = False
         self.pres_ftf_ant = False
         self.fft_ant = False
+
         self.temp_obj_pos = 0.0
         self.acel_axial_pos = 0.0
         self.acel_radial_pos = 0.0
@@ -83,8 +83,6 @@ class Mqtt():
 
     def qualify_data_bytopic(self):
         # Verifico si hay datos recibidos por broker y doy formato
-        if self.topic == "rodAnt/keepalive":
-            self.keepalive_ant = True
         if self.topic == "rodAnt/tempObj":
             self.temp_obj_ant = "{:.2f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelAxial":
@@ -403,7 +401,7 @@ class Measure():
         self.mqtt_obj.send("rodAnt/frecBPFI", int(self.freq_bpfi_ant))
         self.mqtt_obj.send("rodAnt/frecFTF", int(self.freq_ftf_ant))
         self.mqtt_obj.send("rodAnt/frecBSF", int(self.freq_bsf_ant))
-
+   
         self.mqtt_obj.send("rodPos/frecBPFO", int(self.freq_bpfo_pos))
         self.mqtt_obj.send("rodPos/frecBPFI", int(self.freq_bpfi_pos))
         self.mqtt_obj.send("rodPos/frecFTF", int(self.freq_ftf_pos))
@@ -458,7 +456,7 @@ class Measure():
             self.widgets.ui.btn_config_data.setEnabled(True)
             self.widgets.ui.btn_ver_ensayos.setEnabled(False)            
 
-
+        self.mqtt_obj.send("smr/stop", True)
         self.mqtt_obj.desuscrip_topics()
         self.mqtt_obj.stop()
         self.widgets.windows.win_user.timer1.stop()
@@ -497,7 +495,57 @@ class Measure():
             self.minutes = 0
 
         self.widgets.ui.lcd_time_ensayo.display(f"{self.minutes:02d}:{self.seconds:02d}")
+        self.data_recive_iot()
 
+    def data_recive_iot(self):
+        """
+        Muestra lecturas obtenidas de sensores en display
+        """
+        # Muestro datos recibidos en ui - rodamiento anterior
+        if self.mqtt_obj.temp_obj_ant:
+            self.widgets.ui.lcd_temp_ant.display(self.mqtt_obj.temp_obj_ant)
+        if self.mqtt_obj.acel_axial_ant:
+            self.widgets.ui.lcd_axial_ant.display(self.mqtt_obj.acel_axial_ant)
+        if self.mqtt_obj.acel_radial_ant:
+            self.widgets.ui.lcd_radial_ant.display(self.mqtt_obj.acel_radial_ant)
+        if self.mqtt_obj.pres_bpfo_ant:
+            self.widgets.ui.state_bpfo_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+        if self.mqtt_obj.pres_bpfi_ant:
+            self.widgets.ui.state_bpfi_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+        if self.mqtt_obj.pres_bsf_ant:
+            self.widgets.ui.state_bsf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+        if self.mqtt_obj.pres_ftf_ant:
+            self.widgets.ui.state_ftf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+        if self.mqtt_obj.fft_ant:
+            # paso de str a una lista numpy
+            self.fft_ant = np.fromstring(self.mqtt_obj.fft_ant, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
+            self.widgets.grafica.ax.clear()
+            self.widgets.grafica.ax.set_title("Rodamiento anterior")
+            self.widgets.grafica.update_graph_fft(self.freq, self.fft_ant)
+        
+        # Muestro datos recibidos en ui - rodamiento posterior
+        if self.mqtt_obj.temp_obj_pos:
+            self.widgets.ui.lcd_temp_pos.display(self.mqtt_obj.temp_obj_pos)
+        if self.mqtt_obj.acel_axial_pos:
+            self.widgets.ui.lcd_axial_pos.display(self.mqtt_obj.acel_axial_pos)
+        if self.mqtt_obj.acel_radial_pos:
+            self.widgets.ui.lcd_radial_pos.display(self.mqtt_obj.acel_radial_pos)
+        if self.mqtt_obj.pres_bpfo_pos:
+            self.widgets.ui.state_bpfo_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+        if self.mqtt_obj.pres_bpfi_pos:
+            self.widgets.ui.state_bpfi_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+        if self.mqtt_obj.pres_bsf_pos:
+            self.widgets.ui.state_bsf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+        if self.mqtt_obj.pres_ftf_pos:
+            self.widgets.ui.state_ftf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
+        if self.mqtt_obj.fft_pos:
+            # paso de str a una lista numpy
+            self.fft_pos = np.fromstring(self.mqtt_obj.fft_pos, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
+            self.widgets.grafica2.ax.clear()
+            self.widgets.grafica2.ax.set_title("Rodamiento posterior")
+            self.widgets.grafica2.update_graph_fft(self.freq, self.fft_pos)
+
+    
     def notificacion(self, msj):
         """
         Informa eventos

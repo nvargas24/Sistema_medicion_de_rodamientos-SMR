@@ -92,11 +92,16 @@ class Ui_NewRodWindow(object):
 
         self.btn_aceptar = QPushButton(self.verticalLayoutWidget)
         self.btn_aceptar.setObjectName(u"btn_aceptar")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.btn_aceptar.sizePolicy().hasHeightForWidth())
+        self.btn_aceptar.setSizePolicy(sizePolicy2)
         font3 = QFont()
         font3.setBold(True)
         font3.setWeight(75)
         self.btn_aceptar.setFont(font3)
-        self.btn_aceptar.setFocusPolicy(Qt.NoFocus)
+        self.btn_aceptar.setFocusPolicy(Qt.StrongFocus)
         self.btn_aceptar.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
