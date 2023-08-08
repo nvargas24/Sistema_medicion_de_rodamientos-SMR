@@ -17,7 +17,7 @@ class Ui_UserWindow(object):
     def setupUi(self, UserWindow):
         if not UserWindow.objectName():
             UserWindow.setObjectName(u"UserWindow")
-        UserWindow.resize(1258, 746)
+        UserWindow.resize(1258, 696)
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -31,7 +31,7 @@ class Ui_UserWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget_3 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_3.setObjectName(u"verticalLayoutWidget_3")
-        self.verticalLayoutWidget_3.setGeometry(QRect(20, 10, 1211, 721))
+        self.verticalLayoutWidget_3.setGeometry(QRect(40, 10, 1191, 671))
         self.verticalLayout_9 = QVBoxLayout(self.verticalLayoutWidget_3)
         self.verticalLayout_9.setSpacing(20)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
@@ -52,7 +52,7 @@ class Ui_UserWindow(object):
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.verticalLayout_7.setContentsMargins(20, -1, -1, 0)
+        self.verticalLayout_7.setContentsMargins(0, -1, -1, 0)
         self.horizontalLayout_13 = QHBoxLayout()
         self.horizontalLayout_13.setSpacing(1)
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
@@ -471,7 +471,6 @@ class Ui_UserWindow(object):
         self.verticalLayout_7.setStretch(0, 2)
         self.verticalLayout_7.setStretch(1, 6)
         self.verticalLayout_7.setStretch(2, 1)
-        self.verticalLayout_7.setStretch(5, 6)
 
         self.horizontalLayout_11.addLayout(self.verticalLayout_7)
 
@@ -576,7 +575,7 @@ class Ui_UserWindow(object):
         self.verticalLayout_20 = QVBoxLayout()
         self.verticalLayout_20.setSpacing(2)
         self.verticalLayout_20.setObjectName(u"verticalLayout_20")
-        self.verticalLayout_20.setContentsMargins(-1, 30, 20, 30)
+        self.verticalLayout_20.setContentsMargins(-1, 30, 5, 30)
         self.horizontalLayout_83 = QHBoxLayout()
         self.horizontalLayout_83.setSpacing(15)
         self.horizontalLayout_83.setObjectName(u"horizontalLayout_83")
@@ -684,9 +683,9 @@ class Ui_UserWindow(object):
 
         self.horizontalLayout_73.addLayout(self.verticalLayout_20)
 
-        self.horizontalLayout_73.setStretch(0, 4)
-        self.horizontalLayout_73.setStretch(1, 9)
-        self.horizontalLayout_73.setStretch(2, 3)
+        self.horizontalLayout_73.setStretch(0, 8)
+        self.horizontalLayout_73.setStretch(1, 15)
+        self.horizontalLayout_73.setStretch(2, 4)
 
         self.verticalLayout.addLayout(self.horizontalLayout_73)
 
@@ -764,7 +763,7 @@ class Ui_UserWindow(object):
         self.verticalLayout_19 = QVBoxLayout()
         self.verticalLayout_19.setSpacing(2)
         self.verticalLayout_19.setObjectName(u"verticalLayout_19")
-        self.verticalLayout_19.setContentsMargins(-1, 30, 20, 30)
+        self.verticalLayout_19.setContentsMargins(-1, 30, 0, 30)
         self.horizontalLayout_81 = QHBoxLayout()
         self.horizontalLayout_81.setSpacing(15)
         self.horizontalLayout_81.setObjectName(u"horizontalLayout_81")
@@ -872,13 +871,13 @@ class Ui_UserWindow(object):
 
         self.horizontalLayout_74.addLayout(self.verticalLayout_19)
 
-        self.horizontalLayout_74.setStretch(0, 4)
-        self.horizontalLayout_74.setStretch(1, 9)
-        self.horizontalLayout_74.setStretch(2, 3)
+        self.horizontalLayout_74.setStretch(0, 8)
+        self.horizontalLayout_74.setStretch(1, 15)
+        self.horizontalLayout_74.setStretch(2, 4)
 
         self.verticalLayout.addLayout(self.horizontalLayout_74)
 
-        self.verticalLayout.setStretch(0, 4)
+        self.verticalLayout.setStretch(0, 2)
         self.verticalLayout.setStretch(1, 18)
         self.verticalLayout.setStretch(2, 18)
 

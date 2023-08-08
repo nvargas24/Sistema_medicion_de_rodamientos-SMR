@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1258</width>
-    <height>746</height>
+    <height>696</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -31,10 +31,10 @@
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>40</x>
       <y>10</y>
-      <width>1211</width>
-      <height>721</height>
+      <width>1191</width>
+      <height>671</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -62,9 +62,9 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,0,3">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_7" stretch="2,6,1,0,0,6,0">
+        <layout class="QVBoxLayout" name="verticalLayout_7" stretch="2,6,1,0,0,0,0">
          <property name="leftMargin">
-          <number>20</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -723,7 +723,7 @@ ensayos</string>
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout" stretch="4,18,18">
+        <layout class="QVBoxLayout" name="verticalLayout" stretch="2,18,18">
          <item>
           <widget class="QLabel" name="label_notificacion">
            <property name="font">
@@ -743,7 +743,7 @@ ensayos</string>
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_73" stretch="4,9,3">
+          <layout class="QHBoxLayout" name="horizontalLayout_73" stretch="8,15,4">
            <property name="bottomMargin">
             <number>0</number>
            </property>
@@ -838,7 +838,7 @@ ensayos</string>
               <number>30</number>
              </property>
              <property name="rightMargin">
-              <number>20</number>
+              <number>5</number>
              </property>
              <property name="bottomMargin">
               <number>30</number>
@@ -1028,7 +1028,7 @@ ensayos</string>
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="4,9,3">
+          <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="8,15,4">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_18" stretch="2,2,2">
              <property name="spacing">
@@ -1120,7 +1120,7 @@ ensayos</string>
               <number>30</number>
              </property>
              <property name="rightMargin">
-              <number>20</number>
+              <number>0</number>
              </property>
              <property name="bottomMargin">
               <number>30</number>
