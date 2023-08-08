@@ -5,8 +5,6 @@ import os
 
 import paho.mqtt.client as mqtt
 
-IP_BROKER = "192.168.1.104"
-PORT_MQTT = 1833
 SAMPLES_FFT = 512
 
 class InputData():
@@ -366,12 +364,11 @@ class Measure():
         # Atributo para acceder a los widgets
         self.widgets = widgets
         self.file_cfg = CfgFileManager()
-        self.mqtt_obj = Mqtt(IP_BROKER, PORT_MQTT)
+        self.mqtt_obj = Mqtt("192.168.5.203", 1883)
 
         self.num_fft = 1
-        self.cont_ensayos = 1
+        self.cont_ensayos = 0
         self.freq = np.arange(0, SAMPLES_FFT*37, 37)
-        self.cont_ensayo = 1
         self.seconds = 0
         self.minutes = 0        
 
@@ -380,7 +377,18 @@ class Measure():
         self.mqtt_obj.stop()
         # Inicio conexion mqtt
         self.mqtt_obj.start()
-        self.param_ensayo(str(self.cont_ensayo))
+        self.cont_ensayos += 1
+
+        self.widgets.ui.btn_iniciar.setEnabled(False)       
+        self.widgets.ui.btn_finalizar.setEnabled(True)
+        self.widgets.ui.btn_config_data.setEnabled(False)
+
+        if not self.cont_ensayos == 0:
+            self.widgets.ui.btn_ver_ensayos.setEnabled(True)
+        else:
+            self.widgets.ui.btn_ver_ensayos.setEnabled(False)            
+
+        self.param_ensayo(str(self.cont_ensayos))
         # Enviar por mqtt los datos de configuracion
         self.mqtt_obj.send("smr/start", True)
         self.param_ensayo_send_mqtt()
@@ -441,9 +449,37 @@ class Measure():
         self.freq_bsf_pos = self.data_rod_pos["bsf"]
 
     def stop_ensayo(self):
+        self.widgets.ui.btn_iniciar.setEnabled(True)       
+        self.widgets.ui.btn_finalizar.setEnabled(False)
+
+        if not self.cont_ensayos == 0:
+            self.widgets.ui.btn_ver_ensayos.setEnabled(True)
+        else:
+            self.widgets.ui.btn_config_data.setEnabled(True)
+            self.widgets.ui.btn_ver_ensayos.setEnabled(False)            
+
+
         self.mqtt_obj.desuscrip_topics()
         self.mqtt_obj.stop()
         self.widgets.windows.win_user.timer1.stop()
+
+        self.notificacion("Finalizo ensayo "+ str(self.cont_ensayos) + 
+                          " a los "+ str(self.minutes) + " minutos y "+ 
+                          str(self.seconds) + " segundos")
+        
+        if self.cont_ensayos == 1:
+            self.widgets.windows.popup_time_ensayos.set_time(str(self.cont_ensayos), self.minutes, self.seconds)
+        elif self.cont_ensayos == 2:
+            self.widgets.windows.popup_time_ensayos.set_time(str(self.cont_ensayos), self.minutes, self.seconds)
+        elif self.cont_ensayos == 3:
+            self.widgets.windows.popup_time_ensayos.set_time(str(self.cont_ensayos), self.minutes, self.seconds)
+        elif self.cont_ensayos == 4:
+            self.widgets.windows.popup_time_ensayos.set_time(str(self.cont_ensayos), self.minutes, self.seconds)
+        elif self.cont_ensayos == 5:
+            self.widgets.windows.popup_time_ensayos.set_time(str(self.cont_ensayos), self.minutes, self.seconds)
+        else:
+            self.widgets.windows.popup_time_ensayos.set_time("reset", None, None)
+
         self.widgets.windows.popup_meas_corrientes.exec_()
 
     def timer_ensayo(self, ):

@@ -416,12 +416,12 @@ class Ui_UserWindow(object):
 
         self.verticalLayout_7.addLayout(self.verticalLayout_3)
 
-        self.btn_finalizar_2 = QPushButton(self.verticalLayoutWidget_3)
-        self.btn_finalizar_2.setObjectName(u"btn_finalizar_2")
-        sizePolicy1.setHeightForWidth(self.btn_finalizar_2.sizePolicy().hasHeightForWidth())
-        self.btn_finalizar_2.setSizePolicy(sizePolicy1)
-        self.btn_finalizar_2.setFocusPolicy(Qt.NoFocus)
-        self.btn_finalizar_2.setStyleSheet(u"QPushButton {\n"
+        self.btn_ver_ensayos = QPushButton(self.verticalLayoutWidget_3)
+        self.btn_ver_ensayos.setObjectName(u"btn_ver_ensayos")
+        sizePolicy1.setHeightForWidth(self.btn_ver_ensayos.sizePolicy().hasHeightForWidth())
+        self.btn_ver_ensayos.setSizePolicy(sizePolicy1)
+        self.btn_ver_ensayos.setFocusPolicy(Qt.NoFocus)
+        self.btn_ver_ensayos.setStyleSheet(u"QPushButton {\n"
 "    background-color: #F2F2F2; /* Color de fondo */\n"
 "    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
 "    border-radius: 15px; /* Bordes curvos */\n"
@@ -444,7 +444,7 @@ class Ui_UserWindow(object):
 "	outline: none; /* Elimina el contorno alrededor del QLineEdit al seleccionarlo */\n"
 "}")
 
-        self.verticalLayout_7.addWidget(self.btn_finalizar_2)
+        self.verticalLayout_7.addWidget(self.btn_ver_ensayos)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -926,7 +926,7 @@ class Ui_UserWindow(object):
         self.label_24.setText(QCoreApplication.translate("UserWindow", u"Tiempo de\n"
 "ensayo actual: ", None))
         self.label_23.setText(QCoreApplication.translate("UserWindow", u"Temp. ambiente: ", None))
-        self.btn_finalizar_2.setText(QCoreApplication.translate("UserWindow", u"Ver tiempos de \n"
+        self.btn_ver_ensayos.setText(QCoreApplication.translate("UserWindow", u"Ver tiempos de \n"
 "ensayos", None))
         self.label_2.setText(QCoreApplication.translate("UserWindow", u"Progreso", None))
         self.label_notificacion.setText(QCoreApplication.translate("UserWindow", u"NOTIFICACION", None))

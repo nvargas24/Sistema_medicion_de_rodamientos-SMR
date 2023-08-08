@@ -628,7 +628,7 @@ ensayo actual: </string>
           </layout>
          </item>
          <item>
-          <widget class="QPushButton" name="btn_finalizar_2">
+          <widget class="QPushButton" name="btn_ver_ensayos">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>

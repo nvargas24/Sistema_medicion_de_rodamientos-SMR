@@ -386,6 +386,10 @@ class WindowUser(QMainWindow):
         self.ui.btn_iniciar.clicked.connect(self.measure.init_ensayo)
         self.ui.btn_finalizar.clicked.connect(self.measure.stop_ensayo)
         self.ui.btn_config_data.clicked.connect(self.config_data)
+        self.ui.btn_ver_ensayos.clicked.connect(self.ver_ensayos)
+
+        self.ui.btn_finalizar.setEnabled(False)
+        self.ui.btn_ver_ensayos.setEnabled(False)
 
         # Creo contador asociado a un metodo que inicia el conteo
         self.timer1 = QTimer(self)
@@ -402,6 +406,9 @@ class WindowUser(QMainWindow):
 
     def config_data(self):
         self.windows.win_user_form.exec_()
+
+    def ver_ensayos(self):
+        self.windows.popup_time_ensayos.exec_()
 
     def closeEvent(self, event):
         """
@@ -446,13 +453,35 @@ class PopupMeasCorrientes(QDialog):
         event.ignore()
 
 
-
 class PopupTimeEnsayos(QDialog):
     def __init__(self, windows):
         super().__init__() 
         self.ui = Ui_TimeEnsayosWindow()
         self.ui.setupUi(self)
         self.windows = windows
+
+        self.ui.btn_ok.clicked.connect(self.close)
+
+    def set_time(self, num_ensayo, minutes, seconds):
+
+        if num_ensayo == "1":
+            self.ui.time_ensayo1.setText(f"{minutes:02d}:{seconds:02d}")
+        elif num_ensayo == "2":
+            self.ui.time_ensayo2.setText(f"{minutes:02d}:{seconds:02d}")
+        elif num_ensayo == "3":
+            self.ui.time_ensayo3.setText(f"{minutes:02d}:{seconds:02d}")
+        elif num_ensayo == "4":
+            self.ui.time_ensayo4.setText(f"{minutes:02d}:{seconds:02d}")
+        elif num_ensayo == "5":
+            self.ui.time_ensayo5.setText(f"{minutes:02d}:{seconds:02d}")
+        elif num_ensayo == "reset":
+            self.ui.time_ensayo1.setText("en proceso")
+            self.ui.time_ensayo2.setText("en proceso")   
+            self.ui.time_ensayo3.setText("en proceso")
+            self.ui.time_ensayo4.setText("en proceso")   
+            self.ui.time_ensayo5.setText("en proceso")
+            
+
 
 class PopupAdvertencia(QDialog):
     def __init__(self, windows):
