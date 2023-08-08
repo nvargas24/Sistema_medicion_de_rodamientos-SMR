@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'popup_error_campos_obligatorios.ui'
+## Form generated from reading UI file 'popup_error.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -13,12 +13,12 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
-class Ui_ErrorCamposObligatorioWindow(object):
-    def setupUi(self, ErrorCamposObligatorioWindow):
-        if not ErrorCamposObligatorioWindow.objectName():
-            ErrorCamposObligatorioWindow.setObjectName(u"ErrorCamposObligatorioWindow")
-        ErrorCamposObligatorioWindow.resize(535, 175)
-        self.verticalLayoutWidget = QWidget(ErrorCamposObligatorioWindow)
+class Ui_ErrorWindow(object):
+    def setupUi(self, ErrorWindow):
+        if not ErrorWindow.objectName():
+            ErrorWindow.setObjectName(u"ErrorWindow")
+        ErrorWindow.resize(535, 175)
+        self.verticalLayoutWidget = QWidget(ErrorWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(20, 30, 501, 121))
         self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget)
@@ -28,18 +28,18 @@ class Ui_ErrorCamposObligatorioWindow(object):
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, -1, 5, -1)
-        self.label_2 = QLabel(self.verticalLayoutWidget)
-        self.label_2.setObjectName(u"label_2")
+        self.icon = QLabel(self.verticalLayoutWidget)
+        self.icon.setObjectName(u"icon")
         sizePolicy = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setPixmap(QPixmap(u"../iconos/incorrecto.png"))
-        self.label_2.setScaledContents(True)
-        self.label_2.setMargin(1)
+        sizePolicy.setHeightForWidth(self.icon.sizePolicy().hasHeightForWidth())
+        self.icon.setSizePolicy(sizePolicy)
+        self.icon.setPixmap(QPixmap(u"../iconos/incorrecto.png"))
+        self.icon.setScaledContents(True)
+        self.icon.setMargin(1)
 
-        self.horizontalLayout.addWidget(self.label_2)
+        self.horizontalLayout.addWidget(self.icon)
 
         self.label = QLabel(self.verticalLayoutWidget)
         self.label.setObjectName(u"label")
@@ -105,16 +105,15 @@ class Ui_ErrorCamposObligatorioWindow(object):
         self.verticalLayout_2.setStretch(0, 7)
         self.verticalLayout_2.setStretch(1, 5)
 
-        self.retranslateUi(ErrorCamposObligatorioWindow)
+        self.retranslateUi(ErrorWindow)
 
-        QMetaObject.connectSlotsByName(ErrorCamposObligatorioWindow)
+        QMetaObject.connectSlotsByName(ErrorWindow)
     # setupUi
 
-    def retranslateUi(self, ErrorCamposObligatorioWindow):
-        ErrorCamposObligatorioWindow.setWindowTitle(QCoreApplication.translate("ErrorCamposObligatorioWindow", u"Dialog", None))
-        self.label_2.setText("")
-        self.label.setText(QCoreApplication.translate("ErrorCamposObligatorioWindow", u"Los siguientes campos son obligatorios:\n"
-"Operario y Legajo", None))
-        self.btn_ok.setText(QCoreApplication.translate("ErrorCamposObligatorioWindow", u"OK", None))
+    def retranslateUi(self, ErrorWindow):
+        ErrorWindow.setWindowTitle(QCoreApplication.translate("ErrorWindow", u"Dialog", None))
+        self.icon.setText("")
+        self.label.setText("")
+        self.btn_ok.setText(QCoreApplication.translate("ErrorWindow", u"OK", None))
     # retranslateUi
 

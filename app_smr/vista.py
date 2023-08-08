@@ -23,8 +23,8 @@ from Qt.win_user_form import *
 from Qt.popup_agregar_rod import *
 from Qt.popup_meas_corrientes import *
 from Qt.popup_time_ensayos import *
-from Qt.popup_advertencia_campos import *
-from Qt.popup_error_campos_obligatorios import *
+from Qt.popup_advertencia import *
+from Qt.popup_error import *
 
 SAMPLES_FFT = 512
 
@@ -302,9 +302,11 @@ class WindowUserForm(QDialog):
             self.windows.win_user.show()
             self.hide()
         elif state_entries == "No completo algunos campos":
-            self.windows.popup_advertencia_campos.exec_()
+            self.windows.popup_advertencia.set_msj("No completo todos los campos, \n¿Desea continuar?")
+            self.windows.popup_advertencia.exec_()
         elif state_entries == "No completo campos operario, ni legajo":
-            self.windows.popup_error_campos_obligatorios.exec_()
+            self.windows.popup_error.set_msj("Los siguientes campos son obligatorios:\nOperario y Legajo")
+            self.windows.popup_error.exec_()
 
     def obtener_param_form(self):
         # SUGERENCIA: se deberia crear archivo temporal para guardar datos de operario y motor
@@ -452,16 +454,21 @@ class PopupTimeEnsayos(QDialog):
         self.ui.setupUi(self)
         self.windows = windows
 
-class PopupAdvCampos(QDialog):
+class PopupAdvertencia(QDialog):
     def __init__(self, windows):
         super().__init__() 
-        self.ui = Ui_AdvCamposWindow()
+        self.ui = Ui_AdvertenciaWindow()
         self.ui.setupUi(self)
         self.windows = windows
     
+        self.ui.icon.setPixmap(QPixmap("iconos/advertencia.png"))
+
         self.ui.btn_aceptar.clicked.connect(self.continuar)
         self.ui.btn_cancelar.clicked.connect(self.return_form_user)
-    
+
+    def set_msj(self, msj):
+        self.ui.label.setText(msj) 
+
     def continuar(self):
         self.windows.win_user.show()
         self.windows.win_user_form.hide()
@@ -470,14 +477,19 @@ class PopupAdvCampos(QDialog):
     def return_form_user(self):
         self.close()
 
-class PopupErrorCamposObligatorios(QDialog):
+class PopupError(QDialog):
     def __init__(self, windows):
         super().__init__() 
-        self.ui = Ui_ErrorCamposObligatorioWindow()
+        self.ui = Ui_ErrorWindow()
         self.ui.setupUi(self)
         self.windows = windows
 
+        self.ui.icon.setPixmap(QPixmap("iconos/incorrecto.png"))
+
         self.ui.btn_ok.clicked.connect(self.return_form_user)
+
+    def set_msj(self,msj):
+        self.ui.label.setText(msj)        
 
     def return_form_user(self):
         self.windows.win_user_form.show()

@@ -19,8 +19,8 @@ class Controlador():
         self.popup_agregar_rod = PopupAgregarRod(self)
         self.popup_meas_corrientes = PopupMeasCorrientes(self)
         self.popup_time_ensayos = PopupTimeEnsayos(self)
-        self.popup_advertencia_campos = PopupAdvCampos(self)
-        self.popup_error_campos_obligatorios = PopupErrorCamposObligatorios(self)
+        self.popup_advertencia = PopupAdvertencia(self)
+        self.popup_error = PopupError(self)
 
         self.win_login.show()
         try:

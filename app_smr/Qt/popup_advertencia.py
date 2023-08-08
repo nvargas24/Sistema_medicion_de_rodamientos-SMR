@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'popup_advertencia_campos.ui'
+## Form generated from reading UI file 'popup_advertencia.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -13,12 +13,12 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
-class Ui_AdvCamposWindow(object):
-    def setupUi(self, AdvCamposWindow):
-        if not AdvCamposWindow.objectName():
-            AdvCamposWindow.setObjectName(u"AdvCamposWindow")
-        AdvCamposWindow.resize(535, 182)
-        self.verticalLayoutWidget = QWidget(AdvCamposWindow)
+class Ui_AdvertenciaWindow(object):
+    def setupUi(self, AdvertenciaWindow):
+        if not AdvertenciaWindow.objectName():
+            AdvertenciaWindow.setObjectName(u"AdvertenciaWindow")
+        AdvertenciaWindow.resize(535, 182)
+        self.verticalLayoutWidget = QWidget(AdvertenciaWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(30, 20, 471, 141))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
@@ -27,33 +27,35 @@ class Ui_AdvCamposWindow(object):
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(10, -1, 30, -1)
-        self.label_3 = QLabel(self.verticalLayoutWidget)
-        self.label_3.setObjectName(u"label_3")
+        self.icon = QLabel(self.verticalLayoutWidget)
+        self.icon.setObjectName(u"icon")
         sizePolicy = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
-        self.label_3.setSizePolicy(sizePolicy)
-        self.label_3.setPixmap(QPixmap(u"../iconos/advertencia.png"))
-        self.label_3.setScaledContents(True)
-        self.label_3.setMargin(10)
+        sizePolicy.setHeightForWidth(self.icon.sizePolicy().hasHeightForWidth())
+        self.icon.setSizePolicy(sizePolicy)
+        self.icon.setPixmap(QPixmap(u"advertencia.png"))
+        self.icon.setScaledContents(True)
+        self.icon.setWordWrap(True)
+        self.icon.setMargin(10)
+        self.icon.setOpenExternalLinks(True)
 
-        self.horizontalLayout_2.addWidget(self.label_3)
+        self.horizontalLayout_2.addWidget(self.icon)
 
-        self.label_4 = QLabel(self.verticalLayoutWidget)
-        self.label_4.setObjectName(u"label_4")
+        self.label = QLabel(self.verticalLayoutWidget)
+        self.label.setObjectName(u"label")
         font = QFont()
         font.setFamily(u"Segoe UI Semibold")
         font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
-        self.label_4.setFont(font)
-        self.label_4.setAlignment(Qt.AlignCenter)
+        self.label.setFont(font)
+        self.label.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout_2.addWidget(self.label_4)
+        self.horizontalLayout_2.addWidget(self.label)
 
         self.horizontalLayout_2.setStretch(0, 1)
-        self.horizontalLayout_2.setStretch(1, 3)
+        self.horizontalLayout_2.setStretch(1, 4)
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
@@ -146,17 +148,16 @@ class Ui_AdvCamposWindow(object):
         self.verticalLayout.setStretch(0, 9)
         self.verticalLayout.setStretch(1, 6)
 
-        self.retranslateUi(AdvCamposWindow)
+        self.retranslateUi(AdvertenciaWindow)
 
-        QMetaObject.connectSlotsByName(AdvCamposWindow)
+        QMetaObject.connectSlotsByName(AdvertenciaWindow)
     # setupUi
 
-    def retranslateUi(self, AdvCamposWindow):
-        AdvCamposWindow.setWindowTitle(QCoreApplication.translate("AdvCamposWindow", u"Dialog", None))
-        self.label_3.setText("")
-        self.label_4.setText(QCoreApplication.translate("AdvCamposWindow", u"No completo todos los campos, \n"
-"\u00bfDesea continuar?", None))
-        self.btn_aceptar.setText(QCoreApplication.translate("AdvCamposWindow", u"Aceptar", None))
-        self.btn_cancelar.setText(QCoreApplication.translate("AdvCamposWindow", u"Cancelar", None))
+    def retranslateUi(self, AdvertenciaWindow):
+        AdvertenciaWindow.setWindowTitle(QCoreApplication.translate("AdvertenciaWindow", u"Dialog", None))
+        self.icon.setText("")
+        self.label.setText("")
+        self.btn_aceptar.setText(QCoreApplication.translate("AdvertenciaWindow", u"Aceptar", None))
+        self.btn_cancelar.setText(QCoreApplication.translate("AdvertenciaWindow", u"Cancelar", None))
     # retranslateUi
 
