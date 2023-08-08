@@ -17,7 +17,7 @@ class Ui_FormUserWindow(object):
     def setupUi(self, FormUserWindow):
         if not FormUserWindow.objectName():
             FormUserWindow.setObjectName(u"FormUserWindow")
-        FormUserWindow.resize(431, 649)
+        FormUserWindow.resize(423, 649)
         self.verticalLayoutWidget = QWidget(FormUserWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(30, 20, 371, 611))
@@ -300,7 +300,48 @@ class Ui_FormUserWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.cbox_fase_tierra.sizePolicy().hasHeightForWidth())
         self.cbox_fase_tierra.setSizePolicy(sizePolicy)
-        self.cbox_fase_tierra.setFocusPolicy(Qt.NoFocus)
+        self.cbox_fase_tierra.setFocusPolicy(Qt.StrongFocus)
+        self.cbox_fase_tierra.setStyleSheet(u"/* Estilo para el QComboBox */\n"
+"QComboBox {\n"
+"    background-color: #F7F7F7; /* Color de fondo */\n"
+"    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
+"    border-radius: 17px; /* Bordes curvos */\n"
+"    padding: 5px 10px; /* Espacio interno para el contenido */\n"
+"    font-size: 14px; /* Tama\u00f1o de fuente */\n"
+"    color: #444444; /* Color de texto */\n"
+"}\n"
+"\n"
+"/* Estilo cuando el QComboBox tiene el foco */\n"
+"QComboBox:focus {\n"
+"    border-color: #0078d7; /* Cambia el color del borde cuando se selecciona el QComboBox */\n"
+"    outline: none; /* Elimina el contorno alrededor del QComboBox al seleccionarlo */\n"
+"}\n"
+"\n"
+"/* Estilo para las opciones desplegables en el QComboBox */\n"
+"QComboBox QAbstractItemView {\n"
+"    background-color: #F7F7F7; /* Color de fondo */\n"
+"    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
+"    border-radius: 5px; /* Bordes curvos */\n"
+"    padding: 2px 5px; /* Espacio interno para el contenido */\n"
+"    font-size: 14px; /* Tama\u00f1o de"
+                        " fuente */\n"
+"    color: #444444; /* Color de texto */\n"
+"}\n"
+"\n"
+"/* Estilo para el bot\u00f3n de desplegado (flecha) del QComboBox */\n"
+"QComboBox::drop-down {\n"
+"    /*subcontrol-origin: padding;*/\n"
+"    /*subcontrol-position: top right;*/\n"
+"    width: 20px; /* Ancho del bot\u00f3n */\n"
+"    border-left-width: 1px; /* Borde izquierdo del bot\u00f3n */\n"
+"    border-left-color: #D9D9D9; /* Color del borde izquierdo del bot\u00f3n */\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 17px; /* Bordes curvos en la parte superior derecha */\n"
+"    border-bottom-right-radius: 17px; /* Bordes curvos en la parte inferior derecha */\n"
+"    /*background-color: #F7F7F7;*/ /* Color de fondo del bot\u00f3n */\n"
+"}\n"
+"\n"
+"")
         self.cbox_fase_tierra.setDuplicatesEnabled(False)
 
         self.horizontalLayout_9.addWidget(self.cbox_fase_tierra)
@@ -325,7 +366,48 @@ class Ui_FormUserWindow(object):
         self.cbox_rod_tierra.setObjectName(u"cbox_rod_tierra")
         sizePolicy.setHeightForWidth(self.cbox_rod_tierra.sizePolicy().hasHeightForWidth())
         self.cbox_rod_tierra.setSizePolicy(sizePolicy)
-        self.cbox_rod_tierra.setFocusPolicy(Qt.NoFocus)
+        self.cbox_rod_tierra.setFocusPolicy(Qt.StrongFocus)
+        self.cbox_rod_tierra.setStyleSheet(u"/* Estilo para el QComboBox */\n"
+"QComboBox {\n"
+"    background-color: #F7F7F7; /* Color de fondo */\n"
+"    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
+"    border-radius: 17px; /* Bordes curvos */\n"
+"    padding: 5px 10px; /* Espacio interno para el contenido */\n"
+"    font-size: 14px; /* Tama\u00f1o de fuente */\n"
+"    color: #444444; /* Color de texto */\n"
+"}\n"
+"\n"
+"/* Estilo cuando el QComboBox tiene el foco */\n"
+"QComboBox:focus {\n"
+"    border-color: #0078d7; /* Cambia el color del borde cuando se selecciona el QComboBox */\n"
+"    outline: none; /* Elimina el contorno alrededor del QComboBox al seleccionarlo */\n"
+"}\n"
+"\n"
+"/* Estilo para las opciones desplegables en el QComboBox */\n"
+"QComboBox QAbstractItemView {\n"
+"    background-color: #F7F7F7; /* Color de fondo */\n"
+"    border: 2px solid #D9D9D9; /* Borde gris claro */\n"
+"    border-radius: 5px; /* Bordes curvos */\n"
+"    padding: 2px 5px; /* Espacio interno para el contenido */\n"
+"    font-size: 14px; /* Tama\u00f1o de"
+                        " fuente */\n"
+"    color: #444444; /* Color de texto */\n"
+"}\n"
+"\n"
+"/* Estilo para el bot\u00f3n de desplegado (flecha) del QComboBox */\n"
+"QComboBox::drop-down {\n"
+"    /*subcontrol-origin: padding;*/\n"
+"    /*subcontrol-position: top right;*/\n"
+"    width: 20px; /* Ancho del bot\u00f3n */\n"
+"    border-left-width: 1px; /* Borde izquierdo del bot\u00f3n */\n"
+"    border-left-color: #D9D9D9; /* Color del borde izquierdo del bot\u00f3n */\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 17px; /* Bordes curvos en la parte superior derecha */\n"
+"    border-bottom-right-radius: 17px; /* Bordes curvos en la parte inferior derecha */\n"
+"    /*background-color: #F7F7F7;*/ /* Color de fondo del bot\u00f3n */\n"
+"}\n"
+"\n"
+"")
         self.cbox_rod_tierra.setDuplicatesEnabled(False)
 
         self.horizontalLayout_10.addWidget(self.cbox_rod_tierra)

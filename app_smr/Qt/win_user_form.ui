@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
+    <width>423</width>
     <height>649</height>
    </rect>
   </property>
@@ -433,7 +433,49 @@ QLineEdit:focus {
              </sizepolicy>
             </property>
             <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
+             <enum>Qt::StrongFocus</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">/* Estilo para el QComboBox */
+QComboBox {
+    background-color: #F7F7F7; /* Color de fondo */
+    border: 2px solid #D9D9D9; /* Borde gris claro */
+    border-radius: 17px; /* Bordes curvos */
+    padding: 5px 10px; /* Espacio interno para el contenido */
+    font-size: 14px; /* Tamaño de fuente */
+    color: #444444; /* Color de texto */
+}
+
+/* Estilo cuando el QComboBox tiene el foco */
+QComboBox:focus {
+    border-color: #0078d7; /* Cambia el color del borde cuando se selecciona el QComboBox */
+    outline: none; /* Elimina el contorno alrededor del QComboBox al seleccionarlo */
+}
+
+/* Estilo para las opciones desplegables en el QComboBox */
+QComboBox QAbstractItemView {
+    background-color: #F7F7F7; /* Color de fondo */
+    border: 2px solid #D9D9D9; /* Borde gris claro */
+    border-radius: 5px; /* Bordes curvos */
+    padding: 2px 5px; /* Espacio interno para el contenido */
+    font-size: 14px; /* Tamaño de fuente */
+    color: #444444; /* Color de texto */
+}
+
+/* Estilo para el botón de desplegado (flecha) del QComboBox */
+QComboBox::drop-down {
+    /*subcontrol-origin: padding;*/
+    /*subcontrol-position: top right;*/
+    width: 20px; /* Ancho del botón */
+    border-left-width: 1px; /* Borde izquierdo del botón */
+    border-left-color: #D9D9D9; /* Color del borde izquierdo del botón */
+    border-left-style: solid;
+    border-top-right-radius: 17px; /* Bordes curvos en la parte superior derecha */
+    border-bottom-right-radius: 17px; /* Bordes curvos en la parte inferior derecha */
+    /*background-color: #F7F7F7;*/ /* Color de fondo del botón */
+}
+
+</string>
             </property>
             <property name="currentIndex">
              <number>-1</number>
@@ -492,7 +534,49 @@ QLineEdit:focus {
              </sizepolicy>
             </property>
             <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
+             <enum>Qt::StrongFocus</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">/* Estilo para el QComboBox */
+QComboBox {
+    background-color: #F7F7F7; /* Color de fondo */
+    border: 2px solid #D9D9D9; /* Borde gris claro */
+    border-radius: 17px; /* Bordes curvos */
+    padding: 5px 10px; /* Espacio interno para el contenido */
+    font-size: 14px; /* Tamaño de fuente */
+    color: #444444; /* Color de texto */
+}
+
+/* Estilo cuando el QComboBox tiene el foco */
+QComboBox:focus {
+    border-color: #0078d7; /* Cambia el color del borde cuando se selecciona el QComboBox */
+    outline: none; /* Elimina el contorno alrededor del QComboBox al seleccionarlo */
+}
+
+/* Estilo para las opciones desplegables en el QComboBox */
+QComboBox QAbstractItemView {
+    background-color: #F7F7F7; /* Color de fondo */
+    border: 2px solid #D9D9D9; /* Borde gris claro */
+    border-radius: 5px; /* Bordes curvos */
+    padding: 2px 5px; /* Espacio interno para el contenido */
+    font-size: 14px; /* Tamaño de fuente */
+    color: #444444; /* Color de texto */
+}
+
+/* Estilo para el botón de desplegado (flecha) del QComboBox */
+QComboBox::drop-down {
+    /*subcontrol-origin: padding;*/
+    /*subcontrol-position: top right;*/
+    width: 20px; /* Ancho del botón */
+    border-left-width: 1px; /* Borde izquierdo del botón */
+    border-left-color: #D9D9D9; /* Color del borde izquierdo del botón */
+    border-left-style: solid;
+    border-top-right-radius: 17px; /* Bordes curvos en la parte superior derecha */
+    border-bottom-right-radius: 17px; /* Bordes curvos en la parte inferior derecha */
+    /*background-color: #F7F7F7;*/ /* Color de fondo del botón */
+}
+
+</string>
             </property>
             <property name="currentIndex">
              <number>-1</number>
