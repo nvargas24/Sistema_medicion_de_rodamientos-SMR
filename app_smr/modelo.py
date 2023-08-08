@@ -5,7 +5,7 @@ import os
 
 import paho.mqtt.client as mqtt
 
-IP_BROKER = "192.168.149.203"
+IP_BROKER = "192.168.1.104"
 PORT_MQTT = 1833
 SAMPLES_FFT = 512
 
@@ -372,6 +372,8 @@ class Measure():
         self.cont_ensayos = 1
         self.freq = np.arange(0, SAMPLES_FFT*37, 37)
         self.cont_ensayo = 1
+        self.seconds = 0
+        self.minutes = 0        
 
     def init_ensayo(self):
         # Cierro conexiones previas
@@ -385,8 +387,6 @@ class Measure():
 
         self.mqtt_obj.suscrip_topics()
         # Temporizador de 1 segundo, cuando finaliza accede a metodo asociado
-        self.seconds = 0
-        self.minutes = 0
         self.widgets.timer1.start(1000)
         self.notificacion("Ensayo "+ str(self.cont_ensayos) + " en proceso")
 
@@ -440,7 +440,11 @@ class Measure():
         self.freq_ftf_pos = self.data_rod_pos["ftf"]
         self.freq_bsf_pos = self.data_rod_pos["bsf"]
 
-    def stop_ensayo(self): pass
+    def stop_ensayo(self):
+        self.mqtt_obj.desuscrip_topics()
+        self.mqtt_obj.stop()
+        self.widgets.windows.win_user.timer1.stop()
+        self.widgets.windows.popup_meas_corrientes.exec_()
 
     def timer_ensayo(self, ):
         """

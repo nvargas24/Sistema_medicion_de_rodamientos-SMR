@@ -398,9 +398,6 @@ class WindowUser(QMainWindow):
         self.ui.lcd_axial_pos.display(f"{0:02d}.{0:02d}")
         self.ui.lcd_radial_pos.display(f"{0:02d}.{0:02d}")
 
-
-    def init_ensayo(self): pass
-    def stop_ensayo(self): pass
     def config_data(self):
         self.windows.win_user_form.exec_()
 
@@ -413,11 +410,40 @@ class WindowUser(QMainWindow):
 class PopupMeasCorrientes(QDialog):
     def __init__(self, windows):
         super().__init__() 
-        self.ui = Ui_MeasCorrienteWindow()
+        self.ui = Ui_MeasCorrientesWindow()
         self.ui.setupUi(self)
         self.windows = windows
 
-        #self.ui.btn_aceptar.clicked.connect(self.new_model_rod)
+        self.ui.btn_aceptar.clicked.connect(self.finish_data_ensayo)
+
+    def finish_data_ensayo(self):
+        self.fase_u = self.ui.input_fase_u.text()
+        self.fase_v = self.ui.input_fase_v.text()
+        self.fase_w = self.ui.input_fase_w.text()
+
+        if self.check_entry_empty(self.fase_u) or \
+            self.check_entry_empty(self.fase_v) or \
+            self.check_entry_empty(self.fase_w):
+            print("DEBE COMPLETAR LOS CAMPOS")
+        else:
+            print("FINALIZO ENSAYO")
+            self.hide()
+        
+        self.windows.win_user.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}")
+        self.windows.win_user.measure.seconds = 0
+        self.windows.win_user.measure.minutes = 0
+        
+
+    def check_entry_empty(self, entry):
+        if entry == "":
+            return 1
+        else:
+            return 0
+
+    def closeEvent(self, event):
+        event.ignore()
+
+
 
 class PopupTimeEnsayos(QDialog):
     def __init__(self, windows):

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MeasCorrienteWindow</class>
- <widget class="QDialog" name="MeasCorrienteWindow">
+ <class>MeasCorrientesWindow</class>
+ <widget class="QDialog" name="MeasCorrientesWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -70,7 +70,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="input_fase_u">
           <property name="styleSheet">
            <string notr="true">QLineEdit {
     background-color: #F7F7F7; /* Color de fondo */
@@ -126,7 +126,7 @@ QLineEdit:focus {
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_2">
+         <widget class="QLineEdit" name="input_fase_v">
           <property name="styleSheet">
            <string notr="true">QLineEdit {
     background-color: #F7F7F7; /* Color de fondo */
@@ -182,7 +182,7 @@ QLineEdit:focus {
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_3">
+         <widget class="QLineEdit" name="input_fase_w">
           <property name="styleSheet">
            <string notr="true">QLineEdit {
     background-color: #F7F7F7; /* Color de fondo */
@@ -231,7 +231,7 @@ QLineEdit:focus {
        <number>90</number>
       </property>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="btn_aceptar">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
