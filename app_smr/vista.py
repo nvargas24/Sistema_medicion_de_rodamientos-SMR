@@ -109,18 +109,20 @@ class WindowLogin(QWidget):
         name = self.ui.input_usuario.text()
         pswd = self.ui.input_contrasenia.text()
         
-        type = self.data_input.user_type(name, pswd)
+        type_user = self.data_input.user_type(name, pswd)
         self.ui.input_usuario.clear()
         self.ui.input_contrasenia.clear()
 
-        if type == "admin":
+        print(type_user)
+        if type_user == "admin":
             self.windows.win_admin.show()
             self.close()
-        elif type == "user":
+        elif type_user == "user":
             self.windows.win_user_form.show()
             self.close()
-        else:
-            print("No existe el usuario")
+        elif type_user=="no existe":
+            self.windows.popup_error.set_msj("Usuario incorrecto")
+            self.windows.popup_error.exec_()
             # MOstrar anuncio de usuario no valido, capaz como popup
 
 class WindowAdmin(QMainWindow):
@@ -455,7 +457,6 @@ class PopupMeasCorrientes(QDialog):
     def closeEvent(self, event):
         event.ignore()
 
-
 class PopupTimeEnsayos(QDialog):
     def __init__(self, windows):
         super().__init__() 
@@ -483,8 +484,6 @@ class PopupTimeEnsayos(QDialog):
             self.ui.time_ensayo3.setText("en proceso")
             self.ui.time_ensayo4.setText("en proceso")   
             self.ui.time_ensayo5.setText("en proceso")
-            
-
 
 class PopupAdvertencia(QDialog):
     def __init__(self, windows):
@@ -524,7 +523,7 @@ class PopupError(QDialog):
         self.ui.label.setText(msj)        
 
     def return_form_user(self):
-        self.windows.win_user_form.show()
+        #self.windows.win_user_form.show()
         self.close()
 
 

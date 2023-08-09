@@ -104,7 +104,7 @@ class Measure():
         # Atributo para acceder a los widgets
         self.widgets = widgets
         
-        self.mqtt_obj = Mqtt("192.168.47.203", 1883)
+        self.mqtt_obj = Mqtt("192.168.5.244", 1883)
         #self.mqtt_obj = Mqtt("192.168.1.103", 1883)
         #self.mqtt_obj = Mqtt("192.168.68.203", 1883)
         #self.mqtt_obj = Mqtt("192.168.149.203", 1883)
