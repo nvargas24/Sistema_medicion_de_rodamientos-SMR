@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1258</width>
-    <height>696</height>
+    <height>699</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -748,7 +748,7 @@ ensayos</string>
             <number>0</number>
            </property>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="2,2,2">
+            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="2,2,2,0">
              <property name="spacing">
               <number>1</number>
              </property>
@@ -821,6 +821,40 @@ ensayos</string>
                </item>
                <item>
                 <widget class="QLCDNumber" name="lcd_radial_ant"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_21" stretch="6,8">
+               <item>
+                <widget class="QLabel" name="label_30">
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI Semibold</family>
+                   <pointsize>11</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Time stap:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_time_stap_pos">
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI Semibold</family>
+                   <pointsize>11</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -1030,7 +1064,7 @@ ensayos</string>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="8,15,4">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_18" stretch="2,2,2">
+            <layout class="QVBoxLayout" name="verticalLayout_18" stretch="2,2,2,0">
              <property name="spacing">
               <number>1</number>
              </property>
@@ -1103,6 +1137,40 @@ ensayos</string>
                </item>
                <item>
                 <widget class="QLCDNumber" name="lcd_radial_pos"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="6,8">
+               <item>
+                <widget class="QLabel" name="label_29">
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI Semibold</family>
+                   <pointsize>11</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Time stap:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_time_stap_ant">
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI Semibold</family>
+                   <pointsize>11</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
