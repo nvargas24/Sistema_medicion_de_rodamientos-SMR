@@ -17,13 +17,13 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1124, 741)
+        MainWindow.resize(1229, 838)
         MainWindow.setStyleSheet(u"background-color: rgb(234, 234, 234);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(30, 20, 1071, 681))
+        self.verticalLayoutWidget_2.setGeometry(QRect(30, 20, 1171, 782))
         self.verticalLayout_9 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
@@ -282,73 +282,37 @@ class Ui_MainWindow(object):
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(10, -1, -1, -1)
-        self.status_anterior = QHBoxLayout()
-        self.status_anterior.setSpacing(5)
-        self.status_anterior.setObjectName(u"status_anterior")
-        self.status_anterior.setContentsMargins(10, 10, -1, 10)
-        self.led_ant = QLabel(self.verticalLayoutWidget_2)
-        self.led_ant.setObjectName(u"led_ant")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.led_ant.sizePolicy().hasHeightForWidth())
-        self.led_ant.setSizePolicy(sizePolicy2)
-        self.led_ant.setStyleSheet(u"QLabel#led_ant {\n"
-"    background-color: red;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid darkred;\n"
-"}")
-        self.led_ant.setScaledContents(True)
-        self.led_ant.setMargin(0)
-        self.led_ant.setTextInteractionFlags(Qt.TextSelectableByMouse)
-
-        self.status_anterior.addWidget(self.led_ant)
-
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
         self.label_16 = QLabel(self.verticalLayoutWidget_2)
         self.label_16.setObjectName(u"label_16")
         font1 = QFont()
         font1.setPointSize(12)
         self.label_16.setFont(font1)
-        self.label_16.setLayoutDirection(Qt.RightToLeft)
-        self.label_16.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
-        self.status_anterior.addWidget(self.label_16)
+        self.horizontalLayout_16.addWidget(self.label_16)
 
-        self.status_anterior.setStretch(0, 2)
-        self.status_anterior.setStretch(1, 3)
+        self.slider_tol_snr = QSlider(self.verticalLayoutWidget_2)
+        self.slider_tol_snr.setObjectName(u"slider_tol_snr")
+        self.slider_tol_snr.setMinimum(0)
+        self.slider_tol_snr.setMaximum(100)
+        self.slider_tol_snr.setSingleStep(10)
+        self.slider_tol_snr.setPageStep(500)
+        self.slider_tol_snr.setValue(10)
+        self.slider_tol_snr.setOrientation(Qt.Horizontal)
+        self.slider_tol_snr.setTickInterval(10)
 
-        self.horizontalLayout.addLayout(self.status_anterior)
+        self.horizontalLayout_16.addWidget(self.slider_tol_snr)
 
-        self.status_posterior = QHBoxLayout()
-        self.status_posterior.setSpacing(5)
-        self.status_posterior.setObjectName(u"status_posterior")
-        self.status_posterior.setContentsMargins(10, 10, 0, 10)
-        self.led_pos = QLabel(self.verticalLayoutWidget_2)
-        self.led_pos.setObjectName(u"led_pos")
-        sizePolicy2.setHeightForWidth(self.led_pos.sizePolicy().hasHeightForWidth())
-        self.led_pos.setSizePolicy(sizePolicy2)
-        self.led_pos.setStyleSheet(u"QLabel#led_pos {\n"
-"    background-color: red;\n"
-"    border-radius: 10px;\n"
-"    border: 2px solid darkred;\n"
-"}")
-        self.led_pos.setScaledContents(True)
-        self.led_pos.setMargin(0)
-        self.led_pos.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        self.label_slider_tol_snr = QLabel(self.verticalLayoutWidget_2)
+        self.label_slider_tol_snr.setObjectName(u"label_slider_tol_snr")
 
-        self.status_posterior.addWidget(self.led_pos)
+        self.horizontalLayout_16.addWidget(self.label_slider_tol_snr)
 
-        self.label_17 = QLabel(self.verticalLayoutWidget_2)
-        self.label_17.setObjectName(u"label_17")
-        self.label_17.setFont(font1)
-        self.label_17.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        self.horizontalLayout_16.setStretch(1, 6)
+        self.horizontalLayout_16.setStretch(2, 4)
 
-        self.status_posterior.addWidget(self.label_17)
-
-        self.status_posterior.setStretch(0, 2)
-        self.status_posterior.setStretch(1, 3)
-
-        self.horizontalLayout.addLayout(self.status_posterior)
+        self.horizontalLayout.addLayout(self.horizontalLayout_16)
 
 
         self.configuraciones.addLayout(self.horizontalLayout)
@@ -399,11 +363,11 @@ class Ui_MainWindow(object):
 
         self.progress_bar_ensayo = QProgressBar(self.verticalLayoutWidget_2)
         self.progress_bar_ensayo.setObjectName(u"progress_bar_ensayo")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.progress_bar_ensayo.sizePolicy().hasHeightForWidth())
-        self.progress_bar_ensayo.setSizePolicy(sizePolicy3)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.progress_bar_ensayo.sizePolicy().hasHeightForWidth())
+        self.progress_bar_ensayo.setSizePolicy(sizePolicy2)
         font4 = QFont()
         font4.setPointSize(9)
         self.progress_bar_ensayo.setFont(font4)
@@ -420,11 +384,11 @@ class Ui_MainWindow(object):
 
         self.btn_forzar = QPushButton(self.verticalLayoutWidget_2)
         self.btn_forzar.setObjectName(u"btn_forzar")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.btn_forzar.sizePolicy().hasHeightForWidth())
-        self.btn_forzar.setSizePolicy(sizePolicy4)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.btn_forzar.sizePolicy().hasHeightForWidth())
+        self.btn_forzar.setSizePolicy(sizePolicy3)
         self.btn_forzar.setFont(font1)
 
         self.horizontalLayout_5.addWidget(self.btn_forzar)
@@ -436,8 +400,8 @@ class Ui_MainWindow(object):
 
         self.captureFFT = QPushButton(self.verticalLayoutWidget_2)
         self.captureFFT.setObjectName(u"captureFFT")
-        sizePolicy4.setHeightForWidth(self.captureFFT.sizePolicy().hasHeightForWidth())
-        self.captureFFT.setSizePolicy(sizePolicy4)
+        sizePolicy3.setHeightForWidth(self.captureFFT.sizePolicy().hasHeightForWidth())
+        self.captureFFT.setSizePolicy(sizePolicy3)
         self.captureFFT.setFont(font1)
 
         self.configuraciones.addWidget(self.captureFFT)
@@ -480,8 +444,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_13.setContentsMargins(0, 7, 0, 7)
         self.led_bpfo_ant = QLabel(self.verticalLayoutWidget_2)
         self.led_bpfo_ant.setObjectName(u"led_bpfo_ant")
-        sizePolicy2.setHeightForWidth(self.led_bpfo_ant.sizePolicy().hasHeightForWidth())
-        self.led_bpfo_ant.setSizePolicy(sizePolicy2)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.led_bpfo_ant.sizePolicy().hasHeightForWidth())
+        self.led_bpfo_ant.setSizePolicy(sizePolicy4)
         self.led_bpfo_ant.setStyleSheet(u"QLabel#led_bpfo_ant {\n"
 "    background-color: red;\n"
 "    border-radius: 10px;\n"
@@ -681,6 +648,72 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_4)
 
+        self.horizontalLayout_27 = QHBoxLayout()
+        self.horizontalLayout_27.setObjectName(u"horizontalLayout_27")
+        self.horizontalLayout_27.setContentsMargins(10, -1, -1, -1)
+        self.label_32 = QLabel(self.verticalLayoutWidget_2)
+        self.label_32.setObjectName(u"label_32")
+        font7 = QFont()
+        font7.setFamily(u"Segoe UI Semibold")
+        font7.setPointSize(11)
+        font7.setBold(True)
+        font7.setWeight(75)
+        self.label_32.setFont(font7)
+
+        self.horizontalLayout_27.addWidget(self.label_32)
+
+        self.label_time_stamp_ant = QLabel(self.verticalLayoutWidget_2)
+        self.label_time_stamp_ant.setObjectName(u"label_time_stamp_ant")
+        self.label_time_stamp_ant.setFont(font7)
+        self.label_time_stamp_ant.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_27.addWidget(self.label_time_stamp_ant)
+
+        self.horizontalLayout_27.setStretch(0, 8)
+        self.horizontalLayout_27.setStretch(1, 6)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_27)
+
+        self.horizontalLayout_28 = QHBoxLayout()
+        self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
+        self.horizontalLayout_28.setContentsMargins(10, -1, -1, -1)
+        self.label_33 = QLabel(self.verticalLayoutWidget_2)
+        self.label_33.setObjectName(u"label_33")
+        self.label_33.setFont(font7)
+
+        self.horizontalLayout_28.addWidget(self.label_33)
+
+        self.label_snr_ant = QLabel(self.verticalLayoutWidget_2)
+        self.label_snr_ant.setObjectName(u"label_snr_ant")
+        self.label_snr_ant.setFont(font7)
+
+        self.horizontalLayout_28.addWidget(self.label_snr_ant)
+
+        self.horizontalLayout_28.setStretch(0, 8)
+        self.horizontalLayout_28.setStretch(1, 6)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_28)
+
+        self.horizontalLayout_30 = QHBoxLayout()
+        self.horizontalLayout_30.setObjectName(u"horizontalLayout_30")
+        self.horizontalLayout_30.setContentsMargins(10, -1, -1, -1)
+        self.label_35 = QLabel(self.verticalLayoutWidget_2)
+        self.label_35.setObjectName(u"label_35")
+        self.label_35.setFont(font7)
+
+        self.horizontalLayout_30.addWidget(self.label_35)
+
+        self.label_snr_lim_ant = QLabel(self.verticalLayoutWidget_2)
+        self.label_snr_lim_ant.setObjectName(u"label_snr_lim_ant")
+        self.label_snr_lim_ant.setFont(font7)
+
+        self.horizontalLayout_30.addWidget(self.label_snr_lim_ant)
+
+        self.horizontalLayout_30.setStretch(0, 8)
+        self.horizontalLayout_30.setStretch(1, 6)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_30)
+
 
         self.meas_ant.addLayout(self.verticalLayout)
 
@@ -711,8 +744,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_15.setContentsMargins(0, 7, 0, 7)
         self.led_bpfo_pos = QLabel(self.verticalLayoutWidget_2)
         self.led_bpfo_pos.setObjectName(u"led_bpfo_pos")
-        sizePolicy2.setHeightForWidth(self.led_bpfo_pos.sizePolicy().hasHeightForWidth())
-        self.led_bpfo_pos.setSizePolicy(sizePolicy2)
+        sizePolicy4.setHeightForWidth(self.led_bpfo_pos.sizePolicy().hasHeightForWidth())
+        self.led_bpfo_pos.setSizePolicy(sizePolicy4)
         self.led_bpfo_pos.setStyleSheet(u"QLabel#led_bpfo_pos {\n"
 "    background-color: red;\n"
 "    border-radius: 10px;\n"
@@ -909,6 +942,68 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_25)
 
+        self.horizontalLayout_26 = QHBoxLayout()
+        self.horizontalLayout_26.setObjectName(u"horizontalLayout_26")
+        self.horizontalLayout_26.setContentsMargins(10, -1, -1, -1)
+        self.label_31 = QLabel(self.verticalLayoutWidget_2)
+        self.label_31.setObjectName(u"label_31")
+        self.label_31.setFont(font7)
+
+        self.horizontalLayout_26.addWidget(self.label_31)
+
+        self.label_time_stamp_pos = QLabel(self.verticalLayoutWidget_2)
+        self.label_time_stamp_pos.setObjectName(u"label_time_stamp_pos")
+        self.label_time_stamp_pos.setFont(font7)
+        self.label_time_stamp_pos.setLayoutDirection(Qt.LeftToRight)
+        self.label_time_stamp_pos.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_26.addWidget(self.label_time_stamp_pos)
+
+        self.horizontalLayout_26.setStretch(0, 8)
+        self.horizontalLayout_26.setStretch(1, 6)
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_26)
+
+        self.horizontalLayout_29 = QHBoxLayout()
+        self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
+        self.horizontalLayout_29.setContentsMargins(10, -1, -1, -1)
+        self.label_34 = QLabel(self.verticalLayoutWidget_2)
+        self.label_34.setObjectName(u"label_34")
+        self.label_34.setFont(font7)
+
+        self.horizontalLayout_29.addWidget(self.label_34)
+
+        self.label_snr_lim_pos = QLabel(self.verticalLayoutWidget_2)
+        self.label_snr_lim_pos.setObjectName(u"label_snr_lim_pos")
+        self.label_snr_lim_pos.setFont(font7)
+
+        self.horizontalLayout_29.addWidget(self.label_snr_lim_pos)
+
+        self.horizontalLayout_29.setStretch(0, 8)
+        self.horizontalLayout_29.setStretch(1, 6)
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_29)
+
+        self.horizontalLayout_31 = QHBoxLayout()
+        self.horizontalLayout_31.setObjectName(u"horizontalLayout_31")
+        self.horizontalLayout_31.setContentsMargins(10, -1, -1, -1)
+        self.label_36 = QLabel(self.verticalLayoutWidget_2)
+        self.label_36.setObjectName(u"label_36")
+        self.label_36.setFont(font7)
+
+        self.horizontalLayout_31.addWidget(self.label_36)
+
+        self.label_snr_lim_pos_2 = QLabel(self.verticalLayoutWidget_2)
+        self.label_snr_lim_pos_2.setObjectName(u"label_snr_lim_pos_2")
+        self.label_snr_lim_pos_2.setFont(font7)
+
+        self.horizontalLayout_31.addWidget(self.label_snr_lim_pos_2)
+
+        self.horizontalLayout_31.setStretch(0, 8)
+        self.horizontalLayout_31.setStretch(1, 6)
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_31)
+
 
         self.meas_pos.addLayout(self.verticalLayout_2)
 
@@ -994,10 +1089,8 @@ class Ui_MainWindow(object):
         self.label_slider_ftf.setText("")
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
         self.label_slider_bsf.setText("")
-        self.led_ant.setText("")
-        self.label_16.setText(QCoreApplication.translate("MainWindow", u"Anterior", None))
-        self.led_pos.setText("")
-        self.label_17.setText(QCoreApplication.translate("MainWindow", u"Posterior", None))
+        self.label_16.setText(QCoreApplication.translate("MainWindow", u"TOL SNR", None))
+        self.label_slider_tol_snr.setText("")
         self.notificacion.setText("")
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayo:", None))
         self.btn_forzar.setText(QCoreApplication.translate("MainWindow", u"Forzar", None))
@@ -1015,6 +1108,12 @@ class Ui_MainWindow(object):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Temp.(\u00b0C):", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.(m/s2):", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.(m/s2):", None))
+        self.label_32.setText(QCoreApplication.translate("MainWindow", u"Time stamp:", None))
+        self.label_time_stamp_ant.setText("")
+        self.label_33.setText(QCoreApplication.translate("MainWindow", u"SNR:", None))
+        self.label_snr_ant.setText("")
+        self.label_35.setText(QCoreApplication.translate("MainWindow", u"Limit Value:", None))
+        self.label_snr_lim_ant.setText("")
         self.led_bpfo_pos.setText("")
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"BPFO", None))
         self.led_bpfi_pos.setText("")
@@ -1028,6 +1127,12 @@ class Ui_MainWindow(object):
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Temp.(\u00b0C):", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.(m/s2):", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.(m/s2):", None))
+        self.label_31.setText(QCoreApplication.translate("MainWindow", u"Time stamp:", None))
+        self.label_time_stamp_pos.setText("")
+        self.label_34.setText(QCoreApplication.translate("MainWindow", u"SNR:", None))
+        self.label_snr_lim_pos.setText("")
+        self.label_36.setText(QCoreApplication.translate("MainWindow", u"Limit Value:", None))
+        self.label_snr_lim_pos_2.setText("")
         self.label.setText(QCoreApplication.translate("MainWindow", u"Progreso:", None))
     # retranslateUi
 

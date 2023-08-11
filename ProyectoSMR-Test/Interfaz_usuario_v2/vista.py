@@ -15,6 +15,9 @@ from matplotlib.animation import FuncAnimation
 import numpy as np
 from menu_v2 import *
 from modelo import *
+import math
+
+SAMPLES_FFT = 512
 
 class Grafica_fft(FigureCanvas):
     """
@@ -24,44 +27,59 @@ class Grafica_fft(FigureCanvas):
         """
         Constructor de grafica fft - parametros iniciales
         """
+        self.xlim_freq_initial = -1
+        self.xlim_freq_finish = 19000
+        self.ylim_amp_initial = -100
+        self.ylim_amp_finish = 10
+
         self.fig, self.ax = plt.subplots(1, dpi=80, figsize=(12,12), sharey=True, facecolor="none")
         self.fig.subplots_adjust(left=.12, bottom=.12, right=.98, top=.9) #Ajuste de escala de grafica
         super().__init__(self.fig)
 
-        self.freq_initial = np.arange(0, 512*37, 37)
-        self.mag_initial = np.zeros(512)
-
-        self.set_graph_style()
+        self.freq_initial = np.arange(0, SAMPLES_FFT*37, 37)
+        self.mag_initial = np.zeros(SAMPLES_FFT)
+        
+        self.set_graph_fft_style()
         # Crear la línea inicial
         self.line, = self.ax.plot(self.freq_initial, self.mag_initial, picker=5)
 
-    def upgrade_fft(self, freq, mag):
+    def update_graph_fft(self, freq, mag, snr):
         """
         Metodo para actualizar listas de puntos para grafico fft
         """
-        self.set_graph_style()
+        self.set_graph_fft_style()
+        self.ax.axhline(float(snr), color='green', linestyle='dashdot', linewidth=2, zorder=2)  
+        self.ax.axhline(float(snr)+20*math.log10(1.8), color='red', linestyle='dashdot', linewidth=2, zorder=3)
+        self.ax.fill_between(freq, -100, float(snr)+20*math.log10(1.8), color='red', alpha=0.3)  
+        
+        self.line, = self.ax.plot(freq, mag, picker=5, zorder=1)
+      
+        self.ax.figure.canvas.draw()
+        self.show()
 
-        self.line, = self.ax.plot(freq, mag, picker=5)
-        self.draw()
 
-    def set_graph_style(self):
+
+    def set_graph_fft_style(self):
         """
         Metodo que asigna estilo al grafico
         """
         # Establecer límites del eje X e Y
-        self.ax.set_xlim(-100, 19000)
-        self.ax.set_ylim(-40, 60)
+        self.ax.set_xlim(self.xlim_freq_initial, self.xlim_freq_finish)
+        self.ax.set_ylim(self.ylim_amp_initial, self.ylim_amp_finish)
 
         # Creo grilla
-        for i in range(0, 19000, 1000):
+        step_value_fft_x = round((self.xlim_freq_finish-self.xlim_freq_initial)/20)
+        step_value_fft_y = round((self.ylim_amp_finish-self.ylim_amp_initial)/10)
+        for i in range(self.xlim_freq_initial, self.xlim_freq_finish, step_value_fft_x):
             self.ax.axvline(i, color='grey', linestyle='--', linewidth=0.25)
-        for j in range(-40, 60, 10):   
+        for j in range(self.ylim_amp_initial, self.ylim_amp_finish, step_value_fft_y):   
             self.ax.axhline(j, color='grey', linestyle='--', linewidth=0.25)
 
         # Establece nombres de ejes y tamanio
         matplotlib.rcParams['font.size'] = 9
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
+
 
 
 class Mainwindow(QMainWindow):

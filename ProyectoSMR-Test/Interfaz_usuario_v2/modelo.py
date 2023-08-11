@@ -6,6 +6,7 @@ import time
 import numpy as np
 import os
 
+import math
 import paho.mqtt.client as mqtt
 from peewee import *
 
@@ -154,7 +155,7 @@ class Mqtt:
         self.broker_host = broker_host
         self.broker_port = broker_port
 
-        self.keepalive_ant = False
+        self.time_stamp_ant = False
         self.temp_obj_ant = 0.0
         self.acel_axial_ant = 0.0
         self.acel_radial_ant = 0.0
@@ -163,6 +164,9 @@ class Mqtt:
         self.pres_bsf_ant = False
         self.pres_ftf_ant = False
         self.fft_ant = False
+        self.snr_ant = False
+
+        self.time_stamp_pos = False       
         self.temp_obj_pos = 0.0
         self.acel_axial_pos = 0.0
         self.acel_radial_pos = 0.0
@@ -171,6 +175,7 @@ class Mqtt:
         self.pres_bsf_pos = False
         self.pres_ftf_pos = False
         self.fft_pos = False
+        self.snr_pos = False
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
@@ -208,8 +213,8 @@ class Mqtt:
 
     def qualify_data_bytopic(self):
         # Verifico si hay datos recibidos por broker y doy formato
-        if self.topic == "rodAnt/keepalive":
-            self.keepalive_ant = True
+        if self.topic == "rodAnt/timeStamp":
+            self.time_stamp_ant = self.msg
         if self.topic == "rodAnt/tempObj":
             self.temp_obj_ant = "{:.2f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelAxial":
@@ -226,7 +231,11 @@ class Mqtt:
             self.pres_ftf_ant = int(self.msg)
         if self.topic == "rodAnt/fft":
             self.fft_ant = self.msg
+        if self.topic == "rodAnt/snr":
+            self.snr_ant = self.msg
 
+        if self.topic == "rodPos/timeStamp":
+            self.time_stamp_ant = self.msg
         if self.topic == "rodPos/tempObj":
             self.temp_obj_pos = "{:.2f}".format(float(self.msg)) 
         if self.topic == "rodPos/acelAxial":
@@ -243,8 +252,11 @@ class Mqtt:
             self.pres_ftf_pos = self.msg
         if self.topic == "rodPos/fft":
             self.fft_pos = self.msg
+        if self.topic == "rodPos/snr":
+            self.snr_ant = self.msg
 
     def suscrip_topics(self):
+        self.suscrip("rodAnt/timeStamp")
         self.suscrip("rodAnt/fft")
         self.suscrip("rodAnt/tempObj")
         self.suscrip("rodAnt/acelAxial")
@@ -253,7 +265,9 @@ class Mqtt:
         self.suscrip("rodAnt/presBPFI")
         self.suscrip("rodAnt/presBSF")
         self.suscrip("rodAnt/presFTF")
+        self.suscrip("rodAnt/snr")
 
+        self.suscrip("rodPos/timeStamp")
         self.suscrip("rodPos/fft")
         self.suscrip("rodPos/tempObj")
         self.suscrip("rodPos/acelAxial")
@@ -262,8 +276,10 @@ class Mqtt:
         self.suscrip("rodPos/presBPFI")
         self.suscrip("rodPos/presBSF")
         self.suscrip("rodPos/presFTF")
+        self.suscrip("rodPos/snr")
 
     def desuscrip_topics(self):
+        self.desuscrip("rodAnt/timeStamp")
         self.desuscrip("rodAnt/fft")
         self.desuscrip("rodAnt/tempObj")
         self.desuscrip("rodAnt/acelAxial")
@@ -272,7 +288,9 @@ class Mqtt:
         self.desuscrip("rodAnt/presBPFI")
         self.desuscrip("rodAnt/presBSF")
         self.desuscrip("rodAnt/presFTF")
+        self.desuscrip("rodAnt/snr")
 
+        self.desuscrip("rodPos/timeStamp")    
         self.desuscrip("rodPos/fft")
         self.desuscrip("rodPos/tempObj")
         self.desuscrip("rodPos/acelAxial")
@@ -281,6 +299,7 @@ class Mqtt:
         self.desuscrip("rodPos/presBPFI")
         self.desuscrip("rodPos/presBSF")
         self.desuscrip("rodPos/presFTF")
+        self.desuscrip("rodPos/snr")
 
 class Measure(BaseDatos):
     
@@ -292,7 +311,7 @@ class Measure(BaseDatos):
         #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
         #self.mqtt_obj = Mqtt("192.168.1.103", 1883)
         #self.mqtt_obj = Mqtt("192.168.68.203", 1883)
-        self.mqtt_obj = Mqtt("192.168.149.203", 1883)
+        self.mqtt_obj = Mqtt("192.168.5.203", 1883)
         #self.mqtt_obj.start()
         #self.mqtt_obj.suscrip("rodAnt/keepalive")
         self.num_fft = 1
@@ -430,8 +449,6 @@ class Measure(BaseDatos):
         self.widgets.ui.slider_ftf.setEnabled(True)
         self.widgets.ui.slider_bsf.setEnabled(True)
 
-        self.widgets.ui.led_ant.setEnabled(False)
-        self.widgets.ui.led_pos.setEnabled(False)
         self.widgets.ui.lcd_time_ensayo.setEnabled(False)
         self.widgets.ui.progress_bar_ensayo.setEnabled(False)
         self.widgets.ui.btn_forzar.setEnabled(False)
@@ -459,8 +476,6 @@ class Measure(BaseDatos):
         self.widgets.ui.slider_ftf.setEnabled(False)
         self.widgets.ui.slider_bsf.setEnabled(False)
 
-        self.widgets.ui.led_ant.setEnabled(True)
-        self.widgets.ui.led_pos.setEnabled(True)
         self.widgets.ui.lcd_time_ensayo.setEnabled(True)
         self.widgets.ui.progress_bar_ensayo.setEnabled(True)
         self.widgets.ui.btn_forzar.setEnabled(True)
@@ -554,17 +569,18 @@ class Measure(BaseDatos):
 
         self.widgets.grafica.ax.clear()
         self.widgets.grafica.ax.set_title("Rodamiento anterior")
-        self.widgets.grafica.upgrade_fft(self.freq, np.zeros(512))
+        self.widgets.grafica.update_graph_fft(self.freq, np.zeros(512), 0)
 
         self.widgets.grafica2.ax.clear()
         self.widgets.grafica2.ax.set_title("Rodamiento posterior")
-        self.widgets.grafica2.upgrade_fft(self.freq, np.zeros(512))
+        self.widgets.grafica2.update_graph_fft(self.freq, np.zeros(512), 0)
 
     def data_recive(self):
         """
         Muestra lecturas obtenidas de sensores en display
         """
         # Muestro datos recibidos en ui - rodamiento anterior
+
         if self.mqtt_obj.temp_obj_ant:
             self.widgets.ui.lcd_temp_ant.display(self.mqtt_obj.temp_obj_ant)
         if self.mqtt_obj.acel_axial_ant:
@@ -584,8 +600,13 @@ class Measure(BaseDatos):
             self.fft_ant = np.fromstring(self.mqtt_obj.fft_ant, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
             self.widgets.grafica.ax.clear()
             self.widgets.grafica.ax.set_title("Rodamiento anterior")
-            self.widgets.grafica.upgrade_fft(self.freq, self.fft_ant)
-        
+            self.widgets.grafica.update_graph_fft(self.freq, self.fft_ant, self.mqtt_obj.snr_ant)
+        if self.mqtt_obj.snr_ant:
+            self.widgets.ui.label_snr_ant.setText(self.mqtt_obj.snr_ant+"dBV")
+            self.widgets.ui.label_snr_lim_ant.setText(str(round(float(self.mqtt_obj.snr_ant)+20*math.log10(1.8), 2))+"dBV")
+        if self.mqtt_obj.time_stamp_ant:
+            self.widgets.ui.label_time_stamp_ant.setText(self.mqtt_obj.time_stamp_ant)
+
         # Muestro datos recibidos en ui - rodamiento posterior
         if self.mqtt_obj.temp_obj_pos:
             self.widgets.ui.lcd_temp_pos.display(self.mqtt_obj.temp_obj_pos)
@@ -606,7 +627,13 @@ class Measure(BaseDatos):
             self.fft_pos = np.fromstring(self.mqtt_obj.fft_pos, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
             self.widgets.grafica2.ax.clear()
             self.widgets.grafica2.ax.set_title("Rodamiento posterior")
-            self.widgets.grafica2.upgrade_fft(self.freq, self.fft_pos)
+            self.widgets.grafica2.update_graph_fft(self.freq, self.fft_pos, self.mqtt_obj.snr_pos)
+        if self.mqtt_obj.snr_pos:
+            self.widgets.ui.label_snr_pos.setText(self.mqtt_obj.snr_pos+"dBV")
+            self.widgets.ui.label_snr_lim_pos.setText(str(round(float(self.mqtt_obj.snr_ant)+20*math.log10(1.8)), 2)+"dBV")
+        if self.mqtt_obj.time_stamp_pos:
+            self.widgets.ui.label_time_stamp_pos.setText(self.mqtt_obj.time_stamp_pos)
+
 
         # Si se registra alguna freq se guarda datos en base de datos
         self.upgrade_db()

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1229</width>
-    <height>815</height>
+    <height>838</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
       <x>30</x>
       <y>20</y>
       <width>1171</width>
-      <height>755</height>
+      <height>782</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_9" stretch="1,18">
@@ -1062,12 +1062,12 @@ background-color: rgb(255, 255, 255);</string>
                     </font>
                    </property>
                    <property name="text">
-                    <string>Time stap:</string>
+                    <string>Time stamp:</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_time_stap_ant">
+                  <widget class="QLabel" name="label_time_stamp_ant">
                    <property name="font">
                     <font>
                      <family>Segoe UI Semibold</family>
@@ -1144,7 +1144,7 @@ background-color: rgb(255, 255, 255);</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_snr_ant_2">
+                  <widget class="QLabel" name="label_snr_lim_ant">
                    <property name="font">
                     <font>
                      <family>Segoe UI Semibold</family>
@@ -1569,12 +1569,12 @@ background-color: rgb(255, 255, 255);</string>
                     </font>
                    </property>
                    <property name="text">
-                    <string>Time stap:</string>
+                    <string>Time stamp:</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_time_stap_pos">
+                  <widget class="QLabel" name="label_time_stamp_pos">
                    <property name="font">
                     <font>
                      <family>Segoe UI Semibold</family>
@@ -1617,7 +1617,44 @@ background-color: rgb(255, 255, 255);</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_snr_pos">
+                  <widget class="QLabel" name="label_snr_lim_pos">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Semibold</family>
+                     <pointsize>11</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_31" stretch="8,6">
+                 <property name="leftMargin">
+                  <number>10</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_36">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Semibold</family>
+                     <pointsize>11</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Limit Value:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_snr_lim_pos_2">
                    <property name="font">
                     <font>
                      <family>Segoe UI Semibold</family>
