@@ -32,6 +32,8 @@ class Grafica_fft(FigureCanvas):
         self.ylim_amp_initial = -100
         self.ylim_amp_finish = 10
 
+        self.annotate = None
+
         self.fig, self.ax = plt.subplots(1, dpi=80, figsize=(12,12), sharey=True, facecolor="none")
         self.fig.subplots_adjust(left=.12, bottom=.12, right=.98, top=.9) #Ajuste de escala de grafica
         super().__init__(self.fig)
@@ -53,11 +55,10 @@ class Grafica_fft(FigureCanvas):
         self.ax.fill_between(freq, -100, float(snr)+20*math.log10(1.8), color='red', alpha=0.3)  
         
         self.line, = self.ax.plot(freq, mag, picker=5, zorder=1)
-      
+
         self.ax.figure.canvas.draw()
         self.show()
-
-
+        self.annotate = None
 
     def set_graph_fft_style(self):
         """
@@ -80,7 +81,33 @@ class Grafica_fft(FigureCanvas):
         self.ax.set_xlabel("Frecuencia[Hz]")
         self.ax.set_ylabel("Amplitud[dBV]")
 
+    # Debo actualizar annotation antes de grafico
+    def update_annotation(self, freq_annot, mag_annot):
+        """
+        Metodo para actualizar anotacion en grafico
+        """
+        #if self.annotate:
+        #    self.annotate.remove()
+        
+        freq_annot = round(freq_annot, 0)
 
+        self.annotate = self.ax.annotate(
+            f"freq:{freq_annot}Hz\nmag:{mag_annot}dBV",
+            xy=(freq_annot, mag_annot),
+            xytext=(0, 50),        # Desplazamiento del texto en relación al punto
+            textcoords='offset points',  # Coordenadas relativas al punto de la anotación=
+            arrowprops=dict(
+                facecolor='black',
+                arrowstyle='wedge',
+                connectionstyle='arc3,rad=0.5',  # Estilo de conexión de la flecha
+            ),
+            bbox=dict(
+                boxstyle='round4',
+                edgecolor='red',
+                facecolor='white',
+                alpha=0.7
+            )
+        )
 
 class Mainwindow(QMainWindow):
     """

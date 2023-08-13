@@ -306,14 +306,9 @@ class Measure(BaseDatos):
     def __init__(self, widgets):
         super().__init__()
         # Atributo para acceder a los widgets
-        self.widgets = widgets
-        
-        #self.mqtt_obj = Mqtt("192.168.68.168", 1883)
-        #self.mqtt_obj = Mqtt("192.168.1.103", 1883)
-        #self.mqtt_obj = Mqtt("192.168.68.203", 1883)
-        self.mqtt_obj = Mqtt("192.168.5.203", 1883)
-        #self.mqtt_obj.start()
-        #self.mqtt_obj.suscrip("rodAnt/keepalive")
+        self.widgets = widgets        
+        self.mqtt_obj = Mqtt("192.168.1.101", 1883)
+
         self.num_fft = 1
         self.cont_ensayos = 1
         self.freq = np.arange(0, 512*37, 37)
@@ -598,8 +593,16 @@ class Measure(BaseDatos):
         if self.mqtt_obj.fft_ant:
             # paso de str a una lista numpy
             self.fft_ant = np.fromstring(self.mqtt_obj.fft_ant, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
+            self.mag_bpfo = self.fft_ant[int(float(self.freq_bpfo)/37)]
+            self.mag_bpfi = self.fft_ant[int(float(self.freq_bpfi)/37)]
+            self.mag_ftf = self.fft_ant[int(float(self.freq_ftf)/37)]
+            self.mag_bsf = self.fft_ant[int(float(self.freq_bsf)/37)]
             self.widgets.grafica.ax.clear()
             self.widgets.grafica.ax.set_title("Rodamiento anterior")
+            self.widgets.grafica.update_annotation(float(self.freq_bpfo), self.mag_bpfo)
+            self.widgets.grafica.update_annotation(float(self.freq_bpfi), self.mag_bpfi)
+            self.widgets.grafica.update_annotation(float(self.freq_ftf), self.mag_ftf)
+            self.widgets.grafica.update_annotation(float(self.freq_bsf), self.mag_bsf)
             self.widgets.grafica.update_graph_fft(self.freq, self.fft_ant, self.mqtt_obj.snr_ant)
         if self.mqtt_obj.snr_ant:
             self.widgets.ui.label_snr_ant.setText(self.mqtt_obj.snr_ant+"dBV")
