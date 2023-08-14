@@ -11,7 +11,7 @@ class OpenGLWidget(QtWidgets.QOpenGLWidget):
         self.rotating = False
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.rotate)
-        self.timer.start(50)  # Intervalo de tiempo para la rotación
+        self.timer.start(1000)  # Intervalo de tiempo para la rotación
 
     def initializeGL(self):
         glClearColor(0.2, 0.2, 0.2, 1.0)
