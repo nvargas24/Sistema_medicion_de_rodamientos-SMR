@@ -11,12 +11,88 @@ from matplotlib import style
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib
 from matplotlib.animation import FuncAnimation
+from OpenGL.GL import *
 
 import numpy as np
-from menu_v2 import *
+from main import *
 from modelo import *
 
-class Grafica_fft(FigureCanvas):
+class GraficaPieza3D(QOpenGLWidget):
+    def __init__(self):
+        super().__init__()
+        self.new_angle_x = 0
+        self.new_angle_y = 0
+        self.new_angle_z = 0
+
+    def initializeGL(self):
+        glClearColor(0.2, 0.2, 0.2, 1.0)
+        glEnable(GL_DEPTH_TEST)
+
+        self.vertices = np.array([
+            (-0.1, -3.0, -2.0),  # Vértice 0 (trasero, izquierda, abajo)
+            (0.1, -3.0, -2.0),   # Vértice 1 (trasero, derecha, abajo)
+            (0.1, 3.0, -2.0),    # Vértice 2 (trasero, derecha, arriba)
+            (-0.1, 3.0, -2.0),   # Vértice 3 (trasero, izquierda, arriba)
+            (-0.1, -3.0, 2.0),   # Vértice 4 (delantero, izquierda, abajo)
+            (0.1, -3.0, 2.0),    # Vértice 5 (delantero, derecha, abajo)
+            (0.1, 3.0, 2.0),     # Vértice 6 (delantero, derecha, arriba)
+            (-0.1, 3.0, 2.0)     # Vértice 7 (delantero, izquierda, arriba)
+        ], dtype=np.float32)
+
+        self.faces = np.array([
+            (0, 1, 5, 4),  # Cara trasera
+            (1, 2, 6, 5),  # Cara derecha
+            (2, 3, 7, 6),  # Cara frontal
+            (3, 0, 4, 7),  # Cara izquierda
+            (4, 5, 6, 7),   # Cara superior
+            (3, 2, 1, 0)   # Cara inferior
+        ], dtype=np.uint32)
+
+    def resizeGL(self, width, height):
+        glViewport(0, 0, width, height)
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        glOrtho(-8, 8, -8, 8, -20, 20)  # Ajusta los valores para obtener la vista deseada
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+        glRotatef(80, 0, 1, -1)  # Rotación para la vista de caballera
+        glTranslatef(0.0, 0.0, 0.0)  # Ajusta la posición de la cámara para ver el cubo completo
+
+    def paintGL(self):
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        # Dibujar el prisma rectangular (cubo)
+        glPushMatrix()
+        glRotatef(self.new_angle_x, 1, 0, 0)  # Rotación sobre el eje XY
+        glRotatef(self.new_angle_y, 0, 1, 0)  # Rotación sobre el eje XY
+        glRotatef(self.new_angle_z, 0, 0, 1)  # Rotación sobre el eje XY
+
+        # Dibuja las caras del cubo
+        glEnableClientState(GL_VERTEX_ARRAY)
+        glVertexPointer(3, GL_FLOAT, 0, self.vertices)
+        
+        # Configura el color del cuerpo del cubo (gris claro)
+        glColor3f(0.7, 0.7, 0.7)
+        glDrawElements(GL_QUADS, len(self.faces) * 4, GL_UNSIGNED_INT, self.faces)
+        
+        # Configura el color de las aristas (negro)
+        glColor3f(0.0, 0.0, 0.0)
+        glLineWidth(1.0)  # Grosor de las líneas
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)  # Modo de dibujo de aristas
+        glEnable(GL_POLYGON_OFFSET_LINE)
+        glPolygonOffset(-1, -1)  # Ajusta la separación entre las aristas y las caras
+        glDrawElements(GL_QUADS, len(self.faces) * 4, GL_UNSIGNED_INT, self.faces)
+        glDisable(GL_POLYGON_OFFSET_LINE)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)  # Vuelve al modo de dibujo de caras llenas
+        
+        glDisableClientState(GL_VERTEX_ARRAY)
+
+        glPopMatrix()
+
+        #self.swapBuffers()
+
+
+class GraficaFFT(FigureCanvas):
     """
     Clase para dibujar grafico de fft - plots
     """
@@ -77,89 +153,32 @@ class Mainwindow(QMainWindow):
         self.ui.setupUi(self) 
 
         # Para crear y actualizar grafico fft
-        self.grafica = Grafica_fft()
-        self.grafica2 = Grafica_fft()
+        self.grafica = GraficaFFT()
+        self.grafica2 = GraficaPieza3D()
 
         self.measure = Measure(self)
 
         # Registrar el manejador de eventos de click del ratón sobre grafico
         self.grafica.fig.canvas.mpl_connect('pick_event', self.onpick)
-        # Registrar el manejador de eventos de click del ratón sobre grafico
-        self.grafica2.fig.canvas.mpl_connect('pick_event', self.onpick)
 
-        # Asigno rango default a qprogressbar
-        self.ui.progress_bar_ensayo.setValue(0)
-        self.ui.progress_bar_ensayo.setRange(0, 100)  # Asignar rango de 0 a 100
+        self.ui.graph.addWidget(self.grafica)
+        self.ui.graph2.addWidget(self.grafica2)
 
-        self.ui.fft_ant.addWidget(self.grafica)
-        self.ui.fft_pos.addWidget(self.grafica2)
-
-        self.grafica.ax.set_title("Rodamiento anterior")
-        self.grafica2.ax.set_title("Rodamiento posterior")
-
-        self.ui.notificacion.setText("Esperando configuracion")
+        self.grafica.ax.set_title("FFT de acelerometro")
+        self.ui.label_notificacion.setText("Esperando configuracion")
 
         # Asigno metodos a cada boton
         ## Uso lambda para poder a acceder a ui desde el modelo
         self.ui.btn_finish.clicked.connect(self.measure.finish_test)
         self.ui.btn_init.clicked.connect(self.measure.init_ensayo)
-        self.ui.btn_forzar.clicked.connect(self.measure.forzar_finish_ensayo)
-        self.ui.captureFFT.clicked.connect(self.measure.save_image)
-
-        # Se obtiene valor default de slider para label
-        self.ui.label_slider_bpfo.setText(f"{self.ui.slider_bpfo.value()}Hz")
-        self.ui.label_slider_bpfi.setText(f"{self.ui.slider_bpfi.value()}Hz")
-        self.ui.label_slider_ftf.setText(f"{self.ui.slider_ftf.value()}Hz")
-        self.ui.label_slider_bsf.setText(f"{self.ui.slider_bsf.value()}Hz")
-
-        # Obtiene valor de slider al realizar un cambio y mostrar en label
-        self.ui.slider_bpfo.valueChanged.connect(self.on_slider_value_changed)
-        self.ui.slider_bpfi.valueChanged.connect(self.on_slider_value_changed)
-        self.ui.slider_ftf.valueChanged.connect(self.on_slider_value_changed)
-        self.ui.slider_bsf.valueChanged.connect(self.on_slider_value_changed)
 
         # Creo contador asociado a un metodo que inicia el conteo
         self.timer1 = QTimer(self)
-        self.timer2 = QTimer(self)
-        
+     
         self.timer1.timeout.connect(self.measure.timer_ensayo)
-        self.timer2.timeout.connect(self.measure.timer_standby)
+ 
+        self.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}:{0:02d}")
 
-        self.ui.lcd_time_ensayo.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_temp_ant.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_axial_ant.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_radial_ant.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_temp_pos.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_axial_pos.display(f"{0:02d}.{0:02d}")
-        self.ui.lcd_radial_pos.display(f"{0:02d}.{0:02d}")
-
-    def on_slider_value_changed(self, value):
-        """
-        Metodo para redondear valores tomados de slider en qt
-        """
-        rounded_value = round(value / 500) * 500
-        sender = self.sender()
-        if sender == self.ui.slider_bpfo:
-            self.ui.label_slider_bpfo.setText(f"{rounded_value}Hz")
-        elif sender == self.ui.slider_bpfi:
-            self.ui.label_slider_bpfi.setText(f"{rounded_value}Hz")
-        elif sender == self.ui.slider_ftf:
-            self.ui.label_slider_ftf.setText(f"{rounded_value}Hz")
-        elif sender == self.ui.slider_bsf:
-            self.ui.label_slider_bsf.setText(f"{rounded_value}Hz")
-    """
-    # Función para manejar los eventos de movimiento del ratón sobre grafico
-    def onmove(self, event):
-        if event.inaxes == self.grafica.ax:
-            freq, mag = event.xdata, event.ydata 
-            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
-            self.ui.value_fft_ant.setText(msj)
-
-        if event.inaxes == self.grafica2.ax:
-            freq, mag = event.xdata, event.ydata 
-            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
-            self.ui.value_fft_pos.setText(msj)
-    """
     def onpick(self, event):
         """
         Metodo asociado a evento de click sobre grafico
