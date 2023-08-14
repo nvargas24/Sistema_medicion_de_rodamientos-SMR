@@ -28,28 +28,16 @@ class BaseModel(Model):
         database = db  # Indico a que base me conecto y su tipo.
 
 class RodAnterior(BaseModel):
-    N_ensayo = IntegerField()
     Tiempo_de_ensayo = TimeField()
-    #Tiempo_real = TimeField()
-    BPFO = BooleanField()
-    BPFI = BooleanField()
-    FTF = BooleanField()
-    BSF = BooleanField()
-    Temp = FloatField()
-    AcelAxial = FloatField()
-    AcelRadial = FloatField()
+    Acel_x = FloatField()
+    Acel_y = FloatField()
+    Acel_z = FloatField()
 
 class RodPosterior(BaseModel):
-    N_ensayo = IntegerField()
     Tiempo_de_ensayo = TimeField()
-    #Tiempo_real = TimeField()
-    BPFO = BooleanField()
-    BPFI = BooleanField()
-    FTF = BooleanField()
-    BSF = BooleanField()
-    Temp = FloatField()
-    AcelAxial = FloatField()
-    AcelRadial = FloatField()
+    Acel_x = FloatField()
+    Acel_y = FloatField()
+    Acel_z = FloatField()
 
 class BaseDatos:
     """
@@ -65,47 +53,26 @@ class BaseDatos:
         self.con.create_tables([RodAnterior()])
         self.con.create_tables([RodPosterior()])
 
-    def agregar_db_ant(self, n_ensayo, time_ensayo, bpfo, bpfi, ftf, bsf, temp, acel_axial, acel_radial):
+    def agregar_db_ant(self, time_ensayo, acel_x, acel_y, acel_z):
 
         reg = RodAnterior()
-
-        time_ensayo_min = time_ensayo // 60
-        time_ensayo_seg = time_ensayo % 60
-        min_ensayo = str(time_ensayo_min).zfill(2)
-        seg_ensayo = str(time_ensayo_seg).zfill(2)
-
-        # Le asigno los valores ingresados a cada atributo(campo) del objeto.
-        reg.N_ensayo = n_ensayo
-        reg.Tiempo_de_ensayo = f"0:{min_ensayo}:{seg_ensayo}"
-        #reg.Tiempo_real = time_real
-        reg.BPFO = bpfo
-        reg.BPFI = bpfi
-        reg.FTF = ftf
-        reg.BSF = bsf
-        reg.Temp = temp
-        reg.AcelAxial = acel_axial
-        reg.AcelRadial = acel_radial
+        reg.Tiempo_de_ensayo = time_ensayo
+        reg.Acel_x = acel_x
+        reg.Acel_y = acel_y
+        reg.Acel_z = acel_z      
 
         try:
             reg.save()  # Guardo el registro en la tabla.
         except:
             print("No se pudo guardar el registro")
 
-    def agregar_db_pos(self, n_ensayo, time_ensayo, bpfo, bpfi, ftf, bsf, temp, acel_axial, acel_radial):
+    def agregar_db_pos(self, time_ensayo, acel_x, acel_y, acel_z):
 
         reg = RodPosterior()
-
-        # Le asigno los valores ingresados a cada atributo(campo) del objeto.
-        reg.N_ensayo = n_ensayo
         reg.Tiempo_de_ensayo = time_ensayo
-        #reg.Tiempo_real = time_real
-        reg.BPFO = bpfo
-        reg.BPFI = bpfi
-        reg.FTF = ftf
-        reg.BSF = bsf
-        reg.Temp = temp
-        reg.AcelAxial = acel_axial
-        reg.AcelRadial = acel_radial
+        reg.Acel_x = acel_x
+        reg.Acel_y = acel_y
+        reg.Acel_z = acel_z      
 
         try:
             reg.save()  # Guardo el registro en la tabla.
@@ -116,37 +83,20 @@ class BaseDatos:
         """
         Carga nuevo frame a base de datos
         """
-        if self.mqtt_obj.pres_bpfo_ant or \
-            self.mqtt_obj.pres_bpfi_ant or \
-            self.mqtt_obj.pres_ftf_ant or \
-            self.mqtt_obj.pres_bsf_ant:
-                self.agregar_db_ant(
-                    self.cont_ensayos, 
-                    self.seconds_total, 
-                    self.mqtt_obj.pres_bpfo_ant, 
-                    self.mqtt_obj.pres_bpfi_ant, 
-                    self.mqtt_obj.pres_ftf_ant, 
-                    self.mqtt_obj.pres_bsf_ant, 
-                    self.mqtt_obj.temp_obj_ant, 
-                    self.mqtt_obj.acel_axial_ant, 
-                    self.mqtt_obj.acel_radial_ant
-                    )
+        
+        self.agregar_db_ant(
+            self.mqtt_obj.time_stamp,
+            self.mqtt_obj.acel_x_ant,            
+            self.mqtt_obj.acel_y_ant, 
+            self.mqtt_obj.acel_z_ant
+            )
 
-        if self.mqtt_obj.pres_bpfo_pos or \
-            self.mqtt_obj.pres_bpfi_pos or \
-            self.mqtt_obj.pres_ftf_pos or \
-            self.mqtt_obj.pres_bsf_pos:
-                self.agregar_db_pos(
-                    self.cont_ensayos, 
-                    self.seconds_total, 
-                    self.mqtt_obj.pres_bpfo_pos, 
-                    self.mqtt_obj.pres_bpfi_pos, 
-                    self.mqtt_obj.pres_ftf_pos, 
-                    self.mqtt_obj.pres_bsf_pos, 
-                    self.mqtt_obj.temp_obj_pos, 
-                    self.mqtt_obj.acel_axial_pos, 
-                    self.mqtt_obj.acel_radial_pos
-                    )
+        self.agregar_db_pos(
+            self.mqtt_obj.time_stamp,
+            self.mqtt_obj.acel_x_ant,            
+            self.mqtt_obj.acel_y_ant, 
+            self.mqtt_obj.acel_z_ant
+            )
 
 class Mqtt:
     def __init__(self, broker_host, broker_port):
@@ -154,23 +104,12 @@ class Mqtt:
         self.broker_host = broker_host
         self.broker_port = broker_port
 
-        self.keepalive_ant = False
-        self.temp_obj_ant = 0.0
         self.acel_axial_ant = 0.0
         self.acel_radial_ant = 0.0
-        self.pres_bpfi_ant = False
-        self.pres_bpfo_ant = False
-        self.pres_bsf_ant = False
-        self.pres_ftf_ant = False
-        self.fft_ant = False
-        self.temp_obj_pos = 0.0
+
         self.acel_axial_pos = 0.0
         self.acel_radial_pos = 0.0
-        self.pres_bpfi_pos = False
-        self.pres_bpfo_pos = False
-        self.pres_bsf_pos = False
-        self.pres_ftf_pos = False
-        self.fft_pos = False
+
 
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:

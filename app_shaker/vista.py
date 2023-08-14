@@ -179,6 +179,9 @@ class Mainwindow(QMainWindow):
  
         self.ui.lcd_time_ensayo.display(f"{0:02d}:{0:02d}:{0:02d}")
 
+        datos_1 = ['Dato 1', 'Dato 2', 'Dato 3', 'Dato 4']
+        self.new_data_row(datos_1)
+
     def onpick(self, event):
         """
         Metodo asociado a evento de click sobre grafico
@@ -204,3 +207,7 @@ class Mainwindow(QMainWindow):
             mag = ydata[index]
             msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
             self.ui.value_fft_pos.setText(msj)
+
+    def new_data_row(self, data): pass
+    ### PRIMERO CARGAR BASE DE DATOS Y DE AHI 
+    ### CARGAR LOS VALORES DE LA TABLA
