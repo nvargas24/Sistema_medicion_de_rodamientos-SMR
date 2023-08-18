@@ -62,7 +62,8 @@ class Mqtt:
     def qualify_data_bytopic(self):
         # Verifico si hay datos recibidos por broker y doy formato
         if self.topic == "rodAnt/tempObj":
-            self.temp_obj_ant = "{:.2f}".format(float(self.msg)) 
+            self.temp_obj_ant = "{:.2f}".format(float(self.msg))
+            print(self.temp_obj_ant) 
         if self.topic == "rodAnt/acelAxial":
             self.acel_axial_ant = "{:.3f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelRadial":
@@ -104,7 +105,7 @@ class Measure():
         # Atributo para acceder a los widgets
         self.widgets = widgets
         
-        self.mqtt_obj = Mqtt("192.168.5.244", 1883)
+        self.mqtt_obj = Mqtt("192.168.5.203", 1883)
         #self.mqtt_obj = Mqtt("192.168.1.103", 1883)
         #self.mqtt_obj = Mqtt("192.168.68.203", 1883)
         #self.mqtt_obj = Mqtt("192.168.149.203", 1883)

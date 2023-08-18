@@ -17,13 +17,13 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1229, 838)
+        MainWindow.resize(1446, 838)
         MainWindow.setStyleSheet(u"background-color: rgb(234, 234, 234);")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(30, 20, 1171, 782))
+        self.verticalLayoutWidget_2.setGeometry(QRect(30, 20, 1381, 782))
         self.verticalLayout_9 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
@@ -147,7 +147,7 @@ class Ui_MainWindow(object):
         self.groupBox_freq.setStyleSheet(u"font: 12pt \"MS Shell Dlg 2\";")
         self.layoutWidget = QWidget(self.groupBox_freq)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(20, 30, 261, 151))
+        self.layoutWidget.setGeometry(QRect(20, 40, 331, 151))
         self.verticalLayout_5 = QVBoxLayout(self.layoutWidget)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
@@ -553,7 +553,7 @@ class Ui_MainWindow(object):
 
         self.meas_ant = QVBoxLayout()
         self.meas_ant.setObjectName(u"meas_ant")
-        self.meas_ant.setContentsMargins(5, 50, 0, 70)
+        self.meas_ant.setContentsMargins(5, 10, 0, 20)
         self.value_fft_ant = QLabel(self.verticalLayoutWidget_2)
         self.value_fft_ant.setObjectName(u"value_fft_ant")
         font5 = QFont()
@@ -572,19 +572,26 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setContentsMargins(10, -1, -1, -1)
         self.label_2 = QLabel(self.verticalLayoutWidget_2)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
+        font6 = QFont()
+        font6.setFamily(u"MS Shell Dlg 2")
+        font6.setPointSize(12)
+        font6.setBold(False)
+        font6.setItalic(False)
+        font6.setWeight(50)
+        self.label_2.setFont(font6)
+        self.label_2.setStyleSheet(u"")
 
         self.horizontalLayout_2.addWidget(self.label_2)
 
         self.lcd_temp_ant = QLCDNumber(self.verticalLayoutWidget_2)
         self.lcd_temp_ant.setObjectName(u"lcd_temp_ant")
-        font6 = QFont()
-        font6.setFamily(u"MS Shell Dlg 2")
-        font6.setPointSize(10)
-        font6.setBold(False)
-        font6.setItalic(False)
-        font6.setWeight(50)
-        self.lcd_temp_ant.setFont(font6)
+        font7 = QFont()
+        font7.setFamily(u"MS Shell Dlg 2")
+        font7.setPointSize(10)
+        font7.setBold(False)
+        font7.setItalic(False)
+        font7.setWeight(50)
+        self.lcd_temp_ant.setFont(font7)
         self.lcd_temp_ant.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.lcd_temp_ant.setSmallDecimalPoint(True)
         self.lcd_temp_ant.setDigitCount(6)
@@ -596,7 +603,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.lcd_temp_ant)
 
         self.horizontalLayout_2.setStretch(0, 8)
-        self.horizontalLayout_2.setStretch(1, 6)
+        self.horizontalLayout_2.setStretch(1, 10)
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
@@ -606,7 +613,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setContentsMargins(10, -1, -1, -1)
         self.label_3 = QLabel(self.verticalLayoutWidget_2)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
+        self.label_3.setFont(font6)
+        self.label_3.setStyleSheet(u"")
 
         self.horizontalLayout_3.addWidget(self.label_3)
 
@@ -620,7 +628,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.lcd_axial_ant)
 
         self.horizontalLayout_3.setStretch(0, 8)
-        self.horizontalLayout_3.setStretch(1, 6)
+        self.horizontalLayout_3.setStretch(1, 10)
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
@@ -630,7 +638,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.setContentsMargins(10, -1, -1, -1)
         self.label_4 = QLabel(self.verticalLayoutWidget_2)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
+        self.label_4.setFont(font6)
+        self.label_4.setStyleSheet(u"")
 
         self.horizontalLayout_4.addWidget(self.label_4)
 
@@ -644,7 +653,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.addWidget(self.lcd_radial_ant)
 
         self.horizontalLayout_4.setStretch(0, 8)
-        self.horizontalLayout_4.setStretch(1, 6)
+        self.horizontalLayout_4.setStretch(1, 10)
 
         self.verticalLayout.addLayout(self.horizontalLayout_4)
 
@@ -653,19 +662,19 @@ class Ui_MainWindow(object):
         self.horizontalLayout_27.setContentsMargins(10, -1, -1, -1)
         self.label_32 = QLabel(self.verticalLayoutWidget_2)
         self.label_32.setObjectName(u"label_32")
-        font7 = QFont()
-        font7.setFamily(u"Segoe UI Semibold")
-        font7.setPointSize(11)
-        font7.setBold(True)
-        font7.setWeight(75)
-        self.label_32.setFont(font7)
+        font8 = QFont()
+        font8.setFamily(u"Segoe UI Semibold")
+        font8.setPointSize(11)
+        font8.setBold(True)
+        font8.setWeight(75)
+        self.label_32.setFont(font8)
 
         self.horizontalLayout_27.addWidget(self.label_32)
 
         self.label_time_stamp_ant = QLabel(self.verticalLayoutWidget_2)
         self.label_time_stamp_ant.setObjectName(u"label_time_stamp_ant")
-        self.label_time_stamp_ant.setFont(font7)
-        self.label_time_stamp_ant.setAlignment(Qt.AlignCenter)
+        self.label_time_stamp_ant.setFont(font8)
+        self.label_time_stamp_ant.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.horizontalLayout_27.addWidget(self.label_time_stamp_ant)
 
@@ -679,13 +688,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_28.setContentsMargins(10, -1, -1, -1)
         self.label_33 = QLabel(self.verticalLayoutWidget_2)
         self.label_33.setObjectName(u"label_33")
-        self.label_33.setFont(font7)
+        self.label_33.setFont(font8)
 
         self.horizontalLayout_28.addWidget(self.label_33)
 
         self.label_snr_ant = QLabel(self.verticalLayoutWidget_2)
         self.label_snr_ant.setObjectName(u"label_snr_ant")
-        self.label_snr_ant.setFont(font7)
+        self.label_snr_ant.setFont(font8)
 
         self.horizontalLayout_28.addWidget(self.label_snr_ant)
 
@@ -699,13 +708,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_30.setContentsMargins(10, -1, -1, -1)
         self.label_35 = QLabel(self.verticalLayoutWidget_2)
         self.label_35.setObjectName(u"label_35")
-        self.label_35.setFont(font7)
+        self.label_35.setFont(font8)
 
         self.horizontalLayout_30.addWidget(self.label_35)
 
         self.label_snr_lim_ant = QLabel(self.verticalLayoutWidget_2)
         self.label_snr_lim_ant.setObjectName(u"label_snr_lim_ant")
-        self.label_snr_lim_ant.setFont(font7)
+        self.label_snr_lim_ant.setFont(font8)
 
         self.horizontalLayout_30.addWidget(self.label_snr_lim_ant)
 
@@ -714,13 +723,19 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_30)
 
+        self.verticalLayout.setStretch(0, 4)
+        self.verticalLayout.setStretch(1, 4)
+        self.verticalLayout.setStretch(2, 4)
+        self.verticalLayout.setStretch(3, 1)
+        self.verticalLayout.setStretch(4, 1)
+        self.verticalLayout.setStretch(5, 1)
 
         self.meas_ant.addLayout(self.verticalLayout)
 
 
         self.layout_ant.addLayout(self.meas_ant)
 
-        self.layout_ant.setStretch(0, 20)
+        self.layout_ant.setStretch(0, 16)
         self.layout_ant.setStretch(1, 4)
         self.layout_ant.setStretch(2, 9)
 
@@ -857,7 +872,7 @@ class Ui_MainWindow(object):
 
         self.meas_pos = QVBoxLayout()
         self.meas_pos.setObjectName(u"meas_pos")
-        self.meas_pos.setContentsMargins(5, 50, -1, 70)
+        self.meas_pos.setContentsMargins(5, 10, -1, 20)
         self.value_fft_pos = QLabel(self.verticalLayoutWidget_2)
         self.value_fft_pos.setObjectName(u"value_fft_pos")
         self.value_fft_pos.setFont(font5)
@@ -873,7 +888,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12.setContentsMargins(10, -1, 0, -1)
         self.label_8 = QLabel(self.verticalLayoutWidget_2)
         self.label_8.setObjectName(u"label_8")
-        self.label_8.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
+        self.label_8.setFont(font1)
+        self.label_8.setStyleSheet(u"")
 
         self.horizontalLayout_12.addWidget(self.label_8)
 
@@ -890,7 +906,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12.addWidget(self.lcd_temp_pos)
 
         self.horizontalLayout_12.setStretch(0, 8)
-        self.horizontalLayout_12.setStretch(1, 6)
+        self.horizontalLayout_12.setStretch(1, 10)
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_12)
 
@@ -900,7 +916,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_24.setContentsMargins(10, -1, 0, -1)
         self.label_10 = QLabel(self.verticalLayoutWidget_2)
         self.label_10.setObjectName(u"label_10")
-        self.label_10.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
+        self.label_10.setFont(font1)
+        self.label_10.setStyleSheet(u"")
 
         self.horizontalLayout_24.addWidget(self.label_10)
 
@@ -914,7 +931,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_24.addWidget(self.lcd_axial_pos)
 
         self.horizontalLayout_24.setStretch(0, 8)
-        self.horizontalLayout_24.setStretch(1, 6)
+        self.horizontalLayout_24.setStretch(1, 10)
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_24)
 
@@ -924,7 +941,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_25.setContentsMargins(10, -1, -1, -1)
         self.label_13 = QLabel(self.verticalLayoutWidget_2)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setStyleSheet(u"font: 9pt \"MS Shell Dlg 2\";")
+        self.label_13.setFont(font1)
+        self.label_13.setStyleSheet(u"")
 
         self.horizontalLayout_25.addWidget(self.label_13)
 
@@ -938,7 +956,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_25.addWidget(self.lcd_radial_pos)
 
         self.horizontalLayout_25.setStretch(0, 8)
-        self.horizontalLayout_25.setStretch(1, 6)
+        self.horizontalLayout_25.setStretch(1, 10)
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_25)
 
@@ -947,13 +965,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_26.setContentsMargins(10, -1, -1, -1)
         self.label_31 = QLabel(self.verticalLayoutWidget_2)
         self.label_31.setObjectName(u"label_31")
-        self.label_31.setFont(font7)
+        self.label_31.setFont(font8)
 
         self.horizontalLayout_26.addWidget(self.label_31)
 
         self.label_time_stamp_pos = QLabel(self.verticalLayoutWidget_2)
         self.label_time_stamp_pos.setObjectName(u"label_time_stamp_pos")
-        self.label_time_stamp_pos.setFont(font7)
+        self.label_time_stamp_pos.setFont(font8)
         self.label_time_stamp_pos.setLayoutDirection(Qt.LeftToRight)
         self.label_time_stamp_pos.setAlignment(Qt.AlignCenter)
 
@@ -969,13 +987,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_29.setContentsMargins(10, -1, -1, -1)
         self.label_34 = QLabel(self.verticalLayoutWidget_2)
         self.label_34.setObjectName(u"label_34")
-        self.label_34.setFont(font7)
+        self.label_34.setFont(font8)
 
         self.horizontalLayout_29.addWidget(self.label_34)
 
         self.label_snr_lim_pos = QLabel(self.verticalLayoutWidget_2)
         self.label_snr_lim_pos.setObjectName(u"label_snr_lim_pos")
-        self.label_snr_lim_pos.setFont(font7)
+        self.label_snr_lim_pos.setFont(font8)
 
         self.horizontalLayout_29.addWidget(self.label_snr_lim_pos)
 
@@ -989,13 +1007,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_31.setContentsMargins(10, -1, -1, -1)
         self.label_36 = QLabel(self.verticalLayoutWidget_2)
         self.label_36.setObjectName(u"label_36")
-        self.label_36.setFont(font7)
+        self.label_36.setFont(font8)
 
         self.horizontalLayout_31.addWidget(self.label_36)
 
         self.label_snr_lim_pos_2 = QLabel(self.verticalLayoutWidget_2)
         self.label_snr_lim_pos_2.setObjectName(u"label_snr_lim_pos_2")
-        self.label_snr_lim_pos_2.setFont(font7)
+        self.label_snr_lim_pos_2.setFont(font8)
 
         self.horizontalLayout_31.addWidget(self.label_snr_lim_pos_2)
 
@@ -1004,13 +1022,19 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_31)
 
+        self.verticalLayout_2.setStretch(0, 4)
+        self.verticalLayout_2.setStretch(1, 4)
+        self.verticalLayout_2.setStretch(2, 4)
+        self.verticalLayout_2.setStretch(3, 1)
+        self.verticalLayout_2.setStretch(4, 1)
+        self.verticalLayout_2.setStretch(5, 1)
 
         self.meas_pos.addLayout(self.verticalLayout_2)
 
 
         self.layout_pos.addLayout(self.meas_pos)
 
-        self.layout_pos.setStretch(0, 20)
+        self.layout_pos.setStretch(0, 16)
         self.layout_pos.setStretch(1, 4)
         self.layout_pos.setStretch(2, 9)
 
@@ -1053,7 +1077,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_20.addLayout(self.mediciones)
 
-        self.horizontalLayout_20.setStretch(0, 5)
+        self.horizontalLayout_20.setStretch(0, 6)
         self.horizontalLayout_20.setStretch(1, 1)
         self.horizontalLayout_20.setStretch(2, 15)
 
@@ -1092,7 +1116,7 @@ class Ui_MainWindow(object):
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"TOL SNR", None))
         self.label_slider_tol_snr.setText("")
         self.notificacion.setText("")
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Tiempo de ensayo:", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Time ensayo:", None))
         self.btn_forzar.setText(QCoreApplication.translate("MainWindow", u"Forzar", None))
         self.captureFFT.setText(QCoreApplication.translate("MainWindow", u"Capture", None))
         self.led_bpfo_ant.setText("")
@@ -1106,8 +1130,8 @@ class Ui_MainWindow(object):
         self.value_fft_ant.setText(QCoreApplication.translate("MainWindow", u"  Freq.: 0 Hz \n"
 "  Mag.: 0dBV", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Temp.(\u00b0C):", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.(m/s2):", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.(m/s2):", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Ax.(mm/s2):", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Rad.(mm/s2):", None))
         self.label_32.setText(QCoreApplication.translate("MainWindow", u"Time stamp:", None))
         self.label_time_stamp_ant.setText("")
         self.label_33.setText(QCoreApplication.translate("MainWindow", u"SNR:", None))
@@ -1125,8 +1149,8 @@ class Ui_MainWindow(object):
         self.value_fft_pos.setText(QCoreApplication.translate("MainWindow", u"  Freq.: 0 Hz \n"
 "  Mag.: 0dBV", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Temp.(\u00b0C):", None))
-        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Vib.ax.(m/s2):", None))
-        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Vib.rad.(m/s2):", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Ax.(mm/s2):", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Rad.(mm/s2):", None))
         self.label_31.setText(QCoreApplication.translate("MainWindow", u"Time stamp:", None))
         self.label_time_stamp_pos.setText("")
         self.label_34.setText(QCoreApplication.translate("MainWindow", u"SNR:", None))

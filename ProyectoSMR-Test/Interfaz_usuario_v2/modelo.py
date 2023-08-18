@@ -199,7 +199,7 @@ class Mqtt:
         self.client.publish(topic, message)
 
     def on_message(self, client, userdata, msg):
-        print(f"Mensaje recibido en el tópico {msg.topic}: {msg.payload.decode()}")
+        #print(f"Mensaje recibido en el tópico {msg.topic}: {msg.payload.decode()}")
         self.topic = msg.topic
         self.msg = msg.payload.decode()
         self.qualify_data_bytopic()
@@ -217,6 +217,7 @@ class Mqtt:
             self.time_stamp_ant = self.msg
         if self.topic == "rodAnt/tempObj":
             self.temp_obj_ant = "{:.2f}".format(float(self.msg)) 
+            print(self.temp_obj_ant)
         if self.topic == "rodAnt/acelAxial":
             self.acel_axial_ant = "{:.3f}".format(float(self.msg)) 
         if self.topic == "rodAnt/acelRadial":
@@ -307,7 +308,7 @@ class Measure(BaseDatos):
         super().__init__()
         # Atributo para acceder a los widgets
         self.widgets = widgets        
-        self.mqtt_obj = Mqtt("192.168.1.101", 1883)
+        self.mqtt_obj = Mqtt("192.168.5.203", 1883)
 
         self.num_fft = 1
         self.cont_ensayos = 1
@@ -606,7 +607,7 @@ class Measure(BaseDatos):
             self.widgets.grafica.update_graph_fft(self.freq, self.fft_ant, self.mqtt_obj.snr_ant)
         if self.mqtt_obj.snr_ant:
             self.widgets.ui.label_snr_ant.setText(self.mqtt_obj.snr_ant+"dBV")
-            self.widgets.ui.label_snr_lim_ant.setText(str(round(float(self.mqtt_obj.snr_ant)+20*math.log10(1.8), 2))+"dBV")
+            self.widgets.ui.label_snr_lim_ant.setText(self.mqtt_obj.snr_ant+"dBV-VER")
         if self.mqtt_obj.time_stamp_ant:
             self.widgets.ui.label_time_stamp_ant.setText(self.mqtt_obj.time_stamp_ant)
 
@@ -633,7 +634,7 @@ class Measure(BaseDatos):
             self.widgets.grafica2.update_graph_fft(self.freq, self.fft_pos, self.mqtt_obj.snr_pos)
         if self.mqtt_obj.snr_pos:
             self.widgets.ui.label_snr_pos.setText(self.mqtt_obj.snr_pos+"dBV")
-            self.widgets.ui.label_snr_lim_pos.setText(str(round(float(self.mqtt_obj.snr_ant)+20*math.log10(1.8)), 2)+"dBV")
+            self.widgets.ui.label_snr_lim_pos.setText(self.mqtt_obj.snr_ant+"dBV-VER")
         if self.mqtt_obj.time_stamp_pos:
             self.widgets.ui.label_time_stamp_pos.setText(self.mqtt_obj.time_stamp_pos)
 

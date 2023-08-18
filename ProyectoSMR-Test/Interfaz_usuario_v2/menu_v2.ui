@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1229</width>
+    <width>1446</width>
     <height>838</height>
    </rect>
   </property>
@@ -22,7 +22,7 @@
      <rect>
       <x>30</x>
       <y>20</y>
-      <width>1171</width>
+      <width>1381</width>
       <height>782</height>
      </rect>
     </property>
@@ -59,7 +59,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="5,1,15">
+      <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="6,1,15">
        <item>
         <layout class="QVBoxLayout" name="configuraciones" stretch="3,4,1,1,1,2,1">
          <property name="spacing">
@@ -259,8 +259,8 @@ background-color: rgb(255, 255, 255);</string>
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>30</y>
-              <width>261</width>
+              <y>40</y>
+              <width>331</width>
               <height>151</height>
              </rect>
             </property>
@@ -559,7 +559,7 @@ background-color: rgb(255, 255, 255);</string>
                   <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
                  </property>
                  <property name="text">
-                  <string>Tiempo de ensayo:</string>
+                  <string>Time ensayo:</string>
                  </property>
                 </widget>
                </item>
@@ -657,7 +657,7 @@ background-color: rgb(255, 255, 255);</string>
           <number>0</number>
          </property>
          <item>
-          <layout class="QHBoxLayout" name="layout_ant" stretch="20,4,9">
+          <layout class="QHBoxLayout" name="layout_ant" stretch="16,4,9">
            <property name="spacing">
             <number>0</number>
            </property>
@@ -891,13 +891,13 @@ background-color: rgb(255, 255, 255);</string>
               <number>5</number>
              </property>
              <property name="topMargin">
-              <number>50</number>
+              <number>10</number>
              </property>
              <property name="rightMargin">
               <number>0</number>
              </property>
              <property name="bottomMargin">
-              <number>70</number>
+              <number>20</number>
              </property>
              <item>
               <widget class="QLabel" name="value_fft_ant">
@@ -916,12 +916,12 @@ background-color: rgb(255, 255, 255);</string>
               </widget>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout">
+              <layout class="QVBoxLayout" name="verticalLayout" stretch="4,4,4,1,1,1">
                <property name="spacing">
                 <number>0</number>
                </property>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="8,6">
+                <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="8,10">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -930,8 +930,17 @@ background-color: rgb(255, 255, 255);</string>
                  </property>
                  <item>
                   <widget class="QLabel" name="label_2">
+                   <property name="font">
+                    <font>
+                     <family>MS Shell Dlg 2</family>
+                     <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true"/>
                    </property>
                    <property name="text">
                     <string>Temp.(°C):</string>
@@ -975,7 +984,7 @@ background-color: rgb(255, 255, 255);</string>
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="8,6">
+                <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="8,10">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -984,11 +993,20 @@ background-color: rgb(255, 255, 255);</string>
                  </property>
                  <item>
                   <widget class="QLabel" name="label_3">
+                   <property name="font">
+                    <font>
+                     <family>MS Shell Dlg 2</family>
+                     <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true"/>
                    </property>
                    <property name="text">
-                    <string>Vib.ax.(m/s2):</string>
+                    <string>Ax.(mm/s2):</string>
                    </property>
                   </widget>
                  </item>
@@ -1011,7 +1029,7 @@ background-color: rgb(255, 255, 255);</string>
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="8,6">
+                <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="8,10">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -1020,11 +1038,20 @@ background-color: rgb(255, 255, 255);</string>
                  </property>
                  <item>
                   <widget class="QLabel" name="label_4">
+                   <property name="font">
+                    <font>
+                     <family>MS Shell Dlg 2</family>
+                     <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true"/>
                    </property>
                    <property name="text">
-                    <string>Vib.rad.(m/s2):</string>
+                    <string>Rad.(mm/s2):</string>
                    </property>
                   </widget>
                  </item>
@@ -1080,7 +1107,7 @@ background-color: rgb(255, 255, 255);</string>
                     <string/>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -1167,7 +1194,7 @@ background-color: rgb(255, 255, 255);</string>
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="layout_pos" stretch="20,4,9">
+          <layout class="QHBoxLayout" name="layout_pos" stretch="16,4,9">
            <property name="spacing">
             <number>0</number>
            </property>
@@ -1407,10 +1434,10 @@ background-color: rgb(255, 255, 255);</string>
               <number>5</number>
              </property>
              <property name="topMargin">
-              <number>50</number>
+              <number>10</number>
              </property>
              <property name="bottomMargin">
-              <number>70</number>
+              <number>20</number>
              </property>
              <item>
               <widget class="QLabel" name="value_fft_pos">
@@ -1426,12 +1453,12 @@ background-color: rgb(255, 255, 255);</string>
               </widget>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_2">
+              <layout class="QVBoxLayout" name="verticalLayout_2" stretch="4,4,4,1,1,1">
                <property name="spacing">
                 <number>0</number>
                </property>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="8,6">
+                <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="8,10">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -1443,8 +1470,13 @@ background-color: rgb(255, 255, 255);</string>
                  </property>
                  <item>
                   <widget class="QLabel" name="label_8">
+                   <property name="font">
+                    <font>
+                     <pointsize>12</pointsize>
+                    </font>
+                   </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true"/>
                    </property>
                    <property name="text">
                     <string>Temp.(°C):</string>
@@ -1479,7 +1511,7 @@ background-color: rgb(255, 255, 255);</string>
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="8,6">
+                <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="8,10">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -1491,11 +1523,16 @@ background-color: rgb(255, 255, 255);</string>
                  </property>
                  <item>
                   <widget class="QLabel" name="label_10">
+                   <property name="font">
+                    <font>
+                     <pointsize>12</pointsize>
+                    </font>
+                   </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true"/>
                    </property>
                    <property name="text">
-                    <string>Vib.ax.(m/s2):</string>
+                    <string>Ax.(mm/s2):</string>
                    </property>
                   </widget>
                  </item>
@@ -1518,7 +1555,7 @@ background-color: rgb(255, 255, 255);</string>
                 </layout>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_25" stretch="8,6">
+                <layout class="QHBoxLayout" name="horizontalLayout_25" stretch="8,10">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -1527,11 +1564,16 @@ background-color: rgb(255, 255, 255);</string>
                  </property>
                  <item>
                   <widget class="QLabel" name="label_13">
+                   <property name="font">
+                    <font>
+                     <pointsize>12</pointsize>
+                    </font>
+                   </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true"/>
                    </property>
                    <property name="text">
-                    <string>Vib.rad.(m/s2):</string>
+                    <string>Rad.(mm/s2):</string>
                    </property>
                   </widget>
                  </item>
