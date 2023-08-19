@@ -121,6 +121,8 @@
 #define I2C_MASTER_TIMEOUT_MS       1000
 
 #define SAMPLES_ACCEL_CAL 100
+#define UNIT_ACCEL_MM_S2 1000
+#define UNIT_ACCEL_M_S2 1
 
 /* Typedef */
 typedef enum MPU6050_Accelerometer_e

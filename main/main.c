@@ -84,6 +84,8 @@ float To;
 float Td;
 float accel[3];
 float accel_offset[3];
+float accel_axial = 0.0;
+float accel_radial = 0.0;
 bool flag_mode_cal_accel = 1;
 uint32_t batteryLevel;
 float tempThreshold;
@@ -650,7 +652,6 @@ smr_errorCtrl_t smr_measure_sensors(void)
     #endif
 
     /* Acceleration measures */
-    /* Considero ahora que la aceleración en X es la axial y radial en Y */
     ret = MPU6050_ReadAccelerometer(accel, 3);
     if (ret != ESP_OK)
     {
@@ -679,8 +680,23 @@ smr_errorCtrl_t smr_measure_sensors(void)
             ESP_LOGI(TAG, "AccelZ = %f", accel[2]);
         #endif
 
+        /* Conversion de G a mm/s2*/
+        for(int i=0; i<3; i++)
+        {
+            accel[i] = (accel[i] / MPU6050_AccelSens_2) * 9.81 * UNIT_ACCEL_MM_S2;
+        }
+        
+        /* Calculo de aceleracion radial y axial*/
+        // Fijarse segun colacion de PCB para accel_axial
+        //accel_axial = accel[2];
+        //accel_radial = sqrt(pow(accel[0], 2)+pow(accel[1], 2));
+
+        /* Considero ahora que la aceleración en X es la axial y radial en Y */
+        accel_axial = accel[0];
+        accel_radial = accel[1];
+
         /* Hay alarma axial? */
-        if (accel[0] >= axialThreshold)
+        if (accel_axial >= axialThreshold)
         {
             axialAlarm = true;
             #ifdef DEBUG
@@ -693,7 +709,7 @@ smr_errorCtrl_t smr_measure_sensors(void)
         }
 
         /* Hay alarma radial? */
-        if (accel[1] >= radialThreshold)
+        if (accel_radial >= radialThreshold)
         {
             radialAlarm = true;
             #ifdef DEBUG
