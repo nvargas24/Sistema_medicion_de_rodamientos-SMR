@@ -83,6 +83,8 @@ float Ta;
 float To;
 float Td;
 float accel[3];
+float accel_offset[3];
+bool flag_mode_cal_accel = 1;
 uint32_t batteryLevel;
 float tempThreshold;
 float axialThreshold;
@@ -560,8 +562,92 @@ smr_errorCtrl_t smr_measure_sensors(void)
         return errorCtrl;
     }
 
-    /* ---- AGREGAR CALIBRACION MPU6050 ------*/
+    /* Calibracion MPU6050*/
+    if(flag_mode_cal_accel == 1)
+    {
+        printf("MODO CALIBRACION\n");
+        printf("Colocar sensor quieto\n");
+
+        bzero(accel_offset, sizeof(accel_offset));
+
+        for(int i=0; i<SAMPLES_ACCEL_CAL; i++)
+        {
+            ret = MPU6050_ReadAccelerometer(accel, 3);
+            if (ret != ESP_OK)
+            {
+                errorCtrl = SMR_MPU6050_READ_ERROR;
+                smr_error_reg(errorCtrl, errorString);
+
+                for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+                {
+                    smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_MPU6050_READ_ERROR - 7));
+                    /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+                    vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+                }
+
+                #ifdef DEBUG
+                    ESP_LOGI(TAG, "%s", errorString);
+                #endif
+
+                return errorCtrl;
+            }
+            else
+            {
+                accel_offset[0] += accel[0];
+                accel_offset[1] += accel[1];
+                accel_offset[2] += accel[2];
+            }
+        }
+
+        for(int i=0; i<3; i++)
+        {
+            accel_offset[i]/=SAMPLES_ACCEL_CAL;
+        }
+
+        flag_mode_cal_accel = 0;
+        bzero(accel, sizeof(accel));                
+    }
+
+    #ifdef DEBUG
+        printf("accel offset x: %f\n", accel_offset[0]);
+        printf("accel offset y: %f\n", accel_offset[1]);
+        printf("accel offset z: %f\n", accel_offset[2]);
+    #endif
+
     /* ---- AGREGAR DEBUG_SHAKER ----*/
+    #ifdef DEBUG_CAL_SHAKER
+        printf("x\ty\tz\n");
+        while(1)
+        {
+            /* Acceleration measures */
+            /* Considero ahora que la aceleración en X es la axial y radial en Y */
+            ret = MPU6050_ReadAccelerometer(accel, 3);
+            if (ret != ESP_OK)
+            {
+                errorCtrl = SMR_MPU6050_READ_ERROR;
+                smr_error_reg(errorCtrl, errorString);
+
+                for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+                {
+                    smr_led_indicate(SMR_BLINK_LED_SLOW, (SMR_MPU6050_READ_ERROR - 7));
+                    /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+                    vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+                }
+
+                #ifdef DEBUG
+                    ESP_LOGI(TAG, "%s", errorString);
+                #endif
+
+                return errorCtrl;
+            }
+            else
+            {
+                #ifdef DEBUG
+                    printf("%.3f\t%.3f\t%.3f\n",accel[0]-accel_offset[0], accel[1]-accel_offset[1], accel[2]-accel_offset[2]);
+                #endif
+            }
+        }
+    #endif
 
     /* Acceleration measures */
     /* Considero ahora que la aceleración en X es la axial y radial en Y */
@@ -2031,7 +2117,7 @@ smr_errorCtrl_t smr_init_peripherals(void)
 #endif
     }
 
-    res = MPU6050_Init(MPU6050_DataRate_100Hz, MPU6050_Accelerometer_2G, MPU6050_GyroSens_250);
+    res = MPU6050_Init(MPU6050_DataRate_10Hz, MPU6050_Accelerometer_2G, MPU6050_GyroSens_250);
     if (res != ESP_OK)
     {
         errorCtrl = SMR_MPU6050_INIT_ERROR;

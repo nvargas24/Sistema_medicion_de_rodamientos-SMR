@@ -97,6 +97,8 @@
 #define MPU6050_DataRate_250Hz  31  /*!< Sample rate set to 250 Hz */
 #define MPU6050_DataRate_125Hz  63  /*!< Sample rate set to 125 Hz */
 #define MPU6050_DataRate_100Hz  79  /*!< Sample rate set to 100 Hz */
+#define MPU6050_DataRate_10Hz  799  /*!< Sample rate set to 10 Hz */
+
 
 /* Gyro sensitivities in degrees/s */
 #define MPU6050_GyroSens_250		((float) 131)
@@ -117,6 +119,8 @@
 #define I2C_MASTER_TX_BUF_DISABLE   0       
 #define I2C_MASTER_RX_BUF_DISABLE   0       
 #define I2C_MASTER_TIMEOUT_MS       1000
+
+#define SAMPLES_ACCEL_CAL 100
 
 /* Typedef */
 typedef enum MPU6050_Accelerometer_e

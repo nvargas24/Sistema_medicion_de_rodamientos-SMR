@@ -12,7 +12,6 @@
 //#define ROD_POS
 //#define DEBUG_SMR //BORRAR
 
-/* Bloquean al programa para ver datos por mqtt/serial*/
 //#define DEBUG_CAL_SHAKER
 //#define DEBUG_CAL_TEMP
 //#define DEBUG_CAL_FFT
