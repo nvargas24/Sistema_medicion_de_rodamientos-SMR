@@ -23,7 +23,7 @@
 #define RESOLUTION_F 37  // Hz
 #define SWEEP_FFT 5
 #define SNR -15
-
+#define TOL_SNR 1.8
 
 typedef enum
 {
@@ -65,10 +65,7 @@ void fft8(float *input, int stride_in, float *output, int stride_out);
 void fft4(float *input, int stride_in, float *output, int stride_out);
 
 esp_err_t rfft_calcule(int16_t *meas_mcp, float *mag_fft, float *freq_fft);
-
-//void rfft_prom_calcule(void);
-
 float searchFreq(float freq_s, int tol, float *mag_fft, float*freq_fft);
-
+float obtener_snr(float *mag_fft);
 
 #endif // __FFT_H__

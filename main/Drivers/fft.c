@@ -762,3 +762,42 @@ float searchFreq(float freq_s, int tol, float *mag_fft, float *freq_fft)
 
     return mag_found;
 }
+
+
+/*Calculo de SNR*/
+int comparar(const void *a, const void *b)
+{
+  return (*(float *)a > *(float *)b) - (*(float *)a < *(float *)b);
+}
+
+float obtener_snr(float *mag_fft)
+{
+    float mediana_fft;
+    float *data;
+
+    data=malloc(FFT_SAMPLES * sizeof(float));
+    if(data == NULL)
+    {
+        printf("No se pudo asignar memoria a _data");
+        return 0;
+    }
+
+    for(int i=0; i<FFT_SAMPLES; i++)
+    {
+        data[i] = mag_fft[i];
+    }
+
+    qsort(data, FFT_SAMPLES, sizeof(float), comparar);
+    if (FFT_SAMPLES%2 == 0)
+    {
+        mediana_fft = (data[FFT_SAMPLES/2 - 1] + data[FFT_SAMPLES/2])/2.0;
+    }
+    else
+    {
+        mediana_fft = data[FFT_SAMPLES/2];
+    }
+
+    free(data);
+
+    return mediana_fft;
+}

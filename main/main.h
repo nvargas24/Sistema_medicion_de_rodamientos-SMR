@@ -4,12 +4,22 @@
 
 #define DEBUG
 #define SET_RTC
+
+//#define DEBUG_MCP
+//#define DEBUG_FFT
+
 #define ROD_ANT
 //#define ROD_POS
+//#define DEBUG_SMR //BORRAR
+
+/* Bloquean al programa para ver datos por mqtt/serial*/
+//#define DEBUG_CAL_SHAKER
+//#define DEBUG_CAL_TEMP
+//#define DEBUG_CAL_FFT
 
 #define SMR_FIRMWARE_VERSION    "V2.0_R1.1 14/04/23"
 #define SMR_LED_INDICATE_TIMES  3
-#define SMR_TIME_BTW_MEASURES   6000
+#define SMR_TIME_BTW_MEASURES   2000
 #define SMR_TIME_BTW_LED_IND    500
 
 #define HIGH 1
