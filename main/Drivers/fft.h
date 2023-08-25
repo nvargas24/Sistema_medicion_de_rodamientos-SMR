@@ -22,8 +22,8 @@
 #define FFT_SAMPLES 512
 #define RESOLUTION_F 37  // Hz
 #define SWEEP_FFT 5
-#define SNR -15
-#define TOL_SNR 1.8
+#define SNR -100
+#define TOL_SNR 3
 
 typedef enum
 {

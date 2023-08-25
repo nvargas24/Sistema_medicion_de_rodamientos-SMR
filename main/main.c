@@ -114,7 +114,15 @@ float magFTF = 0.0;
 float magBSF = 0.0;
 
 float snr_dynamic = 0.0;
-float critical_mag = 0.0;
+float limit_value = 0.0;
+
+int16_t meas_mcp[ADC_SAMPLES];
+float data_adc2temp[ADC_SAMPLES];
+int16_t data_adc2fft[ADC_SAMPLES];
+float mag_fft[FFT_SAMPLES];
+float freq_fft[FFT_SAMPLES];
+float mag_mcp = -100.0;
+float freq_mcp = 0.0;
 
 #ifdef ROD_ANT
 static const char *TAG = "SMR ROD ANTERIOR";
@@ -827,10 +835,6 @@ smr_errorCtrl_t smr_measure_sensors(void)
     */
 
     /* Medicion  de MCP3008 */
-    int16_t meas_mcp[ADC_SAMPLES];
-    float data_adc2temp[ADC_SAMPLES];
-    int16_t data_adc2fft[ADC_SAMPLES];
-
     bzero(meas_mcp, sizeof(meas_mcp));
     bzero(data_adc2temp, sizeof(data_adc2temp));
     bzero(data_adc2fft, sizeof(data_adc2fft));
@@ -902,9 +906,6 @@ smr_errorCtrl_t smr_measure_sensors(void)
 
 
     /* FFT measures */
-    float mag_fft[FFT_SAMPLES];
-    float freq_fft[FFT_SAMPLES];
-
     bzero(mag_fft, sizeof(mag_fft));
     bzero(freq_fft, sizeof(freq_fft));
 
@@ -930,9 +931,7 @@ smr_errorCtrl_t smr_measure_sensors(void)
 
     /* Calculo de SNR */
     snr_dynamic = obtener_snr(mag_fft); // en dBV - se calcula percentil 50 (mediana)
-    
-    // LIMITE PARA CONSIDERAR VALOR DE MAGNITUD VALIDO 
-    critical_mag = snr_dynamic + 20*log10(TOL_SNR);
+    limit_value = snr_dynamic + 20*log10(TOL_SNR); // LIMITE PARA CONSIDERAR VALOR DE MAGNITUD VALIDO 
 
     /* ---- AGREGAR CALCULO DE DOMINANTE (SE IGNORA DC) ----*/
 
@@ -948,7 +947,7 @@ smr_errorCtrl_t smr_measure_sensors(void)
         ESP_LOGI(TAG, "Magnitud de BSF (%.2fHz) = %.2fdBV", frecBSF, magBSF);
     #endif
 
-    if (magBPFO > snr_dynamic)
+    if (magBPFO > limit_value)
     {
         presBPFO = true;
     }
@@ -957,7 +956,7 @@ smr_errorCtrl_t smr_measure_sensors(void)
         presBPFO = false;
     }
 
-    if (magBPFI > snr_dynamic)
+    if (magBPFI > limit_value)
     {
         presBPFI = true;
     }
@@ -966,7 +965,7 @@ smr_errorCtrl_t smr_measure_sensors(void)
         presBPFI = false;
     }
 
-    if (magFTF > snr_dynamic)
+    if (magFTF > limit_value)
     {
         presFTF = true;
     }
@@ -975,7 +974,7 @@ smr_errorCtrl_t smr_measure_sensors(void)
         presFTF = false;
     }
 
-    if (magBSF > snr_dynamic)
+    if (magBSF > limit_value)
     {
         presBSF = true;
     }
@@ -1006,6 +1005,7 @@ smr_errorCtrl_t smr_publish_measures(void)
         char msg_mag_mcp[64];
         char msg_freq_mcp[64];
         char msg_snr[64];
+        char msg_limit_value[64];
 
         int offset_mcp = 0;
         int offset_fft = 0;
@@ -1015,6 +1015,7 @@ smr_errorCtrl_t smr_publish_measures(void)
         bzero(msg_mag_mcp, sizeof(msg_mag_mcp));
         bzero(msg_freq_mcp, sizeof(msg_freq_mcp));
         bzero(msg_snr, sizeof(msg_snr));
+        bzero(msg_limit_value, sizeof(msg_limit_value));
     #endif
 
 #ifdef ROD_ANT
@@ -1337,6 +1338,7 @@ smr_errorCtrl_t smr_publish_measures(void)
         snprintf(msg_mag_mcp, sizeof(msg_mag_mcp), "%.0f", mag_mcp);
         snprintf(msg_freq_mcp, sizeof(msg_freq_mcp), "%.0f", freq_mcp);
         snprintf(msg_snr, sizeof(msg_snr), "%.0f", snr_dynamic);
+        snprintf(msg_limit_value, sizeof(msg_limit_value), "%.0f", limit_value);
 
         ret = esp_mqtt_client_publish(client, "rodAnt/mcp", msg_mcp, strlen(msg_mcp), 0, 0);
         if (ret < 0)
@@ -1437,6 +1439,26 @@ smr_errorCtrl_t smr_publish_measures(void)
 
             return errorCtrl;
         }
+
+        ret = esp_mqtt_client_publish(client, "rodAnt/limitValue", msg_limit_value, strlen(msg_limit_value), 0, 0);
+        if (ret < 0)
+        {
+            errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+            smr_error_reg(errorCtrl, errorString);
+
+            for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+            {
+                smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+                /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+                vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+            }
+
+            #ifdef DEBUG
+                ESP_LOGI(TAG, "%s", errorString);
+            #endif
+
+            return errorCtrl;
+        }
     #endif
 
     return SMR_OK;
@@ -1484,7 +1506,7 @@ smr_errorCtrl_t smr_publish_measures(void)
         return errorCtrl;
     }
 
-    sprintf(payload, "%d", batteryLevel);
+    sprintf(payload, "%lu", batteryLevel);
     ret = esp_mqtt_client_publish(client, "rodPos/bateria", payload, strlen(payload), 0, false);
     if (ret < 0)
     {
@@ -1843,6 +1865,26 @@ smr_errorCtrl_t smr_publish_measures(void)
         }
 
         ret = esp_mqtt_client_publish(client, "rodPos/snr", msg_snr, strlen(msg_snr), 0, 0);
+        if (ret < 0)
+        {
+            errorCtrl = SMR_MQTT_PUBLISH_ERROR;
+            smr_error_reg(errorCtrl, errorString);
+
+            for (i = 0; i < SMR_LED_INDICATE_TIMES; i++)
+            {
+                smr_led_indicate(SMR_BLINK_LED_FAST, (SMR_MQTT_PUBLISH_ERROR - 15));
+                /* Blocking wait for SMR_TIME_BTW_LED_IND ms*/
+                vTaskDelay(SMR_TIME_BTW_LED_IND / portTICK_PERIOD_MS);
+            }
+
+            #ifdef DEBUG
+                ESP_LOGI(TAG, "%s", errorString);
+            #endif
+
+            return errorCtrl;
+        }
+        
+        ret = esp_mqtt_client_publish(client, "rodPos/limitValue", msg_limit_value, strlen(msg_limit_value), 0, 0);
         if (ret < 0)
         {
             errorCtrl = SMR_MQTT_PUBLISH_ERROR;

@@ -3,18 +3,17 @@
 
 
 #define DEBUG
-#define SET_RTC
+//#define SET_RTC
 
 //#define DEBUG_MCP
 //#define DEBUG_FFT
 
-#define ROD_ANT
-//#define ROD_POS
-//#define DEBUG_SMR //BORRAR
+//#define ROD_ANT
+#define ROD_POS
 
 //#define DEBUG_CAL_SHAKER
 //#define DEBUG_CAL_TEMP
-//#define DEBUG_CAL_FFT
+#define DEBUG_CAL_FFT
 
 #define SMR_FIRMWARE_VERSION    "V2.0_R1.1 14/04/23"
 #define SMR_LED_INDICATE_TIMES  3
