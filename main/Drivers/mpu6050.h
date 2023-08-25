@@ -98,7 +98,7 @@
 #define MPU6050_DataRate_125Hz  63  /*!< Sample rate set to 125 Hz */
 #define MPU6050_DataRate_100Hz  79  /*!< Sample rate set to 100 Hz */
 #define MPU6050_DataRate_10Hz  799  /*!< Sample rate set to 10 Hz */
-
+#define MPU6050_DataRate_400Hz  19  /*!< Sample rate set to 400 Hz */
 
 /* Gyro sensitivities in degrees/s */
 #define MPU6050_GyroSens_250		((float) 131)

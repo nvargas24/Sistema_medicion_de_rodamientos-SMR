@@ -2133,7 +2133,7 @@ smr_errorCtrl_t smr_init_peripherals(void)
 #endif
     }
 
-    res = MPU6050_Init(MPU6050_DataRate_10Hz, MPU6050_Accelerometer_2G, MPU6050_GyroSens_250);
+    res = MPU6050_Init(MPU6050_DataRate_400Hz, MPU6050_Accelerometer_2G, MPU6050_GyroSens_250);
     if (res != ESP_OK)
     {
         errorCtrl = SMR_MPU6050_INIT_ERROR;
