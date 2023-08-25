@@ -45,14 +45,14 @@ class Grafica_fft(FigureCanvas):
         # Crear la línea inicial
         self.line, = self.ax.plot(self.freq_initial, self.mag_initial, picker=5)
 
-    def update_graph_fft(self, freq, mag, snr):
+    def update_graph_fft(self, freq, mag, snr, limit_value):
         """
         Metodo para actualizar listas de puntos para grafico fft
         """
         self.set_graph_fft_style()
         self.ax.axhline(float(snr), color='green', linestyle='dashdot', linewidth=2, zorder=2)  
-        self.ax.axhline(float(snr)+20*math.log10(1.8), color='red', linestyle='dashdot', linewidth=2, zorder=3)
-        self.ax.fill_between(freq, -100, float(snr)+20*math.log10(1.8), color='red', alpha=0.3)  
+        self.ax.axhline(float(limit_value), color='red', linestyle='dashdot', linewidth=2, zorder=3)
+        self.ax.fill_between(freq, -100, float(limit_value), color='red', alpha=0.3)  
         
         self.line, = self.ax.plot(freq, mag, picker=5, zorder=1)
 
@@ -192,19 +192,7 @@ class Mainwindow(QMainWindow):
             self.ui.label_slider_ftf.setText(f"{rounded_value}Hz")
         elif sender == self.ui.slider_bsf:
             self.ui.label_slider_bsf.setText(f"{rounded_value}Hz")
-    """
-    # Función para manejar los eventos de movimiento del ratón sobre grafico
-    def onmove(self, event):
-        if event.inaxes == self.grafica.ax:
-            freq, mag = event.xdata, event.ydata 
-            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
-            self.ui.value_fft_ant.setText(msj)
 
-        if event.inaxes == self.grafica2.ax:
-            freq, mag = event.xdata, event.ydata 
-            msj = "  Freq={:.2f}Hz\n  Mag={:.2f}dBV".format(freq, mag)
-            self.ui.value_fft_pos.setText(msj)
-    """
     def onpick(self, event):
         """
         Metodo asociado a evento de click sobre grafico
