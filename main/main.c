@@ -260,9 +260,9 @@ void app_main(void)
  */
 esp_err_t smr_adc_init(void)
 {
-    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_12, 0, &adc_chars);
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_2_5, ADC_WIDTH_BIT_12, 0, &adc_chars);
     ESP_ERROR_CHECK(adc1_config_width(ADC_WIDTH_BIT_12));
-    ESP_ERROR_CHECK(adc1_config_channel_atten(vBatLvl, ADC_ATTEN_DB_0));
+    ESP_ERROR_CHECK(adc1_config_channel_atten(vBatLvl, ADC_ATTEN_DB_2_5));
 
     return ESP_OK;
 }
@@ -529,7 +529,7 @@ static esp_err_t smr_mqtt_init(void)
 
     esp_mqtt_client_config_t mqtt_cfg =
         {
-            .broker.address.hostname = "192.168.86.203",
+            .broker.address.hostname = "192.168.197.29",
             .broker.address.transport = MQTT_TRANSPORT_OVER_TCP,
             .broker.address.port = 1883,
         };
@@ -570,6 +570,12 @@ smr_errorCtrl_t smr_measure_sensors(void)
         #endif
 
         return errorCtrl;
+    }
+    else
+    {
+        #ifdef DEBUG
+            ESP_LOGI(TAG, "TimeStamp: %s", timeStamp);
+        #endif
     }
 
     /* Calibracion MPU6050*/
@@ -800,8 +806,8 @@ smr_errorCtrl_t smr_measure_sensors(void)
         }
     }
 
-    // COMENTADO PARA USAR SIN BATERIA - PRUEBAS DE CALIBRACION POR SERIAL
-    /* Battery level measurement
+
+    /* Battery level measurement */
     errorCtrl = smr_adc_read(&batteryLevel);
 
     if (errorCtrl != SMR_OK)
@@ -827,12 +833,16 @@ smr_errorCtrl_t smr_measure_sensors(void)
         if (batteryLevel <= SMR_LOW_BATTERY_MV)
         {
             #ifdef DEBUG
-                ESP_LOGI(TAG, "BATERIA BAJA ---- %lu", batteryLevel);
+                ESP_LOGI(TAG, "BATERIA BAJA ---- %lumV", batteryLevel);
+            #endif
+        }
+        else
+        {
+            #ifdef DEBUG
+                ESP_LOGI(TAG, "Bateria: %lumV", batteryLevel);
             #endif
         }
     }
-
-    */
 
     /* Medicion  de MCP3008 */
     bzero(meas_mcp, sizeof(meas_mcp));
@@ -866,13 +876,13 @@ smr_errorCtrl_t smr_measure_sensors(void)
         {
             if(meas_mcp[k] <= ADC_SAMPLES && meas_mcp[k] >= 0){
                 #ifdef DEBUG_MCP
-                    ESP_LOGI(TAG, "LECTURA DE MCP --- %u", meas_mcp[k]);
+                    ESP_LOGI(TAG, "LECTURA DE MCP");
                 #endif
             }
             else
             {
                 #ifdef DEBUG_MCP
-                    ESP_LOGI(TAG, "LECTURA DE MCP NO VALIDA ---");
+                    ESP_LOGI(TAG, "LECTURA DE MCP NO VALIDA");
                 #endif
             }
         }
@@ -928,12 +938,29 @@ smr_errorCtrl_t smr_measure_sensors(void)
             printf("%.5f\t%.2f\n", mag_fft[k], freq_fft[k]);
         }
     #endif
+    #ifdef DEBUG
+            ESP_LOGI(TAG, "FFT calculed successfully");
+    #endif
 
     /* Calculo de SNR */
     snr_dynamic = obtener_snr(mag_fft); // en dBV - se calcula percentil 50 (mediana)
     limit_value = snr_dynamic + 20*log10(TOL_SNR); // LIMITE PARA CONSIDERAR VALOR DE MAGNITUD VALIDO 
 
     /* ---- AGREGAR CALCULO DE DOMINANTE (SE IGNORA DC) ----*/
+    #ifdef DEBUG_MAG_DOM
+        for(int k=1; k<FFT_SAMPLES; k++ )
+        {
+            if(mag_mcp<mag_fft[k])
+            {
+                mag_mcp = mag_fft[k];
+                freq_mcp = freq_fft[k];
+            }
+        }
+        #ifdef DEBUG_FFT
+            printf("DOMINANTE:");
+            printf("Freq.:%.0f\tMag.:%.5f\n", freq_mcp, mag_mcp);
+        #endif
+    #endif
 
     magBPFO = searchFreq(frecBPFO, 5, mag_fft, freq_fft);
     magBPFI = searchFreq(frecBPFI, 5, mag_fft, freq_fft);
@@ -2238,13 +2265,22 @@ smr_errorCtrl_t smr_init_peripherals(void)
  */
 smr_errorCtrl_t smr_adc_read(uint32_t *batteryLevel)
 {
-    uint32_t result;
+    float result;
     smr_errorCtrl_t errorCtrl;
     char errorString[100];
+    int data_adc = adc1_get_raw(vBatLvl);
 
-    result = esp_adc_cal_raw_to_voltage(adc1_get_raw(vBatLvl), &adc_chars);
+    result = (float)data_adc * 1.33;// Compenso por att 2.5dB == 1.33
+    result = result*(1.05/4095)*(1000); //Pasaje a mV
 
-    if ((result < SMR_LOW_BATTERY_MV) || (result > SMR_HIGH_BATTERY_MV))
+    #ifdef ROD_ANT
+        result = result*(1/0.23); // Ajuste por div resistivo
+    #endif
+    #ifdef ROD_POS
+        result = result*(1/0.28); // Ajuste por div resistivo
+    #endif
+    
+    if (((int)result < SMR_LOW_BATTERY_MV) || ((int)result > SMR_HIGH_BATTERY_MV))
     {
         errorCtrl = SMR_ADC_READ_ERROR;
         smr_error_reg(errorCtrl, errorString);
@@ -2253,10 +2289,9 @@ smr_errorCtrl_t smr_adc_read(uint32_t *batteryLevel)
         ESP_LOGI(TAG, "%s", errorString);
 #endif
     }
-
     else
     {
-        *(batteryLevel) = result;
+        *(batteryLevel) = (int)result;
 
         errorCtrl = SMR_OK;
 

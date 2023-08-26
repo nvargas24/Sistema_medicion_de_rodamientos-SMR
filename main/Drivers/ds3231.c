@@ -111,7 +111,7 @@ esp_err_t DS3231_GetTimeStamp(char *timestamp)
         timestamp_segs = total_days * 86400 + hexToDecimal(time[2])*3600 + hexToDecimal(time[1])*60 + hexToDecimal(time[0]);
         timestamp_segs =hexToDecimal(time[2])*3600 + hexToDecimal(time[1])*60 + hexToDecimal(time[0]);
         
-        sprintf(timestamp, "%d", timestamp_segs);
+        sprintf(timestamp, "%06d", timestamp_segs);
     }
 
     //printf("timeStamp: %d\n", timestamp_segs);

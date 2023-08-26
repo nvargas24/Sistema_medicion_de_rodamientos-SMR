@@ -14,6 +14,7 @@
 //#define DEBUG_CAL_SHAKER
 //#define DEBUG_CAL_TEMP
 #define DEBUG_CAL_FFT
+//#define DEBUG_MAG_DOM
 
 #define SMR_FIRMWARE_VERSION    "V2.0_R1.1 14/04/23"
 #define SMR_LED_INDICATE_TIMES  3

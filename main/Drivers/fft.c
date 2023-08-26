@@ -682,7 +682,7 @@ esp_err_t rfft_calcule(int16_t *meas_mcp, float *mag_fft, float *freq_fft)
     /* Lectura de ADC*/
     for (int k = 0; k < ADC_SAMPLES; k++)
     {
-        fft_analysis->input[k] = (5.0 / 1024.0) *((float)meas_mcp[k]);
+        fft_analysis->input[k] = (5.0 / ADC_SAMPLES) *(1.115)*((float)meas_mcp[k]);
     }
 
     /* Calculo de magnitud */
@@ -692,49 +692,15 @@ esp_err_t rfft_calcule(int16_t *meas_mcp, float *mag_fft, float *freq_fft)
     {
       freq_fft[k] = k * 1.0 * RESOLUTION_F;
       mag_fft[k] = sqrt(pow(fft_analysis->output[2 * k], 2) + pow(fft_analysis->output[2 * k + 1], 2));
-      mag_fft[k] = 20 * log10(mag_fft[k] * (0.707)); // pasaje a dBV
 
-      if(mag_fft[k]<=120.0 && mag_fft[k]>-70.0){ // valores random hacer test con prototipo completo
-        ret=ESP_OK;
-      }
-      else{
-        ret=ESP_FAIL;
-        break;
-      }
+      ret=ESP_OK;
     }
 
     fft_destroy(fft_analysis);
 
     return ret;
 }
-/*
-void rfft_prom_calcule(void)
-{
-    Cantidad de barridos para promediar 
-    for (int i = 0; i < SWEEP_FFT; i++)
-    {
-        rfft_calcule();
-    }
 
-    for (int k = 0; k < FFT_SAMPLES; k++)
-    {
-        mag[k] = mag[k] / SWEEP_FFT;
-    }
-
-     pasaje a DBV 
-    for (int k = 0; k < FFT_SAMPLES; k++)
-    {
-        mag[k] = 20 * log10(mag[k] * (0.707));
-    }
-
-    #ifdef DEBUG
-    for (int k = 0; k < FFT_SAMPLES; k++)
-    {
-        printf("%.5f \t   %.2f\n", mag[k], freq[k]);
-    }
-    #endif
-}
-*/
 /**
  * @brief This function is used to search for amplitudes at desired frequencies
  * @param freq_s  frequency in Hertz
