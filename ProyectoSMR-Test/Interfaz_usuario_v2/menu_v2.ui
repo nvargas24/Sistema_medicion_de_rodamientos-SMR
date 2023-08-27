@@ -1659,7 +1659,7 @@ background-color: rgb(255, 255, 255);</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_snr_lim_pos">
+                  <widget class="QLabel" name="label_snr_pos">
                    <property name="font">
                     <font>
                      <family>Segoe UI Semibold</family>
@@ -1696,7 +1696,7 @@ background-color: rgb(255, 255, 255);</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_snr_lim_pos_2">
+                  <widget class="QLabel" name="label_snr_lim_pos">
                    <property name="font">
                     <font>
                      <family>Segoe UI Semibold</family>

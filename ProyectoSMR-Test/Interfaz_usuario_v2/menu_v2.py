@@ -991,11 +991,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_29.addWidget(self.label_34)
 
-        self.label_snr_lim_pos = QLabel(self.verticalLayoutWidget_2)
-        self.label_snr_lim_pos.setObjectName(u"label_snr_lim_pos")
-        self.label_snr_lim_pos.setFont(font8)
+        self.label_snr_pos = QLabel(self.verticalLayoutWidget_2)
+        self.label_snr_pos.setObjectName(u"label_snr_pos")
+        self.label_snr_pos.setFont(font8)
 
-        self.horizontalLayout_29.addWidget(self.label_snr_lim_pos)
+        self.horizontalLayout_29.addWidget(self.label_snr_pos)
 
         self.horizontalLayout_29.setStretch(0, 8)
         self.horizontalLayout_29.setStretch(1, 6)
@@ -1011,11 +1011,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_31.addWidget(self.label_36)
 
-        self.label_snr_lim_pos_2 = QLabel(self.verticalLayoutWidget_2)
-        self.label_snr_lim_pos_2.setObjectName(u"label_snr_lim_pos_2")
-        self.label_snr_lim_pos_2.setFont(font8)
+        self.label_snr_lim_pos = QLabel(self.verticalLayoutWidget_2)
+        self.label_snr_lim_pos.setObjectName(u"label_snr_lim_pos")
+        self.label_snr_lim_pos.setFont(font8)
 
-        self.horizontalLayout_31.addWidget(self.label_snr_lim_pos_2)
+        self.horizontalLayout_31.addWidget(self.label_snr_lim_pos)
 
         self.horizontalLayout_31.setStretch(0, 8)
         self.horizontalLayout_31.setStretch(1, 6)
@@ -1154,9 +1154,9 @@ class Ui_MainWindow(object):
         self.label_31.setText(QCoreApplication.translate("MainWindow", u"Time stamp:", None))
         self.label_time_stamp_pos.setText("")
         self.label_34.setText(QCoreApplication.translate("MainWindow", u"SNR:", None))
-        self.label_snr_lim_pos.setText("")
+        self.label_snr_pos.setText("")
         self.label_36.setText(QCoreApplication.translate("MainWindow", u"Limit Value:", None))
-        self.label_snr_lim_pos_2.setText("")
+        self.label_snr_lim_pos.setText("")
         self.label.setText(QCoreApplication.translate("MainWindow", u"Progreso:", None))
     # retranslateUi
 
