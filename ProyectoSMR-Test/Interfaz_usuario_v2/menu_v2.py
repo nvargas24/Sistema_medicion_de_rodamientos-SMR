@@ -162,13 +162,13 @@ class Ui_MainWindow(object):
         self.slider_bpfo.setObjectName(u"slider_bpfo")
         self.slider_bpfo.setMinimum(100)
         self.slider_bpfo.setMaximum(19000)
-        self.slider_bpfo.setSingleStep(500)
-        self.slider_bpfo.setPageStep(500)
+        self.slider_bpfo.setSingleStep(37)
+        self.slider_bpfo.setPageStep(37)
         self.slider_bpfo.setValue(15000)
         self.slider_bpfo.setSliderPosition(15000)
         self.slider_bpfo.setOrientation(Qt.Horizontal)
         self.slider_bpfo.setTickPosition(QSlider.NoTicks)
-        self.slider_bpfo.setTickInterval(500)
+        self.slider_bpfo.setTickInterval(37)
 
         self.horizontalLayout_6.addWidget(self.slider_bpfo)
 
@@ -193,11 +193,11 @@ class Ui_MainWindow(object):
         self.slider_bpfi.setObjectName(u"slider_bpfi")
         self.slider_bpfi.setMinimum(100)
         self.slider_bpfi.setMaximum(19000)
-        self.slider_bpfi.setSingleStep(500)
-        self.slider_bpfi.setPageStep(500)
+        self.slider_bpfi.setSingleStep(37)
+        self.slider_bpfi.setPageStep(37)
         self.slider_bpfi.setValue(12000)
         self.slider_bpfi.setOrientation(Qt.Horizontal)
-        self.slider_bpfi.setTickInterval(500)
+        self.slider_bpfi.setTickInterval(37)
 
         self.horizontalLayout_7.addWidget(self.slider_bpfi)
 
@@ -222,11 +222,11 @@ class Ui_MainWindow(object):
         self.slider_ftf.setObjectName(u"slider_ftf")
         self.slider_ftf.setMinimum(100)
         self.slider_ftf.setMaximum(19000)
-        self.slider_ftf.setSingleStep(500)
-        self.slider_ftf.setPageStep(500)
+        self.slider_ftf.setSingleStep(37)
+        self.slider_ftf.setPageStep(37)
         self.slider_ftf.setValue(900)
         self.slider_ftf.setOrientation(Qt.Horizontal)
-        self.slider_ftf.setTickInterval(500)
+        self.slider_ftf.setTickInterval(37)
 
         self.horizontalLayout_8.addWidget(self.slider_ftf)
 
@@ -251,11 +251,11 @@ class Ui_MainWindow(object):
         self.slider_bsf.setObjectName(u"slider_bsf")
         self.slider_bsf.setMinimum(100)
         self.slider_bsf.setMaximum(19000)
-        self.slider_bsf.setSingleStep(500)
-        self.slider_bsf.setPageStep(500)
+        self.slider_bsf.setSingleStep(37)
+        self.slider_bsf.setPageStep(37)
         self.slider_bsf.setValue(500)
         self.slider_bsf.setOrientation(Qt.Horizontal)
-        self.slider_bsf.setTickInterval(500)
+        self.slider_bsf.setTickInterval(37)
 
         self.horizontalLayout_9.addWidget(self.slider_bsf)
 
