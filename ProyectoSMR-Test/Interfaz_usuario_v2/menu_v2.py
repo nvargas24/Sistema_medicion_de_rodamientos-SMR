@@ -226,6 +226,8 @@ class Ui_MainWindow(object):
         self.slider_ftf.setPageStep(37)
         self.slider_ftf.setValue(900)
         self.slider_ftf.setOrientation(Qt.Horizontal)
+        self.slider_ftf.setInvertedAppearance(False)
+        self.slider_ftf.setInvertedControls(False)
         self.slider_ftf.setTickInterval(37)
 
         self.horizontalLayout_8.addWidget(self.slider_ftf)
@@ -279,51 +281,13 @@ class Ui_MainWindow(object):
 
         self.configuraciones.addWidget(self.line)
 
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(10, -1, -1, -1)
-        self.horizontalLayout_16 = QHBoxLayout()
-        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
-        self.label_16 = QLabel(self.verticalLayoutWidget_2)
-        self.label_16.setObjectName(u"label_16")
-        font1 = QFont()
-        font1.setPointSize(12)
-        self.label_16.setFont(font1)
-
-        self.horizontalLayout_16.addWidget(self.label_16)
-
-        self.slider_tol_snr = QSlider(self.verticalLayoutWidget_2)
-        self.slider_tol_snr.setObjectName(u"slider_tol_snr")
-        self.slider_tol_snr.setMinimum(0)
-        self.slider_tol_snr.setMaximum(100)
-        self.slider_tol_snr.setSingleStep(10)
-        self.slider_tol_snr.setPageStep(500)
-        self.slider_tol_snr.setValue(10)
-        self.slider_tol_snr.setOrientation(Qt.Horizontal)
-        self.slider_tol_snr.setTickInterval(10)
-
-        self.horizontalLayout_16.addWidget(self.slider_tol_snr)
-
-        self.label_slider_tol_snr = QLabel(self.verticalLayoutWidget_2)
-        self.label_slider_tol_snr.setObjectName(u"label_slider_tol_snr")
-
-        self.horizontalLayout_16.addWidget(self.label_slider_tol_snr)
-
-        self.horizontalLayout_16.setStretch(1, 6)
-        self.horizontalLayout_16.setStretch(2, 4)
-
-        self.horizontalLayout.addLayout(self.horizontalLayout_16)
-
-
-        self.configuraciones.addLayout(self.horizontalLayout)
-
         self.notificacion = QLabel(self.verticalLayoutWidget_2)
         self.notificacion.setObjectName(u"notificacion")
-        font2 = QFont()
-        font2.setPointSize(18)
-        font2.setBold(False)
-        font2.setWeight(50)
-        self.notificacion.setFont(font2)
+        font1 = QFont()
+        font1.setPointSize(18)
+        font1.setBold(False)
+        font1.setWeight(50)
+        self.notificacion.setFont(font1)
         self.notificacion.setAlignment(Qt.AlignCenter)
 
         self.configuraciones.addWidget(self.notificacion)
@@ -338,13 +302,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.label_7 = QLabel(self.verticalLayoutWidget_2)
         self.label_7.setObjectName(u"label_7")
-        font3 = QFont()
-        font3.setFamily(u"MS Shell Dlg 2")
-        font3.setPointSize(11)
-        font3.setBold(False)
-        font3.setItalic(False)
-        font3.setWeight(50)
-        self.label_7.setFont(font3)
+        font2 = QFont()
+        font2.setFamily(u"MS Shell Dlg 2")
+        font2.setPointSize(11)
+        font2.setBold(False)
+        font2.setItalic(False)
+        font2.setWeight(50)
+        self.label_7.setFont(font2)
         self.label_7.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_11.addWidget(self.label_7)
@@ -368,9 +332,9 @@ class Ui_MainWindow(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.progress_bar_ensayo.sizePolicy().hasHeightForWidth())
         self.progress_bar_ensayo.setSizePolicy(sizePolicy2)
-        font4 = QFont()
-        font4.setPointSize(9)
-        self.progress_bar_ensayo.setFont(font4)
+        font3 = QFont()
+        font3.setPointSize(9)
+        self.progress_bar_ensayo.setFont(font3)
         self.progress_bar_ensayo.setValue(50)
         self.progress_bar_ensayo.setInvertedAppearance(False)
         self.progress_bar_ensayo.setTextDirection(QProgressBar.TopToBottom)
@@ -389,7 +353,9 @@ class Ui_MainWindow(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.btn_forzar.sizePolicy().hasHeightForWidth())
         self.btn_forzar.setSizePolicy(sizePolicy3)
-        self.btn_forzar.setFont(font1)
+        font4 = QFont()
+        font4.setPointSize(12)
+        self.btn_forzar.setFont(font4)
 
         self.horizontalLayout_5.addWidget(self.btn_forzar)
 
@@ -402,7 +368,7 @@ class Ui_MainWindow(object):
         self.captureFFT.setObjectName(u"captureFFT")
         sizePolicy3.setHeightForWidth(self.captureFFT.sizePolicy().hasHeightForWidth())
         self.captureFFT.setSizePolicy(sizePolicy3)
-        self.captureFFT.setFont(font1)
+        self.captureFFT.setFont(font4)
 
         self.configuraciones.addWidget(self.captureFFT)
 
@@ -410,9 +376,8 @@ class Ui_MainWindow(object):
         self.configuraciones.setStretch(1, 4)
         self.configuraciones.setStretch(2, 1)
         self.configuraciones.setStretch(3, 1)
-        self.configuraciones.setStretch(4, 1)
-        self.configuraciones.setStretch(5, 2)
-        self.configuraciones.setStretch(6, 1)
+        self.configuraciones.setStretch(4, 2)
+        self.configuraciones.setStretch(5, 1)
 
         self.horizontalLayout_20.addLayout(self.configuraciones)
 
@@ -462,7 +427,7 @@ class Ui_MainWindow(object):
 
         self.label_18 = QLabel(self.verticalLayoutWidget_2)
         self.label_18.setObjectName(u"label_18")
-        self.label_18.setFont(font3)
+        self.label_18.setFont(font2)
         self.label_18.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_13.addWidget(self.label_18)
@@ -488,7 +453,7 @@ class Ui_MainWindow(object):
 
         self.label_20 = QLabel(self.verticalLayoutWidget_2)
         self.label_20.setObjectName(u"label_20")
-        self.label_20.setFont(font3)
+        self.label_20.setFont(font2)
         self.label_20.setStyleSheet(u"font: 11pt \"MS Shell Dlg 2\";")
 
         self.horizontalLayout_14.addWidget(self.label_20)
@@ -888,7 +853,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12.setContentsMargins(10, -1, 0, -1)
         self.label_8 = QLabel(self.verticalLayoutWidget_2)
         self.label_8.setObjectName(u"label_8")
-        self.label_8.setFont(font1)
+        self.label_8.setFont(font4)
         self.label_8.setStyleSheet(u"")
 
         self.horizontalLayout_12.addWidget(self.label_8)
@@ -916,7 +881,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_24.setContentsMargins(10, -1, 0, -1)
         self.label_10 = QLabel(self.verticalLayoutWidget_2)
         self.label_10.setObjectName(u"label_10")
-        self.label_10.setFont(font1)
+        self.label_10.setFont(font4)
         self.label_10.setStyleSheet(u"")
 
         self.horizontalLayout_24.addWidget(self.label_10)
@@ -941,7 +906,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_25.setContentsMargins(10, -1, -1, -1)
         self.label_13 = QLabel(self.verticalLayoutWidget_2)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setFont(font1)
+        self.label_13.setFont(font4)
         self.label_13.setStyleSheet(u"")
 
         self.horizontalLayout_25.addWidget(self.label_13)
@@ -1113,8 +1078,6 @@ class Ui_MainWindow(object):
         self.label_slider_ftf.setText("")
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"BSF", None))
         self.label_slider_bsf.setText("")
-        self.label_16.setText(QCoreApplication.translate("MainWindow", u"TOL SNR", None))
-        self.label_slider_tol_snr.setText("")
         self.notificacion.setText("")
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Time ensayo:", None))
         self.btn_forzar.setText(QCoreApplication.translate("MainWindow", u"Forzar", None))

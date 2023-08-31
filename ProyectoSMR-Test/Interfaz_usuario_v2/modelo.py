@@ -256,10 +256,10 @@ class Measure():
         self.seconds_standby_aux = self.seconds_standby
         
         # Obtengo de frecuencias a buscar
-        self.freq_bpfo = str(round(self.widgets.ui.slider_bpfo.value() / 500) * 500)
-        self.freq_bpfi = str(round(self.widgets.ui.slider_bpfi.value() / 500) * 500)
-        self.freq_ftf = str(round(self.widgets.ui.slider_ftf.value() / 500) * 500)
-        self.freq_bsf = str(round(self.widgets.ui.slider_bsf.value() / 500) * 500)
+        self.freq_bpfo = str(self.widgets.ui.slider_bpfo.value())
+        self.freq_bpfi = str(self.widgets.ui.slider_bpfi.value())
+        self.freq_ftf = str(self.widgets.ui.slider_ftf.value())
+        self.freq_bsf = str(self.widgets.ui.slider_bsf.value())
         
         print("Configuracion realizada")
         print("Tiempo de ensayo:"+ str(self.seconds_total)+ "seg")
@@ -555,6 +555,10 @@ class Measure():
             self.fft_pos = np.fromstring(self.mqtt_obj.fft_pos, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
             self.widgets.grafica2.ax.clear()
             self.widgets.grafica2.ax.set_title("Rodamiento posterior")
+            self.widgets.grafica2.update_annotation(float(self.freq_bpfo), self.mag_bpfo)
+            self.widgets.grafica2.update_annotation(float(self.freq_bpfi), self.mag_bpfi)
+            self.widgets.grafica2.update_annotation(float(self.freq_ftf), self.mag_ftf)
+            self.widgets.grafica2.update_annotation(float(self.freq_bsf), self.mag_bsf)
             self.widgets.grafica2.update_graph_fft(self.freq, self.fft_pos, self.mqtt_obj.snr_pos, self.mqtt_obj.limit_value_pos)
         if self.mqtt_obj.snr_pos:
             self.widgets.ui.label_snr_pos.setText(self.mqtt_obj.snr_pos+"dBV")
