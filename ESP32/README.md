@@ -3,7 +3,7 @@
 ## Máquinas de estado
 
 ### Principal
-![Main](/Documentacion/Main.png)
+![](Documentacion/Main.png)
 
 ### Rutina de Medición
-![Medicion](/Documentacion/Medición_sensores.png)
+![](Documentacion/Medición_sensores.png)
