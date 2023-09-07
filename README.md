@@ -7,3 +7,15 @@ Sr. Galassi, Fernando
 Sr. Moran, Nicolas  
 Sr. Pilato, Bruno  
 Sr. Vargas, Nahuel  
+
+## Tabla de Contenidos
+- [Aclaraciones](#aclaraciones)
+- [Calibración](#calibracion)
+    - [Instalación](#instalación)
+    - [Uso](#uso)
+
+## Aclaraciones
+Se cuenta con varias interfaces de usuario que fueron utilizados para corroborar los datos adquiridos de cada sensor.  
+En estas se obtiene los gráficos temporales y de fft correspondientes.
+ 
+## Instalación
