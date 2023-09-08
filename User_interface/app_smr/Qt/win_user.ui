@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1258</width>
-    <height>699</height>
+    <width>795</width>
+    <height>754</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -28,19 +28,16 @@
    <string notr="true">background-color: rgb(240, 240, 240);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="verticalLayoutWidget_3">
+   <widget class="QWidget" name="verticalLayoutWidget_11">
     <property name="geometry">
      <rect>
       <x>40</x>
       <y>10</y>
-      <width>1191</width>
-      <height>671</height>
+      <width>711</width>
+      <height>721</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_9">
-     <property name="spacing">
-      <number>20</number>
-     </property>
+    <layout class="QVBoxLayout" name="verticalLayout_9" stretch="2,4,4,9,1">
      <item>
       <widget class="QLabel" name="label_7">
        <property name="font">
@@ -60,14 +57,14 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,0,3">
+      <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="4,7">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_7" stretch="2,6,1,0,0,0,0">
-         <property name="leftMargin">
+        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="3,1,1">
+         <property name="topMargin">
           <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>10</number>
          </property>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -82,6 +79,14 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="font">
+              <font>
+               <family>Segoe UI Semibold</family>
+               <pointsize>-1</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
              <property name="focusPolicy">
               <enum>Qt::NoFocus</enum>
              </property>
@@ -92,7 +97,7 @@
     border-radius: 15px; /* Bordes curvos */
     padding: 5px 10px; /* Espacio interno para texto */
     font-weight: bold; /* Texto en negrita */
-    font-size: 18px; /* Tamaño de fuente */
+    font-size: 14px; /* Tamaño de fuente */
     color: #444444; /* Color de texto */
 }
 
@@ -123,6 +128,14 @@ ensayo</string>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="font">
+              <font>
+               <family>Segoe UI Semibold</family>
+               <pointsize>-1</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
              <property name="focusPolicy">
               <enum>Qt::NoFocus</enum>
              </property>
@@ -133,7 +146,7 @@ ensayo</string>
     border-radius: 15px; /* Bordes curvos */
     padding: 5px 10px; /* Espacio interno para texto */
     font-weight: bold; /* Texto en negrita */
-    font-size: 18px; /* Tamaño de fuente */
+    font-size: 14px; /* Tamaño de fuente */
     color: #444444; /* Color de texto */
 }
 
@@ -159,353 +172,6 @@ ensayo</string>
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <property name="spacing">
-            <number>2</number>
-           </property>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
-             <item>
-              <widget class="QLabel" name="label">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Operario:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_operario">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Light</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2">
-             <item>
-              <widget class="QLabel" name="label_3">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Legajo:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_legajo">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Light</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
-             <item>
-              <widget class="QLabel" name="label_5">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Formación:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_formacion">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Light</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,2">
-             <item>
-              <widget class="QLabel" name="label_8">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Coche:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_coche">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Light</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,2">
-             <item>
-              <widget class="QLabel" name="label_10">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Boguie:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_boguie">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Light</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,2">
-             <item>
-              <widget class="QLabel" name="label_12">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Motor:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_motor">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Light</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="2,1">
-             <item>
-              <widget class="QLabel" name="label_14">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Rodamiento anterior:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_modelo_rod_ant">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Light</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="2,1">
-             <item>
-              <widget class="QLabel" name="label_16">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Rodamiento posterior:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_modelo_rod_pos">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Light</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="2,1">
-             <item>
-              <widget class="QLabel" name="label_18">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Fase a tierra:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_fase_tierra">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Light</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="2,1">
-             <item>
-              <widget class="QLabel" name="label_20">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Fase a rodamiento:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_rod_tierra">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Light</family>
-                 <pointsize>10</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-         <item>
           <widget class="QPushButton" name="btn_config_data">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
@@ -515,6 +181,7 @@ ensayo</string>
            </property>
            <property name="font">
             <font>
+             <family>Segoe UI Semibold</family>
              <pointsize>-1</pointsize>
              <weight>75</weight>
              <bold>true</bold>
@@ -530,7 +197,7 @@ ensayo</string>
     border-radius: 15px; /* Bordes curvos */
     padding: 5px 10px; /* Espacio interno para texto */
     font-weight: bold; /* Texto en negrita */
-    font-size: 18px; /* Tamaño de fuente */
+    font-size: 14px; /* Tamaño de fuente */
     color: #444444; /* Color de texto */
 }
 
@@ -553,87 +220,20 @@ QPushButton:focus {
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="1,1">
-             <property name="spacing">
-              <number>1</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_24">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>14</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Tiempo de
-ensayo actual: </string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLCDNumber" name="lcd_time_ensayo">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="1,1">
-             <property name="spacing">
-              <number>1</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_23">
-               <property name="font">
-                <font>
-                 <family>Segoe UI Semibold</family>
-                 <pointsize>14</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Temp. ambiente: </string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLCDNumber" name="lcd_temp_amb">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-         <item>
           <widget class="QPushButton" name="btn_ver_ensayos">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>-1</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
            </property>
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
@@ -645,7 +245,7 @@ ensayo actual: </string>
     border-radius: 15px; /* Bordes curvos */
     padding: 5px 10px; /* Espacio interno para texto */
     font-weight: bold; /* Texto en negrita */
-    font-size: 18px; /* Tamaño de fuente */
+    font-size: 14px; /* Tamaño de fuente */
     color: #444444; /* Color de texto */
 }
 
@@ -668,23 +268,441 @@ ensayos</string>
            </property>
           </widget>
          </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
          <item>
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Datos de usuario</string>
+             </property>
+             <widget class="QWidget" name="verticalLayoutWidget_4">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>20</y>
+                <width>160</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout" stretch="4,5">
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Semibold</family>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Operario:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_operario">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Light</family>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="4,5">
+                 <item>
+                  <widget class="QLabel" name="label_3">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Semibold</family>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Legajo:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_legajo">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Light</family>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string>Datos de formación</string>
+             </property>
+             <widget class="QWidget" name="verticalLayoutWidget_5">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>20</y>
+                <width>160</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_10">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="4,5">
+                 <item>
+                  <widget class="QLabel" name="label_5">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Semibold</family>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Formación:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_formacion">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Light</family>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="4,5">
+                 <item>
+                  <widget class="QLabel" name="label_8">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Semibold</family>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Coche:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_coche">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Light</family>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QLabel" name="label_2">
+            <widget class="QGroupBox" name="groupBox_4">
+             <property name="title">
+              <string>Datos de motor</string>
+             </property>
+             <widget class="QWidget" name="verticalLayoutWidget_7">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>20</y>
+                <width>161</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_12">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="4,5">
+                 <item>
+                  <widget class="QLabel" name="label_10">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Semibold</family>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Boguie:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_boguie">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Light</family>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="4,5">
+                 <item>
+                  <widget class="QLabel" name="label_12">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Semibold</family>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Motor:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_motor">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Light</family>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_3">
+             <property name="title">
+              <string>Megado</string>
+             </property>
+             <widget class="QWidget" name="verticalLayoutWidget_6">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>20</y>
+                <width>160</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_11">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="6,2">
+                 <item>
+                  <widget class="QLabel" name="label_18">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Semibold</family>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Fase a tierra:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_fase_tierra">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Light</family>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="6,2">
+                 <item>
+                  <widget class="QLabel" name="label_20">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Semibold</family>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Fase a rodamiento:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_rod_tierra">
+                   <property name="font">
+                    <font>
+                     <family>Segoe UI Light</family>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="8,6">
+       <item>
+        <widget class="QLabel" name="label_notificacion">
+         <property name="font">
+          <font>
+           <family>Segoe UI Semibold</family>
+           <pointsize>16</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>NOTIFICACION</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_7" stretch="8,3">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="6,8">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_24">
+             <property name="font">
+              <font>
+               <family>Segoe UI Semibold</family>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Tiempo 
+ de ensayo: </string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLCDNumber" name="lcd_time_ensayo">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="6,8">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_23">
              <property name="font">
               <font>
                <family>Segoe UI Semibold</family>
@@ -694,20 +712,20 @@ ensayos</string>
               </font>
              </property>
              <property name="text">
-              <string>Progreso</string>
+              <string>Temp. ambiente: </string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="progress_bar">
-             <property name="sizeIncrement">
-              <size>
-               <width>0</width>
-               <height>1</height>
-              </size>
-             </property>
-             <property name="value">
-              <number>0</number>
+            <widget class="QLCDNumber" name="lcd_temp_amb">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
             </widget>
            </item>
@@ -715,153 +733,175 @@ ensayos</string>
          </item>
         </layout>
        </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_17" stretch="1,1,1">
        <item>
-        <widget class="Line" name="line_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+        <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,1,8">
+         <property name="spacing">
+          <number>4</number>
          </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout" stretch="2,18,18">
          <item>
-          <widget class="QLabel" name="label_notificacion">
-           <property name="font">
-            <font>
-             <family>Segoe UI Semibold</family>
-             <pointsize>16</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>NOTIFICACION</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
+          <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="7,4">
+           <item>
+            <widget class="QLabel" name="label_14">
+             <property name="font">
+              <font>
+               <family>Segoe UI Semibold</family>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Rodamiento anterior:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_modelo_rod_ant">
+             <property name="font">
+              <font>
+               <family>Segoe UI Light</family>
+               <pointsize>10</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_73" stretch="8,15,4">
+          <layout class="QHBoxLayout" name="horizontalLayout_21" stretch="7,4">
+           <item>
+            <widget class="QLabel" name="label_30">
+             <property name="font">
+              <font>
+               <family>Segoe UI Semibold</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Time stap:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_time_stap_pos">
+             <property name="font">
+              <font>
+               <family>Segoe UI Semibold</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_73" stretch="4,3">
            <property name="bottomMargin">
             <number>0</number>
            </property>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="2,2,2,0">
+            <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,0,0,0">
              <property name="spacing">
               <number>1</number>
              </property>
+             <property name="leftMargin">
+              <number>20</number>
+             </property>
              <property name="topMargin">
-              <number>80</number>
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>20</number>
              </property>
              <property name="bottomMargin">
-              <number>80</number>
+              <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_17" stretch="9,5">
-               <item>
-                <widget class="QLabel" name="label_26">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI Semibold</family>
-                   <pointsize>11</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Temperatura(°C): </string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcd_temp_ant"/>
-               </item>
-              </layout>
+              <widget class="QLabel" name="label_26">
+               <property name="font">
+                <font>
+                 <family>Segoe UI Semibold</family>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Temperatura(°C)</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="9,5">
-               <item>
-                <widget class="QLabel" name="label_27">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI Semibold</family>
-                   <pointsize>11</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Vib. axial(mm/s2): </string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcd_axial_ant"/>
-               </item>
-              </layout>
+              <widget class="QLCDNumber" name="lcd_temp_ant"/>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="9,5">
-               <item>
-                <widget class="QLabel" name="label_28">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI Semibold</family>
-                   <pointsize>11</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Vib. radial(mm/s2): </string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcd_radial_ant"/>
-               </item>
-              </layout>
+              <widget class="QLabel" name="label_27">
+               <property name="font">
+                <font>
+                 <family>Segoe UI Semibold</family>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Vib. axial(mm/s2)</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_21" stretch="6,8">
-               <item>
-                <widget class="QLabel" name="label_30">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI Semibold</family>
-                   <pointsize>11</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Time stap:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_time_stap_pos">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI Semibold</family>
-                   <pointsize>11</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QLCDNumber" name="lcd_axial_ant"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_28">
+               <property name="font">
+                <font>
+                 <family>Segoe UI Semibold</family>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Vib. radial(mm/s2)</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="lcd_radial_ant"/>
              </item>
             </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="fft_ant"/>
            </item>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_20" stretch="1,1,1,1">
@@ -869,13 +909,13 @@ ensayos</string>
               <number>2</number>
              </property>
              <property name="topMargin">
-              <number>30</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
               <number>5</number>
              </property>
              <property name="bottomMargin">
-              <number>30</number>
+              <number>0</number>
              </property>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_83" stretch="2,3">
@@ -1061,123 +1101,177 @@ ensayos</string>
            </item>
           </layout>
          </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,1,8">
+         <property name="spacing">
+          <number>4</number>
+         </property>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="8,15,4">
+          <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="9,4">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_18" stretch="2,2,2,0">
+            <widget class="QLabel" name="label_16">
+             <property name="font">
+              <font>
+               <family>Segoe UI Semibold</family>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Rodamiento posterior:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_modelo_rod_pos">
+             <property name="font">
+              <font>
+               <family>Segoe UI Light</family>
+               <pointsize>10</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="9,4">
+           <item>
+            <widget class="QLabel" name="label_29">
+             <property name="font">
+              <font>
+               <family>Segoe UI Semibold</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Time stap:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_time_stap_ant">
+             <property name="font">
+              <font>
+               <family>Segoe UI Semibold</family>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="4,3">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_18" stretch="0,0,0,0,0,0">
              <property name="spacing">
               <number>1</number>
              </property>
+             <property name="leftMargin">
+              <number>20</number>
+             </property>
              <property name="topMargin">
-              <number>80</number>
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>20</number>
              </property>
              <property name="bottomMargin">
-              <number>80</number>
+              <number>0</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_75" stretch="9,5">
-               <item>
-                <widget class="QLabel" name="label_85">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI Semibold</family>
-                   <pointsize>11</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Temperatura(°C): </string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcd_temp_pos"/>
-               </item>
-              </layout>
+              <widget class="QLabel" name="label_85">
+               <property name="font">
+                <font>
+                 <family>Segoe UI Semibold</family>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Temperatura(°C)</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_76" stretch="9,5">
-               <item>
-                <widget class="QLabel" name="label_86">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI Semibold</family>
-                   <pointsize>11</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Vib. axial(mm/s2): </string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcd_axial_pos"/>
-               </item>
-              </layout>
+              <widget class="QLCDNumber" name="lcd_temp_pos"/>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_77" stretch="9,5">
-               <item>
-                <widget class="QLabel" name="label_87">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI Semibold</family>
-                   <pointsize>11</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Vib. radial(mm/s2): </string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLCDNumber" name="lcd_radial_pos"/>
-               </item>
-              </layout>
+              <widget class="QLabel" name="label_86">
+               <property name="font">
+                <font>
+                 <family>Segoe UI Semibold</family>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Vib. axial(mm/s2)</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="6,8">
-               <item>
-                <widget class="QLabel" name="label_29">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI Semibold</family>
-                   <pointsize>11</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Time stap:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_time_stap_ant">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI Semibold</family>
-                   <pointsize>11</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QLCDNumber" name="lcd_axial_pos"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_87">
+               <property name="font">
+                <font>
+                 <family>Segoe UI Semibold</family>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Vib. radial(mm/s2)</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="lcd_radial_pos"/>
              </item>
             </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="fft_pos"/>
            </item>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_19" stretch="1,1,1,1">
@@ -1185,13 +1279,13 @@ ensayos</string>
               <number>2</number>
              </property>
              <property name="topMargin">
-              <number>30</number>
-             </property>
-             <property name="rightMargin">
               <number>0</number>
              </property>
+             <property name="rightMargin">
+              <number>5</number>
+             </property>
              <property name="bottomMargin">
-              <number>30</number>
+              <number>0</number>
              </property>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_81" stretch="2,3">
@@ -1378,6 +1472,67 @@ ensayos</string>
           </layout>
          </item>
         </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="2,1,5,2">
+       <property name="topMargin">
+        <number>15</number>
+       </property>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="font">
+          <font>
+           <family>Segoe UI Semibold</family>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Progreso</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QProgressBar" name="progress_bar">
+         <property name="sizeIncrement">
+          <size>
+           <width>0</width>
+           <height>1</height>
+          </size>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>

@@ -516,13 +516,7 @@ class Measure():
             self.widgets.ui.state_bsf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_ftf_ant:
             self.widgets.ui.state_ftf_ant.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.fft_ant:
-            # paso de str a una lista numpy
-            self.fft_ant = np.fromstring(self.mqtt_obj.fft_ant, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
-            self.widgets.grafica.ax.clear()
-            self.widgets.grafica.ax.set_title("Rodamiento anterior")
-            self.widgets.grafica.update_graph_fft(self.freq, self.fft_ant)
-        
+
         # Muestro datos recibidos en ui - rodamiento posterior
         if self.mqtt_obj.temp_obj_pos:
             self.widgets.ui.lcd_temp_pos.display(self.mqtt_obj.temp_obj_pos)
@@ -538,12 +532,6 @@ class Measure():
             self.widgets.ui.state_bsf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
         if self.mqtt_obj.pres_ftf_pos:
             self.widgets.ui.state_ftf_pos.setStyleSheet("background-color: green; border-radius: 10px; border: 2px solid darkgreen;")
-        if self.mqtt_obj.fft_pos:
-            # paso de str a una lista numpy
-            self.fft_pos = np.fromstring(self.mqtt_obj.fft_pos, dtype=float, sep=',')  # Convertir la cadena en una lista de NumPy
-            self.widgets.grafica2.ax.clear()
-            self.widgets.grafica2.ax.set_title("Rodamiento posterior")
-            self.widgets.grafica2.update_graph_fft(self.freq, self.fft_pos)
 
     
     def notificacion(self, msj):
