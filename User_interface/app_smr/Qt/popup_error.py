@@ -17,17 +17,17 @@ class Ui_ErrorWindow(object):
     def setupUi(self, ErrorWindow):
         if not ErrorWindow.objectName():
             ErrorWindow.setObjectName(u"ErrorWindow")
-        ErrorWindow.resize(535, 175)
+        ErrorWindow.resize(480, 166)
         self.verticalLayoutWidget = QWidget(ErrorWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(20, 30, 501, 121))
+        self.verticalLayoutWidget.setGeometry(QRect(20, 30, 431, 111))
         self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout_2.setSpacing(12)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(0, -1, 5, -1)
+        self.horizontalLayout.setContentsMargins(50, -1, 50, -1)
         self.icon = QLabel(self.verticalLayoutWidget)
         self.icon.setObjectName(u"icon")
         sizePolicy = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
@@ -59,13 +59,13 @@ class Ui_ErrorWindow(object):
         self.horizontalLayout.addWidget(self.label)
 
         self.horizontalLayout.setStretch(0, 2)
-        self.horizontalLayout.setStretch(1, 12)
+        self.horizontalLayout.setStretch(1, 8)
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(200, -1, 200, -1)
+        self.horizontalLayout_3.setContentsMargins(180, -1, 180, -1)
         self.btn_ok = QPushButton(self.verticalLayoutWidget)
         self.btn_ok.setObjectName(u"btn_ok")
         sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)

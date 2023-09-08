@@ -256,7 +256,7 @@ class WindowUserForm(QDialog):
             self.windows.popup_advertencia.set_msj("No completo todos los campos, \n¿Desea continuar?")
             self.windows.popup_advertencia.exec_()
         elif state_entries == "No completo campos operario, ni legajo":
-            self.windows.popup_error.set_msj("Los siguientes campos son obligatorios:\nOperario y Legajo")
+            self.windows.popup_error.set_msj("Campos obligatorios:\nOperario y Legajo")
             self.windows.popup_error.exec_()
 
     def obtener_param_form(self):
