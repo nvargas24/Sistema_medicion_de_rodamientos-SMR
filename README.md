@@ -5,8 +5,8 @@ por medio del espectro audible hasta los 20kHz segun las normas de SKF. Se utili
 ## Autores
 Sr. Galassi, Fernando  
 Sr. Moran, Nicolas  
-Sr. Pilato, Bruno  
-Sr. Vargas, Nahuel  
+Ing. Pilato, Bruno  
+Ing. Vargas, Nahuel  
 
 ## Tabla de Contenidos
 - [Aclaraciones](#aclaraciones)
